@@ -1,0 +1,41 @@
+ <div data-role="popup" data-position="left" id="adminmenu">
+		 <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Cerrar</a>
+		     <ul data-role="listview" data-inset="true" style="min-width:210px;">
+			    <li><a href="#" th:classappend="${viewName=='asseament'} ?'active-class-botton-menu'">Asseament</a></li>
+				<li><a href="#" th:classappend="${viewName=='client'} ?'active-class-botton-menu'">Client</a></li>
+				<li><a href="#" th:classappend="${viewName=='client_contact'} ?'active-class-botton-menu'">Client Contact</a></li>
+				<li><a href="#" th:classappend="${viewName=='client_type'} ?'active-class-botton-menu'">Client Type</a></li>
+				<li><a href="#" th:classappend="${viewName=='collect_method'} ?'active-class-botton-menu'">Collect Method</a></li>
+				<li><a href="#" th:classappend="${viewName=='consecutives'} ?'active-class-botton-menu'">Consecutives</a></li>
+				<li><a href="#" th:classappend="${viewName=='country'} ?'active-class-botton-menu'">Country</a></li>
+				<li><a href="#" th:classappend="${viewName=='country_by_currency_type'} ?'active-class-botton-menu'">Country By Currency Type</a></li>
+				<li><a href="#" th:classappend="${viewName=='currency_exchange'} ?'active-class-botton-menu'">Currency Exchange</a></li>
+				<li><a href="#" th:classappend="${viewName=='currency_type'} ?'active-class-botton-menu'">Currency Type</a></li>
+				<li><a href="#" th:classappend="${viewName=='execution_type'} ?'active-class-botton-menu'">Execution Type</a></li>
+				<li><a href="#" th:classappend="${viewName=='industry_sector'} ?'active-class-botton-menu'">Industry Sector</a></li>
+				<li><a href="#" th:classappend="${viewName=='operation'} ?'active-class-botton-menu'">Operation</a></li>
+				<li><a href="#" th:classappend="${viewName=='operation_type'} ?'active-class-botton-menu'">Operation Type</a></li>
+				<li><a href="#" th:classappend="${viewName=='proposal'} ?'active-class-botton-menu'">Proposal</a></li>
+				<li><a href="#" th:classappend="${viewName=='proposal_type'} ?'active-class-botton-menu'">Proposal Type</a></li>
+				<li><a href="#" th:classappend="${viewName=='rol'} ?'active-class-botton-menu'">Rol</a></li>
+				<li><a href="#" th:classappend="${viewName=='sa_client'} ?'active-class-botton-menu'">Sa Client</a></li>
+				<li><a href="#" th:classappend="${viewName=='status'} ?'active-class-botton-menu'">Status</a></li>
+				<li><a href="#" th:classappend="${viewName=='study_category'} ?'active-class-botton-menu'">Study Category</a></li>
+				<li><a href="#" th:classappend="${viewName=='study_type'} ?'active-class-botton-menu'">Study Type</a></li>
+				<li><a href="#" th:classappend="${viewName=='target'} ?'active-class-botton-menu'">Target</a></li>
+				<li><a href="#" th:classappend="${viewName=='technique'} ?'active-class-botton-menu'">Technique</a></li>
+				<li><a href="#" th:classappend="${viewName=='technique_by_proposal'} ?'active-class-botton-menu'">Technique By Proposal</a></li>
+				<li><a href="#" th:classappend="${viewName=='user'} ?'active-class-botton-menu'">User</a></li>
+		    </ul>
+</div><!-- /panel -->
+
+<p title="Para cambiar mis datos personales, preciona click aqu&iacute;" style="text-align: center;cursor: pointer;" onclick="return window.location.href='/'">Usuario activo: ADMIN</p>
+        <div data-role="navbar" data-iconpos="right">
+            <ul>
+            	<li><a href="#" data-ajax="false" data-icon="home" th:classappend="${viewName=='dashboard'} ? 'ui-btn-active ui-state-persist'">Inicio</a></li>
+            	<li><a href="#adminmenu" data-rel="popup" data-transition="flip" data-icon="grid" >Opciones</a></li>
+            	<li><a href="#" data-icon="" data-ajax="false">Procesos</a></li>
+            	<li><a href="#" data-icon="" data-ajax="false">Reporteria</a></li>
+            	<li><a href="#" data-icon="forward" data-ajax="false">Salir</a></li>
+           	</ul>
+       	</div>

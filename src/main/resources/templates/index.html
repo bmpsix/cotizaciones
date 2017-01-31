@@ -1,0 +1,46 @@
+<html>
+<head th:replace="fragments/header"></head>
+<body>
+<div data-role="page" data-theme="a" data-dom-cache="false">
+	<div data-role="header" data-position="inline">
+           <img src="/img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
+           <h1>
+           SIP Cotizaciones - INICIO
+           </h1>
+	</div>
+	<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
+          <form id="logginForm" method="post" action="#" onsubmit="return checkrequired()">
+               <fieldset data-role="controlgroup"  data-type="horizontal">
+                   <legend>Ingreso al sistema - control de acceso</legend>
+                   <p>Usuario: <input type="text" name="username" id="username"/></p>
+                   <p>Contrase&ntilde;a: <input type="password" name="password" id="password" /></p>
+                   <br>
+                       <input  type="submit" name="submit"  class="custom_text" value="Ingresar">
+               </fieldset>
+           </form>
+	</div>
+	<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
+		<p style="text-align: center;"><img style="width: 10%;" src="/img/logo_unimer_home.jpg" class="logotitle" th:src="@{/img/logo_unimer_home.jpg}"></p>
+		<p style="text-align: center;"><span th:text="${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}"></span>&nbsp;|&nbsp;<a style="color: #fff;" href="mailto:bmontero@unimercentroamerica.com">Soporte?</a></p>
+	</div>
+</div>
+<script>
+	$('div').on('pagehide', function(event, ui){
+	  var page = jQuery(event.target);
+
+	  if(page.attr('data-cache') == 'never'){
+	    page.remove();
+	  };
+	});
+	$.mobile.ajaxEnabled = false;
+	function checkrequired(){
+		if(($('#username').val()=="")||($('#password').val()=="")){
+			alert("Los datos de Usuario y Password no pueden estar vacios");
+			return false;
+		}else{
+			return true;
+		}
+	}
+</script>
+</body>
+</html>
