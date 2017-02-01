@@ -16,9 +16,35 @@
 					<!--<input type="hidden" name="idConsecutive" th:field="*{idConsecutive}" >-->
 					
 					<label for="type">Tipo:</label>
-					<input type="text" name="type"  th:value="${type}" />
+					<select name="type"  th:value="${type}">
+								<option value="Assessment">Assessment</option>
+								<option value="Client">Client</option>
+								<option value="Client contact">Client contact</option>
+								<option value="Collect method">Collect method</option>
+								<option value="Country">Country</option>
+								<option value="Country by currency type">Country by currency type</option>
+								<option value="Currency exchange">Currency exchange</option>
+								<option value="Currency type">Currency type</option>
+								<option value="Execution type">Execution type</option>
+								<option value="Industry sector">Industry sector</option>
+								<option value="Operation">Operation</option>
+								<option value="Operation type">Operation type</option>
+								<option value="Proposal">Proposal</option>
+								<option value="Proposal type">Proposal type</option>
+								<option value="Role">Role</option>
+								<option value="SA client">SA client</option>
+								<option value="Status">Status</option>
+								<option value="Study category">Operation</option>
+								<option value="Stydy type">Study type</option>
+								<option value="Target">Target</option>
+								<option value="Technique">Technique</option>
+								<option value="Technique by proposal">Technique by proposal</option>
+								<option value="User">User</option>
+								
+							</select>
+					
 					<label for="prefix">Prefijo:</label>
-					<input type="text" maxlength="3" name="prefix" th:value="${prefix}"/>
+					<input type="text" min="3" maxlength="3" name="prefix" th:value="${prefix}"/>
 					<label for="subfix">Sufijo:</label>
 					<input type="number" name="subfix" th:value="${subfix}"/>
 					<label for="detail">Detalle:</label>
@@ -40,7 +66,7 @@
            				<thead>
            				<tr>
            				<td>Tipo</td>
-           				<td>Prefijo ID</td>
+           				<td>Prefijo</td>
            				<td>Sufijo</td>
            				<td>Detalle</td>
            				</tr>

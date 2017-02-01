@@ -13,30 +13,23 @@ import javax.persistence.*;
 public class Consecutive implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue
-	@Column(name="id_consecutive", unique=true, nullable=false)
-	private int idConsecutive;
 
-	@Column(nullable=false, length=100)
+	
+
+	@Column(name="detail", nullable=false, length=100)
 	private String detail;
 
-	@Column(nullable=false, length=3)
+	@Column(name="prefix",nullable=false, length=3)
 	private String prefix;
 
-	@Column(nullable=false)
+	@Column(name="subfix",nullable=false)
 	private int subfix;
-
-	@Column(nullable=false, length=50)
+	
+	@Id
+	@Column(name="type",nullable=false, unique=true, length=50)
 	private String type;
 
-	public int getIdConsecutive() {
-		return this.idConsecutive;
-	}
 
-	public void setIdConsecutive(int idConsecutive) {
-		this.idConsecutive = idConsecutive;
-	}
 
 	public String getDetail() {
 		return this.detail;
@@ -75,9 +68,9 @@ public class Consecutive implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Consecutive(int idConsecutive, String detail, String prefix, int subfix, String type) {
+	public Consecutive( String detail, String prefix, int subfix, String type) {
 		super();
-		this.idConsecutive = idConsecutive;
+	
 		this.detail = detail;
 		this.prefix = prefix;
 		this.subfix = subfix;
@@ -86,7 +79,8 @@ public class Consecutive implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Consecutive [idConsecutive=" + idConsecutive + ", detail=" + detail + ", prefix=" + prefix + ", subfix="
-				+ subfix + ", type=" + type + "]";
+		return "Consecutive [detail=" + detail + ", prefix=" + prefix + ", subfix=" + subfix + ", type=" + type + "]";
 	}
+
+	
 }
