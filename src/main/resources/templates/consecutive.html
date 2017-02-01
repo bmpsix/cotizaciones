@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/header"></head>
+<body>
+	<div data-role="page" data-theme="a" data-dom-cache="false" >
+		<div data-role="header" data-position="inline" >
+			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
+            <h1>
+            SIP Cotizaciones - Consecutivos
+            </h1>
+		</div>
+		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
+		<h3>Control de consecutivos</h3>
+			<div data-role="fieldcontain">
+				<form method="post" action="#" th:action="@{/admin/addconsecutive}" th:object="${consecutive}" >
+					<!--<input type="hidden" name="idConsecutive" th:field="*{idConsecutive}" >-->
+					
+					<label for="type">Tipo:</label>
+					<input type="text" name="type"  th:value="${type}" />
+					<label for="prefix">Prefijo:</label>
+					<input type="text" maxlength="3" name="prefix" th:value="${prefix}"/>
+					<label for="subfix">Sufijo:</label>
+					<input type="number" name="subfix" th:value="${subfix}"/>
+					<label for="detail">Detalle:</label>
+					<input type="text" name="detail"  th:value="${detail}"/>
+
+						
+                    	<hr>
+  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar nuevo">
+                   <!--  <input type="submit" name="submit" class="custom_text" data-icon="refresh" value="Modificar registro">-->
+                  
+                   
+				</form>
+			</div>
+           	
+           	
+           	<fieldset data-role="controlgroup"  data-type="horizontal">
+           	<legend>Clientes en el sistema</legend>
+           		<table>
+           				<thead>
+           				<tr>
+           				<td>Tipo</td>
+           				<td>Prefijo ID</td>
+           				<td>Sufijo</td>
+           				<td>Detalle</td>
+           				</tr>
+           				</thead>
+           				<tbody>
+	           			<tr th:each="consecutive : ${consecutives}">
+							<td th:text="${consecutive.type}"></td>
+							<td th:text="${consecutive.prefix}"></td>
+							<td th:text="${consecutive.subfix}"></td>
+							<td th:text="${consecutive.detail}"></td>
+	           				<td><a href="#">seleccionar</a></td>
+           				</tr>
+           				
+          			</tbody>
+           			</table>
+           	</fieldset>
+		</div>
+		<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
+			<div data-role="popup" data-position="left" id="adminmenu" th:replace="fragments/footer"></div>
+		<!-- /panel -->	
+		</div>
+	</div>
+</body>
+</html>
