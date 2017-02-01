@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3307/sip_cotizaciones?useSSL=false # conexion a la base
+    url: jdbc:mysql://localhost:3306/sip_cotizaciones?useSSL=false # conexion a la base
     username: root
-    password: root
+    password: 74163991
 #    driver-class-name: com.mysql.jdbc.Driver
 #spring.datasource.testWhileIdle = true
 #spring.datasource.validationQuery = SELECT 1
@@ -51,4 +51,4 @@ server:
     path: /error # Path of the error controller.
     whitelabel:
       enabled: true
-  port: 8080
+  port: 8090
