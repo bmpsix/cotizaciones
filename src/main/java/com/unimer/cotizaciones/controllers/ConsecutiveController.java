@@ -39,9 +39,18 @@ public class ConsecutiveController {
 	public ModelAndView addConsecutive(@ModelAttribute(name = "consecutive") Consecutive consecutive, Model model) {
 		LOG.info("METHOD: addConsecutive -- PARAMS: " + consecutive.toString());
 		consecutiveService.addConsecutive(consecutive);
-		return consecutive();
-		
+		 ModelAndView mvn = new ModelAndView();
+		 mvn.setViewName("consecutive");
+		 mvn.addObject("consecutives", consecutiveService.listAllConsecutives());
+		 return mvn;
 	}
+	
+	@GetMapping("/admin/addconsecutive")
+	public String getConsecutive(){
+		return "redirect:/admin/consecutive";
+	}
+	
+	
 	
 	
 }
