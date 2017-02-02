@@ -40,6 +40,7 @@ public class ConsecutiveController {
 		LOG.info("METHOD: addConsecutive -- PARAMS: " + consecutive.toString());
 		consecutiveService.addConsecutive(consecutive);
 		return consecutive();
+		
 	}
 	
 	
