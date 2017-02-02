@@ -61,14 +61,14 @@
            	
            	
            	<fieldset data-role="controlgroup"  data-type="horizontal">
-           	<legend>Clientes en el sistema</legend>
+           	<legend><h3>Consecutivos del sistema</h3></legend>
            		<table>
            				<thead>
            				<tr>
-           				<td>Tipo</td>
-           				<td>Prefijo</td>
-           				<td>Sufijo</td>
-           				<td>Detalle</td>
+           				<th>Tipo</th>
+           				<th>Prefijo</th>
+           				<th>Sufijo</th>
+           				<th>Detalle</th>
            				</tr>
            				</thead>
            				<tbody>
@@ -77,7 +77,7 @@
 							<td th:text="${consecutive.prefix}"></td>
 							<td th:text="${consecutive.subfix}"></td>
 							<td th:text="${consecutive.detail}"></td>
-	           				<td><a href="#">seleccionar</a></td>
+	           				<td><a href="#">Update</a></td>
            				</tr>
            				
           			</tbody>

@@ -25,18 +25,17 @@ public class ConsecutiveServiceImpl implements ConsecutiveService {
 	@Override
 	public Consecutive addConsecutive(Consecutive consecutive) {
 		Consecutive obj_consecutive = findConsecutiveByType(consecutive.getType());
+		LOG.info("METHOD: addConsecutiveService -- PARAMS: " + consecutive.toString());
 		if (obj_consecutive == null) {
-			LOG.info("METHOD: igualnull conse -- PARAMS: " + consecutive.toString());
 			consecutivesJpaRepository.save(consecutive);
 			return consecutive;
-		} else if (obj_consecutive.getPrefix() == consecutive.getPrefix()
+		} else if (obj_consecutive.getPrefix().equals(consecutive.getPrefix())
 				&& (obj_consecutive.getSubfix() <= consecutive.getSubfix())) {
 			consecutivesJpaRepository.save(consecutive);
-			LOG.info("METHOD: igualnull conse -- PARAMS: " + consecutive.toString());
-			LOG.info("METHOD: igualnull obj -- PARAMS: " + obj_consecutive.toString());
 			return consecutive;
 		} else
-			return obj_consecutive;
+			return consecutive;
+		
 
 	}
 
