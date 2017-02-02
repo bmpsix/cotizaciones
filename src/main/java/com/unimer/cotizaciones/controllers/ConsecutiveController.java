@@ -42,14 +42,5 @@ public class ConsecutiveController {
 		return consecutive();
 	}
 	
-	@GetMapping("/admin/addconsecutive")
-	public ModelAndView getVacio() {
-		
-		return consecutive();
-	}
-	
-	
-	
-	
 	
 }
