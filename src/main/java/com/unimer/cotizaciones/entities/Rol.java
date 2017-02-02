@@ -21,10 +21,10 @@ public class Rol implements Serializable {
 	@Column(name="id_rol", unique=true, nullable=false, length=8)
 	private String idRol;
 
-	@Column(nullable=false, length=100)
+	@Column(name="detail", nullable=false, length=100)
 	private String detail;
 
-	@Column(nullable=false)
+	@Column(name="status", nullable=false)
 	private byte status;
 
 	public String getIdRol() {

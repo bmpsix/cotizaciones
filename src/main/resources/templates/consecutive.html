@@ -62,22 +62,22 @@
            	
            	<fieldset data-role="controlgroup"  data-type="horizontal">
            	<legend><h3>Consecutivos del sistema</h3></legend>
-           		<table>
+           		<table style="text-align:justify;">
            				<thead>
            				<tr>
-           				<th>Tipo</th>
-           				<th>Prefijo</th>
-           				<th>Sufijo</th>
-           				<th>Detalle</th>
+           				<th  style="padding-right: 15px;">Tipo</th>
+           				<th  style="padding-right: 15px;">Prefijo</th>
+           				<th  style="padding-right: 15px;">Sufijo</th>
+           				<th style="padding-right: 15px;">Detalle</th>
            				</tr>
            				</thead>
            				<tbody>
 	           			<tr th:each="consecutive : ${consecutives}">
-							<td th:text="${consecutive.type}"></td>
-							<td th:text="${consecutive.prefix}"></td>
-							<td th:text="${consecutive.subfix}"></td>
-							<td th:text="${consecutive.detail}"></td>
-	           				<td><a href="#">Update</a></td>
+							<td style="padding-right: 15px;" th:text="${consecutive.type}"></td>
+							<td style="padding-right: 15px;"th:text="${consecutive.prefix}"></td>
+							<td style="padding-right: 15px;" th:text="${consecutive.subfix}"></td>
+							<td style="padding-right: 15px;" th:text="${consecutive.detail}"></td>
+	           				<td style="padding-right: 15px;"><a href="#">Update</a></td>
            				</tr>
            				
           			</tbody>

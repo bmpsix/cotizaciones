@@ -24,7 +24,7 @@ public class ConsecutiveServiceImpl implements ConsecutiveService {
 	
 	@Override
 	public Consecutive addConsecutive(Consecutive consecutive) {
-		Consecutive obj_consecutive = findConsecutiveByType(consecutive.getType());
+		Consecutive obj_consecutive =  consecutivesJpaRepository.findByType(consecutive.getType());
 		LOG.info("METHOD: addConsecutiveService -- PARAMS: " + consecutive.toString());
 		if (obj_consecutive == null) {
 			consecutivesJpaRepository.save(consecutive);
@@ -45,16 +45,11 @@ public class ConsecutiveServiceImpl implements ConsecutiveService {
 		return consecutives;
 	}
 
-	@Override
-	public Consecutive findConsecutiveByType(String type) {
-
-		return consecutivesJpaRepository.findOne(type);
-
-	}
+	
 
 	@Override
 	public void removeConsecutive(String type) {
-		Consecutive consecutive = findConsecutiveByType(type);
+		Consecutive consecutive = consecutivesJpaRepository.findByType(type);
 		if (consecutive != null)
 			consecutivesJpaRepository.delete(consecutive);
 

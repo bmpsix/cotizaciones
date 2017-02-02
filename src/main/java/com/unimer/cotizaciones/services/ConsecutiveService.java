@@ -13,8 +13,6 @@ public interface ConsecutiveService {
 	
 	public abstract List<Consecutive> listAllConsecutives();
 	
-	public abstract Consecutive findConsecutiveByType(String type);
-	
 	public abstract void removeConsecutive(String type);
 	
 	
