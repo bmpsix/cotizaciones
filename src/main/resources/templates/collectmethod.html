@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/header"></head>
+<body>
+	<div data-role="page" data-theme="a" data-dom-cache="false" >
+		<div data-role="header" data-position="inline" >
+			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
+            <h1>
+            SIP Cotizaciones - Consecutivos
+            </h1>
+		</div>
+		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
+		<h3>Control de consecutivos</h3>
+			<div data-role="fieldcontain">
+				<form method="post" action="#" th:action="@{/admin/addcollectmethod}" th:object="${collectmethod}" >
+					<!--<input type="hidden" name="idConsecutive" th:field="*{idConsecutive}" >-->
+					
+					<label for="idCollectMethod">Id del Metodo:</label>
+					<input type="text"  name="idCollectMethod" th:value="${idCollectMethod}"/>
+					<label for="detail">Detalle:</label>
+					<input type="text" name="detail" th:value="${detail}"/>
+
+						
+                    	<hr>
+  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar nuevo">
+                   <!--  <input type="submit" name="submit" class="custom_text" data-icon="refresh" value="Modificar registro">-->
+                  
+                   
+				</form>
+			</div>
+           	
+           	
+           	<fieldset data-role="controlgroup"  data-type="horizontal">
+           	<legend><h3>Metodos de Coleccion</h3></legend>
+           		<table style="text-align:justify;">
+           				<thead>
+           				<tr>
+           				<th  style="padding-right: 15px;">Id Metodo</th>
+           				<th  style="padding-right: 15px;">Detalle</th>
+           				</tr>
+           				</thead>
+           				<tbody>
+	           			<tr th:each="collectmethod : ${collectmethods}">
+							<td style="padding-right: 15px;" th:text="${collectmethod.idCollectMethod}"></td>
+							<td style="padding-right: 15px;" th:text="${collectmethod.detail}"></td>
+	           				<td style="padding-right: 15px;"><a href="#">Update Method</a></td>
+           				</tr>
+           				
+          			</tbody>
+           			</table>
+           	</fieldset>
+		</div>
+		<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
+			<div data-role="popup" data-position="left" id="adminmenu" th:replace="fragments/footer"></div>
+		<!-- /panel -->	
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<html>
+<head th:replace="fragments/header"></head>
+<body>
+	<div data-role="page" data-theme="a" data-dom-cache="false" >
+		<div data-role="header" data-position="inline" >
+			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
+            <h1>
+            SIP Cotizaciones - Algo no va bien!
+            </h1>
+		</div>
+		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
+		<img src="/img/homererror.gif" th:src="@{/img/homererror.gif}">
+			<h3>Se a generado un error</h3>
+			<p>Por favor contactar a soporte!</p>
+		</div>
+	</div>
+</body>
+</html>

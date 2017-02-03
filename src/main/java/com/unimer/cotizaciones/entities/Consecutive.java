@@ -13,9 +13,6 @@ import javax.persistence.*;
 public class Consecutive implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-
-	
-
 	@Column(name="detail", nullable=false, length=100)
 	private String detail;
 
