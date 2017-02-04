@@ -85,4 +85,16 @@ public class LogRol implements Serializable {
 		this.status = status;
 	}
 
+	public LogRol(Date dateRecord, String actionDetail, String actionUser, String detail, String idRol, byte status) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.detail = detail;
+		this.idRol = idRol;
+		this.status = status;
+	}
+	
+	
+
 }

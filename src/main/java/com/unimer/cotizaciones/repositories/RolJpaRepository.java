@@ -9,4 +9,9 @@ import com.unimer.cotizaciones.entities.Rol;
 @Repository("rolJpaRepository")
 public interface RolJpaRepository extends JpaRepository<Rol, Serializable>{
 	
+	//public abstract List<Rol> findRolesByStatus(byte status);
+	
+	public abstract Rol findByDetail(String detail);
+	
+	public abstract Rol findByIdRol(String idRol);
 }
