@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.CollectMethod;
+import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.services.CollectMethodService;
 
 @Controller
@@ -19,7 +20,7 @@ public class CollectMethodController {
 	
 	@Autowired
 	@Qualifier("collectMethodServiceImpl")
-	private CollectMethodService collectMethodService;;
+	private CollectMethodService collectMethodService;
 	
 	
 	//private static final Log LOG = LogFactory.getLog(CollectMethodController.class);
@@ -28,6 +29,11 @@ public class CollectMethodController {
 	public ModelAndView collectMethod(){
 		ModelAndView mvn = new ModelAndView();
 		mvn.addObject("collectmethods", collectMethodService.listAllCollectMethod());
+		if (collectMethodService.getConsecutive() != null) {
+			mvn.addObject("consecutive", collectMethodService.getConsecutive());
+		} else {
+		    mvn.addObject("install", new Consecutive());
+		}
 		mvn.setViewName("collectmethod");
 		return mvn;
 	}

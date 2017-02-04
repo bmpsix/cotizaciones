@@ -8,5 +8,7 @@ import com.unimer.cotizaciones.entities.CollectMethod;
 
 @Repository("collectMethodJpaRepository")
 public interface CollectMethodJpaRepository extends JpaRepository<CollectMethod, Serializable>{
+
+	Object findByDetail(String detail);
 	
 }

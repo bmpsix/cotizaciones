@@ -34,6 +34,7 @@ public class LogCollectMethod implements Serializable {
 	public LogCollectMethod() {
 	}
 
+
 	public Date getDateRecord() {
 		return this.dateRecord;
 	}
@@ -73,5 +74,18 @@ public class LogCollectMethod implements Serializable {
 	public void setIdCollectMethod(String idCollectMethod) {
 		this.idCollectMethod = idCollectMethod;
 	}
+
+
+	public LogCollectMethod(Date dateRecord, String actionDetail, String actionUser, String detail,
+			String idCollectMethod) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.detail = detail;
+		this.idCollectMethod = idCollectMethod;
+	}
+	
+	
 
 }

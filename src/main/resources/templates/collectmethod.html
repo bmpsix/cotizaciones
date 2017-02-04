@@ -6,19 +6,19 @@
 		<div data-role="header" data-position="inline" >
 			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
             <h1>
-            SIP Cotizaciones - Consecutivos
+            SIP Cotizaciones - Coleccion de Metodos
             </h1>
 		</div>
 		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
-		<h3>Control de consecutivos</h3>
+		<h3>Control de Coleccion de Metodos</h3>
 			<div data-role="fieldcontain">
-				<form method="post" action="#" th:action="@{/admin/addcollectmethod}" th:object="${collectmethod}" >
+				<form method="post" action="#" th:action="@{/admin/addcollectmethod}" th:object="${consecutive}">
 					<!--<input type="hidden" name="idConsecutive" th:field="*{idConsecutive}" >-->
 					
 					<label for="idCollectMethod">Id del Metodo:</label>
-					<input type="text"  name="idCollectMethod" th:value="${idCollectMethod}"/>
+					<input type="text"  name="idCollectMethod" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'NOT FOUND'}" disabled/>
 					<label for="detail">Detalle:</label>
-					<input type="text" name="detail" th:value="${detail}"/>
+					<input type="text" name="detail"/>
 
 						
                     	<hr>
@@ -43,9 +43,8 @@
 	           			<tr th:each="collectmethod : ${collectmethods}">
 							<td style="padding-right: 15px;" th:text="${collectmethod.idCollectMethod}"></td>
 							<td style="padding-right: 15px;" th:text="${collectmethod.detail}"></td>
-	           				<td style="padding-right: 15px;"><a href="#">Update Method</a></td>
+	           				<td style="padding-right: 15px;"><a href="#" th:href="@{'/admin/collectmethod/${collectmethod}'}">Update Method</a></td>
            				</tr>
-           				
           			</tbody>
            			</table>
            	</fieldset>

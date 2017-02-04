@@ -3,10 +3,13 @@ package com.unimer.cotizaciones.services;
 import java.util.List;
 
 import com.unimer.cotizaciones.entities.CollectMethod;
+import com.unimer.cotizaciones.entities.Consecutive;
 
 
 
 public interface CollectMethodService {
+	
+	public abstract Consecutive getConsecutive();
 	
 	public abstract CollectMethod addCollectMethod(CollectMethod collectmethod);
 	
