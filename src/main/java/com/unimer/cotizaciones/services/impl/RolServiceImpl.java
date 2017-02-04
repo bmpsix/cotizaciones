@@ -31,12 +31,9 @@ public class RolServiceImpl implements RolService {
 	@Autowired
 	@Qualifier("logRolJpaRepository")
 	private LogRolJpaRepository logRolJpaRepository;
-	
-	
-	
+
 	private static final Log LOG = LogFactory.getLog(RolServiceImpl.class);
-	
-	
+
 	@Override
 	public void addRol(Rol rol) {
 
@@ -45,26 +42,26 @@ public class RolServiceImpl implements RolService {
 		if (consecutive != null) {
 			rol.setIdRol(consecutive.getPrefix() + "-" + consecutive.getSubfix());
 
-			if (!rol.getIdRol().equals(rolJpaRepository.findOne(rol.getIdRol())) && rolJpaRepository.findByDetail(rol.getDetail())==null) {
-				
+			if (!rol.getIdRol().equals(rolJpaRepository.findOne(rol.getIdRol()))
+					&& rolJpaRepository.findByDetail(rol.getDetail()) == null) {
+
 				rolJpaRepository.save(rol);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
-			}
-			else if(rolJpaRepository.findByIdRol(rol.getIdRol())!=null)
-			{
+			} else if (rolJpaRepository.findByIdRol(rol.getIdRol()) != null) {
 				Rol roleToUpdate = rolJpaRepository.findByIdRol(rol.getIdRol());
 				java.util.Date date = new Date();
-				LogRol lrol = new LogRol(date,"Role modified","test",roleToUpdate.getDetail(),roleToUpdate.getIdRol(),roleToUpdate.getStatus());
+				LogRol lrol = new LogRol(date, "Role modified", "test", roleToUpdate.getDetail(),
+						roleToUpdate.getIdRol(), roleToUpdate.getStatus());
 				roleToUpdate.setStatus(rol.getStatus());
 				rolJpaRepository.save(roleToUpdate);
-				logRolJpaRepository.save(lrol);	
-				
+				logRolJpaRepository.save(lrol);
+
 			}
 		} else {
-			
+
 			Consecutive ConsecutiveRolDefault = new Consecutive();
-			
+
 			ConsecutiveRolDefault.setType("Role");
 			ConsecutiveRolDefault.setPrefix("ROL");
 			ConsecutiveRolDefault.setSubfix(1);
@@ -72,27 +69,22 @@ public class RolServiceImpl implements RolService {
 			consecutivesJpaRepository.save(ConsecutiveRolDefault);
 
 			rol.setIdRol(ConsecutiveRolDefault.getPrefix() + "-" + ConsecutiveRolDefault.getSubfix());
-			
-			
 
-			if (!rolJpaRepository.exists(rol)) {
+			if (!rol.getIdRol().equals(rolJpaRepository.findOne(rol.getIdRol()))
+					&& rolJpaRepository.findByDetail(rol.getDetail()) == null) {
 				rolJpaRepository.save(rol);
 				ConsecutiveRolDefault.setSubfix(ConsecutiveRolDefault.getSubfix() + 1);
 				consecutivesJpaRepository.save(ConsecutiveRolDefault);
-			}
-			else
-			{
+			} else {
 				LOG.info("METHOD: addRol in RolServiceImpl -- The role id already exists ");
 				return;
 			}
-
 		}
-
 	}
 
 	@Override
 	public List<Rol> listAllRol() {
-		//List<Rol> roles = rolJpaRepository.findRolesByStatus((byte)1);
+		// List<Rol> roles = rolJpaRepository.findRolesByStatus((byte)1);
 		List<Rol> roles = rolJpaRepository.findAll();
 		return roles;
 	}
@@ -111,7 +103,7 @@ public class RolServiceImpl implements RolService {
 
 	@Override
 	public Rol findById(String idRol) {
-		
+
 		return rolJpaRepository.findByIdRol(idRol);
 	}
 
