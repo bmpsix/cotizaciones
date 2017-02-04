@@ -29,11 +29,7 @@ public class CollectMethodController {
 	public ModelAndView collectMethod(){
 		ModelAndView mvn = new ModelAndView();
 		mvn.addObject("collectmethods", collectMethodService.listAllCollectMethod());
-		if (collectMethodService.getConsecutive() != null) {
-			mvn.addObject("consecutive", collectMethodService.getConsecutive());
-		} else {
-		    mvn.addObject("install", new Consecutive());
-		}
+		mvn.addObject("consecutive", collectMethodService.getConsecutive());
 		mvn.setViewName("collectmethod");
 		return mvn;
 	}
@@ -44,6 +40,7 @@ public class CollectMethodController {
 		ModelAndView mvn = new ModelAndView();
 		mvn.setViewName("collectmethod");
 		mvn.addObject("collectmethods", collectMethodService.listAllCollectMethod());
+		mvn.addObject("consecutive", collectMethodService.getConsecutive());
 		return mvn;
 	}
 	
