@@ -6,7 +6,14 @@ import org.springframework.data.jpa.repository.JpaRepository;import org.springfr
 
 import com.unimer.cotizaciones.entities.Country;
 
+
 @Repository("countryJpaRepository")
 public interface CountryJpaRepository extends JpaRepository<Country, Serializable>{
 	
+	
+	public abstract Country findByDetail(String detail);
+	
+	public abstract Country findByIdCountry(String idCountry);
+
+	public abstract Object findByCod(String cod);
 }
