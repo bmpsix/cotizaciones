@@ -34,7 +34,15 @@ public class LogCountry implements Serializable {
 	@Column(name="id_country", nullable=false, length=8)
 	private String idCountry;
 
-	public LogCountry() {
+	public LogCountry(Date dateRecord, String actionDetail, String actionUser, String detail, String idCountry, String cod) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.detail = detail;
+		this.idCountry = idCountry;
+		this.cod = cod;
+	
 	}
 
 	public Date getDateRecord() {

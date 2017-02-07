@@ -31,7 +31,15 @@ public class LogStudyCategory implements Serializable {
 	@Column(name="id_study_category", nullable=false, length=8)
 	private String idStudyCategory;
 
-	public LogStudyCategory() {
+	public LogStudyCategory(Date dateRecord, String actionDetail, String actionUser, String detail, String idStudyCategory) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.detail = detail;
+		this.idStudyCategory = idStudyCategory;
+		
+	
 	}
 
 	public Date getDateRecord() {

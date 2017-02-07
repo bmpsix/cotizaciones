@@ -21,7 +21,7 @@ public class StudyCategory implements Serializable {
 	@Column(name="id_study_category", unique=true, nullable=false, length=8)
 	private String idStudyCategory;
 
-	@Column(nullable=false, length=100)
+	@Column(name="detail", nullable=false, length=100)
 	private String detail;
 
 	public String getIdStudyCategory() {
