@@ -37,7 +37,7 @@ public class CollectMethodServiceImpl implements CollectMethodService{
 
 	private Consecutive consecutive;
 	
-	//private static final Log LOG = LogFactory.getLog(CollectMethodServiceImpl.class);
+	//private static final Log LOG = LogFactory.getLog(CollectMethodServiceImpl.class);;
 
 	@Override
 	public CollectMethod addCollectMethod(CollectMethod collectmethod) {

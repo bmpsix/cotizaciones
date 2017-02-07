@@ -26,6 +26,7 @@ public class CollectMethodController {
 	//private static final Log LOG = LogFactory.getLog(CollectMethodController.class);
 	
 	@GetMapping("/admin/collectmethod")
+	
 	public ModelAndView collectMethod(){
 		ModelAndView mvn = new ModelAndView();
 		mvn.addObject("collectmethods", collectMethodService.listAllCollectMethod());
