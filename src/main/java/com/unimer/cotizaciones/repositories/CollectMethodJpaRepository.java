@@ -11,5 +11,4 @@ public interface CollectMethodJpaRepository extends JpaRepository<CollectMethod,
 
 	Object findByDetail(String detail);
 	
-	
 }

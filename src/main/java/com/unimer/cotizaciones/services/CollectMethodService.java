@@ -17,5 +17,4 @@ public interface CollectMethodService {
 	
 	public abstract boolean removeCollectMethod(String id);
 	
-
 }

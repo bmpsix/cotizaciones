@@ -10,6 +10,7 @@ import javax.persistence.Table;
 
 /**
  * The persistent class for the tbl_collect_method database table.
+ * 
  */
 @Entity
 @Table(name="tbl_collect_method")
