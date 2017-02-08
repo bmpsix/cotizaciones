@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head th:replace="fragments/header"></head>
 <body>
@@ -11,18 +12,45 @@
 		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
 		<h3>Control de roles</h3>
 			<div data-role="fieldcontain">
-					<form method="post" action="#" th:action="@{/admin/addrole}" th:object="${role}" >
-					<input type="hidden" name="idRol" value=""  th:value="${idRol}" />
-
-					<label for="detail">Detalle:</label>
-					<input title="Debe ingresar el nombre del rol" type="text" name="detail"  th:value="${detail}" required/>
-								
-					<label for="status"  title="Indica si el rol esta activo o inactivo">Estado</label>
+					<!--<form method="post" action="#" th:action="@{/admin/addrole}" th:object="${consecutive}" >-->
+					<form method="post" action="#" th:action="@{/admin/addrole}" th:object="${consecutive}" >
+					
+					<div  th:object="${updateRole}" >
+						<label for="idRol">Id del Metodo:</label>
+						
+						<div th:if="${updateRole==null}">
+							<input  type="text" name="idRol" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'ROL-1'}" disabled/>
+							<label for="detail">Detalle:</label>
+							<input title="Debe ingresar el nombre del rol" type="text" name="detail" th:value="${detail}" required/>
+							<label for="status"  title="Indica si el rol esta activo o inactivo">Estado</label>
 							<select  name="status" data-role="slider"  th:value="${status}">
 								<option value="0">Inactivo</option>
 								<option value="1">Activo</option>
 							</select>
+						</div>
+						
+						<div th:if="${updateRole!=null}">
+							<input type="text" name="idRol" th:value="${updateRole.idRol}" readonly />
+							<label for="detail">Detalle:</label>
+							<input title="Debe ingresar el nombre del rol" type="text" name="detail" th:value="${updateRole.detail}" required/>
+							<label for="status"  title="Indica si el rol esta activo o inactivo">Estado</label>
+							<div  th:if="${updateRole.status==0}">
+								<select  name="status" data-role="slider"  th:value="${status}">
+									<option  value="0" selected>Inactivo </option>
+									<option  value="1">Activo</option>
+								</select>
+							</div>
+							<div  th:if="${updateRole.status==1}">
+								<select  name="status" data-role="slider"  th:value="${status}">
+									<option  value="0" >Inactivo </option>
+									<option  value="1" selected>Activo</option>
+								</select>
+							</div>
+						</div>
+					
+						
                     	<hr>
+                    </div>
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar nuevo">
                    <!--  <input type="submit" name="submit" class="custom_text" data-icon="refresh" value="Modificar registro">-->
 				</form>
@@ -45,7 +73,7 @@
 							<td style="padding-right: 15px;" th:text="${role.detail}"></td>
 							<td style="padding-right: 15px;" th:if="${role.status==1}">Activo</td>
 							<td style="padding-right: 15px;" th:if="${role.status==0}">Inactivo</td>
-	           				<td style="padding-right: 15px;"><a href="#"  >Edit</a></td>
+	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargerole?idRol=__${role.idRol}__}"  >Edit</a></td>
 	           				
            				</tr>
            				
