@@ -28,9 +28,6 @@ public class LogConsecutive implements Serializable {
 	@Column(nullable=false, length=100)
 	private String detail;
 
-	@Column(name="id_consecutive", nullable=false)
-	private int idConsecutive;
-
 	@Column(nullable=false, length=3)
 	private String prefix;
 
@@ -75,14 +72,6 @@ public class LogConsecutive implements Serializable {
 		this.detail = detail;
 	}
 
-	public int getIdConsecutive() {
-		return this.idConsecutive;
-	}
-
-	public void setIdConsecutive(int idConsecutive) {
-		this.idConsecutive = idConsecutive;
-	}
-
 	public String getPrefix() {
 		return this.prefix;
 	}
@@ -106,5 +95,20 @@ public class LogConsecutive implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
+
+	public LogConsecutive(Date dateRecord, String actionDetail, String actionUser, String detail, String prefix,
+			int subfix, String type) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.detail = detail;
+		this.prefix = prefix;
+		this.subfix = subfix;
+		this.type = type;
+	}
+	
+	
+	
 
 }

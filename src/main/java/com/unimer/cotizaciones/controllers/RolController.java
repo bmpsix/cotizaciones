@@ -65,18 +65,6 @@ public class RolController {
 		return modelAndView;
 	}
 	
-	@GetMapping("/admin/updaterole")
-	public ModelAndView updateRole(String idRol, Model model) {
-		
-			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("role");
-			modelAndView.addObject("roles", rolService.listAllRol());
-			modelAndView.addObject("consecutive", rolService.getConsecutive());
-			modelAndView.addObject("updateRole",rolService.findById(idRol));
-
-		return modelAndView;
-	}
-	
 	
 
 	

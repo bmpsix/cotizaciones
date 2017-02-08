@@ -2,91 +2,128 @@
 <html>
 <head th:replace="fragments/header"></head>
 <body>
-	<div data-role="page" data-theme="a" data-dom-cache="false" >
-		<div data-role="header" data-position="inline" >
-			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
-            <h1>
-            SIP Cotizaciones - Consecutivos
-            </h1>
+	<div data-role="page" data-theme="a" data-dom-cache="false">
+		<div data-role="header" data-position="inline">
+			<img src="img/unimer_logo.png" class="logotitle"
+				th:src="@{/img/unimer_logo.png}">
+			<h1>SIP Cotizaciones - Consecutivos</h1>
 		</div>
-		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
-		<h3>Control de consecutivos</h3>
+		<div data-role="content" data-theme="a"
+			style="width: 80%; margin: 1em auto;">
+			<h3>Control de consecutivos</h3>
 			<div data-role="fieldcontain">
-				<form method="post" action="#" th:action="@{/admin/addconsecutive}" th:object="${consecutive}" >
-					<!--<input type="hidden" name="idConsecutive" th:field="*{idConsecutive}" >-->
-					
-					<label for="type">Tipo:</label>
-					<select name="type"  th:value="${type}">
-								<option value="Assessment">Assessment</option>
-								<option value="Client">Client</option>
-								<option value="Client contact">Client contact</option>
-								<option value="Collect method">Collect method</option>
-								<option value="Country">Country</option>
-								<option value="Country by currency type">Country by currency type</option>
-								<option value="Currency exchange">Currency exchange</option>
-								<option value="Currency type">Currency type</option>
-								<option value="Execution type">Execution type</option>
-								<option value="Industry sector">Industry sector</option>
-								<option value="Operation">Operation</option>
-								<option value="Operation type">Operation type</option>
-								<option value="Proposal">Proposal</option>
-								<option value="Proposal type">Proposal type</option>
-								<option value="Role">Role</option>
-								<option value="SA client">SA client</option>
-								<option value="Status">Status</option>
-								<option value="Study category">Operation</option>
-								<option value="Stydy type">Study type</option>
-								<option value="Target">Target</option>
-								<option value="Technique">Technique</option>
-								<option value="Technique by proposal">Technique by proposal</option>
-								<option value="User">User</option>
-								
-							</select>
-					
-					<label for="prefix">Prefijo:</label>
-					<input type="text" min="3" maxlength="3" name="prefix" th:value="${prefix}"/>
-					<label for="subfix">Sufijo:</label>
-					<input type="number" name="subfix" th:value="${subfix}"/>
-					<label for="detail">Detalle:</label>
-					<input type="text" name="detail"  th:value="${detail}"/>
-
+				<form method="post" action="#" th:action="@{/admin/addconsecutive}" th:object="${updateConsecutive}">
+					<div th:if="${updateConsecutive==null}">
+						<label for="type">Tipo:</label> 
 						
-                    	<hr>
-  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar nuevo">
-                   <!--  <input type="submit" name="submit" class="custom_text" data-icon="refresh" value="Modificar registro">-->
-                  
-                   
+						<select name="type" th:value="${type}">
+							<option value="Assessment">Assessment</option>
+							<option value="Client">Client</option>
+							<option value="Client contact">Client contact</option>
+							<option value="Collect method">Collect method</option>
+							<option value="Country">Country</option>
+							<option value="Country by currency type">Country by currency type</option>
+							<option value="Currency exchange">Currency exchange</option>
+							<option value="Currency type">Currency type</option>
+							<option value="Execution type">Execution type</option>
+							<option value="Industry sector">Industry sector</option>
+							<option value="Operation">Operation</option>
+							<option value="Operation type">Operation type</option>
+							<option value="Proposal">Proposal</option>
+							<option value="Proposal type">Proposal type</option>
+							<option value="Role">Role</option>
+							<option value="SA client">SA client</option>
+							<option value="Status">Status</option>
+							<option value="Study category">Operation</option>
+							<option value="Stydy type">Study type</option>
+							<option value="Target">Target</option>
+							<option value="Technique">Technique</option>
+							<option value="Technique by proposal">Technique by proposal</option>
+							<option value="User">User</option>
+
+						</select> 
+						<label for="prefix">Prefijo:</label> <input type="text" min="3" maxlength="3" name="prefix" th:value="${prefix}" /> 
+						<label for="subfix">Sufijo:</label> 
+						<input type="number" name="subfix" th:value="${subfix}" /> <label for="detail">Detalle:</label> 
+						<input type="text" name="detail" th:value="${detail}" />
+					</div>
+					
+					<div th:if="${updateConsecutive!=null}">
+						<label for="type">Tipo:</label> 
+						<select name="type" th:value="${updateConsecutive.type}">
+							<option th:if="${updateConsecutive.type =='Assessment'}" value="Assessment" selected readonly>Assessment</option>
+							<option th:if="${updateConsecutive.type =='Client'}" value="Client" selected readonly>Client</option>
+							<option th:if="${updateConsecutive.type =='Client contact'}" value="Client contact" selected readonly>Client contact</option>
+							<option th:if="${updateConsecutive.type =='Collect method'}" value="Collect method" selected readonly>Collect method</option>
+							<option th:if="${updateConsecutive.type =='Country'}" value="Country" selected readonly>Country</option>
+							<option th:if="${updateConsecutive.type =='Country by currency type'}" value="Country by currency type" selected readonly>Country by currency type</option>
+							<option th:if="${updateConsecutive.type =='Currency exchange'}" value="Currency exchange"  selected readonly>Currency exchange</option>
+							<option th:if="${updateConsecutive.type =='Currency type'}" value="Currency type" selected readonly>Currency type</option>
+							<option th:if="${updateConsecutive.type =='Execution type'}" value="Execution type" selected readonly>Execution type</option>
+							<option th:if="${updateConsecutive.type =='Industry sector'}" value="Industry sector" selected readonly>Industry sector</option>
+							<option th:if="${updateConsecutive.type =='Operation'}" value="Operation" selected readonly>Operation</option>
+							<option th:if="${updateConsecutive.type =='Operation type'}" value="Operation type" selected readonly>Operation type</option>
+							<option th:if="${updateConsecutive.type =='Proposal'}" value="Proposal" selected readonly>Proposal</option>
+							<option th:if="${updateConsecutive.type =='Proposal type'}" value="Proposal type" selected readonly>Proposal type</option>
+							<option th:if="${updateConsecutive.type =='Role'}" value="Role" selected readonly>Role</option>
+							<option th:if="${updateConsecutive.type =='SA client'}" value="SA client" selected readonly>SA client</option>
+							<option th:if="${updateConsecutive.type =='Status'}" value="Status" selected readonly>Status</option>
+							<option th:if="${updateConsecutive.type =='Study category'}" value="Study category" selected readonly>Operation</option>
+							<option th:if="${updateConsecutive.type =='Stydy type'}" value="Stydy type" selected readonly>Study type</option>
+							<option th:if="${updateConsecutive.type =='Target'}" value="Target" selected readonly>Target</option>
+							<option th:if="${updateConsecutive.type =='Technique'}"value="Technique" selected readonly>Technique</option>
+							<option th:if="${updateConsecutive.type =='Technique by proposal'}" value="Technique by proposal" selected readonly>Technique by proposal</option>
+							<option th:if="${updateConsecutive.type =='User'}" value="User" selected readonly>User</option>
+
+						</select> 
+						
+						<label for="prefix">Prefijo:</label> 
+						<input type="text" min="3" maxlength="3" name="prefix" th:value="${updateConsecutive.prefix}" /> 
+						<label for="subfix">Sufijo:</label> 
+						<input type="number" name="subfix" th:value="${updateConsecutive.subfix}" /> 
+						<label for="detail">Detalle:</label> 
+						<input type="text" name="detail" th:value="${updateConsecutive.detail}" />
+					</div>
+
+					<hr>
+					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar nuevo">
+
+
 				</form>
 			</div>
-           	
-           	
-           	<fieldset data-role="controlgroup"  data-type="horizontal">
-           	<legend><h3>Consecutivos del sistema</h3></legend>
-           		<table style="text-align:justify;">
-           				<thead>
-           				<tr>
-           				<th  style="padding-right: 15px;">Tipo</th>
-           				<th  style="padding-right: 15px;">Prefijo</th>
-           				<th  style="padding-right: 15px;">Sufijo</th>
-           				<th style="padding-right: 15px;">Detalle</th>
-           				</tr>
-           				</thead>
-           				<tbody>
-	           			<tr th:each="consecutive : ${consecutives}">
+
+
+			<fieldset data-role="controlgroup" data-type="horizontal">
+				<legend>
+					<h3>Consecutivos del sistema</h3>
+				</legend>
+				<table style="text-align: justify;">
+					<thead>
+						<tr>
+							<th style="padding-right: 15px;">Tipo</th>
+							<th style="padding-right: 15px;">Prefijo</th>
+							<th style="padding-right: 15px;">Sufijo</th>
+							<th style="padding-right: 15px;">Detalle</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="consecutive : ${consecutives}">
 							<td style="padding-right: 15px;" th:text="${consecutive.type}"></td>
-							<td style="padding-right: 15px;"th:text="${consecutive.prefix}"></td>
+							<td style="padding-right: 15px;" th:text="${consecutive.prefix}"></td>
 							<td style="padding-right: 15px;" th:text="${consecutive.subfix}"></td>
 							<td style="padding-right: 15px;" th:text="${consecutive.detail}"></td>
-	           				<td style="padding-right: 15px;"><a href="#">Update</a></td>
-           				</tr>
-           				
-          			</tbody>
-           			</table>
-           	</fieldset>
+							<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargeconsecutive?type=__${consecutive.type}__}"  >Edit</a></td>
+						</tr>
+
+					</tbody>
+				</table>
+			</fieldset>
 		</div>
-		<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
-			<div data-role="popup" data-position="left" id="adminmenu" th:replace="fragments/footer"></div>
-		<!-- /panel -->	
+		<div id="footer" data-role="footer" data-position="fixed"
+			data-tap-toggle="false">
+			<div data-role="popup" data-position="left" id="adminmenu"
+				th:replace="fragments/footer"></div>
+			<!-- /panel -->
 		</div>
 	</div>
 </body>

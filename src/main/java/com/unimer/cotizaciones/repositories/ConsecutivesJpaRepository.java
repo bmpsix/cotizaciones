@@ -11,5 +11,6 @@ import com.unimer.cotizaciones.entities.Consecutive;
 public interface ConsecutivesJpaRepository extends JpaRepository<Consecutive, Serializable>{
 	
 	public abstract Consecutive findByType(String type);
+	public abstract Consecutive findByPrefix(String prefix);
 	
 }

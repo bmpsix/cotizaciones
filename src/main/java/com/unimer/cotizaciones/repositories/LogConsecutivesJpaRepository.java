@@ -8,5 +8,5 @@ import com.unimer.cotizaciones.entities.LogConsecutive;
 
 @Repository("logConsecutivesJpaRepository")
 public interface LogConsecutivesJpaRepository extends JpaRepository<LogConsecutive, Serializable>{
-	
+	public abstract LogConsecutive findByPrefix(String prefix);
 }
