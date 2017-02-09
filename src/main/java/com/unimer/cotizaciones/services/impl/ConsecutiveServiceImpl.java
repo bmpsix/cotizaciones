@@ -34,14 +34,14 @@ public class ConsecutiveServiceImpl implements ConsecutiveService {
 		LOG.info("METHOD: addConsecutiveService -- PARAMS: " + consecutive.toString());
 		if (consecutivesJpaRepository.findByType(consecutive.getType()) == null
 				&& consecutivesJpaRepository.findByPrefix(consecutive.getPrefix()) == null
-				&& logConsecutivesJpaRepository.findByPrefix(consecutive.getPrefix()) == null) {
+				&& logConsecutivesJpaRepository.findByPrefix(consecutive.getPrefix()).size() == 0) {
 			LOG.info("METHOD: addConsecutiveService 1r if -- PARAMS: " + consecutive.toString());
 			consecutivesJpaRepository.save(consecutive);
 			return consecutive;
 
 		} else if (consecutivesJpaRepository.findByType(consecutive.getType()) != null
 				&& consecutivesJpaRepository.findByPrefix(consecutive.getPrefix()) == null
-				&& logConsecutivesJpaRepository.findByPrefix(consecutive.getPrefix()) == null) {
+				&& logConsecutivesJpaRepository.findByPrefix(consecutive.getPrefix()).size() == 0) {
 
 			LOG.info("METHOD: addConsecutiveService 2d if -- PARAMS: " + consecutive.toString());
 			updateConsecutive(consecutive);
@@ -50,7 +50,7 @@ public class ConsecutiveServiceImpl implements ConsecutiveService {
 
 		} else if (consecutivesJpaRepository.findByType(consecutive.getType()) != null
 				&& consecutivesJpaRepository.findByPrefix(consecutive.getPrefix()) != null
-				&& logConsecutivesJpaRepository.findByPrefix(consecutive.getPrefix()) == null
+				&& logConsecutivesJpaRepository.findByPrefix(consecutive.getPrefix()).size() == 0
 				&& consecutivesJpaRepository.findByType(consecutive.getType()).getSubfix() <= consecutive.getSubfix()) {
 
 			LOG.info("METHOD: addConsecutiveService 3r if -- PARAMS: " + consecutive.toString());
@@ -59,7 +59,7 @@ public class ConsecutiveServiceImpl implements ConsecutiveService {
 
 		} else if (consecutivesJpaRepository.findByType(consecutive.getType()) != null
 				&& consecutivesJpaRepository.findByPrefix(consecutive.getPrefix()) != null
-				&& logConsecutivesJpaRepository.findByPrefix(consecutive.getPrefix()) != null
+				&& logConsecutivesJpaRepository.findByPrefix(consecutive.getPrefix()) .size() >= 1
 				&& consecutivesJpaRepository.findByType(consecutive.getType()).getSubfix() <= consecutive.getSubfix()) {
 
 			LOG.info("METHOD: addConsecutiveService 4r if -- PARAMS: " + consecutive.toString());
@@ -68,7 +68,7 @@ public class ConsecutiveServiceImpl implements ConsecutiveService {
 
 		} else {
 			LOG.info("METHOD: addConsecutiveService else -- PARAMS: " + consecutive.toString());
-			return consecutive;
+			return null;
 		}
 
 	}
