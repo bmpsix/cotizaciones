@@ -27,6 +27,7 @@ public class CollectMethodController {
 	
 	@GetMapping("/admin/collectmethod")
 	public ModelAndView collectMethod(){
+		
 		ModelAndView mvn = new ModelAndView();
 		mvn.addObject("collectmethods", collectMethodService.listAllCollectMethod());
 		mvn.addObject("consecutive", collectMethodService.getConsecutive());
@@ -36,12 +37,25 @@ public class CollectMethodController {
 	
 	@PostMapping("/admin/addcollectmethod")
 	public ModelAndView addCollectMethod(@ModelAttribute(name = "collectMethod") CollectMethod collectMethod, Model model){
+		
 		collectMethodService.addCollectMethod(collectMethod); 
 		ModelAndView mvn = new ModelAndView();
 		mvn.setViewName("collectmethod");
 		mvn.addObject("collectmethods", collectMethodService.listAllCollectMethod());
 		mvn.addObject("consecutive", collectMethodService.getConsecutive());
 		return mvn;
+	}
+	
+	@GetMapping("/admin/chargecollectmethod")
+	public ModelAndView chargeCollectMethod(String idCollectMethod, Model model) {
+
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.setViewName("collectmethod");
+			modelAndView.addObject("collectmethods", collectMethodService.listAllCollectMethod());
+			modelAndView.addObject("consecutive", collectMethodService.getConsecutive());
+			modelAndView.addObject("updateCollectMethod", collectMethodService.getCollectMethod(idCollectMethod));
+			
+		return modelAndView;
 	}
 	
 	

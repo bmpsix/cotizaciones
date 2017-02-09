@@ -12,12 +12,9 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.CollectMethod;
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.LogCollectMethod;
-import com.unimer.cotizaciones.entities.LogRol;
-import com.unimer.cotizaciones.entities.Rol;
 import com.unimer.cotizaciones.repositories.CollectMethodJpaRepository;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogCollectMethodJpaRepository;
-import com.unimer.cotizaciones.repositories.LogRolJpaRepository;
 import com.unimer.cotizaciones.services.CollectMethodService;
 
 @Service("collectMethodServiceImpl")
@@ -35,57 +32,65 @@ public class CollectMethodServiceImpl implements CollectMethodService{
 	@Qualifier("logCollectMethodJpaRepository")
 	private LogCollectMethodJpaRepository logCollectMethodJpaRepository;
 
-	private Consecutive consecutive;
 	
-	//private static final Log LOG = LogFactory.getLog(CollectMethodServiceImpl.class);
+	private static final Log LOG = LogFactory.getLog(CollectMethodServiceImpl.class);
 
 	@Override
 	public CollectMethod addCollectMethod(CollectMethod collectmethod) {
 		
-		consecutive = consecutivesJpaRepository.findByType("Collect Method");
-		
-		if(consecutive == null){
-			
-			consecutive = new Consecutive();
+		Consecutive consecutive = consecutivesJpaRepository.findByType("Collect Method");
 
+		if (consecutive == null) {
+			consecutive = new Consecutive();
 			consecutive.setType("Collect Method");
 			consecutive.setPrefix("COM");
 			consecutive.setSubfix(1);
-			consecutive.setDetail("Default Consecutive of Collect Method");
-			
+			consecutive.setDetail("Default consecutive of Collect Method");
 			consecutivesJpaRepository.save(consecutive);
-
 			collectmethod.setIdCollectMethod(consecutive.getPrefix() + "-" + consecutive.getSubfix());
 
 			if (!collectmethod.getIdCollectMethod().equals(collectMethodJpaRepository.findOne(collectmethod.getIdCollectMethod()))) {
 				
 				collectMethodJpaRepository.save(collectmethod);
+				LOG.info("METHOD: addCollectMethod in CollectMethodServiceImpl -- PARAMS: " + collectmethod.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
-				
+
 			} else {
-				
-				collectmethod = null;
+				updateCollectMethod(collectmethod);
 			}
-			
-		}else{
-			
+
+		} else if (collectmethod.getIdCollectMethod() == null) {
+
 			collectmethod.setIdCollectMethod(consecutive.getPrefix() + "-" + consecutive.getSubfix());
 			
 			if (!collectmethod.getIdCollectMethod().equals(collectMethodJpaRepository.findOne(collectmethod.getIdCollectMethod()))) {
-
+				LOG.info("METHOD: addCollectMethod in CollectMethodServiceImpl -- PARAMS: " + collectmethod.toString());
 				collectMethodJpaRepository.save(collectmethod);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
-				
 			} else {
-				
-				collectmethod = null;
+				updateCollectMethod(collectmethod);
 			}
-			
+		} else {
+			updateCollectMethod(collectmethod);
 		}
 		
 		return collectmethod;
+		
+	}
+
+	@Override
+	public void updateCollectMethod(CollectMethod collectMethod) {
+		
+		java.util.Date date = new Date();
+		CollectMethod collectMethodToUpdate = collectMethodJpaRepository.findOne(collectMethod.getIdCollectMethod());
+		if (collectMethodToUpdate != null) {
+			LogCollectMethod logCollectMethod = new LogCollectMethod(date, "Collect Method  modified", "test", collectMethodToUpdate.getDetail(), 
+					collectMethodToUpdate.getIdCollectMethod());
+			collectMethodJpaRepository.save(collectMethod);
+			logCollectMethodJpaRepository.save(logCollectMethod);
+		}
 		
 	}
 
@@ -109,5 +114,13 @@ public class CollectMethodServiceImpl implements CollectMethodService{
 	public Consecutive getConsecutive() {
 		return consecutivesJpaRepository.findByType("Collect Method");
 	}
+
+	@Override
+	public CollectMethod getCollectMethod(String idCollectMethod) {
+		return collectMethodJpaRepository.findOne(idCollectMethod);
+	}
+	
+	
+
 	
 }

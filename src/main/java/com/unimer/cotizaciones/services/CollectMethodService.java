@@ -15,6 +15,10 @@ public interface CollectMethodService {
 	
 	public abstract List<CollectMethod> listAllCollectMethod();
 	
-	public abstract boolean removeCollectMethod(String id);
+	public abstract boolean removeCollectMethod(String idCollectMethod);
+	
+	public abstract void updateCollectMethod(CollectMethod collectMethod);
+	
+	public abstract CollectMethod getCollectMethod(String idCollectMethod);
 	
 }
