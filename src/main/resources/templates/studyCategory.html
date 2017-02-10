@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
 <html>
 <head th:replace="fragments/header"></head>
 <body>
@@ -5,20 +7,37 @@
 		<div data-role="header" data-position="inline" >
 			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
             <h1>
-            SIP Cotizaciones - Categoria de estudio
+            SIP Cotizaciones - Categorías de estudio
             </h1>
 		</div>
 		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
-		<h3>Control de categorias de estudio</h3>
+		<h3>Control de categorías de estudio</h3>
 			<div data-role="fieldcontain">
-					<form method="post" action="#" th:action="@{/admin/addStudyCategory}" th:object="${studyCategory}" >
-					<input type="hidden" name="idStudyCategory" value=""  th:value="${idStudyCategory}" />
-
-					<label for="detail">Detalle:</label>
-					<input title="Debe ingresar el nombre de la categor�a" type="text" name="detail"  th:value="${detail}" required autocomplete="off"/>
-							
+			
+					<form method="post" action="#" th:action="@{/admin/addStudyCategory}" th:object="${consecutive}" >
 					
+					<div  th:object="${updateStudyCategory}" >
+						<label for="idStudyCategory">Id dela categoría de estudio:</label>
+						
+						<div th:if="${updateStudyCategory==null}">
+							<input  type="text" name="idStudyCategory" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'STC-1'}" disabled/>
+							<label for="detail">Detalle:</label>
+							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${detail}" required/>
+										
+						</div>
+						
+						<div th:if="${updateStudyCategory!=null}">
+							<input type="text" name="idStudyCategory" th:value="${updateStudyCategory.idCountry}" readonly />
+							<label for="detail">Detalle:</label>
+							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${updateStudyCategory.detail}" required/>
+							
+							
+														
+						</div>
+					
+						
                     	<hr>
+                    </div>
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar nuevo">
                    <!--  <input type="submit" name="submit" class="custom_text" data-icon="refresh" value="Modificar registro">-->
 				</form>
@@ -26,7 +45,7 @@
            	
            	
            	<fieldset data-role="controlgroup"  data-type="horizontal">
-           	<legend><h3>Categorias de estudio en el sistema</h3></legend>
+           	<legend><h3>Países en el sistema</h3></legend>
            		<table style="text-align:justify;">
            				<thead>
            				<tr>
@@ -36,12 +55,12 @@
            				</tr>
            				</thead>
            				<tbody>
-	           			<tr th:each="studyCategory : ${studyCategories}">
+	           			<tr th:each="studyCategory: ${studyCategories}">
 							<td style="padding-right: 15px;" th:text="${studyCategory.idStudyCategory}"></td>
-							<td style="padding-right: 15px;" th:text="${studyCategory.detail}"></td>						
-	           				<td style="padding-right: 15px;"><a th:href="@{'/admin/doUpdate'${studyCategory.idStudyCategory}}"  ></a></td>
-	           				<td>
-
+							<td style="padding-right: 15px;" th:text="${studyCategory.detail}"></td>
+							
+	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargestudyCategory?idStudyCategory=__${studyCategory.idStudyCategory}__}"  >Edit</a></td>
+	           				
            				</tr>
            				
           			</tbody>
@@ -56,3 +75,5 @@
 	</div>
 </body>
 </html>
+
+

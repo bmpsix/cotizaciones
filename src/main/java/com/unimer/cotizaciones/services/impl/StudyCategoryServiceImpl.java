@@ -37,66 +37,74 @@ public class StudyCategoryServiceImpl implements StudyCategoryService{
 	private static final Log LOG = LogFactory.getLog(StudyCategoryServiceImpl.class);
 	
 	@Override
-	public void addStudyCategory(StudyCategory studyCategory) {
-		Consecutive consecutive = consecutivesJpaRepository.findByType("StudyCategory");
+	public StudyCategory  addStudyCategory(StudyCategory studyCategory) {
 
-		if (consecutive != null) {
+		Consecutive consecutive = consecutivesJpaRepository.findByType("Study category");
+
+		if (consecutive == null) {
+			consecutive = new Consecutive();
+			consecutive.setType("Study category");
+			consecutive.setPrefix("STC");
+			consecutive.setSubfix(1);
+			consecutive.setDetail("Default consecutive of Study category table");
+			consecutivesJpaRepository.save(consecutive);
 			studyCategory.setIdStudyCategory(consecutive.getPrefix() + "-" + consecutive.getSubfix());
 
-			if (!studyCategory.getIdStudyCategory().equals(studyCategoryJpaRepository.findOne(studyCategory.getIdStudyCategory()))
-					&& studyCategoryJpaRepository.findByDetail(studyCategory.getDetail()) == null) {
+			if (!studyCategory.getIdStudyCategory().equals(studyCategoryJpaRepository.findOne(studyCategory.getIdStudyCategory()))) {
+				
+				studyCategoryJpaRepository.save(studyCategory);
+				LOG.info("METHOD: addStudyCategory in StudyCategoryServiceImpl -- PARAMS: " + studyCategory.toString());
+				consecutive.setSubfix(consecutive.getSubfix() + 1);
+				consecutivesJpaRepository.save(consecutive);
 
+			} else {
+				updateStudyCategory(studyCategory);
+			}
+
+		} else if (studyCategory.getIdStudyCategory() == null) {
+
+			studyCategory.setIdStudyCategory(consecutive.getPrefix() + "-" + consecutive.getSubfix());
+			
+			if (!studyCategory.getIdStudyCategory().equals(studyCategoryJpaRepository.findOne(studyCategory.getIdStudyCategory()))) {
+				LOG.info("METHOD: addStudyCategory in StudyCategoryServiceImpl -- PARAMS: " + studyCategory.toString());
 				studyCategoryJpaRepository.save(studyCategory);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
-			} else if (studyCategoryJpaRepository.findByIdStudyCategory(studyCategory.getIdStudyCategory()) != null) {
-				StudyCategory studyCategoryToUpdate = studyCategoryJpaRepository.findByIdStudyCategory(studyCategory.getIdStudyCategory());
-				java.util.Date date = new Date();
-				LogStudyCategory lstudyCategory = new LogStudyCategory(date, "Study Category  modified", "test", studyCategoryToUpdate.getDetail(),
-				studyCategoryToUpdate.getIdStudyCategory());				
-				
-				studyCategoryJpaRepository.save(studyCategoryToUpdate);
-				logStudyCategoryJpaRepository.save(lstudyCategory);
-
+			} else {
+				updateStudyCategory(studyCategory);
 			}
 		} else {
-
-			Consecutive ConsecutiveStudyCategoryDefault = new Consecutive();
-
-			ConsecutiveStudyCategoryDefault.setType("StudyCategory");
-			ConsecutiveStudyCategoryDefault.setPrefix("STC");
-			ConsecutiveStudyCategoryDefault.setSubfix(1);
-			ConsecutiveStudyCategoryDefault.setDetail("Consecutivo por defecto para el manejo de las categoría de estudio");
-			consecutivesJpaRepository.save(ConsecutiveStudyCategoryDefault);
-
-			studyCategory.setIdStudyCategory(ConsecutiveStudyCategoryDefault.getPrefix() + "-" + ConsecutiveStudyCategoryDefault.getSubfix());
-
-			if (!studyCategory.getIdStudyCategory().equals(studyCategoryJpaRepository.findOne(studyCategory.getIdStudyCategory()))
-					&& studyCategoryJpaRepository.findByDetail(studyCategory.getDetail()) == null) {
-				studyCategoryJpaRepository.save(studyCategory);
-				ConsecutiveStudyCategoryDefault.setSubfix(ConsecutiveStudyCategoryDefault.getSubfix() + 1);
-				consecutivesJpaRepository.save(ConsecutiveStudyCategoryDefault);
-			} else {
-				LOG.info("METHOD: addStudyCategory in StudyCategoryServiceImpl -- The studyCategory id already exists ");
-				return;
-			}
+			updateStudyCategory(studyCategory);
 		}
-
-		
+		return studyCategory;
 	}
 
+	
 	@Override
 	public List<StudyCategory> listAllStudyCategories() {
-		List<StudyCategory> studyCategories = studyCategoryJpaRepository.findAll();
-		return studyCategories;
-	}
-
-
+		return studyCategoryJpaRepository.findAll();
+	}	
 
 	@Override
 	public StudyCategory findById(String idStudyCategory) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		
+		return studyCategoryJpaRepository.findByIdStudyCategory(idStudyCategory);
+	}
+
+	@Override
+	public Consecutive getConsecutive() {
+		return consecutivesJpaRepository.findByType("Study category");
+	}
+
+	private void updateStudyCategory(StudyCategory studyCategory) {
+		java.util.Date date = new Date();
+		StudyCategory studyCategoryToUpdate = studyCategoryJpaRepository.findByIdStudyCategory(studyCategory.getIdStudyCategory());
+		if (studyCategoryToUpdate != null) {
+			LogStudyCategory logStudyCategory = new LogStudyCategory(date, "Study category  modified", "test", studyCategoryToUpdate.getDetail(), studyCategoryToUpdate.getIdStudyCategory());
+			studyCategoryJpaRepository.save(studyCategory);
+			logStudyCategoryJpaRepository.save(logStudyCategory);
+		}
 	}
 	
 
