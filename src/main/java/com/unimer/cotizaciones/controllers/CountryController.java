@@ -15,36 +15,59 @@ import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.services.CountryService;
 
 
+
 @Controller
 public class CountryController {
-	
+
 	
 	@Autowired
 	@Qualifier("countryServiceImpl")
-	private CountryService   countryService;
+	private CountryService countryService;
 	
 	private static final Log LOG = LogFactory.getLog(CountryController.class);
 	
 	@GetMapping("/admin/country")
 	public ModelAndView country(){
-	
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("country");
 		modelAndView.addObject("countries", countryService.listAllCountries());
+		modelAndView.addObject("consecutive", countryService.getConsecutive());
+		modelAndView.addObject("updateConsecutive", null);
 		return modelAndView;
 	}
 	
-	@PostMapping("/admin/addCountry")
+	@PostMapping("/admin/addcountry")
 	public ModelAndView addCountry(@ModelAttribute(name = "country") Country country, Model model) {
 		LOG.info("METHOD: addCountry in CountryController -- PARAMS: " + country.toString());
 		countryService.addCountry(country);
-		 ModelAndView mvn = new ModelAndView();
-		 mvn.setViewName("country");
-		 mvn.addObject("countries", countryService.listAllCountries());
-		 return mvn;
-		}
-	@GetMapping("/admin/addCountry")
-	public String getStudyCategory(){
+		 ModelAndView modelAndView = new ModelAndView();
+		 modelAndView.setViewName("country");
+		 modelAndView.addObject("countries", countryService.listAllCountries());
+		 modelAndView.addObject("consecutive", countryService.getConsecutive());
+		 modelAndView.addObject("updateCountry", null);
+		 return modelAndView;
+	}
+	
+	@GetMapping("/admin/addcountry")
+	public String getRol(){
 		return "redirect:/admin/country";
 	}
+	
+	@GetMapping("/admin/chargecountry")
+	public ModelAndView chargeCountry(String idCountry, Model model) {
+		
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.setViewName("country");
+			modelAndView.addObject("countries", countryService.listAllCountries());
+			modelAndView.addObject("consecutive", countryService.getConsecutive());
+			modelAndView.addObject("updateCountry",countryService.findById(idCountry));
+
+		return modelAndView;
+	}
+	
+	
+
+	
 }
+
