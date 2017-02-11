@@ -12,6 +12,8 @@ import java.util.Date;
 @Entity
 @Table(name="tbl_log_currency_exchange")
 public class LogCurrencyExchange implements Serializable {
+	
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -43,9 +45,28 @@ public class LogCurrencyExchange implements Serializable {
 
 	@Column(nullable=false)
 	private float sell;
+	
+	
 
 	public LogCurrencyExchange() {
+		super();
 	}
+
+	public LogCurrencyExchange(Date dateRecord, String actionDetail, String actionUser, float buy, Date date,
+			String idCountry, String idCurrencyExchange, String idCurrencyType, float sell) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.buy = buy;
+		this.date = date;
+		this.idCountry = idCountry;
+		this.idCurrencyExchange = idCurrencyExchange;
+		this.idCurrencyType = idCurrencyType;
+		this.sell = sell;
+	}
+
+
 
 	public Date getDateRecord() {
 		return this.dateRecord;

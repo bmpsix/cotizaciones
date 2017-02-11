@@ -46,6 +46,11 @@ public class CollectMethodController {
 		return mvn;
 	}
 	
+	@GetMapping("/admin/addcollectmethod")
+	public String getCollectMethod(){
+		return "redirect:/admin/collectmethod";
+	}
+	
 	@GetMapping("/admin/chargecollectmethod")
 	public ModelAndView chargeCollectMethod(String idCollectMethod, Model model) {
 
