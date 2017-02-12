@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.entities.StudyCategory;
-import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.StudyCategoryService;
 
 @Controller

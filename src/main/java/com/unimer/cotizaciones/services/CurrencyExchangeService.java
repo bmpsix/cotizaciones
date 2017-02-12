@@ -2,8 +2,6 @@ package com.unimer.cotizaciones.services;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.CurrencyExchange;
 

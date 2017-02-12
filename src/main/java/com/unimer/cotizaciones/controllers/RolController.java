@@ -53,8 +53,8 @@ public class RolController {
 		return "redirect:/admin/role";
 	}
 	
-	@GetMapping("/admin/chargerole")
-	public ModelAndView chargeRole(String idRol, Model model) {
+	@GetMapping("/admin/updaterole")
+	public ModelAndView updateRole(String idRol, Model model) {
 		
 			ModelAndView modelAndView = new ModelAndView();
 			modelAndView.setViewName("role");

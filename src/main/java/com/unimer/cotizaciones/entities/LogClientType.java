@@ -31,7 +31,7 @@ public class LogClientType implements Serializable {
 	@Column(name="id_client_type", nullable=false, length=8)
 	private String idClientType;
 
-	private byte[] status;
+	private byte status;
 
 	public LogClientType() {
 	}
@@ -76,12 +76,26 @@ public class LogClientType implements Serializable {
 		this.idClientType = idClientType;
 	}
 
-	public byte[] getStatus() {
+	public byte getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(byte[] status) {
+	public void setStatus(byte status) {
 		this.status = status;
 	}
 
+	public LogClientType(Date dateRecord, String actionDetail, String actionUser, String detail, String idClientType,
+			byte status) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.detail = detail;
+		this.idClientType = idClientType;
+		this.status = status;
+	}
+
+	
+	
+	
 }

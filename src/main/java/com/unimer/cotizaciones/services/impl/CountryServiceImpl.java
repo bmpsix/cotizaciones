@@ -12,16 +12,10 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.entities.LogCountry;
-import com.unimer.cotizaciones.entities.LogRol;
-import com.unimer.cotizaciones.entities.Rol;
-import com.unimer.cotizaciones.entities.StudyCategory;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.CountryJpaRepository;
 import com.unimer.cotizaciones.repositories.LogCountryJpaRepository;
-import com.unimer.cotizaciones.repositories.LogRolJpaRepository;
-import com.unimer.cotizaciones.repositories.RolJpaRepository;
 import com.unimer.cotizaciones.services.CountryService;
-import com.unimer.cotizaciones.services.RolService;;
 
 @Service("countryServiceImpl")
 public class CountryServiceImpl implements CountryService {

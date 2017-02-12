@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.CollectMethod;
-import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.services.CollectMethodService;
 
 @Controller

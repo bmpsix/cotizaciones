@@ -79,7 +79,6 @@ public class RolServiceImpl implements RolService {
 		return rol;
 	}
 
-	
 	@Override
 	public List<Rol> listAllRol() {
 		return rolJpaRepository.findAll();

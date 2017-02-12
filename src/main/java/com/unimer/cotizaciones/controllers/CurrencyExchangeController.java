@@ -26,7 +26,7 @@ public class CurrencyExchangeController {
 	//Debo de meter el currency typ service aqui
 	
 	@Autowired
-	@Qualifier("cServiceImpl")
+	@Qualifier("countryServiceImpl")
 	private CountryService countryService;
 	
 	private static final Log LOG = LogFactory.getLog(CountryController.class);

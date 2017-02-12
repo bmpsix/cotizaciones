@@ -1,8 +1,6 @@
 package com.unimer.cotizaciones.entities;
 
 import java.io.Serializable;
-import java.util.Arrays;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -26,7 +24,7 @@ public class ClientType implements Serializable {
 	private String detail;
 
 	@Column(name="status", nullable=false)
-	private byte[] status;
+	private byte status;
 
 	public String getIdClientType() {
 		return idClientType;
@@ -44,11 +42,11 @@ public class ClientType implements Serializable {
 		this.detail = detail;
 	}
 
-	public byte[] getStatus() {
+	public byte getStatus() {
 		return status;
 	}
 
-	public void setStatus(byte[] status) {
+	public void setStatus(byte status) {
 		this.status = status;
 	}
 
@@ -57,7 +55,7 @@ public class ClientType implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ClientType(String idClientType, String detail, byte[] status) {
+	public ClientType(String idClientType, String detail, byte status) {
 		super();
 		this.idClientType = idClientType;
 		this.detail = detail;
@@ -66,6 +64,6 @@ public class ClientType implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ClientType [idClientType=" + idClientType + ", detail=" + detail + ", status=" + Arrays.toString(status)+ "]";
+		return "ClientType [idClientType=" + idClientType + ", detail=" + detail + ", status=" + status+ "]";
 	}
 }
