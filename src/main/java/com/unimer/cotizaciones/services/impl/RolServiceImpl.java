@@ -86,7 +86,7 @@ public class RolServiceImpl implements RolService {
 	}
 
 	@Override
-	public void changeStatusById(String idRol, byte status) {
+	public void updateStatusById(String idRol, byte status) {
 
 		Rol rol = rolJpaRepository.findOne(idRol);
 

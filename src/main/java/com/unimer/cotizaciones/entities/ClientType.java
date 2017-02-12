@@ -22,10 +22,10 @@ public class ClientType implements Serializable {
 	@Column(name="id_client_type", unique=true, nullable=false, length=8)
 	private String idClientType;
 
-	@Column(length=100)
+	@Column(name="detail",length=100)
 	private String detail;
 
-	@Column(nullable=false)
+	@Column(name="status", nullable=false)
 	private byte[] status;
 
 	public String getIdClientType() {
