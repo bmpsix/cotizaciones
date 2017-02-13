@@ -104,7 +104,7 @@ public class CountryServiceImpl implements CountryService {
 					countryToUpdate.getCod());
 			LOG.info("METHOD: addCountry in CountryServiceImpl -- PARAMS: " + logCountry.toString());
 			countryJpaRepository.save(country);
-			//--logCountryJpaRepository.save(logCountry);
+			logCountryJpaRepository.save(logCountry);
 		}
 	}
 }

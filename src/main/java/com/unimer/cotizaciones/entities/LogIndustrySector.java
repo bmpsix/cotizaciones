@@ -31,6 +31,18 @@ public class LogIndustrySector implements Serializable {
 	@Column(name="id_industry_sector", nullable=false, length=8)
 	private String idIndustrySector;	
 	
+	
+	
+	@Override
+	public String toString() {
+		return "LogIndustrySector [dateRecord=" + dateRecord + ", actionDetail=" + actionDetail + ", actionUser="
+				+ actionUser + ", detail=" + detail + ", idIndustrySector=" + idIndustrySector + "]";
+	}
+	
+	public LogIndustrySector() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public LogIndustrySector(Date dateRecord, String actionDetail, String actionUser, String detail, String idIndustrySector) {
 		super();
 		this.dateRecord = dateRecord;

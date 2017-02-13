@@ -55,6 +55,7 @@ public class Country implements Serializable {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 
 	public Country(String idCountry, String cod, String detail) {
 		super();

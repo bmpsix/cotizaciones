@@ -7,17 +7,17 @@
 		<div data-role="header" data-position="inline" >
 			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
             <h1>
-            SIP Cotizaciones - Categorías de estudio
+            SIP Cotizaciones - Sectores de la industria
             </h1>
 		</div>
 		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
-		<h3>Control de categorías de estudio</h3>
+		<h3>Control de los sectores de industria</h3>
 			<div data-role="fieldcontain">
 			
-					<form method="post" action="#" th:action="@{/admin/addIndustrySector}" th:object="${consecutive}" >
+					<form method="post" action="#" th:action="@{/admin/addindustrysector}" th:object="${consecutive}" >
 					
 					<div  th:object="${updateIndustrySector}" >
-						<label for="idIndustrySector">Id dela categoría de estudio:</label>
+						<label for="idIndustrySector">Id del sector industria:</label>
 						
 						<div th:if="${updateIndustrySector==null}">
 							<input  type="text" name="idIndustrySector" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'STI-1'}" disabled/>
@@ -45,7 +45,7 @@
            	
            	
            	<fieldset data-role="controlgroup"  data-type="horizontal">
-           	<legend><h3>Países en el sistema</h3></legend>
+           	<legend><h3>Sectores de industria en el sistema</h3></legend>
            		<table style="text-align:justify;">
            				<thead>
            				<tr>
@@ -55,11 +55,11 @@
            				</tr>
            				</thead>
            				<tbody>
-	           			<tr th:each="industrySector: ${industrySector}">
-							<td style="padding-right: 15px;" th:text="${industrySector.idIndustrySector}"></td>
-							<td style="padding-right: 15px;" th:text="${industrySector.detail}"></td>
+	           			<tr th:each="industrysector: ${industrysectors}">
+							<td style="padding-right: 15px;" th:text="${industrysector.idIndustrySector}"></td>
+							<td style="padding-right: 15px;" th:text="${industrysector.detail}"></td>
 							
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargeindustrySector?idIndustrySector=__${industrySector.idIndustrySector}__}"  >Edit</a></td>
+	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargeindustrysector?idIndustrySector=__${industrysector.idIndustrySector}__}"  >Edit</a></td>
 	           				
            				</tr>
            				

@@ -34,16 +34,32 @@ public class LogCountry implements Serializable {
 	@Column(name="id_country", nullable=false, length=8)
 	private String idCountry;
 
-	public LogCountry(Date dateRecord, String actionDetail, String actionUser, String detail, String idCountry, String cod) {
+	
+
+	@Override
+	public String toString() {
+		return "LogCountry [dateRecord=" + dateRecord + ", actionDetail=" + actionDetail + ", actionUser=" + actionUser
+				+ ", cod=" + cod + ", detail=" + detail + ", idCountry=" + idCountry + "]";
+	}
+	
+
+	public LogCountry() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+
+	public LogCountry(Date dateRecord, String actionDetail, String actionUser,
+			String idCountry,String detail,String cod) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;
 		this.actionUser = actionUser;
+		this.cod = cod;
 		this.detail = detail;
 		this.idCountry = idCountry;
-		this.cod = cod;
-	
 	}
+
 
 	public Date getDateRecord() {
 		return this.dateRecord;

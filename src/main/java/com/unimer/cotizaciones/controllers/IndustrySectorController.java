@@ -33,29 +33,29 @@ public class IndustrySectorController {
 		return modelAndView;
 	}
 	
-	@PostMapping("/admin/addindustrySector")
+	@PostMapping("/admin/addindustrysector")
 	public ModelAndView addIndustrySector(@ModelAttribute(name = "industrySector") IndustrySector industrySector, Model model) {
 		LOG.info("METHOD: addIndustrySector in IndustrySectorController -- PARAMS: " + industrySector.toString());
 		industrySectorService.addIndustrySector(industrySector);
 		 ModelAndView modelAndView = new ModelAndView();
-		 modelAndView.setViewName("industrySector");
-		 modelAndView.addObject("industrySectors", industrySectorService.listAllIndustrySectors());
+		 modelAndView.setViewName("industrysector");
+		 modelAndView.addObject("industrysectors", industrySectorService.listAllIndustrySectors());
 		 modelAndView.addObject("consecutive", industrySectorService.getConsecutive());
 		 modelAndView.addObject("updateIndustrySector", null);
 		 return modelAndView;
 	}
 	
-	@GetMapping("/admin/addindustrySector")
+	@GetMapping("/admin/addindustrysector")
 	public String getIndustrySector(){
-		return "redirect:/admin/industrySector";
+		return "redirect:/admin/industrysector";
 	}
 	
-	@GetMapping("/admin/chargeindustrySector")
+	@GetMapping("/admin/chargeindustrysector")
 	public ModelAndView chargeIndustrySector(String idIndustrySector, Model model) {
 		
 			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("industrySector");
-			modelAndView.addObject("industrySectors", industrySectorService.listAllIndustrySectors());
+			modelAndView.setViewName("industrysector");
+			modelAndView.addObject("industrysectors", industrySectorService.listAllIndustrySectors());
 			modelAndView.addObject("consecutive", industrySectorService.getConsecutive());
 			modelAndView.addObject("updateIndustrySector",industrySectorService.findById(idIndustrySector));
 
