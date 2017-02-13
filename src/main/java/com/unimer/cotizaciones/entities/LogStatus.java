@@ -74,4 +74,15 @@ public class LogStatus implements Serializable {
 		this.idStatus = idStatus;
 	}
 
+	public LogStatus(Date dateRecord, String actionDetail, String actionUser, String detail, String idStatus) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.detail = detail;
+		this.idStatus = idStatus;
+	}
+	
+	
+
 }

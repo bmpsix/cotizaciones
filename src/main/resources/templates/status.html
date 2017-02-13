@@ -8,29 +8,29 @@
 		<div data-role="header" data-position="inline" >
 			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
             <h1>
-            SIP Cotizaciones - Tipo de ejecución
+            SIP Cotizaciones - Estados
             </h1>
 		</div>
 		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
-		<h3>Control de tipo de ejecución</h3>
+		<h3>Control de estados</h3>
 			<div data-role="fieldcontain">
 					
-					<form method="post" action="#" th:action="@{/admin/addexecutiontype}" th:object="${consecutive}" >
+					<form method="post" action="#" th:action="@{/admin/addstatus}" th:object="${consecutive}" >
 					
-					<div  th:object="${updateExecutionType}" >
-						<label for="idExecutionType">Id del tipo de ejecución:</label>
+					<div  th:object="${updateStatus}" >
+						<label for="idStatus">Id del estado:</label>
 						
-						<div th:if="${updateExecutionType==null}">
-							<input  type="text" name="idExecutionType" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'EXT-1'}" disabled/>
+						<div th:if="${updateStatus==null}">
+							<input  type="text" name="idStatus" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'STS-1'}" disabled/>
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el tipo de ejecución" type="text" name="detail" th:value="${detail}" required/>
+							<input title="Debe ingresar el estado" type="text" name="detail" th:value="${detail}" required/>
 							
 						</div>
 						
-						<div th:if="${updateExecutionType!=null}">
-							<input type="text" name="idExecutionType" th:value="${updateExecutionType.idExecutionType}" readonly />
+						<div th:if="${updateStatus!=null}">
+							<input type="text" name="idStatus" th:value="${updateStatus.idStatus}" readonly />
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el tipo de ejecución" type="text" name="detail" th:value="${updateExecutionType.detail}" required/>
+							<input title="Debe ingresar el estado" type="text" name="detail" th:value="${updateStatus.detail}" required/>
 							
 						</div>
 					
@@ -44,7 +44,7 @@
            	
            	
            	<fieldset data-role="controlgroup"  data-type="horizontal">
-           	<legend><h3>Tipo de ejecución en el sistema</h3></legend>
+           	<legend><h3>Estados en el sistema</h3></legend>
            		<table style="text-align:justify;">
            				<thead>
            				<tr>
@@ -53,10 +53,10 @@
            				</tr>
            				</thead>
            				<tbody>
-	           			<tr th:each="executiontype : ${executiontypes}">
-							<td style="padding-right: 15px;" th:text="${executiontype.idExecutionType}"></td>
-							<td style="padding-right: 15px;" th:text="${executiontype.detail}"></td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updateexecutiontype?idExecutionType=__${executiontype.idExecutionType}__}"  >Update</a></td>
+	           			<tr th:each="status : ${allStatus}">
+							<td style="padding-right: 15px;" th:text="${status.idStatus}"></td>
+							<td style="padding-right: 15px;" th:text="${status.detail}"></td>
+	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updatestatus?idStatus=__${status.idStatus}__}"  >Update</a></td>
 	           				
            				</tr>
            				

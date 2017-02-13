@@ -13,19 +13,18 @@ import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.ExecutionType;
 import com.unimer.cotizaciones.services.ExecutionTypeService;
 
-
 @Controller
 public class ExecutionTypeController {
 
 	@Autowired
 	@Qualifier("executionTypeServiceImpl")
 	private ExecutionTypeService executionTypeService;
-	
-private static final Log LOG = LogFactory.getLog(ExecutionTypeController.class);
-	
+
+	private static final Log LOG = LogFactory.getLog(ExecutionTypeController.class);
+
 	@GetMapping("/admin/executiontype")
-	public ModelAndView executionType(){
-		
+	public ModelAndView executionType() {
+
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("executiontype");
 		modelAndView.addObject("executiontypes", executionTypeService.listAllExecutionType());
@@ -33,37 +32,35 @@ private static final Log LOG = LogFactory.getLog(ExecutionTypeController.class);
 		modelAndView.addObject("updateExecutionType", null);
 		return modelAndView;
 	}
-	
+
 	@PostMapping("/admin/addexecutiontype")
-	public ModelAndView addExecutionType(@ModelAttribute(name = "executiontype") ExecutionType executionType, Model model) {
+	public ModelAndView addExecutionType(@ModelAttribute(name = "executiontype") ExecutionType executionType,
+			Model model) {
 		LOG.info("METHOD: addExecutionType in ExecutionTypeController -- PARAMS: " + executionType.toString());
 		executionTypeService.addExecutionType(executionType);
-		 ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("executiontype");
-			modelAndView.addObject("executiontypes", executionTypeService.listAllExecutionType());
-			modelAndView.addObject("consecutive", executionTypeService.getConsecutive());
-			modelAndView.addObject("updateExecutionType", null);
-		 return modelAndView;
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("executiontype");
+		modelAndView.addObject("executiontypes", executionTypeService.listAllExecutionType());
+		modelAndView.addObject("consecutive", executionTypeService.getConsecutive());
+		modelAndView.addObject("updateExecutionType", null);
+		return modelAndView;
 	}
-	
+
 	@GetMapping("/admin/addexecutiontype")
-	public String getExecutionType(){
+	public String getExecutionType() {
 		return "redirect:/admin/executiontype";
 	}
-	
+
 	@GetMapping("/admin/updateexecutiontype")
 	public ModelAndView updateExecutionType(String idExecutionType, Model model) {
-		
-			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("executiontype");
-			modelAndView.addObject("executiontypes", executionTypeService.listAllExecutionType());
-			modelAndView.addObject("consecutive", executionTypeService.getConsecutive());
-			modelAndView.addObject("updateExecutionType",executionTypeService.findById(idExecutionType));
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("executiontype");
+		modelAndView.addObject("executiontypes", executionTypeService.listAllExecutionType());
+		modelAndView.addObject("consecutive", executionTypeService.getConsecutive());
+		modelAndView.addObject("updateExecutionType", executionTypeService.findById(idExecutionType));
 
 		return modelAndView;
 	}
-	
-	
 
-	
 }

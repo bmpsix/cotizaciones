@@ -85,4 +85,18 @@ public class LogSaClient implements Serializable {
 		this.status = status;
 	}
 
+	public LogSaClient(Date dateRecord, String actionDetail, String actionUser, String detail, String idSaClient,
+			byte status) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.detail = detail;
+		this.idSaClient = idSaClient;
+		this.status = status;
+	}
+	
+	
+	
+
 }

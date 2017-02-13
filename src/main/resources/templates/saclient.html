@@ -6,41 +6,41 @@
 		<div data-role="header" data-position="inline" >
 			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
             <h1>
-            SIP Cotizaciones - Roles
+            SIP Cotizaciones - Cliente SA 
             </h1>
 		</div>
 		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
-		<h3>Control de roles</h3>
+		<h3>Control de clientes SA</h3>
 			<div data-role="fieldcontain">
 					
-					<form method="post" action="#" th:action="@{/admin/addrole}" th:object="${consecutive}" >
+					<form method="post" action="#" th:action="@{/admin/addsaclient}" th:object="${consecutive}" >
 					
-					<div  th:object="${updateRole}" >
-						<label for="idRol">Id del rol:</label>
+					<div  th:object="${updateSaClient}" >
+						<label for="idSaClient">Id del cliente SA:</label>
 						
-						<div th:if="${updateRole==null}">
-							<input  type="text" name="idRol" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'ROL-1'}" disabled/>
+						<div th:if="${updateSaClient==null}">
+							<input  type="text" name="idSaClient" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'SAC-1'}" disabled/>
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre del rol" type="text" name="detail" th:value="${detail}" required/>
-							<label for="status"  title="Indica si el rol esta activo o inactivo">Estado</label>
+							<input title="Debe ingresar el nombre del cliente SA" type="text" name="detail" th:value="${detail}" required/>
+							<label for="status"  title="Indica si el cliente SA esta activo o inactivo">Estado</label>
 							<select  name="status" data-role="slider"  th:value="${status}">
 								<option value="0">Inactivo</option>
 								<option value="1">Activo</option>
 							</select>
 						</div>
 						
-						<div th:if="${updateRole!=null}">
-							<input type="text" name="idRol" th:value="${updateRole.idRol}" readonly />
+						<div th:if="${updateSaClient!=null}">
+							<input type="text" name="idSaClient" th:value="${updateSaClient.idSaClient}" readonly />
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre del rol" type="text" name="detail" th:value="${updateRole.detail}" required/>
-							<label for="status"  title="Indica si el rol esta activo o inactivo">Estado</label>
-							<div  th:if="${updateRole.status==0}">
+							<input title="Debe ingresar el nombre del cliente SA" type="text" name="detail" th:value="${updateSaClient.detail}" required/>
+							<label for="status"  title="Indica si el cliente SA esta activo o inactivo">Estado</label>
+							<div  th:if="${updateSaClient.status==0}">
 								<select  name="status" data-role="slider"  th:value="${status}">
 									<option  value="0" selected>Inactivo </option>
 									<option  value="1">Activo</option>
 								</select>
 							</div>
-							<div  th:if="${updateRole.status==1}">
+							<div  th:if="${updateSaClient.status==1}">
 								<select  name="status" data-role="slider"  th:value="${status}">
 									<option  value="0" >Inactivo </option>
 									<option  value="1" selected>Activo</option>
@@ -58,7 +58,7 @@
            	
            	
            	<fieldset data-role="controlgroup"  data-type="horizontal">
-           	<legend><h3>Roles en el sistema</h3></legend>
+           	<legend><h3>Clientes SA en el sistema</h3></legend>
            		<table style="text-align:justify;">
            				<thead>
            				<tr>
@@ -68,12 +68,12 @@
            				</tr>
            				</thead>
            				<tbody>
-	           			<tr th:each="role : ${roles}">
-							<td style="padding-right: 15px;" th:text="${role.idRol}"></td>
-							<td style="padding-right: 15px;" th:text="${role.detail}"></td>
-							<td style="padding-right: 15px;" th:if="${role.status==1}">Activo</td>
-							<td style="padding-right: 15px;" th:if="${role.status==0}">Inactivo</td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updaterole?idRol=__${role.idRol}__}"  >Update</a></td>
+	           			<tr th:each="saClient : ${saClients}">
+							<td style="padding-right: 15px;" th:text="${saClient.idSaClient}"></td>
+							<td style="padding-right: 15px;" th:text="${saClient.detail}"></td>
+							<td style="padding-right: 15px;" th:if="${saClient.status==1}">Activo</td>
+							<td style="padding-right: 15px;" th:if="${saClient.status==0}">Inactivo</td>
+	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updatesaclient?idSaClient=__${saClient.idSaClient}__}"  >Update</a></td>
 	           				
            				</tr>
            				
