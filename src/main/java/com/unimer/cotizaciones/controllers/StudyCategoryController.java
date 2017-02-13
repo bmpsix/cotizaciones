@@ -28,7 +28,7 @@ public class StudyCategoryController {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("studyCategory");
-		modelAndView.addObject("studyCategory", studyCategoryService.listAllStudyCategories());
+		modelAndView.addObject("studyCategories", studyCategoryService.listAllStudyCategories());
 		modelAndView.addObject("consecutive", studyCategoryService.getConsecutive());
 		modelAndView.addObject("updateConsecutive", null);
 		return modelAndView;
@@ -47,7 +47,7 @@ public class StudyCategoryController {
 	}
 	
 	@GetMapping("/admin/addStudyCategory")
-	public String getRol(){
+	public String getStudyCategory(){
 		return "redirect:/admin/studyCategory";
 	}
 	

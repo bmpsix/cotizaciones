@@ -14,22 +14,22 @@
 		<h3>Control de categorías de estudio</h3>
 			<div data-role="fieldcontain">
 			
-					<form method="post" action="#" th:action="@{/admin/addStudyCategory}" th:object="${consecutive}" >
+					<form method="post" action="#" th:action="@{/admin/addIndustrySector}" th:object="${consecutive}" >
 					
-					<div  th:object="${updateStudyCategory}" >
-						<label for="idStudyCategory">Id dela categoría de estudio:</label>
+					<div  th:object="${updateIndustrySector}" >
+						<label for="idIndustrySector">Id dela categoría de estudio:</label>
 						
-						<div th:if="${updateStudyCategory==null}">
-							<input  type="text" name="idStudyCategory" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'STC-1'}" disabled/>
+						<div th:if="${updateIndustrySector==null}">
+							<input  type="text" name="idIndustrySector" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'STI-1'}" disabled/>
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${detail}" required/>
+							<input title="Debe ingresar el nombre del Sector industrial" type="text" name="detail" th:value="${detail}" required/>
 										
 						</div>
 						
-						<div th:if="${updateStudyCategory!=null}">
-							<input type="text" name="idStudyCategory" th:value="${updateStudyCategory.idStudyCategory}" readonly />
+						<div th:if="${updateIndustrySector!=null}">
+							<input type="text" name="idIndustrySector" th:value="${updateIndustrySector.idIndustrySector}" readonly />
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${updateStudyCategory.detail}" required/>
+							<input title="Debe ingresar el nombre del Sector industrial" type="text" name="detail" th:value="${updateIndustrySector.detail}" required/>
 							
 							
 														
@@ -45,7 +45,7 @@
            	
            	
            	<fieldset data-role="controlgroup"  data-type="horizontal">
-           	<legend><h3>Categorías de estudio en el sistema</h3></legend>
+           	<legend><h3>Países en el sistema</h3></legend>
            		<table style="text-align:justify;">
            				<thead>
            				<tr>
@@ -55,11 +55,11 @@
            				</tr>
            				</thead>
            				<tbody>
-	           			<tr th:each="studyCategory: ${studyCategories}">
-							<td style="padding-right: 15px;" th:text="${studyCategory.idStudyCategory}"></td>
-							<td style="padding-right: 15px;" th:text="${studyCategory.detail}"></td>
+	           			<tr th:each="industrySector: ${industrySector}">
+							<td style="padding-right: 15px;" th:text="${industrySector.idIndustrySector}"></td>
+							<td style="padding-right: 15px;" th:text="${industrySector.detail}"></td>
 							
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargestudyCategory?idStudyCategory=__${studyCategory.idStudyCategory}__}"  >Edit</a></td>
+	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargeindustrySector?idIndustrySector=__${industrySector.idIndustrySector}__}"  >Edit</a></td>
 	           				
            				</tr>
            				
@@ -75,5 +75,3 @@
 	</div>
 </body>
 </html>
-
-

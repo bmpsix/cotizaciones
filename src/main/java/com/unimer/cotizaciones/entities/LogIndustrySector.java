@@ -29,9 +29,16 @@ public class LogIndustrySector implements Serializable {
 	private String detail;
 
 	@Column(name="id_industry_sector", nullable=false, length=8)
-	private String idIndustrySector;
-
-	public LogIndustrySector() {
+	private String idIndustrySector;	
+	
+	public LogIndustrySector(Date dateRecord, String actionDetail, String actionUser, String detail, String idIndustrySector) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.detail = detail;
+		this.idIndustrySector = idIndustrySector;
+	
 	}
 
 	public Date getDateRecord() {
@@ -73,5 +80,6 @@ public class LogIndustrySector implements Serializable {
 	public void setIdIndustrySector(String idIndustrySector) {
 		this.idIndustrySector = idIndustrySector;
 	}
+	
 
 }

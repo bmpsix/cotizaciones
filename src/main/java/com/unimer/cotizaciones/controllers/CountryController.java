@@ -50,7 +50,7 @@ public class CountryController {
 	}
 	
 	@GetMapping("/admin/addcountry")
-	public String getRol(){
+	public String getCountry(){
 		return "redirect:/admin/country";
 	}
 	

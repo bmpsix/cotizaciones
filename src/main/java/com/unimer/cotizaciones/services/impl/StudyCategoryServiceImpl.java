@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.LogStudyCategory;
-
 import com.unimer.cotizaciones.entities.StudyCategory;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogStudyCategoryJpaRepository;
@@ -101,7 +100,7 @@ public class StudyCategoryServiceImpl implements StudyCategoryService{
 		java.util.Date date = new Date();
 		StudyCategory studyCategoryToUpdate = studyCategoryJpaRepository.findByIdStudyCategory(studyCategory.getIdStudyCategory());
 		if (studyCategoryToUpdate != null) {
-			LogStudyCategory logStudyCategory = new LogStudyCategory(date, "Study category  modified", "test", studyCategoryToUpdate.getDetail(), studyCategoryToUpdate.getIdStudyCategory());
+			LogStudyCategory logStudyCategory = new LogStudyCategory(date, "Study category  modified", "test",studyCategoryToUpdate.getIdStudyCategory() ,studyCategoryToUpdate.getDetail());
 			studyCategoryJpaRepository.save(studyCategory);
 			logStudyCategoryJpaRepository.save(logStudyCategory);
 		}

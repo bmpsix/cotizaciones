@@ -96,13 +96,15 @@ public class CountryServiceImpl implements CountryService {
 	}
 
 	private void updateCountry(Country country) {
+		
 		java.util.Date date = new Date();
 		Country countryToUpdate = countryJpaRepository.findByIdCountry(country.getIdCountry());
 		if (countryToUpdate != null) {
 			LogCountry logCountry = new LogCountry(date, "Country  modified", "test", countryToUpdate.getDetail(), countryToUpdate.getIdCountry(),
 					countryToUpdate.getCod());
+			LOG.info("METHOD: addCountry in CountryServiceImpl -- PARAMS: " + logCountry.toString());
 			countryJpaRepository.save(country);
-			logCountryJpaRepository.save(logCountry);
+			//--logCountryJpaRepository.save(logCountry);
 		}
 	}
 }

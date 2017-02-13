@@ -6,7 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;import org.springfr
 
 import com.unimer.cotizaciones.entities.IndustrySector;
 
+
 @Repository("industrySectorJpaRepository")
 public interface IndustrySectorJpaRepository extends JpaRepository<IndustrySector, Serializable>{
+
+	IndustrySector findByIdIndustrySector(String idIndustrySector);
 	
 }
