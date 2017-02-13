@@ -19,7 +19,7 @@ public class CurrencyType implements Serializable {
 
 	@Id
 	@Column(name="id_curerncy_type", unique=true, nullable=false, length=8)
-	private String idCurerncyType;
+	private String idCurrencyType;
 
 	@Column(nullable=false, length=100)
 	private String detail;
@@ -33,13 +33,14 @@ public class CurrencyType implements Serializable {
 	@Column(nullable=false, length=1)
 	private String symbol;
 
-	public String getIdCurerncyType() {
-		return idCurerncyType;
+	public String getIdCurrencyType() {
+		return idCurrencyType;
 	}
 
-	public void setIdCurerncyType(String idCurerncyType) {
-		this.idCurerncyType = idCurerncyType;
+	public void setIdCurrencyType(String idCurerncyType) {
+		this.idCurrencyType = idCurerncyType;
 	}
+	
 
 	public String getDetail() {
 		return detail;
@@ -80,7 +81,7 @@ public class CurrencyType implements Serializable {
 
 	public CurrencyType(String idCurerncyType, String detail, byte favorite, byte status, String symbol) {
 		super();
-		this.idCurerncyType = idCurerncyType;
+		this.idCurrencyType = idCurerncyType;
 		this.detail = detail;
 		this.favorite = favorite;
 		this.status = status;
@@ -89,7 +90,7 @@ public class CurrencyType implements Serializable {
 
 	@Override
 	public String toString() {
-		return "CurrencyType [idCurerncyType=" + idCurerncyType + ", detail=" + detail + ", favorite=" + favorite
+		return "CurrencyType [idCurerncyType=" + idCurrencyType + ", detail=" + detail + ", favorite=" + favorite
 				+ ", status=" + status + ", symbol=" + symbol + "]";
 	}
 }

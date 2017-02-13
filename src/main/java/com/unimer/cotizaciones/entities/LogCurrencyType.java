@@ -32,7 +32,7 @@ public class LogCurrencyType implements Serializable {
 	private byte favorite;
 
 	@Column(name="id_curerncy_type", nullable=false, length=8)
-	private String idCurerncyType;
+	private String idCurrencyType;
 
 	@Column(nullable=false)
 	private byte status;
@@ -40,7 +40,23 @@ public class LogCurrencyType implements Serializable {
 	@Column(nullable=false, length=1)
 	private String symbol;
 
+	
+
 	public LogCurrencyType() {
+		super();
+	}
+
+	public LogCurrencyType(Date dateRecord, String actionDetail, String actionUser, String detail, byte favorite,
+			String idCurrencyType, byte status, String symbol) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.detail = detail;
+		this.favorite = favorite;
+		this.idCurrencyType = idCurrencyType;
+		this.status = status;
+		this.symbol = symbol;
 	}
 
 	public Date getDateRecord() {
@@ -84,11 +100,11 @@ public class LogCurrencyType implements Serializable {
 	}
 
 	public String getIdCurerncyType() {
-		return this.idCurerncyType;
+		return this.idCurrencyType;
 	}
 
 	public void setIdCurerncyType(String idCurerncyType) {
-		this.idCurerncyType = idCurerncyType;
+		this.idCurrencyType = idCurerncyType;
 	}
 
 	public byte getStatus() {

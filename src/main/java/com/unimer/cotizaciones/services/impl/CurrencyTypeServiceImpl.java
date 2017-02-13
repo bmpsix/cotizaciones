@@ -1,0 +1,109 @@
+package com.unimer.cotizaciones.services.impl;
+
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import com.unimer.cotizaciones.entities.Consecutive;
+import com.unimer.cotizaciones.services.CurrencyTypeService;
+import com.unimer.cotizaciones.entities.CurrencyType;
+import com.unimer.cotizaciones.entities.LogCurrencyType;
+import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
+import com.unimer.cotizaciones.repositories.CurrencyTypeJpaRepository;
+import com.unimer.cotizaciones.repositories.LogCurrencyTypeJpaRepository;;
+
+@Service("currencyTypeServiceImpl")
+public class CurrencyTypeServiceImpl implements CurrencyTypeService{
+	
+	@Autowired
+	@Qualifier("currencyTypeJpaRepository")
+	private CurrencyTypeJpaRepository currencyTypeJpaRepository;
+
+	@Autowired
+	@Qualifier("consecutivesJpaRepository")
+	private ConsecutivesJpaRepository consecutivesJpaRepository;
+
+	@Autowired
+	@Qualifier("logCurrencyTypeJpaRepository")
+	private LogCurrencyTypeJpaRepository logCurrencyTypeJpaRepository;
+
+	private static final Log LOG = LogFactory.getLog(CurrencyTypeServiceImpl.class);
+
+	@Override
+	public Consecutive getConsecutive() {
+		return consecutivesJpaRepository.findByType("Currency Type");
+	}
+
+	@Override
+	public CurrencyType addCurrencyType(CurrencyType currencyType) {
+		Consecutive consecutive = consecutivesJpaRepository.findByType("Currency Type");
+
+		if (consecutive == null) {
+			consecutive = new Consecutive();
+			consecutive.setType("Currency Type");
+			consecutive.setPrefix("CUT");
+			consecutive.setSubfix(1);
+			consecutive.setDetail("Default consecutive of Currency Type table");
+			consecutivesJpaRepository.save(consecutive);
+			currencyType.setIdCurrencyType(consecutive.getPrefix() + "-" + consecutive.getSubfix());
+
+			if (!currencyType.getIdCurrencyType().equals(currencyTypeJpaRepository.findOne(currencyType.getIdCurrencyType()))) {
+				
+				currencyTypeJpaRepository.save(currencyType);
+				LOG.info("METHOD: addCountry in currencyTypeJpaRepository -- PARAMS: " + currencyType.toString());
+				consecutive.setSubfix(consecutive.getSubfix() + 1);
+				consecutivesJpaRepository.save(consecutive);
+
+			} else {
+				updateCurrencyType(currencyType);
+			}
+
+		} else if (currencyType.getIdCurrencyType() == null) {
+
+			currencyType.setIdCurrencyType(consecutive.getPrefix() + "-" + consecutive.getSubfix());
+			
+			if (!currencyType.getIdCurrencyType().equals(currencyTypeJpaRepository.findOne(currencyType.getIdCurrencyType()))) {
+				LOG.info("METHOD: addCountry in CountryServiceImpl -- PARAMS: " + currencyType.toString());
+				currencyTypeJpaRepository.save(currencyType);
+				consecutive.setSubfix(consecutive.getSubfix() + 1);
+				consecutivesJpaRepository.save(consecutive);
+			} else {
+				updateCurrencyType(currencyType);
+			}
+		} else {
+			updateCurrencyType(currencyType);
+		}
+		return currencyType;
+	}
+
+	@Override
+	public List<CurrencyType> listAllCurrencyType() {
+		return currencyTypeJpaRepository.findAll();
+	}
+
+	@Override
+	public void updateCurrencyType(CurrencyType currencyType) {
+		
+		java.util.Date date = new Date();
+		CurrencyType currencyTypeToUpdate = currencyTypeJpaRepository.findOne(currencyType.getIdCurrencyType());
+		if (currencyTypeToUpdate != null) {
+			LogCurrencyType logCurrencyType= new LogCurrencyType(date, "Currency Type  modified", "test", currencyTypeToUpdate.getDetail(), 
+					currencyTypeToUpdate.getFavorite(),currencyTypeToUpdate.getIdCurrencyType(),currencyTypeToUpdate.getStatus(),currencyTypeToUpdate.getSymbol());
+			currencyTypeJpaRepository.save(currencyType);
+			logCurrencyTypeJpaRepository.save(logCurrencyType);
+		}
+		
+	}
+
+	@Override
+	public CurrencyType getCurrencyType(String idCurrencyType) {
+		return currencyTypeJpaRepository.findOne(idCurrencyType);
+	}
+	
+
+}

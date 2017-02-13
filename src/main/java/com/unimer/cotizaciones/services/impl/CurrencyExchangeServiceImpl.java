@@ -105,7 +105,7 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 		CurrencyExchange currencyExchangeToUpdate = currencyExchangeJpaRepository.findOne(currencyExchange.getIdCurrencyExchange());
 		if (currencyExchangeToUpdate != null) {
 			LogCurrencyExchange logCurrencyExchange = new LogCurrencyExchange(date, "Collect Method  modified", "test", currencyExchange.getBuy(),
-					currencyExchange.getDate(),currencyExchange.getCountry().getIdCountry(),currencyExchange.getIdCurrencyExchange(),currencyExchange.getCurrencyType().getIdCurerncyType(),currencyExchange.getSell());
+					currencyExchange.getDate(),currencyExchange.getCountry().getIdCountry(),currencyExchange.getIdCurrencyExchange(),currencyExchange.getCurrencyType().getIdCurrencyType(),currencyExchange.getSell());
 			currencyExchangeJpaRepository.save(currencyExchange);
 			logCurrencyExchangeJpaRepository.save(logCurrencyExchange);
 		}
