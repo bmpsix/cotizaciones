@@ -74,4 +74,18 @@ public class LogExecutionType implements Serializable {
 		this.idExecutionType = idExecutionType;
 	}
 
+	public LogExecutionType(Date dateRecord, String actionDetail, String actionUser, String detail,
+			String idExecutionType) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.detail = detail;
+		this.idExecutionType = idExecutionType;
+	}
+
+	
+	
+	
+	
 }
