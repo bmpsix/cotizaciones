@@ -18,7 +18,7 @@ public class CurrencyType implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_curerncy_type", unique=true, nullable=false, length=8)
+	@Column(name="id_currency_type", unique=true, nullable=false, length=8)
 	private String idCurrencyType;
 
 	@Column(nullable=false, length=100)
@@ -37,8 +37,8 @@ public class CurrencyType implements Serializable {
 		return idCurrencyType;
 	}
 
-	public void setIdCurrencyType(String idCurerncyType) {
-		this.idCurrencyType = idCurerncyType;
+	public void setIdCurrencyType(String idCurrencyType) {
+		this.idCurrencyType = idCurrencyType;
 	}
 	
 
@@ -73,15 +73,17 @@ public class CurrencyType implements Serializable {
 	public void setSymbol(String symbol) {
 		this.symbol = symbol;
 	}
+	
+	
 
 	public CurrencyType() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public CurrencyType(String idCurerncyType, String detail, byte favorite, byte status, String symbol) {
+	public CurrencyType(String idCurrencyType, String detail, byte favorite, byte status, String symbol) {
 		super();
-		this.idCurrencyType = idCurerncyType;
+		this.idCurrencyType = idCurrencyType;
 		this.detail = detail;
 		this.favorite = favorite;
 		this.status = status;
@@ -90,7 +92,7 @@ public class CurrencyType implements Serializable {
 
 	@Override
 	public String toString() {
-		return "CurrencyType [idCurerncyType=" + idCurrencyType + ", detail=" + detail + ", favorite=" + favorite
+		return "CurrencyType [idCurrencyType=" + idCurrencyType + ", detail=" + detail + ", favorite=" + favorite
 				+ ", status=" + status + ", symbol=" + symbol + "]";
 	}
 }

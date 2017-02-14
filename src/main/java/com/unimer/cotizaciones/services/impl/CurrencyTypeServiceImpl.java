@@ -55,7 +55,7 @@ public class CurrencyTypeServiceImpl implements CurrencyTypeService{
 			if (!currencyType.getIdCurrencyType().equals(currencyTypeJpaRepository.findOne(currencyType.getIdCurrencyType()))) {
 				
 				currencyTypeJpaRepository.save(currencyType);
-				LOG.info("METHOD: addCountry in currencyTypeJpaRepository -- PARAMS: " + currencyType.toString());
+				LOG.info("METHOD: addCurrencyType in currencyTypeJpaRepository -- PARAMS: " + currencyType.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
 
@@ -68,7 +68,7 @@ public class CurrencyTypeServiceImpl implements CurrencyTypeService{
 			currencyType.setIdCurrencyType(consecutive.getPrefix() + "-" + consecutive.getSubfix());
 			
 			if (!currencyType.getIdCurrencyType().equals(currencyTypeJpaRepository.findOne(currencyType.getIdCurrencyType()))) {
-				LOG.info("METHOD: addCountry in CountryServiceImpl -- PARAMS: " + currencyType.toString());
+				LOG.info("METHOD: addCurrencyType in CountryServiceImpl -- PARAMS: " + currencyType.toString());
 				currencyTypeJpaRepository.save(currencyType);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);

@@ -13,7 +13,7 @@
 		<h3>Tipo de cambio monetario</h3>
 			<div data-role="fieldcontain">
 				<form method="post" action="#" th:action="@{/admin/addcurrencytype}" th:object="${consecutive}">
-					<div  th:object="${updateCollectMethod}" >
+					<div  th:object="${updateCurrencyType}" >
 					
 					<div th:if="${updateCurrencyType==null}">
 					
@@ -44,7 +44,7 @@
 					<div th:if="${updateCurrencyType !=null}">
 					
 						<label for="idCurrencyType">Id del Metodo:</label>
-						<input type="text"  name="idCurrencyType" th:value="${updateCurrencyType.idCurrencyType}" disabled/>
+						<input type="text"  name="idCurrencyType" th:value="${updateCurrencyType.idCurrencyType}" readonly/>
 						
 						<label for="detail">Detalle:</label>
 						<input type="text" name="detail" th:value="${updateCurrencyType.detail}"required/>
@@ -95,8 +95,11 @@
            		<table style="text-align:justify;">
            				<thead>
            				<tr>
-           				<th  style="padding-right: 15px;">Id Metodo</th>
+           				<th  style="padding-right: 15px;">Id de la Moneda</th>
            				<th  style="padding-right: 15px;">Detalle</th>
+           				<th  style="padding-right: 15px;">Favorita</th>
+           				<th  style="padding-right: 15px;">Status</th>
+           				<th  style="padding-right: 15px;">Symbolo</th>
            				</tr>
            				</thead>
            				<tbody>

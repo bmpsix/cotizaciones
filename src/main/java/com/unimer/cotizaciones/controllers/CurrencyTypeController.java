@@ -37,7 +37,7 @@ public class CurrencyTypeController {
 	
 	@PostMapping("/admin/addcurrencytype")
 	public ModelAndView addCurrencyType(@ModelAttribute(name = "currencytype") CurrencyType currencyType, Model model) {
-		LOG.info("METHOD: addRol in CurrencyTypeController -- PARAMS: " + currencyType.toString());
+		LOG.info("METHOD: addCurrencyType in CurrencyTypeController -- PARAMS: " + currencyType.toString());
 		currencyTypeService.addCurrencyType(currencyType);
 		 ModelAndView modelAndView = new ModelAndView();
 		 modelAndView.setViewName("currencyType");
