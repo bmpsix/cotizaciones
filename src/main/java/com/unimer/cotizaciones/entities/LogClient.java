@@ -49,6 +49,11 @@ public class LogClient implements Serializable {
 	@Column(length=15)
 	private String phone;
 
+	
+	
+	@Column(name="status", nullable=false)
+	private byte status;
+	
 	public LogClient() {
 	}
 
@@ -139,5 +144,36 @@ public class LogClient implements Serializable {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	
+	
+	
 
+	public byte getStatus() {
+		return status;
+	}
+
+	public void setStatus(byte status) {
+		this.status = status;
+	}
+
+	public LogClient(Date dateRecord, String actionDetail, String actionUser, String detail, String email, String fax,
+			String idClient, String idClientType, String idCountry, String idSaClient, String phone, byte status) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.detail = detail;
+		this.email = email;
+		this.fax = fax;
+		this.idClient = idClient;
+		this.idClientType = idClientType;
+		this.idCountry = idCountry;
+		this.idSaClient = idSaClient;
+		this.phone = phone;
+		this.status = status;
+	}
+
+	
+	
+	
 }

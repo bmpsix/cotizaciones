@@ -50,6 +50,9 @@ public class Client implements Serializable {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_client_type")
 	private ClientType clientType;
+	
+	@Column(name="status", nullable=false)
+	private byte status;
 
 	public String getIdClient() {
 		return idClient;
@@ -115,6 +118,18 @@ public class Client implements Serializable {
 		this.clientType = clientType;
 	}
 
+	
+	
+	
+	
+	public byte getStatus() {
+		return status;
+	}
+
+	public void setStatus(byte status) {
+		this.status = status;
+	}
+
 	public Client() {
 		super();
 		this.country = new Country();
@@ -123,7 +138,7 @@ public class Client implements Serializable {
 	}
 
 	public Client(String idClient, String detail, String email, String fax, String phone, Country country,
-			SaClient saClient, ClientType clientType) {
+			SaClient saClient, ClientType clientType, byte status) {
 		super();
 		this.idClient = idClient;
 		this.detail = detail;
@@ -133,11 +148,15 @@ public class Client implements Serializable {
 		this.country = country;
 		this.saClient = saClient;
 		this.clientType = clientType;
+		this.status = status;
 	}
 
 	@Override
 	public String toString() {
 		return "Client [idClient=" + idClient + ", detail=" + detail + ", email=" + email + ", fax=" + fax + ", phone="
-				+ phone + ", country=" + country + ", saClient=" + saClient + ", clientType=" + clientType + "]";
+				+ phone + ", country=" + country + ", saClient=" + saClient + ", clientType=" + clientType + ", status="
+				+ status + "]";
 	}
+
+	
 }
