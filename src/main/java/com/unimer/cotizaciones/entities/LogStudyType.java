@@ -30,8 +30,26 @@ public class LogStudyType implements Serializable {
 
 	@Column(name="id_study_type", nullable=false, length=8)
 	private String idStudyType;
+	
+	@Override
+	public String toString() {
+		return "LogStudyType [dateRecord=" + dateRecord + ", actionDetail=" + actionDetail + ", actionUser="
+				+ actionUser + ", detail=" + detail + ", idStudyType=" + idStudyType + "]";
+	}
 
 	public LogStudyType() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public LogStudyType(Date dateRecord, String actionDetail, String actionUser,String idStudyType ,String detail ) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.detail = detail;
+		this.idStudyType = idStudyType;	
+	
 	}
 
 	public Date getDateRecord() {
