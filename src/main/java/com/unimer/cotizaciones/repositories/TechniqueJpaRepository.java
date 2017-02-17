@@ -9,4 +9,8 @@ import com.unimer.cotizaciones.entities.Technique;
 @Repository("techniqueJpaRepository")
 public interface TechniqueJpaRepository extends JpaRepository<Technique, Serializable>{
 	
+	public abstract Technique findByDetail(String detail);
+	
+	public abstract Technique findByIdTechnique(String Technique);
+	
 }

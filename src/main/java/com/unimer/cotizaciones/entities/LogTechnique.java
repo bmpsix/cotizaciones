@@ -30,8 +30,26 @@ public class LogTechnique implements Serializable {
 
 	@Column(name="id_technique", nullable=false, length=8)
 	private String idTechnique;
+	
+	@Override
+	public String toString() {
+		return "LogTechnique [dateRecord=" + dateRecord + ", actionDetail=" + actionDetail + ", actionUser="
+				+ actionUser + ", detail=" + detail + ", idTechnique=" + idTechnique + "]";
+	}
 
 	public LogTechnique() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public LogTechnique(Date dateRecord, String actionDetail, String actionUser,String idTechnique ,String detail ) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.detail = detail;
+		this.idTechnique = idTechnique;	
+	
 	}
 
 	public Date getDateRecord() {

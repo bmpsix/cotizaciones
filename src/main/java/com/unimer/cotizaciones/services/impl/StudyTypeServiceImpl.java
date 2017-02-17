@@ -45,7 +45,7 @@ public class StudyTypeServiceImpl implements StudyTypeService{
 		if (consecutive == null) {
 			consecutive = new Consecutive();
 			consecutive.setType("Study type");
-			consecutive.setPrefix("STC");
+			consecutive.setPrefix("STT");
 			consecutive.setSubfix(1);
 			consecutive.setDetail("Default consecutive of Study type table");
 			consecutivesJpaRepository.save(consecutive);
