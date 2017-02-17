@@ -16,4 +16,6 @@ public abstract ClientType addClientType(ClientType clientType);
 	public abstract ClientType findById(String idClientType);
 	
 	public abstract Consecutive getConsecutive();
+	
+	public abstract List<ClientType> findByActiveStatus();
 }

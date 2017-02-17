@@ -117,4 +117,11 @@ public class SaClientServiceImpl implements SaClientService {
 		}
 	}
 
+	@Override
+	public List<SaClient> findByActiveStatus() {
+		return saClientJpaRepository.findByStatus((byte) 1);
+	}
+
+	
+
 }

@@ -16,4 +16,6 @@ public interface SaClientService {
 	public abstract SaClient findById(String idSaClient);
 	
 	public abstract Consecutive getConsecutive();
+	
+	public abstract List<SaClient> findByActiveStatus();
 }

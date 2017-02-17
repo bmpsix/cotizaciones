@@ -116,4 +116,9 @@ public class ClientTypeServiceImpl implements ClientTypeService {
 			logClientTypeJpaRepository.save(logClientType);
 		}
 	}
+
+	@Override
+	public List<ClientType> findByActiveStatus() {
+		return clientTypeJpaRepository.findByStatus((byte) 1);
+	}
 }

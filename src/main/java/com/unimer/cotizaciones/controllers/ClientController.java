@@ -44,8 +44,8 @@ public class ClientController {
 		modelAndView.setViewName("client");
 		modelAndView.addObject("countries", countryService.listAllCountries());
 		modelAndView.addObject("consecutive", clientService.getConsecutive());
-		modelAndView.addObject("saClients", saClientService.listAllSaClient());
-		modelAndView.addObject("clientTypes", clientTypeService.listAllClientType());
+		modelAndView.addObject("saClients", saClientService.findByActiveStatus());
+		modelAndView.addObject("clientTypes", clientTypeService.findByActiveStatus());
 		modelAndView.addObject("clients", clientService.listAllClient());
 		modelAndView.addObject("updateClient", null);
 		return modelAndView;
@@ -59,8 +59,8 @@ public class ClientController {
 		 modelAndView.setViewName("client");
 			modelAndView.addObject("countries", countryService.listAllCountries());
 			modelAndView.addObject("consecutive", clientService.getConsecutive());
-			modelAndView.addObject("saClients", saClientService.listAllSaClient());
-			modelAndView.addObject("clientTypes", clientTypeService.listAllClientType());
+			modelAndView.addObject("saClients", saClientService.findByActiveStatus());
+			modelAndView.addObject("clientTypes", clientTypeService.findByActiveStatus());
 			modelAndView.addObject("clients", clientService.listAllClient());
 			modelAndView.addObject("updateClient", null);
 			return modelAndView;
@@ -78,8 +78,8 @@ public class ClientController {
 			 modelAndView.setViewName("client");
 				modelAndView.addObject("countries", countryService.listAllCountries());
 				modelAndView.addObject("consecutive", clientService.getConsecutive());
-				modelAndView.addObject("saClients", saClientService.listAllSaClient());
-				modelAndView.addObject("clientTypes", clientTypeService.listAllClientType());
+				modelAndView.addObject("saClients", saClientService.findByActiveStatus());
+				modelAndView.addObject("clientTypes", clientTypeService.findByActiveStatus());
 				modelAndView.addObject("clients", clientService.listAllClient());
 			modelAndView.addObject("updateClient",clientService.findById(idClient));
 

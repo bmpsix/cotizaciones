@@ -1,6 +1,7 @@
 package com.unimer.cotizaciones.repositories;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;import org.springframework.stereotype.Repository;
 
@@ -12,4 +13,6 @@ public interface SaClientJpaRepository extends JpaRepository<SaClient, Serializa
 	public abstract SaClient findByDetail(String detail);
 	
 	public abstract SaClient findByIdSaClient(String idSaClient);
+	
+	public abstract List<SaClient> findByStatus(byte status);
 }
