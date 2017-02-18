@@ -115,4 +115,9 @@ public class RolServiceImpl implements RolService {
 			logRolJpaRepository.save(logRol);
 		}
 	}
+
+	@Override
+	public List<Rol> findByActiveStatus() {
+		return rolJpaRepository.findByStatus((byte) 1);
+	}
 }

@@ -28,8 +28,8 @@ public class LogUser implements Serializable {
 	@Column(name="action_user", nullable=false, length=8)
 	private String actionUser;
 
-	@Column(name="commition_amount", nullable=false)
-	private double commitionAmount;
+	@Column(name="commission_amount", nullable=false)
+	private double commissionAmount;
 
 	@Column(name="confirmation_token", nullable=false, length=50)
 	private String confirmationToken;
@@ -48,8 +48,9 @@ public class LogUser implements Serializable {
 	@Column(nullable=false)
 	private byte expired;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="expired_at", nullable=false)
-	private byte expiredAt;
+	private Date expiredAt;
 
 	@Column(name="id_country", nullable=false, length=8)
 	private String idCountry;
@@ -80,8 +81,8 @@ public class LogUser implements Serializable {
 	@Column(nullable=false)
 	private byte status;
 
-	@Column(name="use_commition", nullable=false)
-	private int useCommition;
+	@Column(name="use_commission", nullable=false)
+	private int useCommission;
 
 	@Column(nullable=false, length=50)
 	private String username;
@@ -121,13 +122,7 @@ public class LogUser implements Serializable {
 		this.actionUser = actionUser;
 	}
 
-	public double getCommitionAmount() {
-		return this.commitionAmount;
-	}
-
-	public void setCommitionAmount(double commitionAmount) {
-		this.commitionAmount = commitionAmount;
-	}
+	
 
 	public String getConfirmationToken() {
 		return this.confirmationToken;
@@ -169,11 +164,11 @@ public class LogUser implements Serializable {
 		this.expired = expired;
 	}
 
-	public byte getExpiredAt() {
+	public Date getExpiredAt() {
 		return this.expiredAt;
 	}
 
-	public void setExpiredAt(byte expiredAt) {
+	public void setExpiredAt(Date expiredAt) {
 		this.expiredAt = expiredAt;
 	}
 
@@ -249,13 +244,7 @@ public class LogUser implements Serializable {
 		this.status = status;
 	}
 
-	public int getUseCommition() {
-		return this.useCommition;
-	}
 
-	public void setUseCommition(int useCommition) {
-		this.useCommition = useCommition;
-	}
 
 	public String getUsername() {
 		return this.username;
@@ -264,5 +253,68 @@ public class LogUser implements Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
+	public double getCommissionAmount() {
+		return commissionAmount;
+	}
+
+	public void setCommissionAmount(double commissionAmount) {
+		this.commissionAmount = commissionAmount;
+	}
+
+	public int getUseCommission() {
+		return useCommission;
+	}
+
+	public void setUseCommission(int useCommission) {
+		this.useCommission = useCommission;
+	}
+
+	public LogUser(Date dateRecord, String accountBank, String actionDetail, String actionUser, double commissionAmount,
+			String confirmationToken, Date creationDate, byte credentialExpired, Date credentialExpiredAt, byte expired,
+			Date expiredAt, String idCountry, String idRol, String idUser, Date lastLoggin, Date lastModification,
+			String lastname, String midname, String password, byte status, int useCommission, String username) {
+		super();
+		this.dateRecord = dateRecord;
+		this.accountBank = accountBank;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.commissionAmount = commissionAmount;
+		this.confirmationToken = confirmationToken;
+		this.creationDate = creationDate;
+		this.credentialExpired = credentialExpired;
+		this.credentialExpiredAt = credentialExpiredAt;
+		this.expired = expired;
+		this.expiredAt = expiredAt;
+		this.idCountry = idCountry;
+		this.idRol = idRol;
+		this.idUser = idUser;
+		this.lastLoggin = lastLoggin;
+		this.lastModification = lastModification;
+		this.lastname = lastname;
+		this.midname = midname;
+		this.password = password;
+		this.status = status;
+		this.useCommission = useCommission;
+		this.username = username;
+	}
+
+	@Override
+	public String toString() {
+		return "LogUser [dateRecord=" + dateRecord + ", accountBank=" + accountBank + ", actionDetail=" + actionDetail
+				+ ", actionUser=" + actionUser + ", commissionAmount=" + commissionAmount + ", confirmationToken="
+				+ confirmationToken + ", creationDate=" + creationDate + ", credentialExpired=" + credentialExpired
+				+ ", credentialExpiredAt=" + credentialExpiredAt + ", expired=" + expired + ", expiredAt=" + expiredAt
+				+ ", idCountry=" + idCountry + ", idRol=" + idRol + ", idUser=" + idUser + ", lastLoggin=" + lastLoggin
+				+ ", lastModification=" + lastModification + ", lastname=" + lastname + ", midname=" + midname
+				+ ", password=" + password + ", status=" + status + ", useCommission=" + useCommission + ", username="
+				+ username + "]";
+	}
+
+
+
+	
+	
+	
 
 }

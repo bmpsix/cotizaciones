@@ -30,8 +30,8 @@ public class User implements Serializable {
 	@Column(name="account_bank", nullable=false, length=50)
 	private String accountBank;
 
-	@Column(name="commition_amount", nullable=false)
-	private double commitionAmount;
+	@Column(name="commission_amount", nullable=false)
+	private double commissionAmount;
 
 	@Column(name="confirmation_token", nullable=false, length=50)
 	private String confirmationToken;
@@ -50,8 +50,9 @@ public class User implements Serializable {
 	@Column(nullable=false)
 	private byte expired;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="expired_at", nullable=false)
-	private byte expiredAt;
+	private Date expiredAt;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_loggin", nullable=false)
@@ -73,8 +74,8 @@ public class User implements Serializable {
 	@Column(nullable=false)
 	private byte status;
 
-	@Column(name="use_commition", nullable=false)
-	private int useCommition;
+	@Column(name="use_commission", nullable=false)
+	private int useCommission;
 
 	@Column(nullable=false, length=50)
 	private String username;
@@ -105,13 +106,7 @@ public class User implements Serializable {
 		this.accountBank = accountBank;
 	}
 
-	public double getCommitionAmount() {
-		return commitionAmount;
-	}
-
-	public void setCommitionAmount(double commitionAmount) {
-		this.commitionAmount = commitionAmount;
-	}
+	
 
 	public String getConfirmationToken() {
 		return confirmationToken;
@@ -153,11 +148,11 @@ public class User implements Serializable {
 		this.expired = expired;
 	}
 
-	public byte getExpiredAt() {
+	public Date getExpiredAt() {
 		return expiredAt;
 	}
 
-	public void setExpiredAt(byte expiredAt) {
+	public void setExpiredAt(Date expiredAt) {
 		this.expiredAt = expiredAt;
 	}
 
@@ -209,14 +204,6 @@ public class User implements Serializable {
 		this.status = status;
 	}
 
-	public int getUseCommition() {
-		return useCommition;
-	}
-
-	public void setUseCommition(int useCommition) {
-		this.useCommition = useCommition;
-	}
-
 	public String getUsername() {
 		return username;
 	}
@@ -241,6 +228,24 @@ public class User implements Serializable {
 		this.rol = rol;
 	}
 
+	
+	public double getCommissionAmount() {
+		return commissionAmount;
+	}
+
+	public void setCommissionAmount(double commissionAmount) {
+		this.commissionAmount = commissionAmount;
+	}
+
+	public int getUseCommission() {
+		return useCommission;
+	}
+
+	public void setUseCommission(int useCommission) {
+		this.useCommission = useCommission;
+	}
+
+	
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -248,14 +253,14 @@ public class User implements Serializable {
 		this.rol = new Rol();
 	}
 
-	public User(String idUser, String accountBank, double commitionAmount, String confirmationToken, Date creationDate,
-			byte credentialExpired, Date credentialExpiredAt, byte expired, byte expiredAt, Date lastLoggin,
-			Date lastModification, String lastname, String midname, String password, byte status, int useCommition,
+	public User(String idUser, String accountBank, double commissionAmount, String confirmationToken, Date creationDate,
+			byte credentialExpired, Date credentialExpiredAt, byte expired, Date expiredAt, Date lastLoggin,
+			Date lastModification, String lastname, String midname, String password, byte status, int useCommission,
 			String username, Country country, Rol rol) {
 		super();
 		this.idUser = idUser;
 		this.accountBank = accountBank;
-		this.commitionAmount = commitionAmount;
+		this.commissionAmount = commissionAmount;
 		this.confirmationToken = confirmationToken;
 		this.creationDate = creationDate;
 		this.credentialExpired = credentialExpired;
@@ -268,7 +273,7 @@ public class User implements Serializable {
 		this.midname = midname;
 		this.password = password;
 		this.status = status;
-		this.useCommition = useCommition;
+		this.useCommission = useCommission;
 		this.username = username;
 		this.country = country;
 		this.rol = rol;
@@ -276,12 +281,16 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [idUser=" + idUser + ", accountBank=" + accountBank + ", commitionAmount=" + commitionAmount
+		return "User [idUser=" + idUser + ", accountBank=" + accountBank + ", commissionAmount=" + commissionAmount
 				+ ", confirmationToken=" + confirmationToken + ", creationDate=" + creationDate + ", credentialExpired="
 				+ credentialExpired + ", credentialExpiredAt=" + credentialExpiredAt + ", expired=" + expired
 				+ ", expiredAt=" + expiredAt + ", lastLoggin=" + lastLoggin + ", lastModification=" + lastModification
 				+ ", lastname=" + lastname + ", midname=" + midname + ", password=" + password + ", status=" + status
-				+ ", useCommition=" + useCommition + ", username=" + username + ", country=" + country + ", rol=" + rol
-				+ "]";
+				+ ", useCommission=" + useCommission + ", username=" + username + ", country=" + country + ", rol="
+				+ rol + "]";
 	}
+
+
+	
+	
 }

@@ -13,6 +13,8 @@ public interface RolService {
 	
 	public abstract List<Rol> listAllRol();
 	
+	public abstract List<Rol> findByActiveStatus();
+	
 	public abstract void updateStatusById(String idRol, byte status);
 	
 	public abstract Rol findById(String idRol);
