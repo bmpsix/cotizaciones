@@ -1,4 +1,4 @@
-package com.unimer.cotizaciones;
+package com.unimer.cotizaciones.controllers;
 
 public class ProposalTypeController {
 

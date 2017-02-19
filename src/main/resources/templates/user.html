@@ -66,10 +66,12 @@
 							<label for="country">País:</label>
 							<select name="country">
 								<option th:each="country : ${countrys}" th:value="${country.idCountry}" th:if="${updateUser.Country.detail == country.detail}"  selected readonly><p th:text="${country.detail}" ></p></option>
+								<option th:each="country : ${countrys}" th:value="${country.idCountry}" th:if="${updateUser.Country.detail != country.detail}"   readonly><p th:text="${country.detail}" ></p></option>
 							</select>
 							<label for="role">Rol:</label>
 							<select name="role">
 								<option th:each="role : ${roles}" th:value="${role.idRol}" th:if="${updateUser.Role.detail == role.detail}"  selected readonly><p th:text="${role.detail}" ></p></option>
+								<option th:each="role : ${roles}" th:value="${role.idRol}" th:if="${updateUser.Role.detail != role.detail}"   readonly><p th:text="${role.detail}" ></p></option>
 							</select>
 							<label for="username">Nombre:</label>
 							<input title="Debe ingresar el nombre del usuario" maxlength="100" type="text" name="username" th:value="${updateUser.username}" required/>
@@ -124,7 +126,7 @@
 									<option  value="1" selected>Activo</option>
 								</select>
 							</div>
-							<a href="#" th:href="@{/admin/user}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
+							<a href="#" th:href="@{/admin/adduser}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
 							
 						</div>
 					
@@ -185,7 +187,7 @@
 							<td style="padding-right: 15px;" th:text="${user.lastModification}"></td>
 							<td style="padding-right: 15px;" th:if="${user.status==1}">Activo</td>
 							<td style="padding-right: 15px;" th:if="${user.status==0}">Inactivo</td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updateuser?idUser=__${user.idUser}__}"  >Update</a></td>
+	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updateuser?idUser=__${user.idUser}__}"  >Editar</a></td>
 	           				
            				</tr>
            				

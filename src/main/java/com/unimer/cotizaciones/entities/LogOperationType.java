@@ -74,4 +74,17 @@ public class LogOperationType implements Serializable {
 		this.idOperationType = idOperationType;
 	}
 
+	public LogOperationType(Date dateRecord, String actionDetail, String actionUser, String detail,
+			String idOperationType) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.detail = detail;
+		this.idOperationType = idOperationType;
+	}
+
+	
+	
+	
 }

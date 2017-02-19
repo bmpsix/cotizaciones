@@ -54,10 +54,12 @@
 							<label for="saClient">Cliente SA:</label>
 							<select name="saClient">
 								<option th:each="saClient : ${saClients}" th:value="${saClient.idSaClient}" th:if="${updateClient.SaClient.detail == saClient.detail}"  selected readonly><p th:text="${saClient.detail}" ></p></option>
+								<option th:each="saClient : ${saClients}" th:value="${saClient.idSaClient}" th:if="${updateClient.SaClient.detail != saClient.detail}"   readonly><p th:text="${saClient.detail}" ></p></option>
 							</select>
 							<label for="country">País:</label>
 							<select name="country">
 								<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${updateClient.Country.detail == country.detail}" selected readonly><p  th:text="${country.detail}"></p></option>
+								<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${updateClient.Country.detail != country.detail}" readonly><p  th:text="${country.detail}"></p></option>
 							</select>
 							<label for="detail">Detalle:</label>
 							<input title="Debe ingresar el nombre del cliente" type="text" name="detail" th:value="${updateClient.detail}" required/>
@@ -70,6 +72,7 @@
 							<label for="clientType">Tipo de cliente</label>
 							<select name="clientType">
 								<option th:each="clientType : ${clientTypes}" th:value="${clientType.idClientType}" th:if="${updateClient.ClientType.detail == clientType.detail}"  selected readonly><p th:text="${clientType.detail}"></p></option>
+								<option th:each="clientType : ${clientTypes}" th:value="${clientType.idClientType}" th:if="${updateClient.ClientType.detail != clientType.detail}"   readonly><p th:text="${clientType.detail}"></p></option>
 							</select>
 							<label for="status"  title="Indica si el rol esta activo o inactivo">Estado</label>
 							<div  th:if="${updateClient.status==0}">
@@ -84,14 +87,14 @@
 									<option  value="1" selected>Activo</option>
 								</select>
 							</div>
-							<a href="#" th:href="@{/admin/client}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
+							<a href="#" th:href="@{/admin/addclient}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
 							
 						</div>
 					
 						
                     	<hr>
                     </div>
-  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar nuevo">
+  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
                    
 				</form>
 			</div>

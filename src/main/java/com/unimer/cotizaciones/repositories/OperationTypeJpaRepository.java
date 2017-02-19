@@ -9,4 +9,8 @@ import com.unimer.cotizaciones.entities.OperationType;
 @Repository("operationTypeJpaRepository")
 public interface OperationTypeJpaRepository extends JpaRepository<OperationType, Serializable>{
 	
+	public abstract OperationType findByDetail(String detail);
+	
+	public abstract OperationType findByIdOperationType(String idOperationType);
+	
 }
