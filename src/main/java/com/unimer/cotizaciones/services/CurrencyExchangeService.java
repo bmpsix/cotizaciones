@@ -15,8 +15,6 @@ public interface CurrencyExchangeService {
 	
 	public abstract boolean removeCurrencyExchange(String idCurrencyExchange);
 	
-	public abstract void updatCurrencyExchange(CurrencyExchange currencyExchange);
-	
 	public abstract CurrencyExchange getCurrencyExchange(String idCurrencyExchange);
 	
 }

@@ -36,17 +36,17 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 
 	@Override
 	public Consecutive getConsecutive() {
-		return consecutivesJpaRepository.findByType("Currency Exchange");
+		return consecutivesJpaRepository.findByType("Currency exchange");
 	}
 
 	@Override
 	public CurrencyExchange addCurrencyExchange(CurrencyExchange currencyExchange) {
 		
-		Consecutive consecutive = consecutivesJpaRepository.findByType("Currency Exchange");
+		Consecutive consecutive = consecutivesJpaRepository.findByType("Currency exchange");
 
 		if (consecutive == null) {
 			consecutive = new Consecutive();
-			consecutive.setType("Currency Exchange");
+			consecutive.setType("Currency exchange");
 			consecutive.setPrefix("CUE");
 			consecutive.setSubfix(1);
 			consecutive.setDetail("Default consecutive of Currency Exchange");
@@ -61,7 +61,7 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 				consecutivesJpaRepository.save(consecutive);
 
 			} else {
-				updatCurrencyExchange(currencyExchange);
+				updateCurrencyExchange(currencyExchange);
 			}
 
 		} else if (currencyExchange.getIdCurrencyExchange() == null) {
@@ -74,10 +74,10 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
 			} else {
-				updatCurrencyExchange(currencyExchange);
+				updateCurrencyExchange(currencyExchange);
 			}
 		} else {
-			updatCurrencyExchange(currencyExchange);
+			updateCurrencyExchange(currencyExchange);
 		}
 		
 		return currencyExchange;
@@ -98,13 +98,13 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 		}
 	}
 
-	@Override
-	public void updatCurrencyExchange(CurrencyExchange currencyExchange) {
+	private void updateCurrencyExchange(CurrencyExchange currencyExchange) {
 		
 		java.util.Date date = new Date();
 		CurrencyExchange currencyExchangeToUpdate = currencyExchangeJpaRepository.findOne(currencyExchange.getIdCurrencyExchange());
+		LOG.info("METHOD: currencyExchangeToUpdate in currencyExchangeJpaRepository -- PARAMS: currencyExchangeToUpdate" + currencyExchange.toString() + currencyExchangeToUpdate.toString() );
 		if (currencyExchangeToUpdate != null) {
-			LogCurrencyExchange logCurrencyExchange = new LogCurrencyExchange(date, "Collect Method  modified", "test", currencyExchange.getBuy(),
+			LogCurrencyExchange logCurrencyExchange = new LogCurrencyExchange(date, "Currency Exchange  modified", "test", currencyExchange.getBuy(),
 					currencyExchange.getDate(),currencyExchange.getCountry().getIdCountry(),currencyExchange.getIdCurrencyExchange(),currencyExchange.getCurrencyType().getIdCurrencyType(),currencyExchange.getSell());
 			currencyExchangeJpaRepository.save(currencyExchange);
 			logCurrencyExchangeJpaRepository.save(logCurrencyExchange);

@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.CurrencyExchange;
 import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.CurrencyExchangeService;
+import com.unimer.cotizaciones.services.CurrencyTypeService;
 
 
 @Controller
@@ -23,7 +24,9 @@ public class CurrencyExchangeController {
 	@Qualifier("currencyExchangeServiceImpl")
 	private CurrencyExchangeService currencyExchangeService;
 	
-	//Debo de meter el currency typ service aqui
+	@Autowired
+	@Qualifier("currencyTypeServiceImpl")
+	private CurrencyTypeService currencyTypeService;
 	
 	@Autowired
 	@Qualifier("countryServiceImpl")
@@ -38,6 +41,7 @@ public class CurrencyExchangeController {
 		modelAndView.setViewName("currencyexchange");
 		modelAndView.addObject("currencyexchanges", currencyExchangeService.listAllCurrencyExchange());
 		modelAndView.addObject("countries", countryService.listAllCountries());
+		modelAndView.addObject("types", currencyTypeService.listAllCurrencyType());
 		modelAndView.addObject("consecutive", currencyExchangeService.getConsecutive());
 		return modelAndView;
 		
@@ -50,6 +54,8 @@ public class CurrencyExchangeController {
 		 ModelAndView modelAndView = new ModelAndView();
 		 modelAndView.setViewName("currencyexchange");
 		 modelAndView.addObject("currencyexchanges", currencyExchangeService.listAllCurrencyExchange());
+		 modelAndView.addObject("countries", countryService.listAllCountries());
+		 modelAndView.addObject("types", currencyTypeService.listAllCurrencyType());
 		 modelAndView.addObject("consecutive", currencyExchangeService.getConsecutive());
 		 return modelAndView;
 	}
@@ -63,10 +69,12 @@ public class CurrencyExchangeController {
 	public ModelAndView chargeCurrencyExchange(String idCurrencyExchange, Model model) {
 		
 			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("country");
+			modelAndView.setViewName("currencyexchange");
 			modelAndView.addObject("currencyexchanges", currencyExchangeService.listAllCurrencyExchange());
 			modelAndView.addObject("consecutive", currencyExchangeService.getConsecutive());
 			modelAndView.addObject("updateCurrencyExchange",currencyExchangeService.getCurrencyExchange(idCurrencyExchange));
+			modelAndView.addObject("countries", countryService.listAllCountries());
+			modelAndView.addObject("types", currencyTypeService.listAllCurrencyType());
 
 		return modelAndView;
 	}
