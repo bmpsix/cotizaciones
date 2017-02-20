@@ -1,7 +1,6 @@
 package com.unimer.cotizaciones.entities;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,7 +37,7 @@ public class ClientContact implements Serializable {
 	private String phone;
 
 	@Column(nullable=false)
-	private byte[] status;
+	private byte status;
 
 	//bi-directional many-to-one association to Client
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -90,13 +89,7 @@ public class ClientContact implements Serializable {
 		this.phone = phone;
 	}
 
-	public byte[] getStatus() {
-		return status;
-	}
 
-	public void setStatus(byte[] status) {
-		this.status = status;
-	}
 
 	public Client getClient() {
 		return client;
@@ -113,14 +106,22 @@ public class ClientContact implements Serializable {
 	public void setCountry(Country country) {
 		this.country = country;
 	}
+	
+	public byte getStatus() {
+		return status;
+	}
 
+	public void setStatus(byte status) {
+		this.status = status;
+	}
+	
 	public ClientContact() {
 		super();
 		this.client = new Client();
 		this.country = new Country();
 	}
 
-	public ClientContact(String idClientContact, String email, String ext, String name, String phone, byte[] status,
+	public ClientContact(String idClientContact, String email, String ext, String name, String phone, byte status,
 			Client client, Country country) {
 		super();
 		this.idClientContact = idClientContact;
@@ -136,7 +137,11 @@ public class ClientContact implements Serializable {
 	@Override
 	public String toString() {
 		return "ClientContact [idClientContact=" + idClientContact + ", email=" + email + ", ext=" + ext + ", name="
-				+ name + ", phone=" + phone + ", status=" + Arrays.toString(status) + ", client=" + client
-				+ ", country=" + country + "]";
+				+ name + ", phone=" + phone + ", status=" + status + ", client=" + client + ", country=" + country
+				+ "]";
 	}
+	
+	
+
+
 }

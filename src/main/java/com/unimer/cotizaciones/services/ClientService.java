@@ -16,5 +16,5 @@ public interface ClientService {
 	
 	public abstract Client findById(String idClient);
 	
-	
+	public abstract List<Client> findByActiveStatus();
 }
