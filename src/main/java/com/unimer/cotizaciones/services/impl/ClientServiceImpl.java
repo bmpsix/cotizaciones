@@ -95,6 +95,10 @@ public class ClientServiceImpl implements ClientService {
 		return clientJpaRepository.findOne(idClient);
 	}
 	
+	@Override
+	public List<Client> findByActiveStatus() {
+		return clientJpaRepository.findByStatus((byte) 1);
+	}
 	
 	private void updateClient(Client client) {
 		java.util.Date date = new Date();
@@ -106,5 +110,7 @@ public class ClientServiceImpl implements ClientService {
 			logClientJpaRepository.save(logClient);
 		}
 	}
+
+
 
 }

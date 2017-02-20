@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.unimer.cotizaciones.entities.Consecutive;
-import com.unimer.cotizaciones.entities.LogStudyCategory;
 import com.unimer.cotizaciones.entities.LogStudyType;
-import com.unimer.cotizaciones.entities.StudyCategory;
 import com.unimer.cotizaciones.entities.StudyType;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogStudyTypeJpaRepository;

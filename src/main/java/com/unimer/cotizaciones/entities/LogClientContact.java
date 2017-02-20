@@ -47,7 +47,7 @@ public class LogClientContact implements Serializable {
 	private String phone;
 
 	@Column(nullable=false)
-	private byte[] status;
+	private byte status;
 
 	public LogClientContact() {
 	}
@@ -132,12 +132,32 @@ public class LogClientContact implements Serializable {
 		this.phone = phone;
 	}
 
-	public byte[] getStatus() {
-		return this.status;
+	public byte getStatus() {
+		return status;
 	}
 
-	public void setStatus(byte[] status) {
+	public void setStatus(byte status) {
 		this.status = status;
 	}
+
+	public LogClientContact(Date dateRecord, String actionDetail, String actionUser, String email, String ext,
+			String idClient, String idClientContact, String idCountry, String name, String phone, byte status) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.email = email;
+		this.ext = ext;
+		this.idClient = idClient;
+		this.idClientContact = idClientContact;
+		this.idCountry = idCountry;
+		this.name = name;
+		this.phone = phone;
+		this.status = status;
+	}
+
+	
+	
+	
 
 }

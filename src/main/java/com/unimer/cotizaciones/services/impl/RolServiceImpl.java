@@ -105,6 +105,13 @@ public class RolServiceImpl implements RolService {
 		return consecutivesJpaRepository.findByType("Role");
 	}
 
+	
+
+	@Override
+	public List<Rol> findByActiveStatus() {
+		return rolJpaRepository.findByStatus((byte) 1);
+	}
+	
 	private void updateRol(Rol rol) {
 		java.util.Date date = new Date();
 		Rol rolToUpdate = rolJpaRepository.findByIdRol(rol.getIdRol());
@@ -114,10 +121,5 @@ public class RolServiceImpl implements RolService {
 			rolJpaRepository.save(rol);
 			logRolJpaRepository.save(logRol);
 		}
-	}
-
-	@Override
-	public List<Rol> findByActiveStatus() {
-		return rolJpaRepository.findByStatus((byte) 1);
 	}
 }
