@@ -43,7 +43,8 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 	public CurrencyExchange addCurrencyExchange(CurrencyExchange currencyExchange) {
 		
 		Consecutive consecutive = consecutivesJpaRepository.findByType("Currency exchange");
-
+		currencyExchange.setDate(new Date());
+		
 		if (consecutive == null) {
 			consecutive = new Consecutive();
 			consecutive.setType("Currency exchange");
@@ -101,6 +102,7 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 	private void updateCurrencyExchange(CurrencyExchange currencyExchange) {
 		
 		java.util.Date date = new Date();
+		currencyExchange.setDate(new Date());
 		CurrencyExchange currencyExchangeToUpdate = currencyExchangeJpaRepository.findOne(currencyExchange.getIdCurrencyExchange());
 		LOG.info("METHOD: currencyExchangeToUpdate in currencyExchangeJpaRepository -- PARAMS: currencyExchangeToUpdate" + currencyExchange.toString() + currencyExchangeToUpdate.toString() );
 		if (currencyExchangeToUpdate != null) {
