@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="tbl_log_asseament")
-public class LogAsseament implements Serializable {
+public class LogAssessment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -32,8 +32,8 @@ public class LogAsseament implements Serializable {
 	@Column(nullable=false, length=100)
 	private String detail;
 
-	@Column(name="id_asseament", nullable=false, length=8)
-	private String idAsseament;
+	@Column(name="id_assessment", nullable=false, length=8)
+	private String idAssessment;
 
 	@Column(name="id_currency_exchange", nullable=false, length=8)
 	private String idCurrencyExchange;
@@ -44,8 +44,6 @@ public class LogAsseament implements Serializable {
 	@Column(name="id_user", nullable=false, length=8)
 	private String idUser;
 
-	public LogAsseament() {
-	}
 
 	public Date getDateRecord() {
 		return this.dateRecord;
@@ -87,12 +85,12 @@ public class LogAsseament implements Serializable {
 		this.detail = detail;
 	}
 
-	public String getIdAsseament() {
-		return this.idAsseament;
+	public String getIdAssessment() {
+		return this.idAssessment;
 	}
 
-	public void setIdAsseament(String idAsseament) {
-		this.idAsseament = idAsseament;
+	public void setIdAssessment(String idAssessment) {
+		this.idAssessment = idAssessment;
 	}
 
 	public String getIdCurrencyExchange() {
@@ -118,5 +116,21 @@ public class LogAsseament implements Serializable {
 	public void setIdUser(String idUser) {
 		this.idUser = idUser;
 	}
+
+	public LogAssessment(Date dateRecord, String actionDetail, String actionUser, Date creationDate, String detail,
+			String idAsseament, String idCurrencyExchange, String idSaClient, String idUser) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.creationDate = creationDate;
+		this.detail = detail;
+		this.idAssessment = idAsseament;
+		this.idCurrencyExchange = idCurrencyExchange;
+		this.idSaClient = idSaClient;
+		this.idUser = idUser;
+	}
+	
+	
 
 }

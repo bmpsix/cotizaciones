@@ -20,12 +20,12 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="tbl_asseament")
-public class Asseament implements Serializable {
+public class Assessment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_asseament", unique=true, nullable=false, length=8)
-	private String idAsseament;
+	@Column(name="id_assessment", unique=true, nullable=false, length=8)
+	private String idAssessment;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="creation_date", nullable=false)
@@ -49,12 +49,12 @@ public class Asseament implements Serializable {
 	@JoinColumn(name="id_user", nullable=false)
 	private User user;
 
-	public String getIdAsseament() {
-		return idAsseament;
+	public String getIdAssessment() {
+		return idAssessment;
 	}
 
-	public void setIdAsseament(String idAsseament) {
-		this.idAsseament = idAsseament;
+	public void setIdAssessment(String idAssessment) {
+		this.idAssessment = idAssessment;
 	}
 
 	public Date getCreationDate() {
@@ -97,7 +97,7 @@ public class Asseament implements Serializable {
 		this.user = user;
 	}
 
-	public Asseament() {
+	public Assessment() {
 		super();
 		this.creationDate = new Date();
 		this.currencyExchange = new CurrencyExchange();
@@ -105,10 +105,10 @@ public class Asseament implements Serializable {
 		this.user = new User();
 	}
 
-	public Asseament(String idAsseament, Date creationDate, String detail, CurrencyExchange currencyExchange,
+	public Assessment(String idAsseament, Date creationDate, String detail, CurrencyExchange currencyExchange,
 			SaClient saClient, User user) {
 		super();
-		this.idAsseament = idAsseament;
+		this.idAssessment = idAsseament;
 		this.creationDate = creationDate;
 		this.detail = detail;
 		this.currencyExchange = currencyExchange;
@@ -118,7 +118,7 @@ public class Asseament implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Asseament [idAsseament=" + idAsseament + ", creationDate=" + creationDate + ", detail=" + detail
+		return "Asseament [idAsseament=" + idAssessment + ", creationDate=" + creationDate + ", detail=" + detail
 				+ ", currencyExchange=" + currencyExchange + ", saClient=" + saClient + ", user=" + user + "]";
 	}
 }
