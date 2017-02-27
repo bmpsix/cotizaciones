@@ -12,7 +12,7 @@
             </h1>
 		</div>
 		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
-		<h3>Control de roles</h3>
+		<h3>Control de usuarios</h3>
 			<div data-role="fieldcontain">
 					
 					<form method="post" action="#" th:action="@{/admin/adduser}" th:object="${consecutive}" >
@@ -26,9 +26,9 @@
 							<select name="country">
 								<option th:each="country : ${countries}" th:value="${country.idCountry}"><p th:text="${country.detail}"></p></option>
 							</select>
-							<label for="role">Rol:</label>
-							<select name="role">
-								<option th:each="role : ${roles}" th:value="${role.idRol}"><p th:text="${role.detail}"></p></option>
+							<label for="rol">Rol:</label>
+							<select name="rol">
+								<option th:each="rol : ${roles}" th:value="${rol.idRol}"><p th:text="${rol.detail}"></p></option>
 							</select>
 							<label for="username">Nombre:</label>
 							<input title="Debe ingresar el nombre del usuario" maxlength="100" type="text" name="username" th:value="${username}" required/>
@@ -40,10 +40,10 @@
 							<input title="Debe ingresar una contraseña"  maxlength="15" type="password" name="password" th:value="${password}" required/>
 							<label for="accountBank">Cuenta bancaria:</label>
 							<input title="Debe ingresar una cuenta bancaria"  maxlength="15" type="text" name="accountBank" th:value="${accountBank}" required/>
-							<label for="useCommission">Comisión de uso:</label>
+							<!--<label for="useCommission">Comisión de uso:</label>
 							<input title="Debe ingresar un valor porcentual de comisión " maxlength="15" type="text" name="useCommission" th:value="${useCommission}" required/>
 							<label for="commissionAmount">Cantidad de la comisión:</label>
-							<input title="Debe ingresar un valor de comisión " maxlength="15" type="text" name="commissionAmount" th:value="${commissionAmount}" required/>
+							<input title="Debe ingresar un valor de comisión " maxlength="15" type="text" name="commissionAmount" th:value="${commissionAmount}" required/>  -->
 							<label for="expired"  title="Indica si el usuario esta caducado en el sistema">Caducado</label>
 							<select  name="expired" data-role="slider"  th:value="${expired}">
 								<option value="0">No</option>
@@ -63,15 +63,14 @@
 						
 						<div th:if="${updateUser!=null}">
 							<input type="text" name="idUser" th:value="${updateUser.idUser}" readonly />
-							<label for="country">País:</label>
 							<select name="country">
-								<option th:each="country : ${countrys}" th:value="${country.idCountry}" th:if="${updateUser.Country.detail == country.detail}"  selected readonly><p th:text="${country.detail}" ></p></option>
-								<option th:each="country : ${countrys}" th:value="${country.idCountry}" th:if="${updateUser.Country.detail != country.detail}"   readonly><p th:text="${country.detail}" ></p></option>
+								<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${updateUser.Country.detail == country.detail}" selected readonly><p  th:text="${country.detail}"></p></option>
+								<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${updateUser.Country.detail != country.detail}" readonly><p  th:text="${country.detail}"></p></option>
 							</select>
-							<label for="role">Rol:</label>
-							<select name="role">
-								<option th:each="role : ${roles}" th:value="${role.idRol}" th:if="${updateUser.Role.detail == role.detail}"  selected readonly><p th:text="${role.detail}" ></p></option>
-								<option th:each="role : ${roles}" th:value="${role.idRol}" th:if="${updateUser.Role.detail != role.detail}"   readonly><p th:text="${role.detail}" ></p></option>
+							<label for="rol">Rol:</label>
+							<select name="rol">
+								<option th:each="rol : ${roles}" th:value="${rol.idRol}" th:if="${updateUser.Rol.detail == rol.detail}"  selected readonly><p th:text="${rol.detail}" ></p></option>
+								<option th:each="rol : ${roles}" th:value="${rol.idRol}" th:if="${updateUser.Rol.detail != rol.detail}"   readonly><p th:text="${rol.detail}" ></p></option>
 							</select>
 							<label for="username">Nombre:</label>
 							<input title="Debe ingresar el nombre del usuario" maxlength="100" type="text" name="username" th:value="${updateUser.username}" required/>
@@ -83,10 +82,10 @@
 							<input title="Debe ingresar una contraseña"  maxlength="15" type="password" name="password" th:value="${updateUser.password}" required/>
 							<label for="accountBank">Cuenta bancaria:</label>
 							<input title="Debe ingresar una cuenta bancaria"  maxlength="15" type="text" name="accountBank" th:value="${updateUser.accountBank}" required/>
-							<label for="useCommission">Comisión de uso:</label>
+							<!--<label for="useCommission">Comisión de uso:</label>
 							<input title="Debe ingresar un valor porcentual de comisión " maxlength="15" type="text" name="useCommission" th:value="${updateUser.useCommission}" required/>
 							<label for="commissionAmount">Cantidad de la comisión:</label>
-							<input title="Debe ingresar un valor de comisión " maxlength="15" type="text" name="commissionAmount" th:value="${updateUser.commissionAmount}" required/>
+							<input title="Debe ingresar un valor de comisión " maxlength="15" type="text" name="commissionAmount" th:value="${updateUser.commissionAmount}" required/>-->
 							<label for="expired"  title="Indica si el usuario esta caducado en el sistema">Caducado</label>
 							<div  th:if="${updateUser.expired==0}">
 								<select  name="expired" data-role="slider"  th:value="${expired}">
@@ -137,69 +136,109 @@
                    
 				</form>
 			</div>
-           	
-           	
-           	<fieldset data-role="controlgroup"  data-type="horizontal">
-           	<legend><h3>Usuarios en el sistema</h3></legend>
-           		<table style="text-align:justify;">
-           				<thead>
-           				<tr>
-           				<th  style="padding-right: 15px;">ID</th>
-           				<th  style="padding-right: 15px;">País</th>
-           				<th  style="padding-right: 15px;">Rol</th>
-           				<th  style="padding-right: 15px;">Nombre</th>
-           				<th  style="padding-right: 15px;">Segundo nombre</th>
-           				<th  style="padding-right: 15px;">Apellidos</th>
-           				<th  style="padding-right: 15px;">Cuenta bancaria</th>
-           				<th  style="padding-right: 15px;">Comisión de uso</th>
-           				<th  style="padding-right: 15px;">Cantidad de la comisión</th>
-           				<th  style="padding-right: 15px;">Último ingreso</th>
-           				<th  style="padding-right: 15px;">Caducado</th>
-           				<th  style="padding-right: 15px;">Caducado en</th>
-           				<th  style="padding-right: 15px;">Cantidad de la comisión</th>
-           				<th  style="padding-right: 15px;">Credenciales caducadas</th>
-           				<th  style="padding-right: 15px;">Credenciales caducadas en</th>
-           				<th  style="padding-right: 15px;">Fecha de creación</th>
-           				<th  style="padding-right: 15px;">Última modificación</th>
-           				<th  style="padding-right: 15px;">Estado</th>
-           				</tr>
-           				</thead>
-           				<tbody>
-	           			<tr th:each="user : ${users}">
-							<td style="padding-right: 15px;" th:text="${user.idUser}"></td>
-							<td style="padding-right: 15px;" th:text="${user.Country.detail}"></td>
-							<td style="padding-right: 15px;" th:text="${user.Rol.detail}"></td>
-							<td style="padding-right: 15px;" th:text="${user.username}"></td>
-							<td style="padding-right: 15px;" th:text="${user.midname}"></td>
-							<td style="padding-right: 15px;" th:text="${user.lastname}"></td>
-							<td style="padding-right: 15px;" th:text="${user.accountBank}"></td>
-							<td style="padding-right: 15px;" th:text="${user.useCommission}"></td>
-							<td style="padding-right: 15px;" th:text="${user.commissionAmount}"></td>
-							<td style="padding-right: 15px;" th:text="${user.lastLoggin}"></td>
-							<td style="padding-right: 15px;" th:text="${user.expired}"></td>
-							<td style="padding-right: 15px;" th:if="${user.expired==1}">Sí</td>
-							<td style="padding-right: 15px;" th:if="${user.expired==0}">No</td>
-							<td style="padding-right: 15px;" th:text="${user.expiredAt}"></td>
-							<td style="padding-right: 15px;" th:if="${user.credentialExpired==1}">Sí</td>
-							<td style="padding-right: 15px;" th:if="${user.credentialExpired==0}">No</td>
-							<td style="padding-right: 15px;" th:text="${user.credentuakExpiredAt}"></td>
-							<td style="padding-right: 15px;" th:text="${user.creationDate}"></td>
-							<td style="padding-right: 15px;" th:text="${user.lastModification}"></td>
-							<td style="padding-right: 15px;" th:if="${user.status==1}">Activo</td>
-							<td style="padding-right: 15px;" th:if="${user.status==0}">Inactivo</td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updateuser?idUser=__${user.idUser}__}"  >Editar</a></td>
-	           				
-           				</tr>
-           				
-          			</tbody>
-           			</table>
-           	</fieldset>
-           	
-		</div>
+			
+			
+          	<div data-role="header"  data-theme="a">
+      		 	<h1>Usuarios en el sistema</h1>
+    		</div>
+           
+  				 <div data-role="main" class="ui-content">
+  				 
+  				 	<form class="ui-filterable">
+      					<input id="myFilter" data-type="search" placeholder="Buscador de usuarios"/>
+    				</form>
+  				 
+					<div  data-role="collapsibleset"  data-filter="true" data-input="#myFilter" data-autodividers="true" data-inset="true"> 
+						
+						<div th:each="user : ${users}" data-role="collapsible">
+							<h4 th:text="${'ID: '+user.idUser+' '+user.username+' '+user.midname+' '+user.lastname}"></h4>
+							
+							<table style="text-align:justify;">
+							<tr>
+								<th>ID:</th>
+								<td th:text="${user.idUser}"></td>
+							</tr>
+							<tr>
+								<th>País:</th>
+								<td th:text="${user.Country.detail}"></td>
+							</tr>
+							<tr>
+								<th>Rol:</th>
+								<td th:text="${user.Rol.detail}"></td>
+							</tr>
+							<tr>
+								<th>Nombre:</th>
+								<td th:text="${user.username}"></td>
+							</tr>
+							<tr>
+								<th>Segundo nombre:</th>
+								<td th:text="${user.midname}"></td>
+							</tr>
+							<tr>
+								<th>Apellidos:</th>
+								<td th:text="${user.lastname}"></td>
+							</tr>
+							<tr>
+								<th>Cuenta bancaria:</th>
+								<td th:text="${user.accountBank}"></td>
+							</tr>
+							<tr>
+								<th>Comisión de uso:</th>
+								<td th:text="${user.useCommission}"></td>
+							</tr>
+							<tr>
+								<th>Cantidad de la comisión:</th>
+								<td th:text="${user.commissionAmount}"></td>
+							</tr>
+							<tr>
+								<th>Último ingreso:</th>
+								<td th:text="${user.lastLoggin}"></td>
+							</tr>
+							<tr>
+								<th>Caducado:</th>
+								<td th:if="${user.expired==1}">Sí</td>
+								<td th:if="${user.expired==0}">No</td>
+							</tr>
+							<tr>
+								<th>Caducado el:</th>
+								<td th:text="${#dates.format(user.expiredAt,'dd MMM yyyy HH:mm')}"></td>
+							</tr>
+							<tr>
+								<th>Credenciales caducadas:</th>
+								<td th:if="${user.credentialExpired==1}">Sí</td>
+								<td th:if="${user.credentialExpired==0}">No</td>
+							</tr>
+							<tr>
+								<th>Credenciales caducadas el:</th>
+								<td th:text="${#dates.format(user.credentialExpiredAt,'dd MMM yyyy HH:mm')}"></td>
+							</tr>
+							<tr>
+								<th>Fecha de creación</th>
+								<td th:text="${#dates.format(user.creationDate,'dd MMM yyyy HH:mm')}"></td>
+							</tr>
+							<tr>
+								<th>Última modificación</th>
+								<td th:text="${#dates.format(user.lastModification,'dd MMM yyyy HH:mm')}"></td>
+							</tr>
+							<tr>
+								<th>Estado:</th>
+								<td th:if="${user.status==1}">Activo</td>
+								<td th:if="${user.status==0}">Inactivo</td>
+							</tr>
+							<tr>
+								<th>Acción disponible:</th>
+								<td><a href="#" th:href="@{/admin/updateuser?idUser=__${user.idUser}__}"  >Editar</a></td>
+							</tr>
+							</table>
+						</div>
+				</div>
+		
 		<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
 			<div data-role="popup" data-position="left" id="adminmenu" th:replace="fragments/footer"></div>
 		<!-- /panel -->	
 		</div>
 	</div>
+</div>
+
 </body>
 </html>

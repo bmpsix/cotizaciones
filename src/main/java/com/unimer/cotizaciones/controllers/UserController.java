@@ -33,18 +33,19 @@ public class UserController {
 	private static final Log LOG = LogFactory.getLog(ClientController.class);
 
 	@GetMapping("/admin/user")
-	public ModelAndView client() {
+	public ModelAndView user() {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("user");
 		modelAndView.addObject("countries", countryService.listAllCountries());
 		modelAndView.addObject("consecutive", userService.getConsecutive());
 		modelAndView.addObject("roles", rolService.findByActiveStatus());
+		modelAndView.addObject("users", userService.listAllUser());
 		modelAndView.addObject("updateUser", null);
 		return modelAndView;
 	}
 
 	@PostMapping("/admin/adduser")
-	public ModelAndView addClient(@ModelAttribute(name = "client") User user, Model model) {
+	public ModelAndView addUser(@ModelAttribute(name = "user") User user, Model model) {
 		LOG.info("METHOD: addUser in UserController -- PARAMS: " + user.toString());
 		userService.addUser(user);
 		ModelAndView modelAndView = new ModelAndView();
@@ -52,13 +53,14 @@ public class UserController {
 		modelAndView.addObject("countries", countryService.listAllCountries());
 		modelAndView.addObject("consecutive", userService.getConsecutive());
 		modelAndView.addObject("roles", rolService.findByActiveStatus());
+		modelAndView.addObject("users", userService.listAllUser());
 		modelAndView.addObject("updateUser", null);
 		return modelAndView;
 	}
 
 	@GetMapping("/admin/adduser")
-	public String getClient() {
-		return "redirect:/admin/user";
+	public ModelAndView getUser() {
+		return user();
 	}
 
 	@GetMapping("/admin/updateuser")
@@ -69,8 +71,8 @@ public class UserController {
 		modelAndView.addObject("countries", countryService.listAllCountries());
 		modelAndView.addObject("consecutive", userService.getConsecutive());
 		modelAndView.addObject("roles", rolService.findByActiveStatus());
+		modelAndView.addObject("users", userService.listAllUser());
 		modelAndView.addObject("updateUser", userService.findById(idUser));
-
 		return modelAndView;
 	}
 
