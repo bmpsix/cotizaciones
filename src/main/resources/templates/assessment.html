@@ -53,7 +53,7 @@
 							<input  type="text" name="idAssessment" th:value="${updateAssessment.idAssessment}" readonly/>
 							
 							<label for="creationDate">Fecha de Creacion:</label>
-							<input  type="text" name="creationDate"  th:value="${updateAssessment.creationDate}" readonly/>
+							<input  type="text" name="creationDate"  th:value="${#dates.format(updateAssessment.creationDate, 'dd-MMM-yyyy')}" readonly/>
 							
 							<label for="detail">Detalle:</label>
 							<input  type="text" name="detail"  th:value="${updateAssessment.detail}" required/>
