@@ -15,6 +15,7 @@ import com.unimer.cotizaciones.entities.Assessment;
 import com.unimer.cotizaciones.services.AssessmentService;
 import com.unimer.cotizaciones.services.CurrencyExchangeService;
 import com.unimer.cotizaciones.services.SaClientService;
+import com.unimer.cotizaciones.services.UserService;
 
 @Controller
 public class AssessmentController {
@@ -31,6 +32,10 @@ public class AssessmentController {
 	@Qualifier("saClientServiceImpl")
 	private SaClientService saClientService;
 	
+	@Autowired
+	@Qualifier("userServiceImpl")
+	private UserService userServiceImpl;
+	
 	private static final Log LOG = LogFactory.getLog(AssessmentController.class);
 	
 	@GetMapping("/admin/assessment")
@@ -41,6 +46,7 @@ public class AssessmentController {
 		modelAndView.addObject("consecutive", assessmentService.getConsecutive());
 		modelAndView.addObject("currencyExchanges", currencyExchangeService.listAllCurrencyExchange());
 		modelAndView.addObject("saClients", saClientService.listAllSaClient());
+		modelAndView.addObject("users", userServiceImpl.listAllUser());
 		return modelAndView;
 	}
 	
@@ -54,6 +60,7 @@ public class AssessmentController {
 			modelAndView.addObject("consecutive", assessmentService.getConsecutive());
 			modelAndView.addObject("currencyExchanges", currencyExchangeService.listAllCurrencyExchange());
 			modelAndView.addObject("saClients", saClientService.listAllSaClient());
+			modelAndView.addObject("users", userServiceImpl.listAllUser());
 			return modelAndView;
 	}
 	
@@ -62,15 +69,16 @@ public class AssessmentController {
 		return "redirect:/admin/assessment";
 	}
 	
-	@GetMapping("/admin/updateassessment")
+	@GetMapping("/admin/updateassesssment")
 	public ModelAndView updateAssessment(String idAssessment, Model model) {
 		
 			ModelAndView modelAndView = new ModelAndView();
-			 	modelAndView.setViewName("clientcontact");
+			 	modelAndView.setViewName("assessment");
 			 	modelAndView.addObject("assessments", assessmentService.listAllAssessment());
 				modelAndView.addObject("consecutive", assessmentService.getConsecutive());
 				modelAndView.addObject("currencyExchanges", currencyExchangeService.listAllCurrencyExchange());
 				modelAndView.addObject("saClients", saClientService.listAllSaClient());
+				modelAndView.addObject("users", userServiceImpl.listAllUser());
 				modelAndView.addObject("updateAssessment",assessmentService.findById(idAssessment));
 
 		return modelAndView;

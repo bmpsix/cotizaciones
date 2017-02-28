@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;import org.springfr
 
 import com.unimer.cotizaciones.entities.LogAssessment;
 
-@Repository("logAsseamentJpaRepository")
+@Repository("logAssessmentJpaRepository")
 public interface LogAssessmentJpaRepository extends JpaRepository<LogAssessment, Serializable>{
 	
 }

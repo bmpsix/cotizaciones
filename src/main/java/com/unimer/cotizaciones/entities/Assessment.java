@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
-@Table(name="tbl_asseament")
+@Table(name="tbl_assessment")
 public class Assessment implements Serializable {
 	private static final long serialVersionUID = 1L;
 

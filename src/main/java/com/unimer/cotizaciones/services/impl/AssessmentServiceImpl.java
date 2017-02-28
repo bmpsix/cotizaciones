@@ -29,8 +29,8 @@ public class AssessmentServiceImpl implements AssessmentService {
 	private ConsecutivesJpaRepository consecutivesJpaRepository;
 
 	@Autowired
-	@Qualifier("logAssessmentJpaRepositoryy")
-	private LogAssessmentJpaRepository logAssessmentJpaRepositoryy;
+	@Qualifier("logAssessmentJpaRepository")
+	private LogAssessmentJpaRepository logAssessmentJpaRepository;
 	
 	private static final Log LOG = LogFactory.getLog(AssessmentServiceImpl.class);
 	
@@ -100,7 +100,7 @@ public class AssessmentServiceImpl implements AssessmentService {
 				LogAssessment logAssessment = new LogAssessment(date, "Assesssment  modified", "test", asessmentToUpdate.getCreationDate(),asessmentToUpdate.getDetail() ,
 						asessmentToUpdate.getIdAssessment(),asessmentToUpdate.getCurrencyExchange().getIdCurrencyExchange(),asessmentToUpdate.getSaClient().getIdSaClient(),asessmentToUpdate.getUser().getIdUser());
 				assessmentJpaRepository.save(assessment);
-				logAssessmentJpaRepositoryy.save(logAssessment);
+				logAssessmentJpaRepository.save(logAssessment);
 			}
 		
 	}
