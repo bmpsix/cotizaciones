@@ -55,7 +55,7 @@
 	           			<tr th:each="collectmethod : ${collectmethods}">
 							<td style="padding-right: 15px;" th:text="${collectmethod.idCollectMethod}"></td>
 							<td style="padding-right: 15px;" th:text="${collectmethod.detail}"></td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargecollectmethod?idCollectMethod=__${collectmethod.idCollectMethod}__}">Update Method</a></td>
+	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargecollectmethod?idCollectMethod=__${collectmethod.idCollectMethod}__}">Editar</a></td>
            				</tr>
           			</tbody>
            			</table>

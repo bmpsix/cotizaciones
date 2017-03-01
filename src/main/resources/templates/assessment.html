@@ -33,7 +33,7 @@
 							</select>
 							
 							
-							<label for="saClient">Cliente SA:</label>
+							<label for="saClient">SA Cliente:</label>
 							<select name="saClient">
 								<option th:each="saClient : ${saClients}" th:value="${saClient.idSaClient}"><p th:text="${saClient.detail}"></p></option>
 							</select>
@@ -61,7 +61,7 @@
 							</select>
 							
 							
-							<label for="saClient">Sa Client:</label>
+							<label for="saClient">SA Cliente:</label>
 							<select name="saClient">
 								<option th:each="saClient : ${saClients}" th:value="${saClient.idSaClient}"><p th:text="${saClient.detail}"></p></option>
 							</select>
@@ -93,7 +93,7 @@
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Fecha de Creacion</th>
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Detalle</th>
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Cambio de Divisas</th>
-           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Sa client</th>
+           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">SA Cliente</th>
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Usuario</th>
            				</tr>
            				</thead>
@@ -105,7 +105,7 @@
 							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.currencyExchange.currencyType.detail}"></td>
 							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.saClient.detail}"></td>
 							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.user.username}"></td>
-	           				<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;"><a href="#" th:href="@{/admin/updateassesssment?idAssessment=__${assessment.idAssessment}__}"  >Update</a></td>		
+	           				<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;"><a href="#" th:href="@{/admin/updateassesssment?idAssessment=__${assessment.idAssessment}__}"  >Editar</a></td>		
            				</tr>
            				
           			</tbody>

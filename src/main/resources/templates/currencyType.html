@@ -95,21 +95,34 @@
            		<table style="text-align:justify;">
            				<thead>
            				<tr>
-           				<th  style="padding-right: 15px;">Id de la Moneda</th>
-           				<th  style="padding-right: 15px;">Detalle</th>
-           				<th  style="padding-right: 15px;">Favorita</th>
-           				<th  style="padding-right: 15px;">Status</th>
-           				<th  style="padding-right: 15px;">Symbolo</th>
+           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Id de la Moneda</th>
+           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Detalle</th>
+           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Favorita</th>
+           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Estado</th>
+           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Symbolo</th>
            				</tr>
            				</thead>
            				<tbody>
 	           			<tr th:each="currencytype : ${currencytypes}">
-							<td style="padding-right: 15px;" th:text="${currencytype.idCurrencyType}"></td>
-							<td style="padding-right: 15px;" th:text="${currencytype.detail}"></td>
-							<td style="padding-right: 15px;" th:text="${currencytype.favorite}"></td>
-							<td style="padding-right: 15px;" th:text="${currencytype.status}"></td>
-							<td style="padding-right: 15px;" th:text="${currencytype.symbol}"></td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargecurrencytype?idCurrencyType=__${currencytype.idCurrencyType}__}">Update Currency Type</a></td>
+							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${currencytype.idCurrencyType}"></td>
+							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${currencytype.detail}"></td>
+							<div th:if="${currencytype.favorite == 1}">
+								<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="Activo"></td>
+							</div>
+							<div th:if="${currencytype.favorite == 0}">
+								<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="Inactivo"></td>
+							</div>
+
+							<div th:if="${currencytype.status == 1}">
+								<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="Activo"></td>
+							</div>
+							
+							<div th:if="${currencytype.status == 0}">
+								<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="Inactivo"></td>
+							</div>
+							
+							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${currencytype.symbol}"></td>
+	           				<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;"><a href="#" th:href="@{/admin/chargecurrencytype?idCurrencyType=__${currencytype.idCurrencyType}__}">Editar</a></td>
            				</tr>
           			</tbody>
            			</table>
