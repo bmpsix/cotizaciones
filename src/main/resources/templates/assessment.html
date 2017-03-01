@@ -23,10 +23,7 @@
 						<div th:if="${updateAssessment==null}">
 						
 							<input  type="text" name="idAssessment" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'CLI-1'}" disabled/>
-							
-							<label for="creationDate">Fecha de Creacion:</label>
-							<input  type="text" name="creationDate"  required/>
-							
+													
 							<label for="detail">Detalle:</label>
 							<input  type="text" name="detail"  required/>
 							
@@ -92,23 +89,23 @@
            		<table style="text-align:justify;">
            				<thead>
            				<tr>
-           				<th  style="padding-right: 15px;">Id de la Evaluacion</th>
-           				<th  style="padding-right: 15px;">Fecha de Creacion</th>
-           				<th  style="padding-right: 15px;">Detalle</th>
-           				<th  style="padding-right: 15px;">Cambio de Divisas</th>
-           				<th  style="padding-right: 15px;">Sa client</th>
-           				<th  style="padding-right: 15px;">Usuario</th>
+           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Id de la Evaluacion</th>
+           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Fecha de Creacion</th>
+           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Detalle</th>
+           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Cambio de Divisas</th>
+           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Sa client</th>
+           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Usuario</th>
            				</tr>
            				</thead>
            				<tbody>
 	           			<tr th:each="assessment : ${assessments}">
-							<td style="padding-right: 15px;" th:text="${assessment.idAssessment}"></td>
-							<td style="padding-right: 15px;" th:text="${assessment.creationDate}"></td>
-							<td style="padding-right: 15px;" th:text="${assessment.detail}"></td>
-							<td style="padding-right: 15px;" th:text="${assessment.currencyExchange.currencyType.detail}"></td>
-							<td style="padding-right: 15px;" th:text="${assessment.saClient.detail}"></td>
-							<td style="padding-right: 15px;" th:text="${assessment.user.username}"></td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updateassesssment?idAssessment=__${assessment.idAssessment}__}"  >Update</a></td>		
+							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.idAssessment}"></td>
+							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.creationDate}"></td>
+							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.detail}"></td>
+							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.currencyExchange.currencyType.detail}"></td>
+							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.saClient.detail}"></td>
+							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.user.username}"></td>
+	           				<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;"><a href="#" th:href="@{/admin/updateassesssment?idAssessment=__${assessment.idAssessment}__}"  >Update</a></td>		
            				</tr>
            				
           			</tbody>

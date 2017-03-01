@@ -37,7 +37,8 @@ public class AssessmentServiceImpl implements AssessmentService {
 	@Override
 	public Assessment addAssessment(Assessment assessment) {
 		Consecutive consecutive = consecutivesJpaRepository.findByType("Assessment");
-
+		assessment.setCreationDate(new Date());
+		
 		if (consecutive == null) {
 			consecutive = new Consecutive();
 			consecutive.setType("Assessment");

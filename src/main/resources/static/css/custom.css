@@ -21,11 +21,9 @@ table{
 table>thead{
 	background: #96A6A6;
 }
-/*
-td {
-    padding: .3em;
-}
-*/
+
+
+
 table>tbody>tr:nth-child(odd){
 		background: #ECF0F1;
 }
