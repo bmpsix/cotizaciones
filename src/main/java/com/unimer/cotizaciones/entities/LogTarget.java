@@ -110,4 +110,25 @@ public class LogTarget implements Serializable {
 		this.observations = observations;
 	}
 
+	@Override
+	public String toString() {
+		return "LogTarget [dateRecord=" + dateRecord + ", actionDetail=" + actionDetail + ", actionUser=" + actionUser
+				+ ", creationDate=" + creationDate + ", endDate=" + endDate + ", idTarget=" + idTarget
+				+ ", initialDate=" + initialDate + ", observations=" + observations + "]";
+	}
+
+	public LogTarget(Date dateRecord, String actionDetail, String actionUser, Date creationDate, Date endDate,
+			String idTarget, Date initialDate, String observations) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.creationDate = creationDate;
+		this.endDate = endDate;
+		this.idTarget = idTarget;
+		this.initialDate = initialDate;
+		this.observations = observations;
+	}
+	
+
 }
