@@ -74,4 +74,12 @@ public class LogCountryByCurrencyType implements Serializable {
 		this.idCurrencyType = idCurrencyType;
 	}
 
+	@Override
+	public String toString() {
+		return "LogCountryByCurrencyType [dateRecord=" + dateRecord + ", actionDetail=" + actionDetail + ", actionUser="
+				+ actionUser + ", idCountry=" + idCountry + ", idCurrencyType=" + idCurrencyType + "]";
+	}
+	
+	
+
 }

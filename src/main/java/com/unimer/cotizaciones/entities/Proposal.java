@@ -60,10 +60,10 @@ public class Proposal implements Serializable {
 	@Column(name="target", nullable=false, length=100)
 	private String targetText;
 
-	//bi-directional many-to-one association to Asseament
+	//bi-directional many-to-one association to Assessment
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_assesment", nullable=false)
-	private Asseament asseament;
+	private Assessment assessment;
 
 	//bi-directional many-to-one association to ClientContact
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -208,12 +208,12 @@ public class Proposal implements Serializable {
 		this.targetText = targetText;
 	}
 
-	public Asseament getAsseament() {
-		return asseament;
+	public Assessment getAssessment() {
+		return assessment;
 	}
 
-	public void setAsseament(Asseament asseament) {
-		this.asseament = asseament;
+	public void setAssessment(Assessment assessment) {
+		this.assessment = assessment;
 	}
 
 	public ClientContact getClientContact() {
@@ -306,7 +306,7 @@ public class Proposal implements Serializable {
 
 	public Proposal() {
 		super();
-		this.asseament = new Asseament();
+		this.assessment = new Assessment();
 		this.clientContact = new ClientContact();
 		this.collectMethod = new CollectMethod();
 		this.country = new Country();
@@ -322,7 +322,7 @@ public class Proposal implements Serializable {
 
 	public Proposal(String idProposal, double aporteFijo, Date creationDate, double currencyExchange, Date endDate,
 			double factor1, double imprevistoComisionable, double imprevistoNoComisionable, Date initialDate,
-			String observations, String targetText, Asseament asseament, ClientContact clientContact,
+			String observations, String targetText, Assessment assessment, ClientContact clientContact,
 			CollectMethod collectMethod, Country country, ExecutionType executionType, IndustrySector industrySector,
 			Operation operation, ProposalType proposalType, Status status, StudyCategory studyCategory,
 			StudyType studyType, Target target) {
@@ -338,7 +338,7 @@ public class Proposal implements Serializable {
 		this.initialDate = initialDate;
 		this.observations = observations;
 		this.targetText = targetText;
-		this.asseament = asseament;
+		this.assessment = assessment;
 		this.clientContact = clientContact;
 		this.collectMethod = collectMethod;
 		this.country = country;
@@ -358,7 +358,7 @@ public class Proposal implements Serializable {
 				+ ", currencyExchange=" + currencyExchange + ", endDate=" + endDate + ", factor1=" + factor1
 				+ ", imprevistoComisionable=" + imprevistoComisionable + ", imprevistoNoComisionable="
 				+ imprevistoNoComisionable + ", initialDate=" + initialDate + ", observations=" + observations
-				+ ", targetText=" + targetText + ", asseament=" + asseament + ", clientContact=" + clientContact
+				+ ", targetText=" + targetText + ", asseament=" + assessment + ", clientContact=" + clientContact
 				+ ", collectMethod=" + collectMethod + ", country=" + country + ", executionType=" + executionType
 				+ ", industrySector=" + industrySector + ", operation=" + operation + ", proposalType=" + proposalType
 				+ ", status=" + status + ", studyCategory=" + studyCategory + ", studyType=" + studyType + ", target="
