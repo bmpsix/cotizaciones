@@ -25,24 +25,25 @@ public class LogTechnique implements Serializable {
 	@Column(name="action_user", nullable=false, length=8)
 	private String actionUser;
 
-	@Column(length=100)
+	@Column(nullable=false, length=100)
 	private String detail;
 
 	@Column(name="id_technique", nullable=false, length=8)
-	private String idTechnique;
+	private String idTechnique;	
 	
 	@Override
 	public String toString() {
 		return "LogTechnique [dateRecord=" + dateRecord + ", actionDetail=" + actionDetail + ", actionUser="
 				+ actionUser + ", detail=" + detail + ", idTechnique=" + idTechnique + "]";
 	}
+			
 
 	public LogTechnique() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public LogTechnique(Date dateRecord, String actionDetail, String actionUser,String idTechnique ,String detail ) {
+	public LogTechnique(Date dateRecord, String actionDetail, String actionUser,String detail ,String idTechnique ) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;
@@ -51,7 +52,7 @@ public class LogTechnique implements Serializable {
 		this.idTechnique = idTechnique;	
 	
 	}
-
+	
 	public Date getDateRecord() {
 		return this.dateRecord;
 	}

@@ -11,18 +11,18 @@
             </h1>
 		</div>
 		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
-		<h3>Control de técnicas</h3>
+		<h3>Control de las técnicas</h3>
 			<div data-role="fieldcontain">
 			
-					<form method="post" action="#" th:action="@{/admin/addtechnique}" th:object="${consecutive}" >
+					<form method="post" action="#" th:action="@{/admin/addTechnique}" th:object="${consecutive}" >
 					
-					<div  th:object="${update}" >
-						<label for="idTechnique">Id de la tecnica:</label>
+					<div  th:object="${updateTechnique}" >
+						<label for="idTechnique">Id de la técnica:</label>
 						
 						<div th:if="${updateTechnique==null}">
-							<input  type="text" name="idTechnique" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'STC-1'}" disabled/>
+							<input  type="text" name="idTechnique" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'TEC-1'}" disabled/>
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre de la tecnica" type="text" name="detail" th:value="${detail}" required/>
+							<input title="Debe ingresar el nombre de la técnica" type="text" name="detail" th:value="${detail}" required/>
 										
 						</div>
 						
@@ -45,7 +45,7 @@
            	
            	
            	<fieldset data-role="controlgroup"  data-type="horizontal">
-           	<legend><h3>Tecnicas en el sistema</h3></legend>
+           	<legend><h3>Técnicas en el sistema</h3></legend>
            		<table style="text-align:justify;">
            				<thead>
            				<tr>
@@ -59,7 +59,7 @@
 							<td style="padding-right: 15px;" th:text="${Technique.idTechnique}"></td>
 							<td style="padding-right: 15px;" th:text="${Technique.detail}"></td>
 							
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargetechnique?idTechnique=__${Technique.idTechnique}__}"  >Edit</a></td>
+	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargeTechnique?idTechnique=__${Technique.idTechnique}__}"  >Edit</a></td>
 	           				
            				</tr>
            				

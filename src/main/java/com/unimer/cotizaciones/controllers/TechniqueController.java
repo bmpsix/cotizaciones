@@ -10,34 +10,33 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.unimer.cotizaciones.entities.Technique;
 import com.unimer.cotizaciones.services.TechniqueService;
 
 @Controller
 public class TechniqueController {
-
-	
 	@Autowired
-	@Qualifier("TechniqueImpl")
+	@Qualifier("TechniqueServiceImpl")
 	private TechniqueService TechniqueService;
 	
 	private static final Log LOG = LogFactory.getLog(TechniqueController.class);
 	
-	@GetMapping("/admin/technique")
+	@GetMapping("/admin/Technique")
 	public ModelAndView Technique(){
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("Technique");
-		modelAndView.addObject("Technique", TechniqueService.listAllTechniques());
-		modelAndView.addObject("consecutive", TechniqueService.getConsecutive());
+		modelAndView.addObject("Techniques", TechniqueService.listAllTechniques());
+		modelAndView.addObject("consecutive",TechniqueService.getConsecutive());
 		modelAndView.addObject("updateConsecutive", null);
 		return modelAndView;
 	}
 	
-	@PostMapping("/admin/addtechnique")
+	@PostMapping("/admin/addTechnique")
 	public ModelAndView addTechnique(@ModelAttribute(name = "Technique") Technique Technique, Model model) {
 		LOG.info("METHOD: addTechnique in TechniqueController -- PARAMS: " + Technique.toString());
-		TechniqueService.addSTechnique(Technique);
+		TechniqueService.addTechnique(Technique);
 		 ModelAndView modelAndView = new ModelAndView();
 		 modelAndView.setViewName("Technique");
 		 modelAndView.addObject("Techniques", TechniqueService.listAllTechniques());
@@ -46,24 +45,25 @@ public class TechniqueController {
 		 return modelAndView;
 	}
 	
-	@GetMapping("/admin/addtechnique")
+	@GetMapping("/admin/addTechnique")
 	public String getTechnique(){
 		return "redirect:/admin/Technique";
 	}
 	
-	@GetMapping("/admin/chargetechnique")
+	@GetMapping("/admin/chargeTechnique")
 	public ModelAndView chargeTechnique(String idTechnique, Model model) {
 		
 			ModelAndView modelAndView = new ModelAndView();
 			modelAndView.setViewName("Technique");
 			modelAndView.addObject("Techniques", TechniqueService.listAllTechniques());
 			modelAndView.addObject("consecutive", TechniqueService.getConsecutive());
-			modelAndView.addObject("updateTechnique",TechniqueService.findById(idTechnique));
+			modelAndView.addObject("updateIndustrySector",TechniqueService.findById(idTechnique));
 
 		return modelAndView;
 	}
+	
+	
 }
-
 
 
 

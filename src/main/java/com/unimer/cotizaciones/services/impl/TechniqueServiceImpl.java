@@ -8,34 +8,36 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
 import com.unimer.cotizaciones.entities.Consecutive;
-import com.unimer.cotizaciones.entities.LogTechnique;
 import com.unimer.cotizaciones.entities.Technique;
+import com.unimer.cotizaciones.entities.LogTechnique;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
-import com.unimer.cotizaciones.repositories.LogTechniqueJpaRepository;
 import com.unimer.cotizaciones.repositories.TechniqueJpaRepository;
+import com.unimer.cotizaciones.repositories.LogTechniqueJpaRepository;
 import com.unimer.cotizaciones.services.TechniqueService;
 
-@Service("TechniqueImpl")
+@Service("TechniqueServiceImpl")
 public class TechniqueServiceImpl implements TechniqueService{
 
-	
+
 	@Autowired
 	@Qualifier("TechniqueJpaRepository")
-	private TechniqueJpaRepository TechniqueJpaRepository; 
-	
+	private TechniqueJpaRepository TechniqueJpaRepository;
+
 	@Autowired
 	@Qualifier("consecutivesJpaRepository")
 	private ConsecutivesJpaRepository consecutivesJpaRepository;
-	
+
 	@Autowired
 	@Qualifier("logTechniqueJpaRepository")
 	private LogTechniqueJpaRepository logTechniqueJpaRepository;
-	
+
 	private static final Log LOG = LogFactory.getLog(TechniqueServiceImpl.class);
 	
+	
 	@Override
-	public Technique  addSTechnique(Technique Technique) {
+	public Technique addTechnique(Technique Technique) {
 
 		Consecutive consecutive = consecutivesJpaRepository.findByType("Technique");
 
@@ -85,8 +87,6 @@ public class TechniqueServiceImpl implements TechniqueService{
 
 	@Override
 	public Technique findById(String idTechnique) {
-		
-		
 		return TechniqueJpaRepository.findByIdTechnique(idTechnique);
 	}
 
@@ -99,13 +99,15 @@ public class TechniqueServiceImpl implements TechniqueService{
 		java.util.Date date = new Date();
 		Technique TechniqueToUpdate = TechniqueJpaRepository.findByIdTechnique(Technique.getIdTechnique());
 		if (TechniqueToUpdate != null) {
-			LogTechnique logTechnique = new LogTechnique(date, "Technique  modified", "test",TechniqueToUpdate.getIdTechnique() ,TechniqueToUpdate.getDetail());
+			LogTechnique logTechnique = new LogTechnique(date, "Technique  modified", "test", TechniqueToUpdate.getDetail(), TechniqueToUpdate.getIdTechnique());
 			TechniqueJpaRepository.save(Technique);
 			logTechniqueJpaRepository.save(logTechnique);
 		}
 	}
 	
+	
 
 }
+
 
 
