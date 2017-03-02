@@ -24,7 +24,7 @@ public class TargetController {
 	private static final Log LOG = LogFactory.getLog(TargetController.class);
 	
 	@GetMapping("/admin/target")
-	public ModelAndView studyCategory()
+	public ModelAndView TargetService()
 	{
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("target");
@@ -47,7 +47,7 @@ public class TargetController {
 		return modelAndView;
 	}
 	
-	@GetMapping("/admin/addStudyCategory")
+	@GetMapping("/admin/addtarget")
 	public String getTarget()
 	{
 		return "redirect:/admin/target";

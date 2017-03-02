@@ -12,11 +12,10 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.LogTarget;
 import com.unimer.cotizaciones.entities.Target;
+import com.unimer.cotizaciones.services.TargetService;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogTargetJpaRepository;
 import com.unimer.cotizaciones.repositories.TargetJpaRepository;
-
-import com.unimer.cotizaciones.services.TargetService;
 
 @Service("targetImpl")
 public class TargetServiceImpl implements TargetService {
