@@ -8,5 +8,7 @@ import com.unimer.cotizaciones.entities.ProposalType;
 
 @Repository("proposalTypeJpaRepository")
 public interface ProposalTypeJpaRepository extends JpaRepository<ProposalType, Serializable>{
+
+	ProposalType findByIdProposalType(String idProposalType);
 	
 }

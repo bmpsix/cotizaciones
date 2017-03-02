@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+<head th:replace="fragments/header"></head>
+<body>
+	<div data-role="page" data-theme="a" data-dom-cache="false" >
+		<div data-role="header" data-position="inline" >
+			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
+            <h1>
+            SIP Cotizaciones - Tipos de propuesta
+            </h1>
+		</div>
+		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
+		<h3>Control de países</h3>
+			<div data-role="fieldcontain">
+			
+					<form method="post" action="#" th:action="@{/admin/addproposaltype}" th:object="${consecutive}" >
+					
+					<div  th:object="${updateProposalType}" >
+						<label for="idProposalType">Id del tipo de propuesta:</label>
+						
+						<div th:if="${updateProposalType==null}">
+							<input  type="text" name="idProposalType" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'PRT-1'}" disabled/>
+							<label for="detail">Detalle:</label>
+							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${detail}" required/>
+												
+						</div>
+						
+						<div th:if="${updateProposalType!=null}">
+							<input type="text" name="idProposalType" th:value="${updateProposalType.idProposalType}" readonly />
+							<label for="detail">Detalle:</label>
+							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${updateProposalType.detail}" required/>
+						
+														
+						</div>
+					
+						
+                    	<hr>
+                    </div>
+  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar nuevo">
+                   <!--  <input type="submit" name="submit" class="custom_text" data-icon="refresh" value="Modificar registro">-->
+				</form>
+			</div>
+           	
+           	
+           	<fieldset data-role="controlgroup"  data-type="horizontal">
+           	<legend><h3>Tipos de propuesta en el sistema</h3></legend>
+           		<table style="text-align:justify;">
+           				<thead>
+           				<tr>
+           				<th  style="padding-right: 15px;">ID</th>
+           				<th  style="padding-right: 15px;">Detalle</th>           			
+           				</tr>
+           				</thead>
+           				<tbody>
+	           			<tr th:each="proposalType: ${proposalTypes}">
+							<td style="padding-right: 15px;" th:text="${proposalType.idProposalType}"></td>
+							<td style="padding-right: 15px;" th:text="${proposalType.detail}"></td>							
+	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargeproposaltype?idProposalType=__${proposalType.idProposalType}__}"  >Edit</a></td>
+	           				
+           				</tr>
+           				
+          			</tbody>
+           			</table>
+           	</fieldset>
+           	
+		</div>
+		<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
+			<div data-role="popup" data-position="left" id="adminmenu" th:replace="fragments/footer"></div>
+		<!-- /panel -->	
+		</div>
+	</div>
+</body>
+</html>
