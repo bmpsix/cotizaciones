@@ -36,13 +36,14 @@ public class LogStudyType implements Serializable {
 		return "LogStudyType [dateRecord=" + dateRecord + ", actionDetail=" + actionDetail + ", actionUser="
 				+ actionUser + ", detail=" + detail + ", idStudyType=" + idStudyType + "]";
 	}
-
+	
+	
 	public LogStudyType() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public LogStudyType(Date dateRecord, String actionDetail, String actionUser,String idStudyType ,String detail ) {
+	public LogStudyType(Date dateRecord, String actionDetail, String actionUser,String detail ,String idStudyType ) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;

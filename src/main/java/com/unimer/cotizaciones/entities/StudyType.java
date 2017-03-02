@@ -50,4 +50,9 @@ public class StudyType implements Serializable {
 		this.idStudyType = idStudyType;
 		this.detail = detail;
 	}
+	
+	@Override
+	public String toString() {
+		return "StudyType [idStudyType=" + idStudyType + ", detail=" + detail + "]";
+	}
 }

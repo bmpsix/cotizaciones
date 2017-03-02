@@ -8,7 +8,7 @@ import com.unimer.cotizaciones.entities.StudyType;
 
 public interface StudyTypeService {
 
-	public abstract StudyType addStudyType(StudyType studyType);
+	public abstract StudyType addStudyType(StudyType StudyType);
 	
 	public abstract List<StudyType> listAllStudyTypes();	
 

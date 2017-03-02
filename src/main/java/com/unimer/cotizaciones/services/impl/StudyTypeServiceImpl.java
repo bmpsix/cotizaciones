@@ -17,13 +17,12 @@ import com.unimer.cotizaciones.repositories.LogStudyTypeJpaRepository;
 import com.unimer.cotizaciones.repositories.StudyTypeJpaRepository;
 import com.unimer.cotizaciones.services.StudyTypeService;
 
-@Service("studyTypeImpl")
-
+@Service("StudyTypeServiceImpl")
 public class StudyTypeServiceImpl implements StudyTypeService{
 
 	@Autowired
-	@Qualifier("studyTypeJpaRepository")
-	private StudyTypeJpaRepository studyTypeJpaRepository; 
+	@Qualifier("StudyTypeJpaRepository")
+	private StudyTypeJpaRepository StudyTypeJpaRepository; 
 	
 	@Autowired
 	@Qualifier("consecutivesJpaRepository")
@@ -36,72 +35,72 @@ public class StudyTypeServiceImpl implements StudyTypeService{
 	private static final Log LOG = LogFactory.getLog(StudyTypeServiceImpl.class);
 	
 	@Override
-	public StudyType  addStudyType(StudyType studyType) {
+	public StudyType  addStudyType(StudyType StudyType) {
 
-		Consecutive consecutive = consecutivesJpaRepository.findByType("Study type");
+		Consecutive consecutive = consecutivesJpaRepository.findByType("Study Type");
 
 		if (consecutive == null) {
 			consecutive = new Consecutive();
-			consecutive.setType("Study type");
+			consecutive.setType("StudyType");
 			consecutive.setPrefix("STT");
 			consecutive.setSubfix(1);
-			consecutive.setDetail("Default consecutive of Study type table");
+			consecutive.setDetail("Default consecutive of Study Type table");
 			consecutivesJpaRepository.save(consecutive);
-			studyType.setIdStudyType(consecutive.getPrefix() + "-" + consecutive.getSubfix());
+			StudyType.setIdStudyType(consecutive.getPrefix() + "-" + consecutive.getSubfix());
 
-			if (!studyType.getIdStudyType().equals(studyTypeJpaRepository.findOne(studyType.getIdStudyType()))) {
+			if (!StudyType.getIdStudyType().equals(StudyTypeJpaRepository.findOne(StudyType.getIdStudyType()))) {
 				
-				studyTypeJpaRepository.save(studyType);
-				LOG.info("METHOD: addStudyType in StudyTypeServiceImpl -- PARAMS: " + studyType.toString());
+				StudyTypeJpaRepository.save(StudyType);
+				LOG.info("METHOD: addStudyType in StudyTypeServiceImpl -- PARAMS: " + StudyType.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
 
 			} else {
-				updateStudyType(studyType);
+				updateStudyType(StudyType);
 			}
 
-		} else if (studyType.getIdStudyType() == null) {
+		} else if (StudyType.getIdStudyType() == null) {
 
-			studyType.setIdStudyType(consecutive.getPrefix() + "-" + consecutive.getSubfix());
+			StudyType.setIdStudyType(consecutive.getPrefix() + "-" + consecutive.getSubfix());
 			
-			if (!studyType.getIdStudyType().equals(studyTypeJpaRepository.findOne(studyType.getIdStudyType()))) {
-				LOG.info("METHOD: addStudyType in StudyTypeServiceImpl -- PARAMS: " + studyType.toString());
-				studyTypeJpaRepository.save(studyType);
+			if (!StudyType.getIdStudyType().equals(StudyTypeJpaRepository.findOne(StudyType.getIdStudyType()))) {
+				LOG.info("METHOD: addStudyType in StudyTypeServiceImpl -- PARAMS: " + StudyType.toString());
+				StudyTypeJpaRepository.save(StudyType);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
 			} else {
-				updateStudyType(studyType);
+				updateStudyType(StudyType);
 			}
 		} else {
-			updateStudyType(studyType);
+			updateStudyType(StudyType);
 		}
-		return studyType;
+		return StudyType;
 	}
 
 	
 	@Override
 	public List<StudyType> listAllStudyTypes() {
-		return studyTypeJpaRepository.findAll();
+		return StudyTypeJpaRepository.findAll();
 	}	
 
 	@Override
 	public StudyType findById(String idStudyType) {
 		
 		
-		return studyTypeJpaRepository.findByIdStudyType(idStudyType);
+		return StudyTypeJpaRepository.findByIdStudyType(idStudyType);
 	}
 
 	@Override
 	public Consecutive getConsecutive() {
-		return consecutivesJpaRepository.findByType("Study type");
+		return consecutivesJpaRepository.findByType("Study Type");
 	}
 
-	private void updateStudyType(StudyType studyType) {
+	private void updateStudyType(StudyType StudyType) {
 		java.util.Date date = new Date();
-		StudyType studyTypeToUpdate = studyTypeJpaRepository.findByIdStudyType(studyType.getIdStudyType());
-		if (studyTypeToUpdate != null) {
-			LogStudyType logStudyType = new LogStudyType(date, "Study type  modified", "test",studyTypeToUpdate.getIdStudyType() ,studyTypeToUpdate.getDetail());
-			studyTypeJpaRepository.save(studyType);
+		StudyType StudyTypeToUpdate = StudyTypeJpaRepository.findByIdStudyType(StudyType.getIdStudyType());
+		if (StudyTypeToUpdate != null) {
+			LogStudyType logStudyType = new LogStudyType(date, "Study Type modified", "test",StudyTypeToUpdate.getIdStudyType() ,StudyTypeToUpdate.getDetail());
+			StudyTypeJpaRepository.save(StudyType);
 			logStudyTypeJpaRepository.save(logStudyType);
 		}
 	}

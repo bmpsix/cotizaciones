@@ -11,25 +11,25 @@
             </h1>
 		</div>
 		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
-		<h3>Control de tipos de estudio</h3>
+		<h3>Control de los Tipos de estudio</h3>
 			<div data-role="fieldcontain">
 			
-					<form method="post" action="#" th:action="@{/admin/addstudytype}" th:object="${consecutive}" >
+					<form method="post" action="#" th:action="@{/admin/addStudyType}" th:object="${consecutive}" >
 					
 					<div  th:object="${updateStudyType}" >
-						<label for="idStudyType">Id del tipo de estudio:</label>
+						<label for="idStudyType">Id del Tipo de estudio:</label>
 						
 						<div th:if="${updateStudyType==null}">
-							<input  type="text" name="idStudyType" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'STC-1'}" disabled/>
+							<input  type="text" name="idStudyType" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'STT-1'}" disabled/>
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${detail}" required/>
+							<input title="Debe ingresar el nombre del tipo de estudio" type="text" name="detail" th:value="${detail}" required/>
 										
 						</div>
 						
 						<div th:if="${updateStudyType!=null}">
-							<input type="text" name="idStudyType" th:value="${updateStudyTypey.idStudyType}" readonly />
+							<input type="text" name="idStudyType" th:value="${updateStudyType.idStudyType}" readonly />
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${updateStudyType.detail}" required/>
+							<input title="Debe ingresar el nombre del tipo de estudio" type="text" name="detail" th:value="${updateStudyType.detail}" required/>
 							
 							
 														
@@ -55,11 +55,11 @@
            				</tr>
            				</thead>
            				<tbody>
-	           			<tr th:each="studyType: ${studyTypes}">
-							<td style="padding-right: 15px;" th:text="${studyType.idstudyType}"></td>
-							<td style="padding-right: 15px;" th:text="${studyType.detail}"></td>
+	           			<tr th:each="StudyType: ${StudyTypes}">
+							<td style="padding-right: 15px;" th:text="${StudyType.idStudyType}"></td>
+							<td style="padding-right: 15px;" th:text="${StudyType.detail}"></td>
 							
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargestudytype?idStudyType=__${studyType.idStudyType}__}"  >Edit</a></td>
+	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargeStudyType?idStudyType=__${StudyType.idStudyType}__}"  >Edit</a></td>
 	           				
            				</tr>
            				
