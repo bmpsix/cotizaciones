@@ -30,21 +30,37 @@ public class LogProposalType implements Serializable {
 
 	@Column(name="id_proposal_type", nullable=false, length=8)
 	private String idProposalType;
-
-	public LogProposalType(Date date, String actionDetail, String actionUser, String detail, String idProposalType) {
-	super();
-	date = this.dateRecord;
-	actionDetail = this.actionDetail;
-	actionUser = this.actionUser;
-	detail = this.detail;
-	idProposalType = this.idProposalType;
 	
+	
+	@Override
+	public String toString() {
+		return "LogProposalType [dateRecord=" + dateRecord + ", actionDetail=" + actionDetail + ", actionUser="
+				+ actionUser + ", detail=" + detail + ", idProposalType=" + idProposalType + "]";
 	}
+
 	
+	
+
 	public LogProposalType() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
+	
+
+
+	public LogProposalType(Date dateRecord, String actionDetail, String actionUser, String detail,
+			String idProposalType) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.detail = detail;
+		this.idProposalType = idProposalType;
+	}
+
+
+
 
 	public Date getDateRecord() {
 		return this.dateRecord;

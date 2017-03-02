@@ -20,7 +20,7 @@ import com.unimer.cotizaciones.services.ProposalTypeService;
 @Controller
 public class ProposalTypeController {
 	@Autowired
-	@Qualifier("proposalTypeImpl")
+	@Qualifier("proposalTypeServiceImpl")
 	private ProposalTypeService proposalTypeService;
 	
 	private static final Log LOG = LogFactory.getLog(ProposalTypeController.class);

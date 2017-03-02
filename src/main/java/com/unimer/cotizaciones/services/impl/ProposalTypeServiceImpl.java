@@ -17,8 +17,8 @@ import com.unimer.cotizaciones.repositories.LogProposalTypeJpaRepository;
 import com.unimer.cotizaciones.repositories.ProposalTypeJpaRepository;
 import com.unimer.cotizaciones.services.ProposalTypeService;
 
-@Service("proposalTypeImpl")
-public class ProposalTypeImpl implements ProposalTypeService {
+@Service("proposalTypeServiceImpl")
+public class ProposalTypeServiceImpl implements ProposalTypeService {
 
 	@Autowired
 	@Qualifier("proposalTypeJpaRepository")
@@ -33,7 +33,7 @@ public class ProposalTypeImpl implements ProposalTypeService {
 	private LogProposalTypeJpaRepository logProposalTypeJpaRepository;
 
 	
-	private static final Log LOG = LogFactory.getLog(ProposalTypeImpl.class);
+	private static final Log LOG = LogFactory.getLog(ProposalTypeServiceImpl.class);
 	
 	
 	
@@ -51,7 +51,7 @@ public class ProposalTypeImpl implements ProposalTypeService {
 		if (consecutive == null) {
 			consecutive = new Consecutive();
 			consecutive.setType("Proposal type");
-			consecutive.setPrefix("PRT-1");
+			consecutive.setPrefix("PRT");
 			consecutive.setSubfix(1);
 			consecutive.setDetail("Default consecutive of Proposal Type");
 			consecutivesJpaRepository.save(consecutive);
