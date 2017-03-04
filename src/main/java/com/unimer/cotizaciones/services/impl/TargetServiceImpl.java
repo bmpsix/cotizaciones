@@ -1,5 +1,7 @@
 package com.unimer.cotizaciones.services.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 //import java.util.Date;
 import java.util.List;
 
@@ -49,6 +51,10 @@ public class TargetServiceImpl implements TargetService {
 			consecutive.setDetail("Default consecutive for target table");
 			consecutivesJpaRepository.save(consecutive);
 			target.setIdTarget(consecutive.getPrefix()+ "-" + consecutive.getSubfix());
+			Date date= new Date();			
+			SimpleDateFormat spl=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String d=spl.format(date);
+			
 			
 		if(!target.getIdTarget().equals(targetJpaRepository.findOne(target.getIdTarget())))
 		{
