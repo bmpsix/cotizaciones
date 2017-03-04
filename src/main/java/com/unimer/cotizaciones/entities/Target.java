@@ -10,6 +10,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 /**
  * The persistent class for the tbl_target database table.
@@ -25,14 +27,17 @@ public class Target implements Serializable {
 	private String idTarget;
 
 	@Temporal(TemporalType.TIMESTAMP)
+
 	@Column(name="creation_date", nullable=false)
 	private Date creationDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
+
 	@Column(name="end_date", nullable=false)
 	private Date endDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
+
 	@Column(name="initial_date", nullable=false)
 	private Date initialDate;
 

@@ -1,5 +1,9 @@
 package com.unimer.cotizaciones.controllers;
 
+import java.sql.Date;
+
+import javax.persistence.Convert;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.unimer.cotizaciones.entities.Target;
 import com.unimer.cotizaciones.services.TargetService;
 
@@ -37,7 +40,7 @@ public class TargetController {
 	@PostMapping("/admin/addtarget")
 	public  ModelAndView addTarget(@ModelAttribute(name = "target") Target target, Model model)
 	{
-		LOG.info("METHOD: addTarget in TargetController -- PARAMS:" + target.toString());
+		LOG.info("METHOD: addTarget in TargetController -- PARAMS:" + model);		
 		targetService.addTarget(target);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("target");

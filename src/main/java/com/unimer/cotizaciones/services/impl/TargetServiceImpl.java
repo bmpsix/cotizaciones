@@ -42,38 +42,44 @@ public class TargetServiceImpl implements TargetService {
 	@Override
 	public Target addTarget(Target target) {
 		Consecutive consecutive = consecutivesJpaRepository.findByType("Target");
-		
-		if(consecutive == null)
-		{
+		if (consecutive == null) {
 			consecutive = new Consecutive();
-			consecutive.setType("Target");
+			consecutive.setType("target");
 			consecutive.setPrefix("TRT");
-			consecutive.setDetail("Default consecutive for target table");
+			consecutive.setSubfix(1);
+			consecutive.setDetail("Default consecutive of target table");
 			consecutivesJpaRepository.save(consecutive);
-			target.setIdTarget(consecutive.getPrefix()+ "-" + consecutive.getSubfix());
-			Date date= new Date();			
-			SimpleDateFormat spl=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String d=spl.format(date);
+			target.setIdTarget(consecutive.getPrefix() + "-" + consecutive.getSubfix());
+
+			if (!target.getIdTarget().equals(targetJpaRepository.findOne(target.getIdTarget()))) {
+				
+				targetJpaRepository.save(target);
+				LOG.info("METHOD: addtarget in targetServiceImpl -- PARAMS: " + target.toString());
+				consecutive.setSubfix(consecutive.getSubfix() + 1);
+				consecutivesJpaRepository.save(consecutive);
+
+			} else {
+				updateTarget(target);
+			}
+
+		} else if (target.getIdTarget() == null) {
+
+			target.setIdTarget(consecutive.getPrefix() + "-" + consecutive.getSubfix());
 			
-			
-		if(!target.getIdTarget().equals(targetJpaRepository.findOne(target.getIdTarget())))
-		{
-			targetJpaRepository.save(target);
-			LOG.info("METHOD: addTarget -- PARAMS: " + target.toString());
-			targetJpaRepository.save(target);
-			consecutive.setSubfix(consecutive.getSubfix() + 1);
-			consecutivesJpaRepository.save(consecutive);
-			
-		} else
-		{
-			updateTarget(target);
-		}	
-		}else
-		{
+			if (!target.getIdTarget().equals(targetJpaRepository.findOne(target.getIdTarget()))) {
+				LOG.info("METHOD: addtarget in targetServiceImpl -- PARAMS: " + target.toString());
+				targetJpaRepository.save(target);
+				consecutive.setSubfix(consecutive.getSubfix() + 1);
+				consecutivesJpaRepository.save(consecutive);
+			} else {
+				updateTarget(target);
+			}
+		} else {
 			updateTarget(target);
 		}
 		return target;
 	}
+	
 
 	@Override
 	public List<Target> listAllTargets() {
@@ -90,11 +96,12 @@ public class TargetServiceImpl implements TargetService {
 	private void updateTarget(Target target)
 	
 	{
-		//Date date = new Date();
+		Date date = new Date();
 		Target targetToUpdate = targetJpaRepository.findByIdTarget(target.getIdTarget());
 		if (targetToUpdate != null)
 		{
 			LogTarget logTarget = new LogTarget();
+			LOG.info("METHOD: addtarget in targetServiceImpl -- PARAMS: " + logTarget.toString());
 			targetJpaRepository.save(target);
 			logTargetJpaRepository.save(logTarget);
 		}
