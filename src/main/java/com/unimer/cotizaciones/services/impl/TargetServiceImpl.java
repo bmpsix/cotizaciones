@@ -1,6 +1,6 @@
 package com.unimer.cotizaciones.services.impl;
 
-import java.text.SimpleDateFormat;
+
 import java.util.Date;
 //import java.util.Date;
 import java.util.List;
@@ -72,6 +72,7 @@ public class TargetServiceImpl implements TargetService {
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
 			} else {
+				
 				updateTarget(target);
 			}
 		} else {
@@ -96,14 +97,14 @@ public class TargetServiceImpl implements TargetService {
 	private void updateTarget(Target target)
 	
 	{
-		Date date = new Date();
+		//Date date = new Date();
 		Target targetToUpdate = targetJpaRepository.findByIdTarget(target.getIdTarget());
 		if (targetToUpdate != null)
 		{
-			LogTarget logTarget = new LogTarget();
-			LOG.info("METHOD: addtarget in targetServiceImpl -- PARAMS: " + logTarget.toString());
+			//LogTarget logTarget = new LogTarget();
+			//LOG.info("METHOD: addtarget in targetServiceImpl -- PARAMS: " + logTarget.toString());
 			targetJpaRepository.save(target);
-			logTargetJpaRepository.save(logTarget);
+			//logTargetJpaRepository.save(logTarget);
 		}
 	}
 	

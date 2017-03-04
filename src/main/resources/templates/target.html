@@ -23,12 +23,12 @@
 						
 						<div th:if="${updateTarget==null}">
 							<input  type="text" name="idTarget" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'TRT-1'}" disabled/>
-							<label for="creation_date">Fecha de creación:</label>
-							<input name="creation_date"  th:value="${creationDate}" data-role="datebox" data-options="{&quot;mode&quot;:&quot;calbox&quot;}"  type="text" th:text="${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}">   
-							<label for="initial_date">Fecha de inicio:</label>
-							<input name="initial_date" th:value="${initialDate}"   data-role="datebox" data-options="{&quot;mode&quot;:&quot;calbox&quot;}"  type="text" th:text="${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}">   
-							<label for="end_date">Fecha de final:</label>			
-							<input name="end_date" th:value="${endDate}"  data-role="datebox" data-options="{&quot;mode&quot;:&quot;calbox&quot;}"  type="text" th:text="${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}">   
+							<label for="creationDate">Fecha de creación:</label>
+							<input name="creationDate"  th:value="${creationDate}" data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text">   
+							<label for="initialDate">Fecha de inicio:</label>
+							<input name="initialDate" th:value="${initialDate}"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text">   
+							<label for="endDate">Fecha de final:</label>			
+							<input name="endDate"  th:value="${endDate}"  data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }'  type="text">   
 							<label for="observations">Observaciones:</label>
 							<input  type="text" th:value="${observations}" name="observations"/>
 								
@@ -37,14 +37,14 @@
 						
 						<div th:if="${updateTarget!=null}">
 							<input type="text" name="idTarget" th:value="${updateTarget.idTarget}" readonly />
-							<label for="creation_date">Fecha de creación:</label>							
-							<input name="creation_date" th:value="${creation_date}" class="form-control" id="mode1" data-role="datebox" data-options="{&quot;mode&quot;:&quot;calbox&quot;}" readonly="readonly" type="text">   
-							<label for="initial_date">Fecha de inicio:</label>
-							<input name="initial_date" th:value="${initial_date}" class="form-control" id="mode1" data-role="datebox" data-options="{&quot;mode&quot;:&quot;calbox&quot;}" readonly="readonly" type="text">   					
-							<label for="end_date">Fecha de final:</label>							
-							<input name="end_date" th:value="${end_date}" class="form-control" id="mode1" data-role="datebox" data-options="{&quot;mode&quot;:&quot;calbox&quot;}" readonly="readonly" type="text">   
+							<label for="creationDate">Fecha de creación:</label>
+							<input name="creationDate"  th:value="${updateTarget.creationDate}" data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text">   
+							<label for="initialDate">Fecha de inicio:</label>
+							<input name="initialDate" th:value="${updateTarget.initialDate}"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text">   
+							<label for="endDate">Fecha de final:</label>			
+							<input name="endDate"  th:value="${updateTarget.endDate}"  data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }'  type="text">   
 							<label for="observations">Observaciones:</label>
-							<input  type="text" th:value="${observations}" name="observations"/>    
+							<input  type="text" th:value="${updateTarget.observations}" name="observations"/>  
 														
 						</div>
 				
@@ -56,7 +56,33 @@
 				</form>
 			</div>
            	
-           	
+           		
+           	<fieldset data-role="controlgroup"  data-type="horizontal">
+           	<legend><h3>Roles en el sistema</h3></legend>
+           		<table style="text-align:justify;">
+           				<thead>
+           				<tr>
+           				<th  style="padding-right: 15px;">ID</th>
+           				<th  style="padding-right: 15px;">Fecha de creación</th>
+           				<th  style="padding-right: 15px;">Fecha de inicio</th>
+           				<th  style="padding-right: 15px;">Fecha de final</th>
+           				<th  style="padding-right: 15px;">Observaciones</th>
+           				</tr>
+           				</thead>
+           				<tbody>
+	           			<tr th:each="target : ${targets}">
+							<td style="padding-right: 15px;" th:text="${target.idTarget}"></td>
+							<td style="padding-right: 15px;" th:text="${target.creationDate}"></td>
+							<td style="padding-right: 15px;" th:text="${target.initialDate}"></td>
+							<td style="padding-right: 15px;" th:text="${target.endDate}"></td>
+							<td style="padding-right: 15px;" th:text="${target.observations}"></td>
+	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargetarget?idTarget=__${target.idTarget}__}"  >Update</a></td>
+	           				
+           				</tr>
+           				
+          			</tbody>
+           			</table>
+           	</fieldset>
          
            	
 		</div>

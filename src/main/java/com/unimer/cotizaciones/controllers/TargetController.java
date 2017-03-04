@@ -56,7 +56,7 @@ public class TargetController {
 		return "redirect:/admin/target";
 	}
 	
-	@GetMapping("/admind/chargetarget")
+	@GetMapping("/admin/chargetarget")
 	public ModelAndView chargeTarget(String idTarget, Model model)
 	{
 		ModelAndView modelAndView = new ModelAndView();
@@ -64,6 +64,8 @@ public class TargetController {
 		modelAndView.addObject("targets", targetService.listAllTargets());
 		modelAndView.addObject("consecutive", targetService.getConsecutive());
 		modelAndView.addObject("updateTarget", targetService.findById(idTarget));
+		
+		
 		return modelAndView;
 		
 	}
