@@ -17,7 +17,7 @@ import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogTargetJpaRepository;
 import com.unimer.cotizaciones.repositories.TargetJpaRepository;
 
-@Service("targetImpl")
+@Service("targetServiceImpl")
 public class TargetServiceImpl implements TargetService {
 	@Autowired
 	@Qualifier("consecutivesJpaRepository")

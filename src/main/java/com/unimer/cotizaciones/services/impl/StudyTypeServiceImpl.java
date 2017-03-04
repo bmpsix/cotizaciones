@@ -21,7 +21,7 @@ import com.unimer.cotizaciones.services.StudyTypeService;
 public class StudyTypeServiceImpl implements StudyTypeService{
 
 	@Autowired
-	@Qualifier("StudyTypeJpaRepository")
+	@Qualifier("studyTypeJpaRepository")
 	private StudyTypeJpaRepository StudyTypeJpaRepository; 
 	
 	@Autowired

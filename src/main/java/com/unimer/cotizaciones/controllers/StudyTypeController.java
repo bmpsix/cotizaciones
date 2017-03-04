@@ -19,7 +19,7 @@ public class StudyTypeController {
 
 	
 	@Autowired
-	@Qualifier("StudyTypeImpl")
+	@Qualifier("StudyTypeServiceImpl")
 	private StudyTypeService StudyTypeService;
 	
 	private static final Log LOG = LogFactory.getLog(StudyTypeController.class);
