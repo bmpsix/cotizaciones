@@ -1,31 +1,31 @@
  <div data-role="popup" data-position="left" id="adminmenu">
-		 <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Cerrar</a>
+		 <a href="#" onclick="return window.location.href='/'" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right" >Cerrar</a>
 		     <ul data-role="listview" data-inset="true" style="min-width:210px;">
-			    <li><a href="#" th:href="@{/admin/assessment}" th:classappend="${viewName=='asseament'} ?'active-class-botton-menu'">Asseament</a></li>
-				<li><a href="#" th:href="@{/admin/client}" th:classappend="${viewName=='client'} ?'active-class-botton-menu'">Client</a></li>
-				<li><a href="#" th:href="@{/admin/clientcontact}" th:classappend="${viewName=='clientcontact'} ?'active-class-botton-menu'">Client Contact</a></li>
-				<li><a href="#" th:href="@{/admin/clienttype}" th:classappend="${viewName=='clienttype'} ?'active-class-botton-menu'">Client Type</a></li>
-				<li><a href="#" th:href="@{/admin/collectmethod}" th:classappend="${viewName=='collectmethod'} ?'active-class-botton-menu'">Collect Method</a></li>
-				<li><a href="#" th:href="@{/admin/consecutive}" th:classappend="${viewName=='consecutive'} ?'active-class-botton-menu'">Consecutives</a></li>
-				<li><a href="#" th:href="@{/admin/country}" th:classappend="${viewName=='country'} ?'active-class-botton-menu'">Country</a></li>
-				<li><a href="#" th:href="@{/admin/countrybycurrencytype}" th:classappend="${viewName=='countrybycurrencytype'} ?'active-class-botton-menu'">Country By Currency Type</a></li>
-				<li><a href="#" th:href="@{/admin/currencyexchange}" th:classappend="${viewName=='currencyexchange'} ?'active-class-botton-menu'">Currency Exchange</a></li>
-				<li><a href="#" th:href="@{/admin/currencytype}" th:classappend="${viewName=='currencytype'} ?'active-class-botton-menu'">Currency Type</a></li>
-				<li><a href="#" th:href="@{/admin/executiontype}" th:classappend="${viewName=='executiontype'} ?'active-class-botton-menu'">Execution Type</a></li>
-				<li><a href="#" th:href="@{/admin/industrySector}" th:classappend="${viewName=='industrysector'} ?'active-class-botton-menu'">Industry Sector</a></li>
-				<li><a href="#" th:href="@{/admin/operation}" th:classappend="${viewName=='operation'} ?'active-class-botton-menu'">Operation</a></li>
-				<li><a href="#" th:href="@{/admin/operationtype}" th:classappend="${viewName=='operationtype'} ?'active-class-botton-menu'">Operation Type</a></li>
-				<li><a href="#" th:href="@{/admin/proposal}" th:classappend="${viewName=='proposal'} ?'active-class-botton-menu'">Proposal</a></li>
-				<li><a href="#" th:href="@{/admin/proposaltype}" th:classappend="${viewName=='proposaltype'} ?'active-class-botton-menu'">Proposal Type</a></li>
-				<li><a href="#" th:href="@{/admin/role}" th:classappend="${viewName=='role'} ?'active-class-botton-menu'">Rol</a></li>
-				<li><a href="#" th:href="@{/admin/saclient}" th:classappend="${viewName=='saclient'} ?'active-class-botton-menu'">Sa Client</a></li>
-				<li><a href="#" th:href="@{/admin/status}" th:classappend="${viewName=='status'} ?'active-class-botton-menu'">Status</a></li>
-				<li><a href="#" th:href="@{/admin/studycategory}" th:classappend="${viewName=='studycategory'} ?'active-class-botton-menu'">Study Category</a></li>
-				<li><a href="#" th:href="@{/admin/studytype}" th:classappend="${viewName=='studytype'} ?'active-class-botton-menu'">Study Type</a></li>
-				<li><a href="#" th:href="@{/admin/target}" th:classappend="${viewName=='target'} ?'active-class-botton-menu'">Target</a></li>
-				<li><a href="#" th:href="@{/admin/technique}" th:classappend="${viewName=='technique'} ?'active-class-botton-menu'">Technique</a></li>
-				<li><a href="#" th:href="@{/admin/techniquebyproposal}" th:classappend="${viewName=='techniquebyproposal'} ?'active-class-botton-menu'">Technique By Proposal</a></li>
-				<li><a href="#" th:href="@{/admin/user}" th:classappend="${viewName=='user'} ?'active-class-botton-menu'">User</a></li>
+			    <li><a href="#" onclick="return window.location.href='/admin/assessment'" th:classappend="${viewName=='asseament'} ?'active-class-botton-menu'">Asseament</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/client'" th:classappend="${viewName=='client'} ?'active-class-botton-menu'">Client</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/clientcontact'" th:classappend="${viewName=='clientcontact'} ?'active-class-botton-menu'">Client Contact</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/clienttype'" th:classappend="${viewName=='clienttype'} ?'active-class-botton-menu'">Client Type</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/collectmethod'" th:classappend="${viewName=='collectmethod'} ?'active-class-botton-menu'">Collect Method</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/consecutive'" th:classappend="${viewName=='consecutive'} ?'active-class-botton-menu'">Consecutives</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/country'" th:classappend="${viewName=='country'} ?'active-class-botton-menu'">Country</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/countrybycurrencytype'" th:classappend="${viewName=='countrybycurrencytype'} ?'active-class-botton-menu'">Country By Currency Type</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/currencyexchange'" th:classappend="${viewName=='currencyexchange'} ?'active-class-botton-menu'">Currency Exchange</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/currencytype'" th:classappend="${viewName=='currencytype'} ?'active-class-botton-menu'">Currency Type</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/executiontype'" th:classappend="${viewName=='executiontype'} ?'active-class-botton-menu'">Execution Type</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/industrysector'" th:classappend="${viewName=='industrysector'} ?'active-class-botton-menu'">Industry Sector</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/operation'" th:classappend="${viewName=='operation'} ?'active-class-botton-menu'">Operation</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/operationtype'" th:classappend="${viewName=='operationtype'} ?'active-class-botton-menu'">Operation Type</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/proposal'" th:classappend="${viewName=='proposal'} ?'active-class-botton-menu'">Proposal</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/proposaltype'" th:classappend="${viewName=='proposaltype'} ?'active-class-botton-menu'">Proposal Type</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/role'" th:classappend="${viewName=='role'} ?'active-class-botton-menu'">Rol</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/saclient'" th:classappend="${viewName=='saclient'} ?'active-class-botton-menu'">Sa Client</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/status'" th:classappend="${viewName=='status'} ?'active-class-botton-menu'">Status</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/studyCategory'" th:classappend="${viewName=='studyCategory'} ?'active-class-botton-menu'">Study Category</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/StudyType'" th:href="@{/admin/StudyType}" th:classappend="${viewName=='StudyType'} ?'active-class-botton-menu'">Study Type</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/target'" th:classappend="${viewName=='target'} ?'active-class-botton-menu'">Target</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/Technique'" th:classappend="${viewName=='Technique'} ?'active-class-botton-menu' : null">Technique</a></li>
+				<!-- <li><a href="#" onclick="return window.location.href='/admin/techniquebyproposal'"  th:classappend="${viewName=='techniquebyproposal'} ?'active-class-botton-menu'">Technique By Proposal</a></li>
+				 --><li><a href="#" onclick="return window.location.href='/admin/user'" th:classappend="${viewName=='user'} ?'active-class-botton-menu'">User</a></li>
 		    </ul>
 </div><!-- /panel -->
 

@@ -48,14 +48,7 @@ public class UserController {
 	public ModelAndView addUser(@ModelAttribute(name = "user") User user, Model model) {
 		LOG.info("METHOD: addUser in UserController -- PARAMS: " + user.toString());
 		userService.addUser(user);
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("user");
-		modelAndView.addObject("countries", countryService.listAllCountries());
-		modelAndView.addObject("consecutive", userService.getConsecutive());
-		modelAndView.addObject("roles", rolService.findByActiveStatus());
-		modelAndView.addObject("users", userService.listAllUser());
-		modelAndView.addObject("updateUser", null);
-		return modelAndView;
+		return user();
 	}
 
 	@GetMapping("/admin/adduser")
@@ -75,5 +68,7 @@ public class UserController {
 		modelAndView.addObject("updateUser", userService.findById(idUser));
 		return modelAndView;
 	}
+	
+	
 
 }

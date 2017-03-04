@@ -37,7 +37,7 @@
 							<label for="ext">Ext:</label>
 							<input title="Debe ingresar ext del contacto"  maxlength="15" type="text" name="ext" th:value="${ext}" required/>
 							<label for="email">Correo:</label>
-							<input title="Debe ingresar el correo del cliente" maxlength="15" type="email" name="email" th:value="${email}" required/>
+							<input title="Debe ingresar el correo del cliente" maxlength="50" type="email" name="email" th:value="${email}" required/>
 							<label for="clientType">Tipo de cliente</label>
 							<label for="status"  title="Indica si el rol esta activo o inactivo">Estado</label>
 							<select  name="status" data-role="slider"  th:value="${status}">
@@ -65,7 +65,7 @@
 							<label for="ext">Ext:</label>
 							<input title="Debe ingresar ext del contacto"  maxlength="15" type="text" name="ext" th:value="${updateClientContact.ext}" required/>
 							<label for="email">Correo:</label>
-							<input title="Debe ingresar el correo del cliente" maxlength="15" type="email" name="email" th:value="${updateClientContact.email}" required/>
+							<input title="Debe ingresar el correo del cliente" maxlength="50" type="email" name="email" th:value="${updateClientContact.email}" required/>
 							<label for="status"  title="Indica si el rol esta activo o inactivo">Estado</label>
 							<div  th:if="${updateClientContact.status==0}">
 								<select  name="status" data-role="slider"  th:value="${status}">

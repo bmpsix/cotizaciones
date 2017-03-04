@@ -55,15 +55,7 @@ public class ClientController {
 	public ModelAndView addClient(@ModelAttribute(name = "client") Client client, Model model) {
 		LOG.info("METHOD: addClient in ClientController -- PARAMS: " + client.toString());
 		clientService.addClient(client);
-		 ModelAndView modelAndView = new ModelAndView();
-		 modelAndView.setViewName("client");
-			modelAndView.addObject("countries", countryService.listAllCountries());
-			modelAndView.addObject("consecutive", clientService.getConsecutive());
-			modelAndView.addObject("saClients", saClientService.findByActiveStatus());
-			modelAndView.addObject("clientTypes", clientTypeService.findByActiveStatus());
-			modelAndView.addObject("clients", clientService.listAllClient());
-			modelAndView.addObject("updateClient", null);
-			return modelAndView;
+			return client();
 	}
 	
 	@GetMapping("/admin/addclient")
