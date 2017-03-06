@@ -24,8 +24,8 @@ public class StudyTypeController {
 	
 	private static final Log LOG = LogFactory.getLog(StudyTypeController.class);
 	
-	@GetMapping("/admin/StudyType")
-	public ModelAndView StudyType(){
+	@GetMapping("/admin/studytype")
+	public ModelAndView StudyTypeService(){
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("StudyType");
@@ -35,7 +35,7 @@ public class StudyTypeController {
 		return modelAndView;
 	}
 	
-	@PostMapping("/admin/addStudyType")
+	@PostMapping("/admin/addstudytype")
 	public ModelAndView addStudyType(@ModelAttribute(name = "StudyType") StudyType StudyType, Model model) {
 		LOG.info("METHOD: addStudyType in StudyTypeController -- PARAMS: " + StudyType.toString());
 		StudyTypeService.addStudyType(StudyType);
@@ -47,12 +47,12 @@ public class StudyTypeController {
 		 return modelAndView;
 	}
 	
-	@GetMapping("/admin/addStudyType")
+	@GetMapping("/admin/addstudytype")
 	public String getStudyType(){
-		return "redirect:/admin/StudyType";
+		return "redirect:/admin/studytype";
 	}
 	
-	@GetMapping("/admin/chargeStudyType")
+	@GetMapping("/admin/chargestudytype")
 	public ModelAndView chargeStudyType(String idStudyType, Model model) {
 		
 			ModelAndView modelAndView = new ModelAndView();

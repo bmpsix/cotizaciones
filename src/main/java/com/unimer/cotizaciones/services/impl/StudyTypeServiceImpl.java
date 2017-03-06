@@ -37,7 +37,7 @@ public class StudyTypeServiceImpl implements StudyTypeService{
 	@Override
 	public StudyType  addStudyType(StudyType StudyType) {
 
-		Consecutive consecutive = consecutivesJpaRepository.findByType("Study Type");
+		Consecutive consecutive = consecutivesJpaRepository.findByType("StudyType");
 
 		if (consecutive == null) {
 			consecutive = new Consecutive();

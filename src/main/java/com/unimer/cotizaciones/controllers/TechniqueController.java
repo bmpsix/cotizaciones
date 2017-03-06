@@ -22,7 +22,7 @@ public class TechniqueController {
 	
 	private static final Log LOG = LogFactory.getLog(TechniqueController.class);
 	
-	@GetMapping("/admin/Technique")
+	@GetMapping("/admin/technique")
 	public ModelAndView Technique(){
 		
 		ModelAndView modelAndView = new ModelAndView();
@@ -33,7 +33,7 @@ public class TechniqueController {
 		return modelAndView;
 	}
 	
-	@PostMapping("/admin/addTechnique")
+	@PostMapping("/admin/addtechnique")
 	public ModelAndView addTechnique(@ModelAttribute(name = "Technique") Technique Technique, Model model) {
 		LOG.info("METHOD: addTechnique in TechniqueController -- PARAMS: " + Technique.toString());
 		TechniqueService.addTechnique(Technique);
@@ -45,19 +45,19 @@ public class TechniqueController {
 		 return modelAndView;
 	}
 	
-	@GetMapping("/admin/addTechnique")
+	@GetMapping("/admin/addtechnique")
 	public String getTechnique(){
-		return "redirect:/admin/Technique";
+		return "redirect:/admin/technique";
 	}
 	
-	@GetMapping("/admin/chargeTechnique")
+	@GetMapping("/admin/chargetechnique")
 	public ModelAndView chargeTechnique(String idTechnique, Model model) {
 		
 			ModelAndView modelAndView = new ModelAndView();
 			modelAndView.setViewName("Technique");
 			modelAndView.addObject("Techniques", TechniqueService.listAllTechniques());
 			modelAndView.addObject("consecutive", TechniqueService.getConsecutive());
-			modelAndView.addObject("updateIndustrySector",TechniqueService.findById(idTechnique));
+			modelAndView.addObject("updateTechnique",TechniqueService.findById(idTechnique));
 
 		return modelAndView;
 	}
