@@ -44,6 +44,13 @@ public class CountryByCurrencyTypeServiceImpl implements CountryByCurrencyTypeSe
 		return countryByCurrencyType;
 	}
 
+
+	@Override
+	public void IP(String ip) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	
 

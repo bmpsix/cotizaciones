@@ -17,4 +17,6 @@ public interface CurrencyTypeService {
 	
 	public abstract CurrencyType getCurrencyType(String idCurrencyType);
 	
+	public abstract void IP(String ip);
+	
 }

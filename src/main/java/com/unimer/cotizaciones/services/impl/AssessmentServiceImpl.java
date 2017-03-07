@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.Assessment;
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.LogAssessment;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.repositories.AssessmentJpaRepository;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogAssessmentJpaRepository;
 import com.unimer.cotizaciones.services.AssessmentService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Service("assessmentServiceImpl")
 public class AssessmentServiceImpl implements AssessmentService {
@@ -32,7 +34,13 @@ public class AssessmentServiceImpl implements AssessmentService {
 	@Qualifier("logAssessmentJpaRepository")
 	private LogAssessmentJpaRepository logAssessmentJpaRepository;
 	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
+	
 	private static final Log LOG = LogFactory.getLog(AssessmentServiceImpl.class);
+	
+	String ipCliente="";
 	
 	@Override
 	public Assessment addAssessment(Assessment assessment) {
@@ -54,6 +62,7 @@ public class AssessmentServiceImpl implements AssessmentService {
 				LOG.info("METHOD: addAssessment in AssessmentServiceImpl -- PARAMS: " + assessment.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se ingreso un nuevo assessment");
 
 			} else {
 				updateAssessment(assessment);
@@ -68,6 +77,7 @@ public class AssessmentServiceImpl implements AssessmentService {
 				assessmentJpaRepository.save(assessment);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se actualizo un nuevo assessment");
 			} else {
 				updateAssessment(assessment);
 			}
@@ -102,8 +112,22 @@ public class AssessmentServiceImpl implements AssessmentService {
 						asessmentToUpdate.getIdAssessment(),asessmentToUpdate.getCurrencyExchange().getIdCurrencyExchange(),asessmentToUpdate.getSaClient().getIdSaClient(),asessmentToUpdate.getUser().getIdUser());
 				assessmentJpaRepository.save(assessment);
 				logAssessmentJpaRepository.save(logAssessment);
+				
+				insertBinnacle("Se actualizo un nuevo assessment");
 			}
 		
+	}
+	
+	@Override
+	public void IP(String ip) {
+		ipCliente=ip;
+		
+	}
+	
+	private void insertBinnacle(String msg)
+	{
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		traceResponseService.addTraceResponse(traceResponse);
 	}
 	
 	

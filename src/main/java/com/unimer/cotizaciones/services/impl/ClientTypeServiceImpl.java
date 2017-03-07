@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.ClientType;
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.LogClientType;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.repositories.ClientTypeJpaRepository;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogClientTypeJpaRepository;
 import com.unimer.cotizaciones.services.ClientTypeService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Service("clientTypeServiceImpl")
 public class ClientTypeServiceImpl implements ClientTypeService {
@@ -32,8 +34,14 @@ public class ClientTypeServiceImpl implements ClientTypeService {
 	@Autowired
 	@Qualifier("logClientTypeJpaRepository")
 	private LogClientTypeJpaRepository logClientTypeJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
 
 	private static final Log LOG = LogFactory.getLog(ClientTypeServiceImpl.class);
+	
+	String ipCliente="";
 	
 
 	
@@ -57,6 +65,7 @@ public class ClientTypeServiceImpl implements ClientTypeService {
 				LOG.info("METHOD: addClientType in ClientTypeServiceImpl -- PARAMS: " + clientType.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se actualizo un nuevo tipo de cliente");
 
 			} else {
 				updateClientType(clientType);
@@ -71,6 +80,7 @@ public class ClientTypeServiceImpl implements ClientTypeService {
 				clientTypeJpaRepository.save(clientType);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agrego un tipo de cliente");
 			} else {
 				updateClientType(clientType);
 			}
@@ -92,6 +102,7 @@ public class ClientTypeServiceImpl implements ClientTypeService {
 		if (clientType != null) {
 			clientType.setStatus(status);
 			clientTypeJpaRepository.save(clientType);
+			
 		}
 
 	}
@@ -114,11 +125,25 @@ public class ClientTypeServiceImpl implements ClientTypeService {
 					clientTypeToUpdate.getStatus());
 			clientTypeJpaRepository.save(clientType);
 			logClientTypeJpaRepository.save(logClientType);
+			
+			insertBinnacle("Se actualizo un tipo de cliente");
 		}
 	}
 
 	@Override
 	public List<ClientType> findByActiveStatus() {
 		return clientTypeJpaRepository.findByStatus((byte) 1);
+	}
+	
+	@Override
+	public void IP(String ip) {
+		ipCliente=ip;
+		
+	}
+	
+	private void insertBinnacle(String msg)
+	{
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		traceResponseService.addTraceResponse(traceResponse);
 	}
 }

@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.IndustrySector;
 import com.unimer.cotizaciones.entities.LogIndustrySector;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.IndustrySectorJpaRepository;
 import com.unimer.cotizaciones.repositories.LogIndustrySectorJpaRepository;
 import com.unimer.cotizaciones.services.IndustrySectorService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Service("industrySectorServiceImpl")
 public class IndustrySectorServiceImpl implements IndustrySectorService{
@@ -32,9 +34,14 @@ public class IndustrySectorServiceImpl implements IndustrySectorService{
 	@Autowired
 	@Qualifier("logIndustrySectorJpaRepository")
 	private LogIndustrySectorJpaRepository logIndustrySectorJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
 
 	private static final Log LOG = LogFactory.getLog(IndustrySectorServiceImpl.class);
 	
+	String ipCliente="";
 	
 	@Override
 	public IndustrySector addIndustrySector(IndustrySector industrySector) {
@@ -56,7 +63,7 @@ public class IndustrySectorServiceImpl implements IndustrySectorService{
 				LOG.info("METHOD: addIndustrySector in IndustrySectorServiceImpl -- PARAMS: " + industrySector.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
-
+				insertBinnacle("Se actualizo un nuevo sector de industria");
 			} else {
 				updateIndustrySector(industrySector);
 			}
@@ -70,6 +77,7 @@ public class IndustrySectorServiceImpl implements IndustrySectorService{
 				industrySectorJpaRepository.save(industrySector);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agrego un nuevo sector de industria");
 			} else {
 				updateIndustrySector(industrySector);
 			}
@@ -102,9 +110,21 @@ public class IndustrySectorServiceImpl implements IndustrySectorService{
 			LogIndustrySector logIndustrySector = new LogIndustrySector(date, "IndustrySector  modified", "test", industrySectorToUpdate.getDetail(), industrySectorToUpdate.getIdIndustrySector());
 			industrySectorJpaRepository.save(industrySector);
 			logIndustrySectorJpaRepository.save(logIndustrySector);
+			
+			insertBinnacle("Se actualizo un nuevo sector de industria");
 		}
 	}
 	
+	@Override
+	public void IP(String ip) {
+		ipCliente=ip;
+		
+	}
 	
+	private void insertBinnacle(String msg)
+	{
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		traceResponseService.addTraceResponse(traceResponse);
+	}
 
 }

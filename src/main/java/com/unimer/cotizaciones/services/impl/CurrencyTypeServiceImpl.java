@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.services.CurrencyTypeService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 import com.unimer.cotizaciones.entities.CurrencyType;
 import com.unimer.cotizaciones.entities.LogCurrencyType;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.CurrencyTypeJpaRepository;
 import com.unimer.cotizaciones.repositories.LogCurrencyTypeJpaRepository;;
@@ -31,8 +33,14 @@ public class CurrencyTypeServiceImpl implements CurrencyTypeService{
 	@Autowired
 	@Qualifier("logCurrencyTypeJpaRepository")
 	private LogCurrencyTypeJpaRepository logCurrencyTypeJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
 
 	private static final Log LOG = LogFactory.getLog(CurrencyTypeServiceImpl.class);
+	
+	String ipCliente="";
 
 	@Override
 	public Consecutive getConsecutive() {
@@ -58,7 +66,7 @@ public class CurrencyTypeServiceImpl implements CurrencyTypeService{
 				LOG.info("METHOD: addCurrencyType in currencyTypeJpaRepository -- PARAMS: " + currencyType.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
-
+				insertBinnacle("Se actualizo un nuevo tipo de moneda");
 			} else {
 				updateCurrencyType(currencyType);
 			}
@@ -72,6 +80,7 @@ public class CurrencyTypeServiceImpl implements CurrencyTypeService{
 				currencyTypeJpaRepository.save(currencyType);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agrego un tipo de moneda");
 			} else {
 				updateCurrencyType(currencyType);
 			}
@@ -96,6 +105,8 @@ public class CurrencyTypeServiceImpl implements CurrencyTypeService{
 					currencyTypeToUpdate.getFavorite(),currencyTypeToUpdate.getIdCurrencyType(),currencyTypeToUpdate.getStatus(),currencyTypeToUpdate.getSymbol());
 			currencyTypeJpaRepository.save(currencyType);
 			logCurrencyTypeJpaRepository.save(logCurrencyType);
+			
+			insertBinnacle("Se actualizo un tipo de moneda");
 		}
 		
 	}
@@ -103,6 +114,18 @@ public class CurrencyTypeServiceImpl implements CurrencyTypeService{
 	@Override
 	public CurrencyType getCurrencyType(String idCurrencyType) {
 		return currencyTypeJpaRepository.findOne(idCurrencyType);
+	}
+	
+	@Override
+	public void IP(String ip) {
+		ipCliente=ip;
+		
+	}
+	
+	private void insertBinnacle(String msg)
+	{
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		traceResponseService.addTraceResponse(traceResponse);
 	}
 	
 

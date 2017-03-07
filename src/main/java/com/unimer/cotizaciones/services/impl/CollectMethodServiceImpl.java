@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.CollectMethod;
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.LogCollectMethod;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.repositories.CollectMethodJpaRepository;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogCollectMethodJpaRepository;
 import com.unimer.cotizaciones.services.CollectMethodService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Service("collectMethodServiceImpl")
 public class CollectMethodServiceImpl implements CollectMethodService{
@@ -31,9 +33,15 @@ public class CollectMethodServiceImpl implements CollectMethodService{
 	@Autowired
 	@Qualifier("logCollectMethodJpaRepository")
 	private LogCollectMethodJpaRepository logCollectMethodJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
 
 	
 	private static final Log LOG = LogFactory.getLog(CollectMethodServiceImpl.class);
+	
+	String ipCliente="";
 
 	@Override
 	public CollectMethod addCollectMethod(CollectMethod collectmethod) {
@@ -55,7 +63,7 @@ public class CollectMethodServiceImpl implements CollectMethodService{
 				LOG.info("METHOD: addCollectMethod in CollectMethodServiceImpl -- PARAMS: " + collectmethod.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
-
+				insertBinnacle("Se actualizo un nuevo metodo de coleccion");
 			} else {
 				updateCollectMethod(collectmethod);
 			}
@@ -69,6 +77,7 @@ public class CollectMethodServiceImpl implements CollectMethodService{
 				collectMethodJpaRepository.save(collectmethod);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se ingreso un nuevo metodo de coleccion");
 			} else {
 				updateCollectMethod(collectmethod);
 			}
@@ -90,6 +99,8 @@ public class CollectMethodServiceImpl implements CollectMethodService{
 					collectMethodToUpdate.getIdCollectMethod());
 			collectMethodJpaRepository.save(collectMethod);
 			logCollectMethodJpaRepository.save(logCollectMethod);
+			
+			insertBinnacle("Se actualizo un nuevo metodo de coleccion");
 		}
 		
 	}
@@ -118,6 +129,18 @@ public class CollectMethodServiceImpl implements CollectMethodService{
 	@Override
 	public CollectMethod getCollectMethod(String idCollectMethod) {
 		return collectMethodJpaRepository.findOne(idCollectMethod);
+	}
+	
+	@Override
+	public void IP(String ip) {
+		ipCliente=ip;
+		
+	}
+	
+	private void insertBinnacle(String msg)
+	{
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		traceResponseService.addTraceResponse(traceResponse);
 	}
 	
 	

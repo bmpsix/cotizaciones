@@ -1,5 +1,8 @@
 package com.unimer.cotizaciones.controllers;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.Assessment;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.services.AssessmentService;
 import com.unimer.cotizaciones.services.CurrencyExchangeService;
 import com.unimer.cotizaciones.services.SaClientService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 import com.unimer.cotizaciones.services.UserService;
 
 @Controller
@@ -36,10 +41,19 @@ public class AssessmentController {
 	@Qualifier("userServiceImpl")
 	private UserService userServiceImpl;
 	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
+	
 	private static final Log LOG = LogFactory.getLog(AssessmentController.class);
 	
 	@GetMapping("/admin/assessment")
-	public ModelAndView assessment(){
+	public ModelAndView assessment() throws UnknownHostException{
+		
+		String ip = InetAddress.getLocalHost().getHostAddress();
+		TraceResponse traceResponse = new TraceResponse(null,"test","Se ingreso a la pagina de asessment",ip);
+		traceResponseService.addTraceResponse(traceResponse);
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("assessment");
 		modelAndView.addObject("assessments", assessmentService.listAllAssessment());
@@ -48,11 +62,14 @@ public class AssessmentController {
 		modelAndView.addObject("saClients", saClientService.listAllSaClient());
 		modelAndView.addObject("users", userServiceImpl.listAllUser());
 		return modelAndView;
+		
 	}
 	
 	@PostMapping("/admin/addassessment")
-	public ModelAndView addAssessment(@ModelAttribute(name = "assessment") Assessment assessment, Model model) {
+	public ModelAndView addAssessment(@ModelAttribute(name = "assessment") Assessment assessment, Model model) throws UnknownHostException {
 		LOG.info("METHOD: addAssessment in AssessmentController -- PARAMS: " + assessment.toString());
+		String ip = InetAddress.getLocalHost().getHostAddress();
+		assessmentService.IP(ip);
 		assessmentService.addAssessment(assessment);
 		 ModelAndView modelAndView = new ModelAndView();
 		 	modelAndView.setViewName("assessment");

@@ -17,4 +17,6 @@ public interface AssessmentService {
 	
 	public abstract void updateAssessment(Assessment assessment);
 
+	public abstract void IP(String ip);
+
 }

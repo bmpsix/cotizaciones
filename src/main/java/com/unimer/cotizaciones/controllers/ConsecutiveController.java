@@ -1,5 +1,8 @@
 package com.unimer.cotizaciones.controllers;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +16,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.services.ConsecutiveService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Controller
 public class ConsecutiveController {
 
 	@Autowired
 	@Qualifier("consecutiveServiceImpl")
-
 	private ConsecutiveService consecutiveService;
+	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
 
 	private static final Log LOG = LogFactory.getLog(ConsecutiveController.class);
 
@@ -35,8 +42,10 @@ public class ConsecutiveController {
 	}
 
 	@PostMapping("/admin/addconsecutive")
-	public ModelAndView addConsecutive(@ModelAttribute(name = "consecutive") Consecutive consecutive, Model model) {
+	public ModelAndView addConsecutive(@ModelAttribute(name = "consecutive") Consecutive consecutive, Model model) throws UnknownHostException {
 		LOG.info("METHOD: addConsecutive -- PARAMS: " + consecutive.toString());
+		String ip = InetAddress.getLocalHost().getHostAddress();
+		consecutiveService.IP(ip);
 		consecutiveService.addConsecutive(consecutive);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("consecutive");

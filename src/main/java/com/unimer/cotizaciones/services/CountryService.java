@@ -15,4 +15,6 @@ public interface CountryService {
 	public abstract Country findById(String idCountry);
 
 	public abstract Consecutive getConsecutive();
+	
+	public abstract void IP(String ip);
 }

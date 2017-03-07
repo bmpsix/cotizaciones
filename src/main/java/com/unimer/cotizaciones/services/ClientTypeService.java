@@ -18,4 +18,6 @@ public abstract ClientType addClientType(ClientType clientType);
 	public abstract Consecutive getConsecutive();
 	
 	public abstract List<ClientType> findByActiveStatus();
+	
+	public abstract void IP(String ip);
 }

@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.entities.LogCountry;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.CountryJpaRepository;
 import com.unimer.cotizaciones.repositories.LogCountryJpaRepository;
 import com.unimer.cotizaciones.services.CountryService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Service("countryServiceImpl")
 public class CountryServiceImpl implements CountryService {
@@ -32,8 +34,14 @@ public class CountryServiceImpl implements CountryService {
 	@Autowired
 	@Qualifier("logCountryJpaRepository")
 	private LogCountryJpaRepository logCountryJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
 
 	private static final Log LOG = LogFactory.getLog(CountryServiceImpl.class);
+	
+	String ipCliente="";
 	
 	
 	@Override
@@ -56,7 +64,7 @@ public class CountryServiceImpl implements CountryService {
 				LOG.info("METHOD: addCountry in CountryServiceImpl -- PARAMS: " + country.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
-
+				insertBinnacle("Se actualizo un nuevo sevicio de pais");
 			} else {
 				updateCountry(country);
 			}
@@ -70,6 +78,7 @@ public class CountryServiceImpl implements CountryService {
 				countryJpaRepository.save(country);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agrego un servicio de pais");
 			} else {
 				updateCountry(country);
 			}
@@ -105,6 +114,20 @@ public class CountryServiceImpl implements CountryService {
 			LOG.info("METHOD: addCountry in CountryServiceImpl -- PARAMS: " + logCountry.toString());
 			countryJpaRepository.save(country);
 			logCountryJpaRepository.save(logCountry);
+			
+			insertBinnacle("Se actualizo un servicio de pais");
 		}
+	}
+	
+	@Override
+	public void IP(String ip) {
+		ipCliente=ip;
+		
+	}
+	
+	private void insertBinnacle(String msg)
+	{
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		traceResponseService.addTraceResponse(traceResponse);
 	}
 }

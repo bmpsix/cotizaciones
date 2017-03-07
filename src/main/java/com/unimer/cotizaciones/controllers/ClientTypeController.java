@@ -1,5 +1,8 @@
 package com.unimer.cotizaciones.controllers;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.ClientType;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.services.ClientTypeService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Controller
 public class ClientTypeController {
@@ -23,10 +28,17 @@ public class ClientTypeController {
 	@Qualifier("clientTypeServiceImpl")
 	private ClientTypeService clientTypeService;
 	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
+	
 	private static final Log LOG = LogFactory.getLog(ClientTypeController.class);
 	
 	@GetMapping("/admin/clienttype")
-	public ModelAndView clientType(){
+	public ModelAndView clientType() throws UnknownHostException{
+		String ip = InetAddress.getLocalHost().getHostAddress();
+		TraceResponse traceResponse = new TraceResponse(null,"test","Se ingreso a la pagina de tipo de cliente",ip);
+		traceResponseService.addTraceResponse(traceResponse);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("clienttype");
@@ -37,8 +49,10 @@ public class ClientTypeController {
 	}
 	
 	@PostMapping("/admin/addclienttype")
-	public ModelAndView addClientType(@ModelAttribute(name = "clienttype") ClientType clientType, Model model) {
+	public ModelAndView addClientType(@ModelAttribute(name = "clienttype") ClientType clientType, Model model) throws UnknownHostException {
 		LOG.info("METHOD: addClientType in ClientTypeController -- PARAMS: " + clientType.toString());
+		String ip = InetAddress.getLocalHost().getHostAddress();
+		clientTypeService.IP(ip);
 		clientTypeService.addClientType(clientType);
 		 ModelAndView modelAndView = new ModelAndView();
 		 modelAndView.setViewName("clienttype");

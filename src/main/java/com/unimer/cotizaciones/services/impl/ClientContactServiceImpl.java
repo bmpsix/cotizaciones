@@ -93,7 +93,7 @@ public class ClientContactServiceImpl implements ClientContactService {
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
 				
-				insertBinnacle("Se agregó un nuevo contacto de cliente");
+				insertBinnacle("Se actualizo un nuevo contacto de cliente");
 			} else {
 				updateClientContact(clientContact);
 			}
