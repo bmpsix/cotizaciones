@@ -18,4 +18,5 @@ public interface SaClientService {
 	public abstract Consecutive getConsecutive();
 	
 	public abstract List<SaClient> findByActiveStatus();
+	public abstract void IP(String string);
 }

@@ -14,5 +14,7 @@ public interface ProposalTypeService {
 	public abstract List<ProposalType> listAllProposalTypes();
 	
 	public abstract ProposalType findById(String idProposalType);
+	
+	public abstract void IP(String string);
 
 }

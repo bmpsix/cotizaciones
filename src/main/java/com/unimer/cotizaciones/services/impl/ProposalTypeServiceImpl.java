@@ -12,10 +12,13 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.LogProposalType;
 import com.unimer.cotizaciones.entities.ProposalType;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogProposalTypeJpaRepository;
 import com.unimer.cotizaciones.repositories.ProposalTypeJpaRepository;
+import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.services.ProposalTypeService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Service("proposalTypeServiceImpl")
 public class ProposalTypeServiceImpl implements ProposalTypeService {
@@ -32,6 +35,17 @@ public class ProposalTypeServiceImpl implements ProposalTypeService {
 	@Qualifier("logProposalTypeJpaRepository")
 	private LogProposalTypeJpaRepository logProposalTypeJpaRepository;
 
+	
+	@Autowired
+	@Qualifier("traceResponseJpaRepository")
+	private TraceResponseJpaRepository traceResponseJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
+	
+	String ipCliente="";
+	
 	
 	private static final Log LOG = LogFactory.getLog(ProposalTypeServiceImpl.class);
 	
@@ -63,6 +77,7 @@ public class ProposalTypeServiceImpl implements ProposalTypeService {
 				LOG.info("METHOD: addProposalType in ProposalTypeServiceImpl -- PARAMS: " + proposalType.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agregó un tipo de propuesta");
 
 			} else {
 				updateProposalType(proposalType);
@@ -77,6 +92,8 @@ public class ProposalTypeServiceImpl implements ProposalTypeService {
 				proposalTypeJpaRepository.save(proposalType);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+
+				insertBinnacle("Se agregó un tipo de propuesta");
 			} else {
 				updateProposalType(proposalType);
 			}
@@ -105,12 +122,22 @@ public class ProposalTypeServiceImpl implements ProposalTypeService {
 			LogProposalType logProposalType = new LogProposalType(date, "Proposal Type  modified", "test", proposalTypeToUpdate.getDetail(), proposalTypeToUpdate.getIdProposalType());
 			proposalTypeJpaRepository.save(proposalType);
 			logProposalTypeJpaRepository.save(logProposalType);
+
+			insertBinnacle("Se actualizó un tipo de propuesta");
 		}
-
-	
-
 	}	
 
+	@Override
+	public void IP(String ip) {
+		ipCliente=ip;
+		
+	}
+	
+	private void insertBinnacle(String msg)
+	{
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		traceResponseService.addTraceResponse(traceResponse);
+	}
 		
 		
 	

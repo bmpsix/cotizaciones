@@ -15,6 +15,6 @@ public interface StudyTypeService {
 	public abstract StudyType findById(String idStudyType);
 
 	public abstract Consecutive getConsecutive();
-	
+	public abstract void IP(String string);
 	
 }

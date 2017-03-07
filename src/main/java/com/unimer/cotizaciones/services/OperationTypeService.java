@@ -14,4 +14,6 @@ public abstract OperationType addOperationType(OperationType operationType);
 	public abstract OperationType findById(String idOperationType);
 	
 	public abstract Consecutive getConsecutive();
+	
+	public abstract void IP(String string);
 }

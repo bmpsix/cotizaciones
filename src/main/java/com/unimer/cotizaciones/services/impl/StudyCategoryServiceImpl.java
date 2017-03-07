@@ -12,10 +12,13 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.LogStudyCategory;
 import com.unimer.cotizaciones.entities.StudyCategory;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogStudyCategoryJpaRepository;
 import com.unimer.cotizaciones.repositories.StudyCategoryJpaRepository;
+import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.services.StudyCategoryService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Service("studyCategoryImpl")
 public class StudyCategoryServiceImpl implements StudyCategoryService{
@@ -32,6 +35,16 @@ public class StudyCategoryServiceImpl implements StudyCategoryService{
 	@Autowired
 	@Qualifier("logStudyCategoryJpaRepository")
 	private LogStudyCategoryJpaRepository logStudyCategoryJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseJpaRepository")
+	private TraceResponseJpaRepository traceResponseJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
+	
+	String ipCliente="";
 	
 	private static final Log LOG = LogFactory.getLog(StudyCategoryServiceImpl.class);
 	
@@ -55,6 +68,7 @@ public class StudyCategoryServiceImpl implements StudyCategoryService{
 				LOG.info("METHOD: addStudyCategory in StudyCategoryServiceImpl -- PARAMS: " + studyCategory.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agregó una categoría de estudio");
 
 			} else {
 				updateStudyCategory(studyCategory);
@@ -69,6 +83,7 @@ public class StudyCategoryServiceImpl implements StudyCategoryService{
 				studyCategoryJpaRepository.save(studyCategory);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agregó una categoría de estudio");
 			} else {
 				updateStudyCategory(studyCategory);
 			}
@@ -103,7 +118,20 @@ public class StudyCategoryServiceImpl implements StudyCategoryService{
 			LogStudyCategory logStudyCategory = new LogStudyCategory(date, "Study category  modified", "test",studyCategoryToUpdate.getIdStudyCategory() ,studyCategoryToUpdate.getDetail());
 			studyCategoryJpaRepository.save(studyCategory);
 			logStudyCategoryJpaRepository.save(logStudyCategory);
+			insertBinnacle("Se actualizó una categoría de estudio");
 		}
+	}
+	
+	@Override
+	public void IP(String ip) {
+		ipCliente=ip;
+		
+	}
+	
+	private void insertBinnacle(String msg)
+	{
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		traceResponseService.addTraceResponse(traceResponse);
 	}
 	
 

@@ -16,4 +16,5 @@ public abstract Status addStatus(Status status);
 	public abstract Status findById(String idStatus);
 	
 	public abstract Consecutive getConsecutive();
+	public abstract void IP(String string);
 }

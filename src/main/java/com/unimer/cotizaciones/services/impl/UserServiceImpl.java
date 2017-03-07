@@ -13,10 +13,13 @@ import org.springframework.stereotype.Service;
 
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.LogUser;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogUserJpaRepository;
+import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.repositories.UserJpaRepository;
+import com.unimer.cotizaciones.services.TraceResponseService;
 import com.unimer.cotizaciones.services.UserService;
 
 @Service("userServiceImpl")
@@ -33,6 +36,17 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	@Qualifier("logUserJpaRepository")
 	private LogUserJpaRepository logUserJpaRepository;
+	
+	
+	@Autowired
+	@Qualifier("traceResponseJpaRepository")
+	private TraceResponseJpaRepository traceResponseJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
+	
+	String ipCliente="";
 
 	private static final Log LOG = LogFactory.getLog(UserServiceImpl.class);
 
@@ -71,6 +85,7 @@ public class UserServiceImpl implements UserService {
 				LOG.info("METHOD: addUser new 2 in UserServiceImpl -- PARAMS: " + user.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agregó un usuario");
 
 			} else {
 				updateUser(user);
@@ -93,6 +108,7 @@ public class UserServiceImpl implements UserService {
 				userJpaRepository.save(user);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agregó un usuario");
 			} else {
 				updateUser(user);
 			}
@@ -134,6 +150,7 @@ public class UserServiceImpl implements UserService {
 					userToUpdate.getStatus(), userToUpdate.getUseCommission(), userToUpdate.getUsername());
 			userJpaRepository.save(user);
 			logUserJpaRepository.save(logUser);
+			insertBinnacle("Se actualizó un usuario");
 		}
 	}
 
@@ -152,6 +169,17 @@ public class UserServiceImpl implements UserService {
         
 	}*/
 	
-	
+		@Override
+		public void IP(String ip) {
+			ipCliente=ip;
+			
+		}
+		
+		private void insertBinnacle(String msg)
+		{
+			TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+			traceResponseService.addTraceResponse(traceResponse);
+		}
+		
 
 }

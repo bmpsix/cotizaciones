@@ -16,7 +16,7 @@ public interface TechniqueService {
 	public abstract Technique findById(String idTechnique);
 
 	public abstract Consecutive getConsecutive();
-	
+	public abstract void IP(String string);
 	
 }
 

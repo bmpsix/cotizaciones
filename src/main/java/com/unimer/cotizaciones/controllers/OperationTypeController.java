@@ -1,5 +1,8 @@
 package com.unimer.cotizaciones.controllers;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.OperationType;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.services.OperationTypeService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Controller
 public class OperationTypeController {
@@ -22,10 +27,21 @@ public class OperationTypeController {
 	@Qualifier("operationTypeServiceImpl")
 	private OperationTypeService operationTypeService;
 	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
+	
+	
+	
 	private static final Log LOG = LogFactory.getLog(OperationTypeController.class);
 	
 	@GetMapping("/admin/operationtype")
-	public ModelAndView operationType(){
+	public ModelAndView operationType() throws UnknownHostException{
+		
+		String ip = InetAddress.getLocalHost().getHostAddress();
+		TraceResponse traceResponse = new TraceResponse(null,"test","Se incresó a la página de Tipo de operaciones",ip);
+		traceResponseService.addTraceResponse(traceResponse);
+		
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("operationtype");
@@ -36,8 +52,10 @@ public class OperationTypeController {
 	}
 	
 	@PostMapping("/admin/addoperationtype")
-	public ModelAndView addOperationType(@ModelAttribute(name = "operationType") OperationType operationType, Model model) {
+	public ModelAndView addOperationType(@ModelAttribute(name = "operationType") OperationType operationType, Model model) throws UnknownHostException {
 		LOG.info("METHOD: addOperationType in OperationTypeController -- PARAMS: " + operationType.toString());
+		String ip = InetAddress.getLocalHost().getHostAddress();
+		operationTypeService.IP(ip);
 		operationTypeService.addOperationType(operationType);
 		 ModelAndView modelAndView = new ModelAndView();
 		 modelAndView.setViewName("operationtype");
@@ -48,7 +66,7 @@ public class OperationTypeController {
 	}
 	
 	@GetMapping("/admin/addoperationtype")
-	public String getRol(){
+	public String getOPT(){
 		return "redirect:/admin/operationtype";
 	}
 	

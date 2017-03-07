@@ -1,5 +1,8 @@
 package com.unimer.cotizaciones.controllers;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +14,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.StudyCategory;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.services.StudyCategoryService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Controller
 public class StudyCategoryController {
@@ -21,10 +26,19 @@ public class StudyCategoryController {
 	@Qualifier("studyCategoryImpl")
 	private StudyCategoryService studyCategoryService;
 	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
+	
+	
+	
 	private static final Log LOG = LogFactory.getLog(StudyCategoryController.class);
 	
 	@GetMapping("/admin/studyCategory")
-	public ModelAndView studyCategory(){
+	public ModelAndView studyCategory() throws UnknownHostException{
+		String ip = InetAddress.getLocalHost().getHostAddress();
+		TraceResponse traceResponse = new TraceResponse(null,"test","Se incresó a la página de Categoría de estudio",ip);
+		traceResponseService.addTraceResponse(traceResponse);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("studyCategory");
@@ -35,8 +49,10 @@ public class StudyCategoryController {
 	}
 	
 	@PostMapping("/admin/addStudyCategory")
-	public ModelAndView addStudyCategory(@ModelAttribute(name = "studyCategory") StudyCategory studyCategory, Model model) {
+	public ModelAndView addStudyCategory(@ModelAttribute(name = "studyCategory") StudyCategory studyCategory, Model model) throws UnknownHostException {
 		LOG.info("METHOD: addStudyCategory in StudyCategoryController -- PARAMS: " + studyCategory.toString());
+		String ip = InetAddress.getLocalHost().getHostAddress();
+		studyCategoryService.IP(ip);
 		studyCategoryService.addStudyCategory(studyCategory);
 		 ModelAndView modelAndView = new ModelAndView();
 		 modelAndView.setViewName("studyCategory");

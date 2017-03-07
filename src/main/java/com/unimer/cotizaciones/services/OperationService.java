@@ -13,4 +13,6 @@ public interface OperationService {
 	public abstract List<Operation> listAllOperation();
 	
 	public abstract Operation findById(String idOperation);
+	
+	public abstract void IP(String string);
 }

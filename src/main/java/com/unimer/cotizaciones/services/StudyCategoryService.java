@@ -16,6 +16,6 @@ public interface StudyCategoryService {
 	public abstract StudyCategory findById(String idStudyCategory);
 
 	public abstract Consecutive getConsecutive();
-	
+	public abstract void IP(String string);
 	
 }

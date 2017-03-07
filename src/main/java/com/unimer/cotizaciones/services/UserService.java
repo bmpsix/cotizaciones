@@ -14,5 +14,5 @@ public interface UserService {
 	public abstract List<User> listAllUser();
 	
 	public abstract User findById(String idUser);
-	
+	public abstract void IP(String string);
 }

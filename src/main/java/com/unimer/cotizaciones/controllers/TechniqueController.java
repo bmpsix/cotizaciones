@@ -1,5 +1,8 @@
 package com.unimer.cotizaciones.controllers;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.Technique;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.services.TechniqueService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Controller
 public class TechniqueController {
@@ -20,10 +25,19 @@ public class TechniqueController {
 	@Qualifier("TechniqueServiceImpl")
 	private TechniqueService TechniqueService;
 	
+	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
+	
 	private static final Log LOG = LogFactory.getLog(TechniqueController.class);
 	
 	@GetMapping("/admin/technique")
-	public ModelAndView Technique(){
+	public ModelAndView Technique() throws UnknownHostException{
+		
+		String ip = InetAddress.getLocalHost().getHostAddress();
+		TraceResponse traceResponse = new TraceResponse(null,"test","Se incresó a la página de Tecnicas",ip);
+		traceResponseService.addTraceResponse(traceResponse);
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("Technique");
@@ -34,8 +48,10 @@ public class TechniqueController {
 	}
 	
 	@PostMapping("/admin/addtechnique")
-	public ModelAndView addTechnique(@ModelAttribute(name = "Technique") Technique Technique, Model model) {
+	public ModelAndView addTechnique(@ModelAttribute(name = "Technique") Technique Technique, Model model) throws UnknownHostException {
 		LOG.info("METHOD: addTechnique in TechniqueController -- PARAMS: " + Technique.toString());
+		String ip = InetAddress.getLocalHost().getHostAddress();
+		TechniqueService.IP(ip);
 		TechniqueService.addTechnique(Technique);
 		 ModelAndView modelAndView = new ModelAndView();
 		 modelAndView.setViewName("Technique");

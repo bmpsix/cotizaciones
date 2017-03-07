@@ -10,10 +10,13 @@ import org.springframework.stereotype.Service;
 
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.Target;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.services.TargetService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogTargetJpaRepository;
 import com.unimer.cotizaciones.repositories.TargetJpaRepository;
+import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 
 @Service("targetServiceImpl")
 public class TargetServiceImpl implements TargetService {
@@ -27,7 +30,19 @@ public class TargetServiceImpl implements TargetService {
 	@Qualifier("logTargetJpaRepository")
 	private LogTargetJpaRepository logTargetJpaRepository;
 	
+	@Autowired
+	@Qualifier("traceResponseJpaRepository")
+	private TraceResponseJpaRepository traceResponseJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
+	
+	String ipCliente="";
+	
 	private static final Log LOG = LogFactory.getLog(TargetServiceImpl.class);
+	
+	
 	
 	@Override
 	public Consecutive getConsecutive() {
@@ -54,6 +69,8 @@ public class TargetServiceImpl implements TargetService {
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
 
+				insertBinnacle("Se agregó un muestreo");
+
 			} else {
 				updateTarget(target);
 			}
@@ -67,6 +84,8 @@ public class TargetServiceImpl implements TargetService {
 				targetJpaRepository.save(target);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agregó un muestreo");
+				
 			} else {
 				
 				updateTarget(target);
@@ -101,9 +120,22 @@ public class TargetServiceImpl implements TargetService {
 			//LOG.info("METHOD: addtarget in targetServiceImpl -- PARAMS: " + logTarget.toString());
 			targetJpaRepository.save(target);
 			//logTargetJpaRepository.save(logTarget);
+
+			insertBinnacle("Se actualizó un muestreo");
 		}
 	}
 	
+	@Override
+	public void IP(String ip) {
+		ipCliente=ip;
+		
+	}
+	
+	private void insertBinnacle(String msg)
+	{
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		traceResponseService.addTraceResponse(traceResponse);
+	}
 	
 	
 }

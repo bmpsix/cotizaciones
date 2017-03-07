@@ -11,11 +11,14 @@ import org.springframework.stereotype.Service;
 
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.Technique;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.entities.LogTechnique;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.TechniqueJpaRepository;
+import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.repositories.LogTechniqueJpaRepository;
 import com.unimer.cotizaciones.services.TechniqueService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Service("TechniqueServiceImpl")
 public class TechniqueServiceImpl implements TechniqueService{
@@ -33,6 +36,17 @@ public class TechniqueServiceImpl implements TechniqueService{
 	@Qualifier("logTechniqueJpaRepository")
 	private LogTechniqueJpaRepository logTechniqueJpaRepository;
 
+	@Autowired
+	@Qualifier("traceResponseJpaRepository")
+	private TraceResponseJpaRepository traceResponseJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
+	
+	String ipCliente="";
+	
+	
 	private static final Log LOG = LogFactory.getLog(TechniqueServiceImpl.class);
 	
 	
@@ -57,6 +71,8 @@ public class TechniqueServiceImpl implements TechniqueService{
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
 
+				insertBinnacle("Se agregó una tecnica");
+
 			} else {
 				updateTechnique(Technique);
 			}
@@ -70,6 +86,8 @@ public class TechniqueServiceImpl implements TechniqueService{
 				TechniqueJpaRepository.save(Technique);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+
+				insertBinnacle("Se agregó una tecnica");
 			} else {
 				updateTechnique(Technique);
 			}
@@ -102,7 +120,20 @@ public class TechniqueServiceImpl implements TechniqueService{
 			LogTechnique logTechnique = new LogTechnique(date, "Technique  modified", "test", TechniqueToUpdate.getDetail(), TechniqueToUpdate.getIdTechnique());
 			TechniqueJpaRepository.save(Technique);
 			logTechniqueJpaRepository.save(logTechnique);
+			insertBinnacle("Se actualizó una tecnica");
 		}
+	}
+	
+	@Override
+	public void IP(String ip) {
+		ipCliente=ip;
+		
+	}
+	
+	private void insertBinnacle(String msg)
+	{
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		traceResponseService.addTraceResponse(traceResponse);
 	}
 	
 	

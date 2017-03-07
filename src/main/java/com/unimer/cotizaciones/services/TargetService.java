@@ -14,6 +14,6 @@ public abstract Consecutive getConsecutive();
 	public abstract List<Target> listAllTargets();
 	
 	public abstract Target findById(String idTarget);
-	
+	public abstract void IP(String string);
 	
 }

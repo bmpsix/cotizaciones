@@ -12,10 +12,13 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.LogStudyType;
 import com.unimer.cotizaciones.entities.StudyType;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogStudyTypeJpaRepository;
 import com.unimer.cotizaciones.repositories.StudyTypeJpaRepository;
+import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.services.StudyTypeService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Service("StudyTypeServiceImpl")
 public class StudyTypeServiceImpl implements StudyTypeService{
@@ -31,6 +34,16 @@ public class StudyTypeServiceImpl implements StudyTypeService{
 	@Autowired
 	@Qualifier("logStudyTypeJpaRepository")
 	private LogStudyTypeJpaRepository logStudyTypeJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseJpaRepository")
+	private TraceResponseJpaRepository traceResponseJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
+	
+	String ipCliente="";
 	
 	private static final Log LOG = LogFactory.getLog(StudyTypeServiceImpl.class);
 	
@@ -54,6 +67,7 @@ public class StudyTypeServiceImpl implements StudyTypeService{
 				LOG.info("METHOD: addStudyType in StudyTypeServiceImpl -- PARAMS: " + StudyType.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agregó un tipo de estudio");
 
 			} else {
 				updateStudyType(StudyType);
@@ -68,6 +82,7 @@ public class StudyTypeServiceImpl implements StudyTypeService{
 				StudyTypeJpaRepository.save(StudyType);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agregó un tipo de estudio");
 			} else {
 				updateStudyType(StudyType);
 			}
@@ -102,7 +117,20 @@ public class StudyTypeServiceImpl implements StudyTypeService{
 			LogStudyType logStudyType = new LogStudyType(date, "Study Type modified", "test",StudyTypeToUpdate.getIdStudyType() ,StudyTypeToUpdate.getDetail());
 			StudyTypeJpaRepository.save(StudyType);
 			logStudyTypeJpaRepository.save(logStudyType);
+			insertBinnacle("Se actualizó un tipo de estudio");
 		}
+	}
+	
+	@Override
+	public void IP(String ip) {
+		ipCliente=ip;
+		
+	}
+	
+	private void insertBinnacle(String msg)
+	{
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		traceResponseService.addTraceResponse(traceResponse);
 	}
 	
 

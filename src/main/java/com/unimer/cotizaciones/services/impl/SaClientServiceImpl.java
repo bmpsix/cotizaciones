@@ -12,10 +12,13 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.LogSaClient;
 import com.unimer.cotizaciones.entities.SaClient;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogSaClientJpaRepository;
 import com.unimer.cotizaciones.repositories.SaClientJpaRepository;
+import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.services.SaClientService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Service("saClientServiceImpl")
 public class SaClientServiceImpl implements SaClientService {
@@ -33,6 +36,17 @@ public class SaClientServiceImpl implements SaClientService {
 	@Qualifier("logSaClientJpaRepository")
 	private LogSaClientJpaRepository logSaClientJpaRepository;
 
+	
+	@Autowired
+	@Qualifier("traceResponseJpaRepository")
+	private TraceResponseJpaRepository traceResponseJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
+	
+	String ipCliente="";
+	
 	private static final Log LOG = LogFactory.getLog(SaClientServiceImpl.class);
 	
 	
@@ -57,6 +71,7 @@ public class SaClientServiceImpl implements SaClientService {
 				LOG.info("METHOD: addSaClient in SaClientServiceImpl -- PARAMS: " + saClient.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agregó un cliente SA");
 
 			} else {
 				updateSaClient(saClient);
@@ -71,6 +86,7 @@ public class SaClientServiceImpl implements SaClientService {
 				saClientJpaRepository.save(saClient);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agregó un cliente SA");
 			} else {
 				updateSaClient(saClient);;
 			}
@@ -114,6 +130,8 @@ public class SaClientServiceImpl implements SaClientService {
 					saClientToUpdate.getStatus());
 			saClientJpaRepository.save(saClient);
 			logSaClientJpaRepository.save(logSaClient);
+			insertBinnacle("Se actualizó un cliente SA");
+			
 		}
 	}
 
@@ -122,6 +140,17 @@ public class SaClientServiceImpl implements SaClientService {
 		return saClientJpaRepository.findByStatus((byte) 1);
 	}
 
+	@Override
+	public void IP(String ip) {
+		ipCliente=ip;
+		
+	}
+	
+	private void insertBinnacle(String msg)
+	{
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		traceResponseService.addTraceResponse(traceResponse);
+	}
 	
 
 }

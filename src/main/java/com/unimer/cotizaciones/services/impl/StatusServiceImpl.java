@@ -12,10 +12,13 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.LogStatus;
 import com.unimer.cotizaciones.entities.Status;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogStatusJpaRepository;
 import com.unimer.cotizaciones.repositories.StatusJpaRepository;
+import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.services.StatusService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Service("statusServiceImpl")
 public class StatusServiceImpl implements StatusService {
@@ -32,6 +35,16 @@ public class StatusServiceImpl implements StatusService {
 	@Autowired
 	@Qualifier("logStatusJpaRepository")
 	private LogStatusJpaRepository logStatusJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseJpaRepository")
+	private TraceResponseJpaRepository traceResponseJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
+	
+	String ipCliente="";
 	
 	private static final Log LOG = LogFactory.getLog(StatusServiceImpl.class);
 	
@@ -56,6 +69,7 @@ public class StatusServiceImpl implements StatusService {
 				LOG.info("METHOD: addStatus in StatuseServiceImpl -- PARAMS: " + status.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agregó un Estado");
 
 			} else {
 				updateStatus(status);
@@ -70,6 +84,7 @@ public class StatusServiceImpl implements StatusService {
 				statusJpaRepository.save(status);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agregó un Estado");
 			} else {
 				updateStatus(status);
 			}
@@ -116,8 +131,21 @@ public class StatusServiceImpl implements StatusService {
 			LogStatus logStatus = new LogStatus(date, "Status  modified", "test", statusToUpdate.getDetail(), statusToUpdate.getIdStatus());
 			statusJpaRepository.save(status);
 			logStatusJpaRepository.save(logStatus);
+			insertBinnacle("Se actualizó un Estado");
 		}
 	}
 
+	
+	@Override
+	public void IP(String ip) {
+		ipCliente=ip;
+		
+	}
+	
+	private void insertBinnacle(String msg)
+	{
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		traceResponseService.addTraceResponse(traceResponse);
+	}
 
 }

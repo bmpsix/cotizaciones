@@ -20,4 +20,6 @@ public interface RolService {
 	public abstract Rol findById(String idRol);
 	
 	public abstract Consecutive getConsecutive();
+	
+	public abstract void IP(String string);
 }

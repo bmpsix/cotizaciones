@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/header"></head>
+<body>
+	<div data-role="page" data-theme="a" data-dom-cache="false" >
+		<div data-role="header" data-position="inline" >
+			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
+            <h1>
+            SIP Cotizaciones - Roles
+            </h1>
+		</div>
+		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
+		<h3>Control de roles</h3>
+		
+           	<fieldset data-role="controlgroup"  data-type="horizontal">
+           	<legend><h3>Roles en el sistema</h3></legend>
+           		<table style="text-align:justify;">
+           				<thead>
+           				<tr>
+           				<th  style="padding-right: 15px;">ID</th>
+           				<th  style="padding-right: 15px;">Usuario</th>
+           				<th  style="padding-right: 15px;">Detalle</th>
+           				<th  style="padding-right: 15px;">IP</th>
+           				<th  style="padding-right: 15px;">Fecha</th>
+           				</tr>
+           				</thead>
+           				<tbody>
+	           			<tr th:each="trace : ${traces}">
+							<td style="padding-right: 15px;" th:text="${trace.idTraceResponse}"></td>
+							<td style="padding-right: 15px;" th:text="${trace.actionUser}"></td>
+	           				<td style="padding-right: 15px;" th:text="${trace.detail}"></td>
+	           				<td style="padding-right: 15px;" th:text="${trace.ip}"></td>
+           				</tr>
+           				
+          			</tbody>
+           			</table>
+           	</fieldset>
+           	
+		</div>
+		<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
+			<div data-role="popup" data-position="left" id="adminmenu" th:replace="fragments/footer"></div>
+		<!-- /panel -->	
+		</div>
+	</div>
+</body>
+</html>
