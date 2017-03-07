@@ -126,7 +126,8 @@ public class AssessmentServiceImpl implements AssessmentService {
 	
 	private void insertBinnacle(String msg)
 	{
-		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		Date date = new Date();
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente, date);
 		traceResponseService.addTraceResponse(traceResponse);
 	}
 	

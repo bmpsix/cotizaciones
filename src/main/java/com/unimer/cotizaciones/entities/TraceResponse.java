@@ -1,11 +1,14 @@
 package com.unimer.cotizaciones.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 /**
@@ -29,9 +32,22 @@ public class TraceResponse implements Serializable {
 
 	@Column(nullable=false, length=25)
 	private String ip;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="entry_date", nullable=false)
+	private Date entryDate;
+	
+	public Date getEntryDate() {
+		return entryDate;
+	}
+
+	public void setEntryDate(Date entryDate) {
+		this.entryDate = entryDate;
+	}
 
 	public TraceResponse() {
 	}
+
 
 	
 
@@ -76,17 +92,19 @@ public class TraceResponse implements Serializable {
 	@Override
 	public String toString() {
 		return "TraceResponse [idTraceResponse=" + idTraceResponse + ", actionUser=" + actionUser + ", detail=" + detail
-				+ ", ip=" + ip + "]";
+				+ ", ip=" + ip + ", entrydate"+ entryDate +"]";
 	}
 
 
 
-	public TraceResponse(String idTraceResponse, String actionUser, String detail, String ip) {
+	public TraceResponse(String idTraceResponse, String actionUser, String detail, String ip, Date entrydate) {
 		super();
 		this.idTraceResponse = idTraceResponse;
 		this.actionUser = actionUser;
 		this.detail = detail;
 		this.ip = ip;
+		this.entryDate = entrydate;
+		
 	}
 
 	

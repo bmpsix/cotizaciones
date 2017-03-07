@@ -2,6 +2,8 @@ package com.unimer.cotizaciones.controllers;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Date;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +46,9 @@ public class ClientContactController {
 	
 	@GetMapping("/admin/clientcontact")
 	public ModelAndView clientContact() throws UnknownHostException{
-		
+		Date date = new Date();
 		String ip = InetAddress.getLocalHost().getHostAddress();
-		TraceResponse traceResponse = new TraceResponse(null,"test","Se ingresoó a la página de contacto de cliente",ip);
+		TraceResponse traceResponse = new TraceResponse(null,"test","Se ingresoó a la página de contacto de cliente",ip,date);
 		traceResponseService.addTraceResponse(traceResponse);
 		
 		ModelAndView modelAndView = new ModelAndView();

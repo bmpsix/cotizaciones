@@ -24,11 +24,11 @@
 						<div th:if="${updateTarget==null}">
 							<input  type="text" name="idTarget" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'TRT-1'}" disabled/>
 							<label for="creationDate">Fecha de creación:</label>
-							<input name="creationDate"  th:value="${creationDate}" data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text">   
+							<input name="creationDate"  th:value="${creationDate}" data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="date">   
 							<label for="initialDate">Fecha de inicio:</label>
-							<input name="initialDate" th:value="${initialDate}"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text">   
+							<input name="initialDate" th:value="${initialDate}"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="date">   
 							<label for="endDate">Fecha de final:</label>			
-							<input name="endDate"  th:value="${endDate}"  data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }'  type="text">   
+							<input name="endDate"  th:value="${endDate}"  data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }'  type="date">   
 							<label for="observations">Observaciones:</label>
 							<input  type="text" th:value="${observations}" name="observations"/>
 								
@@ -38,11 +38,11 @@
 						<div th:if="${updateTarget!=null}">
 							<input type="text" name="idTarget" th:value="${updateTarget.idTarget}" readonly />
 							<label for="creationDate">Fecha de creación:</label>
-							<input name="creationDate"  th:value="${updateTarget.creationDate}" data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text">   
+							<input name="creationDate"  th:value="${updateTarget.creationDate}" data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="date">   
 							<label for="initialDate">Fecha de inicio:</label>
-							<input name="initialDate" th:value="${updateTarget.initialDate}"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text">   
+							<input name="initialDate" th:value="${updateTarget.initialDate}"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="date">   
 							<label for="endDate">Fecha de final:</label>			
-							<input name="endDate"  th:value="${updateTarget.endDate}"  data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }'  type="text">   
+							<input name="endDate"  th:value="${updateTarget.endDate}"  data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }'  type="date">   
 							<label for="observations">Observaciones:</label>
 							<input  type="text" th:value="${updateTarget.observations}" name="observations"/>  
 														

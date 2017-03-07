@@ -2,6 +2,7 @@ package com.unimer.cotizaciones.controllers;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,9 +38,9 @@ public class ProposalTypeController {
 	
 	@GetMapping("/admin/proposaltype")
 	public ModelAndView proposalType() throws UnknownHostException{
-		
+		Date date = new Date();
 		String ip = InetAddress.getLocalHost().getHostAddress();
-		TraceResponse traceResponse = new TraceResponse(null,"test","Se incresó a la página de tipo de propuesta",ip);
+		TraceResponse traceResponse = new TraceResponse(null,"test","Se incresó a la página de tipo de propuesta",ip,date);
 		traceResponseService.addTraceResponse(traceResponse);
 		
 		ModelAndView modelAndView = new ModelAndView();

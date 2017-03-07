@@ -1,5 +1,6 @@
 package com.unimer.cotizaciones.services.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -133,7 +134,8 @@ public class TargetServiceImpl implements TargetService {
 	
 	private void insertBinnacle(String msg)
 	{
-		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		Date date = new Date();
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente,date);
 		traceResponseService.addTraceResponse(traceResponse);
 	}
 	

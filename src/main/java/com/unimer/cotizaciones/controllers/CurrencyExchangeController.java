@@ -2,6 +2,7 @@ package com.unimer.cotizaciones.controllers;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,8 +47,9 @@ public class CurrencyExchangeController {
 	
 	@GetMapping("/admin/currencyexchange")
 	public ModelAndView currencyExchange() throws UnknownHostException{
+		Date date = new Date();
 		String ip = InetAddress.getLocalHost().getHostAddress();
-		TraceResponse traceResponse = new TraceResponse(null,"test","Se ingreso a la pagina de tipo de divisa",ip);
+		TraceResponse traceResponse = new TraceResponse(null,"test","Se ingreso a la pagina de tipo de divisa",ip,date);
 		traceResponseService.addTraceResponse(traceResponse);
 		
 		ModelAndView modelAndView = new ModelAndView();
