@@ -15,7 +15,6 @@ public class CountryByCurrencyType  implements Serializable {
 	
 	
 	@Id
-	
 	@JoinColumn(name = "id_country")
 	@Column(name="id_country", unique=true, nullable=false, length=8)
 	private String idCountry;

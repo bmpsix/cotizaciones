@@ -1,8 +1,5 @@
 package com.unimer.cotizaciones.controllers;
 
-import java.sql.Date;
-
-import javax.persistence.Convert;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

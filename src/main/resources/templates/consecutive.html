@@ -40,6 +40,7 @@
 							<option value="Technique">Technique</option>
 							<option value="Technique by proposal">Technique by proposal</option>
 							<option value="User">User</option>
+							<option value="Binnacle">Binnacle</option>
 
 						</select> 
 						<label for="prefix">Prefijo:</label> <input type="text" min="3" maxlength="3" name="prefix" th:value="${prefix}" /> 
@@ -74,6 +75,7 @@
 							<option th:if="${updateConsecutive.type =='Technique'}"value="Technique" selected readonly>Technique</option>
 							<option th:if="${updateConsecutive.type =='Technique by proposal'}" value="Technique by proposal" selected readonly>Technique by proposal</option>
 							<option th:if="${updateConsecutive.type =='User'}" value="User" selected readonly>User</option>
+							<option th:if="${updateConsecutive.type =='Binnacle'}" value="Binnacle" selected readonly>Binnacle</option>
 
 						</select> 
 						

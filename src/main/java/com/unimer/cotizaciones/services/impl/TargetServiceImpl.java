@@ -1,8 +1,5 @@
 package com.unimer.cotizaciones.services.impl;
 
-
-import java.util.Date;
-//import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -12,7 +9,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.unimer.cotizaciones.entities.Consecutive;
-import com.unimer.cotizaciones.entities.LogTarget;
 import com.unimer.cotizaciones.entities.Target;
 import com.unimer.cotizaciones.services.TargetService;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;

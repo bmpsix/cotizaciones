@@ -11,12 +11,15 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.ClientContact;
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.LogClientContact;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.repositories.ClientContactJpaRepository;
 import com.unimer.cotizaciones.repositories.ClientJpaRepository;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.CountryJpaRepository;
 import com.unimer.cotizaciones.repositories.LogClientContactJpaRepository;
+import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.services.ClientContactService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Service("clientContactServiceImpl")
 public class ClientContactServiceImpl implements ClientContactService {
@@ -25,6 +28,10 @@ public class ClientContactServiceImpl implements ClientContactService {
 	@Autowired
 	@Qualifier("clientContactJpaRepository")
 	private ClientContactJpaRepository clientContactJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseJpaRepository")
+	private TraceResponseJpaRepository traceResponseJpaRepository;
 
 	@Autowired
 	@Qualifier("consecutivesJpaRepository")
@@ -42,12 +49,18 @@ public class ClientContactServiceImpl implements ClientContactService {
 	@Qualifier("countryJpaRepository")
 	private CountryJpaRepository countryJpaRepository;
 	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
+	
+	
+	String ipCliente="";
+	
 	private static final Log LOG = LogFactory.getLog(ClientContactServiceImpl.class);
 	
 	@Override
 	public ClientContact addClientContact(ClientContact clientContact) {
 		Consecutive consecutive = consecutivesJpaRepository.findByType("Client contact");
-
 		if (consecutive == null) {
 			consecutive = new Consecutive();
 			consecutive.setType("Client contact");
@@ -59,10 +72,12 @@ public class ClientContactServiceImpl implements ClientContactService {
 
 			if (!clientContact.getIdClientContact().equals(clientContactJpaRepository.findOne(clientContact.getIdClientContact()))) {
 				
+				
 				clientContactJpaRepository.save(clientContact);
 				LOG.info("METHOD: addClientContact in ClientContactServiceImpl -- PARAMS: " + clientContact.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agregó un nuevo contacto de cliente");
 
 			} else {
 				updateClientContact(clientContact);
@@ -77,6 +92,8 @@ public class ClientContactServiceImpl implements ClientContactService {
 				clientContactJpaRepository.save(clientContact);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				
+				insertBinnacle("Se agregó un nuevo contacto de cliente");
 			} else {
 				updateClientContact(clientContact);
 			}
@@ -115,7 +132,23 @@ public class ClientContactServiceImpl implements ClientContactService {
 					clientContactToUpdate.getPhone(),clientContactToUpdate.getStatus());
 			clientContactJpaRepository.save(clientContact);
 			logClientContactJpaRepository.save(logClientContact);
+			
+			insertBinnacle("Se actualizó un contacto de cliente");
 		}
+	}
+
+	
+	
+	@Override
+	public void IP(String ip) {
+		ipCliente=ip;
+		
+	}
+	
+	private void insertBinnacle(String msg)
+	{
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		traceResponseService.addTraceResponse(traceResponse);
 	}
 	
 }

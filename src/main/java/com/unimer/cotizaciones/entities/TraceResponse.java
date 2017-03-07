@@ -1,14 +1,11 @@
 package com.unimer.cotizaciones.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 
 /**
@@ -21,9 +18,8 @@ public class TraceResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="date_trace_response", unique=true, nullable=false)
-	private Date dateTraceResponse;
+	@Column(name="id_trace_response", unique=true, nullable=false, length=8)
+	private String idTraceResponse;
 
 	@Column(name="action_user", length=8)
 	private String actionUser;
@@ -37,13 +33,19 @@ public class TraceResponse implements Serializable {
 	public TraceResponse() {
 	}
 
-	public Date getDateTraceResponse() {
-		return this.dateTraceResponse;
+	
+
+	public String getIdTraceResponse() {
+		return idTraceResponse;
 	}
 
-	public void setDateTraceResponse(Date dateTraceResponse) {
-		this.dateTraceResponse = dateTraceResponse;
+
+
+	public void setIdTraceResponse(String idTraceResponse) {
+		this.idTraceResponse = idTraceResponse;
 	}
+
+
 
 	public String getActionUser() {
 		return this.actionUser;
@@ -68,5 +70,27 @@ public class TraceResponse implements Serializable {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "TraceResponse [idTraceResponse=" + idTraceResponse + ", actionUser=" + actionUser + ", detail=" + detail
+				+ ", ip=" + ip + "]";
+	}
+
+
+
+	public TraceResponse(String idTraceResponse, String actionUser, String detail, String ip) {
+		super();
+		this.idTraceResponse = idTraceResponse;
+		this.actionUser = actionUser;
+		this.detail = detail;
+		this.ip = ip;
+	}
+
+	
+	
+	
 
 }
