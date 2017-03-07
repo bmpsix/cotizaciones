@@ -46,7 +46,7 @@ public class ClientContactController {
 	public ModelAndView clientContact() throws UnknownHostException{
 		
 		String ip = InetAddress.getLocalHost().getHostAddress();
-		TraceResponse traceResponse = new TraceResponse(null,"test","Se incresó a la página de contacto de cliente",ip);
+		TraceResponse traceResponse = new TraceResponse(null,"test","Se ingresoó a la página de contacto de cliente",ip);
 		traceResponseService.addTraceResponse(traceResponse);
 		
 		ModelAndView modelAndView = new ModelAndView();
