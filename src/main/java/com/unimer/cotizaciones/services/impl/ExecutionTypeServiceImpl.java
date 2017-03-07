@@ -11,10 +11,12 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.ExecutionType;
 import com.unimer.cotizaciones.entities.LogExecutionType;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.ExecutionTypeJpaRepository;
 import com.unimer.cotizaciones.repositories.LogExecutionTypeJpaRepository;
 import com.unimer.cotizaciones.services.ExecutionTypeService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 
 
@@ -34,7 +36,13 @@ public class ExecutionTypeServiceImpl implements ExecutionTypeService {
 	@Qualifier("logExecutionTypeJpaRepository")
 	private LogExecutionTypeJpaRepository logRolJpaRepository;
 	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
+	
 	private static final Log LOG = LogFactory.getLog(ExecutionTypeServiceImpl.class);
+	
+	String ipCliente="";
 	
 	@Override
 	public ExecutionType addExecutionType(ExecutionType executionType) {
@@ -55,7 +63,7 @@ public class ExecutionTypeServiceImpl implements ExecutionTypeService {
 				LOG.info("METHOD: addExecutionType in ExecutionTypeServiceImpl -- PARAMS: " + executionType.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
-
+				insertBinnacle("Se actualizo un tipo de ejecucion");
 			} else {
 				updateExecutionType(executionType);
 			}
@@ -69,6 +77,7 @@ public class ExecutionTypeServiceImpl implements ExecutionTypeService {
 				executionTypeJpaRepository.save(executionType);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agrego un tipo de ejecucion");
 			} else {
 				updateExecutionType(executionType);
 			}
@@ -114,7 +123,21 @@ public class ExecutionTypeServiceImpl implements ExecutionTypeService {
 			LogExecutionType logExecutionType = new LogExecutionType(date, "Execution type  modified", "test", executionTypeToUpdate.getDetail(), executionTypeToUpdate.getIdExecutionType());
 			executionTypeJpaRepository.save(executionType);
 			logRolJpaRepository.save(logExecutionType);
+			
+			insertBinnacle("Se actualizo un tipo de ejecucion");
 		}
+	}
+	
+	@Override
+	public void IP(String ip) {
+		ipCliente=ip;
+		
+	}
+	
+	private void insertBinnacle(String msg)
+	{
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		traceResponseService.addTraceResponse(traceResponse);
 	}
 
 }

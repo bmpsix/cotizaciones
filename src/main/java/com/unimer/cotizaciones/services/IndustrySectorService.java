@@ -13,4 +13,6 @@ public interface IndustrySectorService {
 	public abstract IndustrySector findById(String idIndustrySector);
 
 	public abstract Consecutive getConsecutive();
+	
+	public abstract void IP(String ip);
 }

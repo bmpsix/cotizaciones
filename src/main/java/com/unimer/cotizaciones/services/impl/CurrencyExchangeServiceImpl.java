@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.CurrencyExchange;
 import com.unimer.cotizaciones.entities.LogCurrencyExchange;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.CurrencyExchangeJpaRepository;
 import com.unimer.cotizaciones.repositories.LogCurrencyExchangeJpaRepository;
 import com.unimer.cotizaciones.services.CurrencyExchangeService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Service("currencyExchangeServiceImpl")
 public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
@@ -32,7 +34,13 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 	@Qualifier("logCurrencyExchangeJpaRepository")
 	private LogCurrencyExchangeJpaRepository logCurrencyExchangeJpaRepository;
 	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
+	
 	private static final Log LOG = LogFactory.getLog(CurrencyExchangeServiceImpl.class);
+	
+	String ipCliente="";
 
 	@Override
 	public Consecutive getConsecutive() {
@@ -60,7 +68,7 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 				LOG.info("METHOD: addCurrencyExchange in currencyExchangeJpaRepository -- PARAMS: " + currencyExchange.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
-
+				insertBinnacle("Se actualizo un nuevo tipo de divisa");
 			} else {
 				updateCurrencyExchange(currencyExchange);
 			}
@@ -74,6 +82,7 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 				currencyExchangeJpaRepository.save(currencyExchange);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agrego un tipo de divisa");
 			} else {
 				updateCurrencyExchange(currencyExchange);
 			}
@@ -110,6 +119,8 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 					currencyExchange.getDate(),currencyExchange.getCountry().getIdCountry(),currencyExchange.getIdCurrencyExchange(),currencyExchange.getCurrencyType().getIdCurrencyType(),currencyExchange.getSell());
 			currencyExchangeJpaRepository.save(currencyExchange);
 			logCurrencyExchangeJpaRepository.save(logCurrencyExchange);
+			
+			insertBinnacle("Se actualizo un tipo de divisa");
 		}
 		
 	}
@@ -117,6 +128,18 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 	@Override
 	public CurrencyExchange getCurrencyExchange(String idCurrencyExchange) {
 		return currencyExchangeJpaRepository.findOne(idCurrencyExchange);
+	}
+	
+	@Override
+	public void IP(String ip) {
+		ipCliente=ip;
+		
+	}
+	
+	private void insertBinnacle(String msg)
+	{
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		traceResponseService.addTraceResponse(traceResponse);
 	}
 	
 	

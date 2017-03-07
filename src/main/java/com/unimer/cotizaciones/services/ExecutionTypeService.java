@@ -18,4 +18,6 @@ public interface ExecutionTypeService {
 	
 	public abstract Consecutive getConsecutive();
 	
+	public abstract void IP(String ip);
+	
 }

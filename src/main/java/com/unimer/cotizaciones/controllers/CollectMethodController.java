@@ -1,5 +1,8 @@
 package com.unimer.cotizaciones.controllers;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 //import org.apache.commons.logging.Log;
 //import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.CollectMethod;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.services.CollectMethodService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Controller
 public class CollectMethodController {
@@ -21,11 +26,17 @@ public class CollectMethodController {
 	@Qualifier("collectMethodServiceImpl")
 	private CollectMethodService collectMethodService;
 	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
 	
 	//private static final Log LOG = LogFactory.getLog(CollectMethodController.class);
 	
 	@GetMapping("/admin/collectmethod")
-	public ModelAndView collectMethod(){
+	public ModelAndView collectMethod() throws UnknownHostException{
+		String ip = InetAddress.getLocalHost().getHostAddress();
+		TraceResponse traceResponse = new TraceResponse(null,"test","Se ingreso a la pagina de coleccion de metodos",ip);
+		traceResponseService.addTraceResponse(traceResponse);
 		
 		ModelAndView mvn = new ModelAndView();
 		mvn.addObject("collectmethods", collectMethodService.listAllCollectMethod());
@@ -35,8 +46,9 @@ public class CollectMethodController {
 	}
 	
 	@PostMapping("/admin/addcollectmethod")
-	public ModelAndView addCollectMethod(@ModelAttribute(name = "collectMethod") CollectMethod collectMethod, Model model){
-		
+	public ModelAndView addCollectMethod(@ModelAttribute(name = "collectMethod") CollectMethod collectMethod, Model model) throws UnknownHostException{
+		String ip = InetAddress.getLocalHost().getHostAddress();
+		collectMethodService.IP(ip);
 		collectMethodService.addCollectMethod(collectMethod); 
 		ModelAndView mvn = new ModelAndView();
 		mvn.setViewName("collectmethod");

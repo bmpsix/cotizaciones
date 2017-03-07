@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.LogConsecutive;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogConsecutivesJpaRepository;
 import com.unimer.cotizaciones.services.ConsecutiveService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Service("consecutiveServiceImpl")
 public class ConsecutiveServiceImpl implements ConsecutiveService {
@@ -25,8 +27,14 @@ public class ConsecutiveServiceImpl implements ConsecutiveService {
 	@Autowired
 	@Qualifier("logConsecutivesJpaRepository")
 	private LogConsecutivesJpaRepository logConsecutivesJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
 
 	private static final Log LOG = LogFactory.getLog(ConsecutiveServiceImpl.class);
+	
+	String ipCliente="";
 
 	@Override
 	public Consecutive addConsecutive(Consecutive consecutive) {
@@ -103,6 +111,17 @@ public class ConsecutiveServiceImpl implements ConsecutiveService {
 	@Override
 	public Consecutive findByType(String type) {
 		return consecutivesJpaRepository.findByType(type);
+	}
+	
+	public void IP(String ip) {
+		ipCliente=ip;
+		
+	}
+	
+	private void insertBinnacle(String msg)
+	{
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		traceResponseService.addTraceResponse(traceResponse);
 	}
 
 }

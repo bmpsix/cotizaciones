@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.Client;
 import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.LogClient;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.repositories.ClientJpaRepository;
 import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogClientJpaRepository;
 import com.unimer.cotizaciones.services.ClientService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 
 
@@ -34,8 +36,14 @@ public class ClientServiceImpl implements ClientService {
 	@Autowired
 	@Qualifier("logClientJpaRepository")
 	private LogClientJpaRepository logClientJpaRepository;
+	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
 
 	private static final Log LOG = LogFactory.getLog(ClientServiceImpl.class);
+	
+	String ipCliente="";
 	
 	
 	@Override
@@ -62,7 +70,7 @@ public class ClientServiceImpl implements ClientService {
 				LOG.info("METHOD: addClient in ClientServiceImpl -- PARAMS: " + client.toString());
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
-
+				insertBinnacle("Se actualizo un nuevo cliente");
 			} else {
 				 updateClient(client);
 			}
@@ -76,6 +84,7 @@ public class ClientServiceImpl implements ClientService {
 				clientJpaRepository.save(client);
 				consecutive.setSubfix(consecutive.getSubfix() + 1);
 				consecutivesJpaRepository.save(consecutive);
+				insertBinnacle("Se agrego un cliente");
 			} else {
 				 updateClient(client);
 			}
@@ -108,7 +117,21 @@ public class ClientServiceImpl implements ClientService {
 			LogClient logClient = new LogClient(date, "Client  modified", "test", clientToUpdate.getDetail(), clientToUpdate.getEmail(),clientToUpdate.getFax(), clientToUpdate.getIdClient(),clientToUpdate.getClientType().getIdClientType(),clientToUpdate.getCountry().getIdCountry(),clientToUpdate.getSaClient().getIdSaClient(),clientToUpdate.getPhone(),clientToUpdate.getStatus());
 			clientJpaRepository.save(client);
 			logClientJpaRepository.save(logClient);
+			
+			insertBinnacle("Se actualizo un cliente");
 		}
+	}
+	
+	@Override
+	public void IP(String ip) {
+		ipCliente=ip;
+		
+	}
+	
+	private void insertBinnacle(String msg)
+	{
+		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente);
+		traceResponseService.addTraceResponse(traceResponse);
 	}
 
 

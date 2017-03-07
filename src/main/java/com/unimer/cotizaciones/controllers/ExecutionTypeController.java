@@ -1,5 +1,8 @@
 package com.unimer.cotizaciones.controllers;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +14,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.ExecutionType;
+import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.services.ExecutionTypeService;
+import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Controller
 public class ExecutionTypeController {
@@ -19,12 +24,19 @@ public class ExecutionTypeController {
 	@Autowired
 	@Qualifier("executionTypeServiceImpl")
 	private ExecutionTypeService executionTypeService;
+	
+	@Autowired
+	@Qualifier("traceResponseServiceImpl")
+	private TraceResponseService traceResponseService;
 
 	private static final Log LOG = LogFactory.getLog(ExecutionTypeController.class);
 
 	@GetMapping("/admin/executiontype")
-	public ModelAndView executionType() {
-
+	public ModelAndView executionType() throws UnknownHostException {
+		String ip = InetAddress.getLocalHost().getHostAddress();
+		TraceResponse traceResponse = new TraceResponse(null,"test","Se ingreso a la pagina de tipo de ejecucion",ip);
+		traceResponseService.addTraceResponse(traceResponse);
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("executiontype");
 		modelAndView.addObject("executiontypes", executionTypeService.listAllExecutionType());
@@ -35,8 +47,10 @@ public class ExecutionTypeController {
 
 	@PostMapping("/admin/addexecutiontype")
 	public ModelAndView addExecutionType(@ModelAttribute(name = "executiontype") ExecutionType executionType,
-			Model model) {
+			Model model) throws UnknownHostException {
 		LOG.info("METHOD: addExecutionType in ExecutionTypeController -- PARAMS: " + executionType.toString());
+		String ip = InetAddress.getLocalHost().getHostAddress();
+		executionTypeService.IP(ip);
 		executionTypeService.addExecutionType(executionType);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("executiontype");

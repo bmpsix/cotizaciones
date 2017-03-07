@@ -21,4 +21,6 @@ public interface CollectMethodService {
 	
 	public abstract CollectMethod getCollectMethod(String idCollectMethod);
 	
+	public abstract void IP(String ip);
+	
 }

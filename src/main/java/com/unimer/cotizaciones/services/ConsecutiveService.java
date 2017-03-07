@@ -16,4 +16,6 @@ public interface ConsecutiveService {
 	public abstract void removeConsecutive(String type);
 	
 	public abstract Consecutive findByType(String type);
+	
+	public abstract void IP(String ip);
 }

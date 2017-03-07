@@ -17,4 +17,6 @@ public interface ClientService {
 	public abstract Client findById(String idClient);
 	
 	public abstract List<Client> findByActiveStatus();
+
+	public abstract void IP(String ip);
 }
