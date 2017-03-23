@@ -165,15 +165,15 @@
     		<table data-role="table" id="movie-table" data-filter="true" data-input="#myFilter2" class="ui-responsive" >
     			<thead>
 		        <tr>
-		            <th data-priority="1" style="border-bottom: 1px solid #d6d6d6;">Opcion</th>
-		            <th data-priority="persist" style="border-bottom: 1px solid #d6d6d6;">Codigo</th>
-		            <th data-priority="2" style="border-bottom: 1px solid #d6d6d6;">Partida</th>
-		            <th data-priority="3" style="border-bottom: 1px solid #d6d6d6;">Precio</th>
-		            <th data-priority="4" style="border-bottom: 1px solid #d6d6d6;">Numero</th>
-		            <th data-priority="5" style="border-bottom: 1px solid #d6d6d6;">Dias/Veces</th>
-		            <th data-priority="6" style="border-bottom: 1px solid #d6d6d6;">Total Presupuesto</th>
-		            <th data-priority="7" style="border-bottom: 1px solid #d6d6d6;">Estado Partida</th>
-		            <th data-priority="8" style="border-bottom: 1px solid #d6d6d6;">
+		            <th data-priority="1">Opcion</th>
+		            <th data-priority="persist">Codigo</th>
+		            <th data-priority="2">Partida</th>
+		            <th data-priority="3">Precio</th>
+		            <th data-priority="4">Numero</th>
+		            <th data-priority="5">Dias/Veces</th>
+		            <th data-priority="6">Total Presupuesto</th>
+		            <th data-priority="7">Estado Partida</th>
+		            <th data-priority="8">
 		            	<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;">Plus</a>
 		            </th>
 		        </tr>
@@ -188,7 +188,7 @@
 		                <td>1</td>
 		                <td>90.000,00</td>
 		                <td>(fact de 2.39), (Impre 10%)</td>
-		                <td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" href="country.html" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
+		                <td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" th:href="@{/admin/dialogoPartidas}" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
 		            </tr>
 		            <tr>
 		                <th><input type="checkbox"/></th>
@@ -199,7 +199,7 @@
 		                <td>1</td>
 		                <td>90.000,00</td>
 		                <td>(fact de 2.39), (Impre 10%)</td>
-		                <td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" href="country.html" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
+		                <td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" th:href="@{/admin/dialogoPartidas}" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
 		            </tr>
 		            <tr>
 		                <th><input type="checkbox"/></th>
@@ -210,7 +210,7 @@
 		                <td>1</td>
 		                <td>90.000,00</td>
 		                <td>(fact de 2.39), (Impre 10%)</td>
-		               <td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" href="country.html" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
+		               <td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" th:href="@{/admin/dialogoPartidas}" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
 		            </tr>
 		        </tbody>
     		</table>

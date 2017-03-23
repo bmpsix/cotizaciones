@@ -17,4 +17,13 @@ public class ProposalController {
 		
 	}
 	
+	@GetMapping("/admin/dialogoPartidas")
+	public ModelAndView dialogoPartidas(){
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("dialogoPartidas");
+		return modelAndView;
+		
+	}
+	
 }
