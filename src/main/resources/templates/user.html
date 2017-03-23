@@ -145,10 +145,10 @@
   				 <div data-role="main" class="ui-content">
   				 
   				 	<form class="ui-filterable">
-      					<input id="myFilter" data-type="search" placeholder="Buscador de usuarios"/>
+      					<input id="myFilterD" data-type="search" placeholder="Buscador de usuarios"/>
     				</form>
   				 
-					<div  data-role="collapsibleset"  data-filter="true" data-input="#myFilter" data-autodividers="true" data-inset="true"> 
+					<div  data-role="collapsibleset"  data-filter="true" data-input="#myFilterD" data-autodividers="true" data-inset="true"> 
 						
 						<div th:each="user : ${users}" data-role="collapsible">
 							<h4 th:text="${'ID: '+user.idUser+' '+user.username+' '+user.midname+' '+user.lastname}"></h4>

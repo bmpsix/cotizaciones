@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/header">
+<meta charset="UTF-8"/>
+</head>
+<body>
+	<div data-role="page" data-theme="a" data-dom-cache="false" >
+		<div data-role="header" data-position="inline" >
+			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
+            <h1>
+            Cotizaciones
+            </h1>
+		</div>
+
+		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
+		
+    <div class="ui-grid-b" id="cotiHeader1">
+    
+      <div class="ui-block-a">
+        <label for="cotizacion"> <h5>Numero de Cotizacion:</h5> <span>002</span></label>
+      </div>
+      <div class="ui-block-b">
+        <label for="cotizacion"> <h5>Numero de Propuesta:</h5> <span>000620</span></label>
+      </div>
+      <div class="ui-block-c">
+        <label for="tipo"><h5>Tipo de Proyecto:</h5></label>
+        <select>
+  			<option value="volvo">Cuantitativo</option>
+  			<option value="saab">Cualitativo</option>
+		</select>
+			
+      </div> 
+       
+	</div>
+	
+	<div class="ui-grid-b" id="cotiHeader2">
+    
+      <div class="ui-block-a">
+        <label for="cotizacion"><h5>Nombre de Cotizacion:</h5> <span>CUAS REFRESCO GASEOSO</span></label>
+      </div>
+      <div class="ui-block-b" >
+    
+      </div>
+      
+      <div class="ui-block-c">
+        <label for="dateStart"><h5>Fecha inicio operaciones:</h5></label>
+        <input type="date" name="dateStart">
+        <label for="dateEnd"><h5>Fecha de entrega final:</h5></label>
+        <input type="date" name="dateEnd">
+      </div> 
+           
+	</div>
+	
+	<div data-role="navbar">
+			<ul>
+				<li class="first"><a href="#">Informacion General</a></li>
+				<li class="second"><a href="#">Detalle de la Cotizacion</a></li>
+				<li class="third"><a href="#">Escenarios de Facturacion</a></li>
+			</ul>
+	</div>
+	
+	<div class="ui-grid-b" id="generalInfo" style="display: none;">
+    
+      <div class="ui-block-a" >
+        <fieldset style="margin: 30px;">
+        	<legend><h1>Paso 1</h1></legend>
+        	<label for="cotizacion"><h5>Tipo de Proyecto:</h5></label>
+        	<select>
+  				<option value="1">Cuantitativo</option>
+  				<option value="2">Cualitativo</option>
+			</select>
+			
+			<label for="pais"><h5>Pais donde se realizara el estudio:</h5></label>
+        	<select>
+  				<option value="1">Costa Rica</option>
+  				<option value="2">Guatemala</option>
+			</select>
+			
+			<label for="metodo"><h5>Metodo de recoleccion de datos:</h5></label>
+        	<select>
+  				<option value="1">Papel</option>
+  				<option value="2">Tablet</option>
+			</select>
+			
+			<label for="sector"><h5>Pais donde se realizara el estudio:</h5></label>
+        	<select>
+  				<option value="1">bebidas</option>
+  				<option value="2">comida</option>
+			</select>
+			
+			<label for="categoria"><h5>Categoria:</h5></label>
+        	<select>
+  				<option value="1">Costa Rica</option>
+  				<option value="2">Guatemala</option>
+			</select>
+			
+			<label for="tipoEstudio"><h5>Tipo de estudio:</h5></label>
+        	<select>
+  				<option value="1">Tipo 1</option>
+  				<option value="2">Tipo 2</option>
+			</select>
+			
+			<label for="tipoEstudio"><h5>Continuo/Tracker</h5></label>
+        	<select>
+  				<option value="1">Aplica</option>
+  				<option value="2">No Aplica</option>
+			</select>
+			
+        </fieldset>
+        
+        
+      </div>
+      <div class="ui-block-b">
+       <fieldset style="margin: 30px;">
+        	<legend><h1>Paso 2</h1></legend>
+        	<label for="target"><h5>Target:</h5></label>
+        	<textarea name="target" id="info" style="border-bottom:1px solid green;"></textarea>
+        	
+        	<label for="observacion"><h5>Observacion:</h5></label>
+        	<textarea name="observacion" id="info" style="border-bottom:1px solid green;"></textarea>
+        </fieldset>
+      </div>
+      <div class="ui-block-c">
+       <fieldset style="margin: 30px;">
+        	<legend><h1>Paso 3</h1></legend>
+        	<h5>Tecnicas/Modelo:</h5>
+    		<form class="ui-filterable">
+      			<input id="myFilter" data-type="search" placeholder="Busca las tecnicas/modelos">
+    		</form>
+    		<ul data-role="listview" data-filter="true" data-input="#myFilter" data-autodividers="true" data-inset="true">
+      			<li><a href="#">Adele</a></li>
+      			<li><a href="#">Agnes</a></li>
+     			<li><a href="#">Albert</a></li>
+      			<li><a href="#">Billy</a></li>
+      			<li><a href="#">Bob</a></li>
+      			<li><a href="#">Calvin</a></li>
+      			<li><a href="#">Cameron</a></li>
+			    <li><a href="#">Chloe</a></li>
+			    <li><a href="#">Christina</a></li>
+			    <li><a href="#">Diana</a></li>
+			    <li><a href="#">Gabriel</a></li>
+			    <li><a href="#">Glen</a></li>
+			    <li><a href="#">Ralph</a></li>
+			    <li><a href="#">Valarie</a></li>
+    		</ul>
+    		
+    		<button class="ui-btn">Agregar-Tecnica/Modelos</button>
+    		
+        </fieldset>
+      </div> 
+       
+	</div>
+	
+	<div class="ui-grid-solo" id="detalleCoti" style="display: none;">
+    
+      <div class="ui-block-b" style="margin: 30px;">
+      		<h5>Partidas:</h5>
+ 			<form class="ui-filterable">
+      			<input id="myFilter2" data-type="search" placeholder="Busca la partida">
+      			<div class="ui-block-b">
+		        <button class="ui-icon-delete ui-btn-icon-notext ui-btn-inline" data-mini="true">Eliminar Seleccion</button>
+		    	</div>
+    		</form> 
+    		
+    		<table data-role="table" id="movie-table" data-filter="true" data-input="#myFilter2" class="ui-responsive" >
+    			<thead>
+		        <tr>
+		            <th data-priority="1" style="border-bottom: 1px solid #d6d6d6;">Opcion</th>
+		            <th data-priority="persist" style="border-bottom: 1px solid #d6d6d6;">Codigo</th>
+		            <th data-priority="2" style="border-bottom: 1px solid #d6d6d6;">Partida</th>
+		            <th data-priority="3" style="border-bottom: 1px solid #d6d6d6;">Precio</th>
+		            <th data-priority="4" style="border-bottom: 1px solid #d6d6d6;">Numero</th>
+		            <th data-priority="5" style="border-bottom: 1px solid #d6d6d6;">Dias/Veces</th>
+		            <th data-priority="6" style="border-bottom: 1px solid #d6d6d6;">Total Presupuesto</th>
+		            <th data-priority="7" style="border-bottom: 1px solid #d6d6d6;">Estado Partida</th>
+		            <th data-priority="8" style="border-bottom: 1px solid #d6d6d6;">
+		            	<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;">Plus</a>
+		            </th>
+		        </tr>
+        		</thead>
+		        <tbody>
+		            <tr>
+		                <th><input type="checkbox"/></th>
+		                <td>74</td>
+		                <td>Codificacion</td>
+		                <td>300.00</td>
+		                <td>300.00</td>
+		                <td>1</td>
+		                <td>90.000,00</td>
+		                <td>(fact de 2.39), (Impre 10%)</td>
+		                <td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" href="country.html" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
+		            </tr>
+		            <tr>
+		                <th><input type="checkbox"/></th>
+		                <td>74</td>
+		                <td>Codificacion</td>
+		                <td>300.00</td>
+		                <td>300.00</td>
+		                <td>1</td>
+		                <td>90.000,00</td>
+		                <td>(fact de 2.39), (Impre 10%)</td>
+		                <td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" href="country.html" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
+		            </tr>
+		            <tr>
+		                <th><input type="checkbox"/></th>
+		                <td>74</td>
+		                <td>Codificacion</td>
+		                <td>300.00</td>
+		                <td>300.00</td>
+		                <td>1</td>
+		                <td>90.000,00</td>
+		                <td>(fact de 2.39), (Impre 10%)</td>
+		               <td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" href="country.html" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
+		            </tr>
+		        </tbody>
+    		</table>
+
+      </div>
+      <div class="ui-block-c" style="margin: 30px;">
+      <p>Aqui va la calculadora</p>
+      </div>
+	</div>
+
+	<div class="ui-grid-b" id="facturaEscena" style="display: none;">
+    
+      <div class="ui-block-a">
+        <p>Esta Tercera Parte es el ultimo entregable</div>
+      </div>
+       
+	</div>
+	
+		<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
+			<div data-role="popup" data-position="left" id="adminmenu" th:replace="fragments/footer"></div>
+		<!-- /panel -->	
+		</div>
+	</div>
+</body>
+</html>
