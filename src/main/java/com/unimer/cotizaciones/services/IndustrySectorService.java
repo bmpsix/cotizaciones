@@ -15,4 +15,5 @@ public interface IndustrySectorService {
 	public abstract Consecutive getConsecutive();
 	
 	public abstract void IP(String ip);
+	public long rowCount(); 
 }

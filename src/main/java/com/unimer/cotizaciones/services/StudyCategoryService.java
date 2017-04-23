@@ -17,5 +17,6 @@ public interface StudyCategoryService {
 
 	public abstract Consecutive getConsecutive();
 	public abstract void IP(String string);
+	public long rowCount();
 	
 }

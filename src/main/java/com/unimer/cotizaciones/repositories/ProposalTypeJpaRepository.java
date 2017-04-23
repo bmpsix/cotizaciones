@@ -11,4 +11,5 @@ public interface ProposalTypeJpaRepository extends JpaRepository<ProposalType, S
 
 	ProposalType findByIdProposalType(String idProposalType);
 	
+	
 }

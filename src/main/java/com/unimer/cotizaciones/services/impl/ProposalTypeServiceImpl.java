@@ -139,6 +139,12 @@ public class ProposalTypeServiceImpl implements ProposalTypeService {
 		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente,date);
 		traceResponseService.addTraceResponse(traceResponse);
 	}
+
+	@Override
+	public long rowCount() {
+		
+		return proposalTypeJpaRepository.count();
+	}
 		
 		
 	

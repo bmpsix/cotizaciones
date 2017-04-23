@@ -100,9 +100,8 @@ public class StudyCategoryServiceImpl implements StudyCategoryService{
 	}	
 
 	@Override
-	public StudyCategory findById(String idStudyCategory) {
-		
-		
+	public StudyCategory findById(String idStudyCategory) 
+	{		
 		return studyCategoryJpaRepository.findByIdStudyCategory(idStudyCategory);
 	}
 
@@ -124,6 +123,7 @@ public class StudyCategoryServiceImpl implements StudyCategoryService{
 	
 	@Override
 	public void IP(String ip) {
+		
 		ipCliente=ip;
 		
 	}
@@ -133,6 +133,13 @@ public class StudyCategoryServiceImpl implements StudyCategoryService{
 		Date date = new Date();
 		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente,date);
 		traceResponseService.addTraceResponse(traceResponse);
+	}
+
+
+	@Override
+	public long rowCount() 
+	{		
+		return studyCategoryJpaRepository.count();
 	}
 	
 

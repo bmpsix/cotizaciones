@@ -16,5 +16,7 @@ public interface ProposalTypeService {
 	public abstract ProposalType findById(String idProposalType);
 	
 	public abstract void IP(String string);
+	
+	public long rowCount();
 
 }

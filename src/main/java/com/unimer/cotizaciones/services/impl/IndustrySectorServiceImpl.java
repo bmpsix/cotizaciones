@@ -128,4 +128,11 @@ public class IndustrySectorServiceImpl implements IndustrySectorService{
 		traceResponseService.addTraceResponse(traceResponse);
 	}
 
+
+	@Override
+	public long rowCount() {
+		
+		return industrySectorJpaRepository.count();
+	}
+
 }

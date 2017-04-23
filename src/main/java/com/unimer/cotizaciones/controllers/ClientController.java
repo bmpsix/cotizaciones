@@ -53,8 +53,7 @@ public class ClientController {
 		Date date = new Date();
 		String ip = InetAddress.getLocalHost().getHostAddress();
 		TraceResponse traceResponse = new TraceResponse(null,"test","Se ingreso a la pagina de clientes",ip,date);
-		traceResponseService.addTraceResponse(traceResponse);
-		
+		traceResponseService.addTraceResponse(traceResponse);		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("client");
 		modelAndView.addObject("countries", countryService.listAllCountries());
