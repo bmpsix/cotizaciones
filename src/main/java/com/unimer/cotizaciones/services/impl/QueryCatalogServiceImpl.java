@@ -64,8 +64,9 @@ public class QueryCatalogServiceImpl implements QueryCatalogService{
 
 	@Override
 	public QueryCatalog addQuery(QueryCatalog queryCatalog) {
+		
 		if(!queryCatalog.getDetail().equals(queryCatalogJpaRepository.findByDetail(queryCatalog.getDetail())))
-		{
+		{			
 			queryCatalogJpaRepository.save(queryCatalog);
 		}
 	else
@@ -76,20 +77,42 @@ public class QueryCatalogServiceImpl implements QueryCatalogService{
 	}
 
 	@Override
-	public void updateQuery(QueryCatalog queryCatalog) {
-		
+	public boolean updateQuery(QueryCatalog queryCatalog) {
 		QueryCatalog queryCatalogToUpdate = queryCatalogJpaRepository.findByDetail(queryCatalog.getDetail());
 		if(queryCatalogToUpdate != null)
+		
 		{
-			queryCatalogJpaRepository.save(queryCatalog);			
-		}		
+			long updatedValue = queryCatalogToUpdate.getRow_count();
+			long oldValue = queryCatalog.getRow_count();
+			queryCatalogJpaRepository.save(queryCatalog);
+			
+			if(updatedValue == oldValue)
+			{
+				return true;
+			}else
+			{
+				return false;
+			}
+				
+			
+			
+			
+		}
+		return false;
+		
+		
+				
+						
+			
+						
 	}
 
+	@Override
+	public QueryCatalog findQuery(String detail) {
+		
+		return queryCatalogJpaRepository.findByDetail(detail);
+	}
 
-
 	
-	
-	
-	
-
+		
 }

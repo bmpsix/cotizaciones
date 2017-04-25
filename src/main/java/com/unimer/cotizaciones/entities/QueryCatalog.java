@@ -43,9 +43,9 @@ public class QueryCatalog {
 
 
 
-	public QueryCatalog(String detail, long row_count, String code, int country_id) {
+	public QueryCatalog(int id, String detail, long row_count, String code, int country_id) {
 		super();
-		
+		this.id_query_catalog = id;
 		this.detail = detail;
 		this.row_count = row_count;
 		this.code = code;

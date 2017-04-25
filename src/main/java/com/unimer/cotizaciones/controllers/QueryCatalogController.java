@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unimer.cotizaciones.entities.ProposalType;
 import com.unimer.cotizaciones.entities.QueryCatalog;
 import com.unimer.cotizaciones.repositories.QueryCatalogJpaRepository;
 import com.unimer.cotizaciones.services.CollectMethodService;
@@ -69,18 +70,30 @@ public class QueryCatalogController {
 			return industrySectorService.rowCount();
 		}
 		
-		@PostMapping("/admin/addQueryCatalog")
-		public @ResponseBody void addQueryCatalog(@RequestParam("detail") String detail,@RequestParam("count") long count,@RequestParam("detail2") String detail2,@RequestParam("detail3") int detail3)
+		@GetMapping("/admin/addQueryCatalog")
+		public @ResponseBody long addQueryCatalog(@RequestParam("id") int id,@RequestParam("detail") String detail,@RequestParam("count") long count,@RequestParam("detail2") String detail2,@RequestParam("detail3") int detail3)
 		{
-			QueryCatalog queryCatalog = new QueryCatalog( detail, count, detail2, detail3);
-			 queryCatalogService.addQuery(queryCatalog);
+			QueryCatalog queryCatalog2 =  queryCatalogService.findQuery(detail);
+			QueryCatalog queryCatalog = new QueryCatalog( id,detail, count, detail2, detail3);
+			
+			long oldValue =  queryCatalog2.getRow_count();
+			queryCatalogService.addQuery(queryCatalog);
+			return oldValue;
 			
 		}
-		@GetMapping("/admin/getQueryCatalog")
+		@GetMapping("/admin/getProposalTypes")
+		public List<ProposalType> getProposals()
+		{
+			return proposalTypeService.listAllProposalTypes();
+		}
+		
+		@GetMapping("/admin/getquerycatalogs")
 		public @ResponseBody List<QueryCatalog> getQueryCatalog()
 		{
 			return queryCatalogService.ListQueryCatalog();
 		}
 		
-				
+			
+		
+		
 }
