@@ -15,20 +15,20 @@
 		<h3>Control de usuarios</h3>
 			<div data-role="fieldcontain">
 					
-					<form method="post" action="#" th:action="@{/admin/adduser}" th:object="${consecutive}" >
+					<form method="post" action="#" th:action="@{/admin/adduser}" th:object="${updateUser}" >
 					
-					<div  th:object="${updateUser}" >
-						<label for="idUser">Id del usuario:</label>
-						
 						<div th:if="${updateUser==null}">
-							<input  type="text" name="idUser" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'USR-1'}" disabled/>
 							<label for="country">País:</label>
-							<select name="country">
-								<option th:each="country : ${countries}" th:value="${country.idCountry}"><p th:text="${country.detail}"></p></option>
+							<select name="country.idCountry">
+								<option th:each="country : ${countries}" th:value="${country.idCountry}">
+									<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
+								</option>
 							</select>
 							<label for="rol">Rol:</label>
-							<select name="rol">
-								<option th:each="rol : ${roles}" th:value="${rol.idRol}"><p th:text="${rol.detail}"></p></option>
+							<select name="rol.idRol">
+								<option th:each="rol : ${roles}" th:value="${rol.idRol}">
+									<p name="rol.detail" th:text="${rol.detail}" th:value="${rol.detail}" ></p>
+								</option>
 							</select>
 							<label for="username">Nombre:</label>
 							<input title="Debe ingresar el nombre del usuario" maxlength="100" type="text" name="username" th:value="${username}" required/>
@@ -62,15 +62,23 @@
 						</div>
 						
 						<div th:if="${updateUser!=null}">
-							<input type="text" name="idUser" th:value="${updateUser.idUser}" readonly />
-							<select name="country">
-								<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${updateUser.Country.detail == country.detail}" selected readonly><p  th:text="${country.detail}"></p></option>
-								<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${updateUser.Country.detail != country.detail}" readonly><p  th:text="${country.detail}"></p></option>
+							<input type="hidden" name="idUser" th:value="${updateUser.idUser}" readonly />
+							<select name="country.idCountry">
+								<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${updateUser.Country.detail == country.detail}" selected readonly>
+									<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
+								</option>
+								<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${updateUser.Country.detail != country.detail}" readonly>
+									<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
+								</option>
 							</select>
 							<label for="rol">Rol:</label>
-							<select name="rol">
-								<option th:each="rol : ${roles}" th:value="${rol.idRol}" th:if="${updateUser.Rol.detail == rol.detail}"  selected readonly><p th:text="${rol.detail}" ></p></option>
-								<option th:each="rol : ${roles}" th:value="${rol.idRol}" th:if="${updateUser.Rol.detail != rol.detail}"   readonly><p th:text="${rol.detail}" ></p></option>
+							<select name="rol.idRol">
+								<option th:each="rol : ${roles}" th:value="${rol.idRol}" th:if="${updateUser.Rol.detail == rol.detail}"  selected readonly>
+									<p name="rol.detail" th:text="${rol.detail}" th:value="${rol.detail}" ></p>
+									</option>
+								<option th:each="rol : ${roles}" th:value="${rol.idRol}" th:if="${updateUser.Rol.detail != rol.detail}"   readonly>
+									<p name="rol.detail" th:text="${rol.detail}" th:value="${rol.detail}" ></p>
+								</option>
 							</select>
 							<label for="username">Nombre:</label>
 							<input title="Debe ingresar el nombre del usuario" maxlength="100" type="text" name="username" th:value="${updateUser.username}" required/>
@@ -126,14 +134,9 @@
 								</select>
 							</div>
 							<a href="#" th:href="@{/admin/adduser}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
-							
 						</div>
-					
-						
                     	<hr>
-                    </div>
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
-                   
 				</form>
 			</div>
 			

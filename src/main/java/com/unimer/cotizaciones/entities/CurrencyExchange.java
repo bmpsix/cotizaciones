@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,13 +21,17 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
-@Table(name="tbl_currency_exchange")
+@Table(name="currency_exchange")
 public class CurrencyExchange implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	
+	
+	
 	@Id
-	@Column(name="id_currency_exchange", unique=true, nullable=false, length=8)
-	private String idCurrencyExchange;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_currency_exchange", unique=true, nullable=false)
+	private int idCurrencyExchange;
 
 	@Column(nullable=false)
 	private float buy;
@@ -40,6 +46,7 @@ public class CurrencyExchange implements Serializable {
 	//bi-directional many-to-one association to Country
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_country", nullable=false)
+	
 	private Country country;
 
 	//bi-directional many-to-one association to CurrencyType
@@ -47,11 +54,11 @@ public class CurrencyExchange implements Serializable {
 	@JoinColumn(name="id_currency_type", nullable=false)
 	private CurrencyType currencyType;
 
-	public String getIdCurrencyExchange() {
+	public int getIdCurrencyExchange() {
 		return idCurrencyExchange;
 	}
 
-	public void setIdCurrencyExchange(String idCurrencyExchange) {
+	public void setIdCurrencyExchange(int idCurrencyExchange) {
 		this.idCurrencyExchange = idCurrencyExchange;
 	}
 
@@ -101,7 +108,7 @@ public class CurrencyExchange implements Serializable {
 		this.currencyType = new CurrencyType();
 	}
 
-	public CurrencyExchange(String idCurrencyExchange, float buy, Date date, float sell, Country country, CurrencyType currencyType) {
+	public CurrencyExchange(int idCurrencyExchange, float buy, Date date, float sell, Country country, CurrencyType currencyType) {
 		super();
 		this.idCurrencyExchange = idCurrencyExchange;
 		this.buy = buy;

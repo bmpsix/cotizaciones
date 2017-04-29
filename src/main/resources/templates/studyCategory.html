@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<meta charset="UTF-8">
+
 <html>
-<head th:replace="fragments/header"></head>
+<head th:replace="fragments/header">
+	<meta charset="UTF-8">
+</head>
 <body>
 	<div data-role="page" data-theme="a" data-dom-cache="false" >
 		<div data-role="header" data-position="inline" >
@@ -14,32 +16,20 @@
 		<h3>Control de categorías de estudio</h3>
 			<div data-role="fieldcontain">
 			
-					<form method="post" action="#" th:action="@{/admin/addStudyCategory}" th:object="${consecutive}" >
-					
-					<div  th:object="${updateStudyCategory}" >
-						<label for="idStudyCategory">Id dela categoría de estudio:</label>
-						
+					<form method="post" action="#" th:action="@{/admin/addStudyCategory}" th:object="${updateStudyCategory}" >
 						<div th:if="${updateStudyCategory==null}">
-							<input  type="text" name="idStudyCategory" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'STC-1'}" disabled/>
 							<label for="detail">Detalle:</label>
 							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${detail}" required/>
-										
 						</div>
 						
 						<div th:if="${updateStudyCategory!=null}">
-							<input type="text" name="idStudyCategory" th:value="${updateStudyCategory.idStudyCategory}" readonly />
+							<input type="hidden" name="idStudyCategory" th:value="${updateStudyCategory.idStudyCategory}" readonly />
 							<label for="detail">Detalle:</label>
 							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${updateStudyCategory.detail}" required/>
-							
-							
-														
+							<a href="#" th:href="@{/admin/addStudyCategory}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
 						</div>
-					
-						
                     	<hr>
-                    </div>
-  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar nuevo">
-                   <!--  <input type="submit" name="submit" class="custom_text" data-icon="refresh" value="Modificar registro">-->
+  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
 				</form>
 			</div>
            	
@@ -51,7 +41,7 @@
            				<tr>
            				<th  style="padding-right: 15px;">ID</th>
            				<th  style="padding-right: 15px;">Detalle</th>
-           			
+           				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
            				</thead>
            				<tbody>
@@ -59,7 +49,7 @@
 							<td style="padding-right: 15px;" th:text="${studyCategory.idStudyCategory}"></td>
 							<td style="padding-right: 15px;" th:text="${studyCategory.detail}"></td>
 							
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargestudyCategory?idStudyCategory=__${studyCategory.idStudyCategory}__}"  >Edit</a></td>
+	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargestudyCategory?idStudyCategory=__${studyCategory.idStudyCategory}__}"  >Editar</a></td>
 	           				
            				</tr>
            				

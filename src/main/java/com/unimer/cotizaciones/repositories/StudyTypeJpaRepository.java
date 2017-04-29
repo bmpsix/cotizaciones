@@ -9,6 +9,6 @@ public interface StudyTypeJpaRepository extends JpaRepository<StudyType, Seriali
 
 	public abstract StudyType findByDetail(String detail);
 	
-	public abstract StudyType findByIdStudyType(String idStudyType);
+	public abstract StudyType findByIdStudyType(int idStudyType);
 	
 }

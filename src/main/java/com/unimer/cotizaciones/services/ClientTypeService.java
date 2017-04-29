@@ -3,21 +3,18 @@ package com.unimer.cotizaciones.services;
 import java.util.List;
 
 import com.unimer.cotizaciones.entities.ClientType;
-import com.unimer.cotizaciones.entities.Consecutive;
 
 public interface ClientTypeService {
 
-public abstract ClientType addClientType(ClientType clientType);
+public abstract void addClientType(ClientType clientType);
 	
 	public abstract List<ClientType> listAllClientType();
 	
-	public abstract void updateStatusById(String idClientType, byte status);
+	public abstract void updateStatusById(int idClientType, byte status);
 	
-	public abstract ClientType findById(String idClientType);
+	public abstract ClientType findById(int idClientType);
 	
-	public abstract Consecutive getConsecutive();
 	
 	public abstract List<ClientType> findByActiveStatus();
 	
-	public abstract void IP(String ip);
 }

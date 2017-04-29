@@ -8,17 +8,12 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.LogSaClient;
 import com.unimer.cotizaciones.entities.SaClient;
-import com.unimer.cotizaciones.entities.TraceResponse;
-import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogSaClientJpaRepository;
 import com.unimer.cotizaciones.repositories.SaClientJpaRepository;
 import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.services.SaClientService;
-import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Service("saClientServiceImpl")
 public class SaClientServiceImpl implements SaClientService {
@@ -28,9 +23,6 @@ public class SaClientServiceImpl implements SaClientService {
 	@Qualifier("saClientJpaRepository")
 	private SaClientJpaRepository saClientJpaRepository;
 
-	@Autowired
-	@Qualifier("consecutivesJpaRepository")
-	private ConsecutivesJpaRepository consecutivesJpaRepository;
 
 	@Autowired
 	@Qualifier("logSaClientJpaRepository")
@@ -41,60 +33,22 @@ public class SaClientServiceImpl implements SaClientService {
 	@Qualifier("traceResponseJpaRepository")
 	private TraceResponseJpaRepository traceResponseJpaRepository;
 	
-	@Autowired
-	@Qualifier("traceResponseServiceImpl")
-	private TraceResponseService traceResponseService;
-	
-	String ipCliente="";
-	
 	private static final Log LOG = LogFactory.getLog(SaClientServiceImpl.class);
 	
-	
-	
-	
 	@Override
-	public SaClient addSaClient(SaClient saClient) {
-		Consecutive consecutive = consecutivesJpaRepository.findByType("SA client");
-
-		if (consecutive == null) {
-			consecutive = new Consecutive();
-			consecutive.setType("SA client");
-			consecutive.setPrefix("SAC");
-			consecutive.setSubfix(1);
-			consecutive.setDetail("Default consecutive for SA client");
-			consecutivesJpaRepository.save(consecutive);
-			saClient.setIdSaClient(consecutive.getPrefix() + "-" + consecutive.getSubfix());
-
-			if (!saClient.getIdSaClient().equals(saClientJpaRepository.findOne(saClient.getIdSaClient()))) {
+	public void addSaClient(SaClient saClient) {
+		
+			if (saClient.getIdSaClient()==0) {
 				
 				saClientJpaRepository.save(saClient);
 				LOG.info("METHOD: addSaClient in SaClientServiceImpl -- PARAMS: " + saClient.toString());
-				consecutive.setSubfix(consecutive.getSubfix() + 1);
-				consecutivesJpaRepository.save(consecutive);
-				insertBinnacle("Se agregó un cliente SA");
+				
 
 			} else {
 				updateSaClient(saClient);
 			}
 
-		} else if (saClient.getIdSaClient() == null) {
-
-			saClient.setIdSaClient(consecutive.getPrefix() + "-" + consecutive.getSubfix());
-			
-			if (!saClient.getIdSaClient().equals(saClientJpaRepository.findOne(saClient.getIdSaClient()))) {
-				LOG.info("METHOD: addRol in SaClientServiceImpl -- PARAMS: " + saClient.toString());
-				saClientJpaRepository.save(saClient);
-				consecutive.setSubfix(consecutive.getSubfix() + 1);
-				consecutivesJpaRepository.save(consecutive);
-				insertBinnacle("Se agregó un cliente SA");
-			} else {
-				updateSaClient(saClient);;
-			}
-		} else {
-			updateSaClient(saClient);
 		}
-		return saClient;
-	}
 
 	@Override
 	public List<SaClient> listAllSaClient() {
@@ -102,8 +56,8 @@ public class SaClientServiceImpl implements SaClientService {
 	}
 
 	@Override
-	public void updateStatusById(String idSaClient, byte status) {
-		SaClient saClient = saClientJpaRepository.findOne(idSaClient);
+	public void updateStatusById(int idSaClient, byte status) {
+		SaClient saClient = saClientJpaRepository.findByIdSaClient(idSaClient);
 
 		if (saClient != null) {
 			saClient.setStatus(status);
@@ -113,14 +67,10 @@ public class SaClientServiceImpl implements SaClientService {
 	}
 
 	@Override
-	public SaClient findById(String idSaClient) {
+	public SaClient findById(int idSaClient) {
 		return saClientJpaRepository.findByIdSaClient(idSaClient);
 	}
 
-	@Override
-	public Consecutive getConsecutive() {
-		return consecutivesJpaRepository.findByType("SA client");
-	}
 	
 	private void updateSaClient(SaClient saClient) {
 		java.util.Date date = new Date();
@@ -130,7 +80,6 @@ public class SaClientServiceImpl implements SaClientService {
 					saClientToUpdate.getStatus());
 			saClientJpaRepository.save(saClient);
 			logSaClientJpaRepository.save(logSaClient);
-			insertBinnacle("Se actualizó un cliente SA");
 			
 		}
 	}
@@ -139,19 +88,5 @@ public class SaClientServiceImpl implements SaClientService {
 	public List<SaClient> findByActiveStatus() {
 		return saClientJpaRepository.findByStatus((byte) 1);
 	}
-
-	@Override
-	public void IP(String ip) {
-		ipCliente=ip;
-		
-	}
-	
-	private void insertBinnacle(String msg)
-	{
-		Date date = new Date();
-		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente,date);
-		traceResponseService.addTraceResponse(traceResponse);
-	}
-	
 
 }

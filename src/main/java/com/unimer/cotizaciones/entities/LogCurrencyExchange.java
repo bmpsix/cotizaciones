@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="tbl_log_currency_exchange")
+@Table(name="log_currency_exchange")
 public class LogCurrencyExchange implements Serializable {
 	
 	
@@ -35,13 +35,13 @@ public class LogCurrencyExchange implements Serializable {
 	private Date date;
 
 	@Column(name="id_country", nullable=false, length=8)
-	private String idCountry;
+	private int idCountry;
 
 	@Column(name="id_currency_exchange", nullable=false, length=8)
-	private String idCurrencyExchange;
+	private int idCurrencyExchange;
 
 	@Column(name="id_currency_type", nullable=false, length=8)
-	private String idCurrencyType;
+	private int idCurrencyType;
 
 	@Column(nullable=false)
 	private float sell;
@@ -53,7 +53,7 @@ public class LogCurrencyExchange implements Serializable {
 	}
 
 	public LogCurrencyExchange(Date dateRecord, String actionDetail, String actionUser, float buy, Date date,
-			String idCountry, String idCurrencyExchange, String idCurrencyType, float sell) {
+			int idCountry, int idCurrencyExchange, int idCurrencyType, float sell) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;
@@ -108,27 +108,27 @@ public class LogCurrencyExchange implements Serializable {
 		this.date = date;
 	}
 
-	public String getIdCountry() {
+	public int getIdCountry() {
 		return this.idCountry;
 	}
 
-	public void setIdCountry(String idCountry) {
+	public void setIdCountry(int idCountry) {
 		this.idCountry = idCountry;
 	}
 
-	public String getIdCurrencyExchange() {
+	public int getIdCurrencyExchange() {
 		return this.idCurrencyExchange;
 	}
 
-	public void setIdCurrencyExchange(String idCurrencyExchange) {
+	public void setIdCurrencyExchange(int idCurrencyExchange) {
 		this.idCurrencyExchange = idCurrencyExchange;
 	}
 
-	public String getIdCurrencyType() {
+	public int getIdCurrencyType() {
 		return this.idCurrencyType;
 	}
 
-	public void setIdCurrencyType(String idCurrencyType) {
+	public void setIdCurrencyType(int idCurrencyType) {
 		this.idCurrencyType = idCurrencyType;
 	}
 

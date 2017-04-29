@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,22 +15,23 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="tbl_collect_method")
+@Table(name="collect_method")
 public class CollectMethod implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_collect_method", unique=true, nullable=false, length=8)
-	private String idCollectMethod;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_collect_method", unique=true, nullable=false)
+	private int idCollectMethod;
 
 	@Column(nullable=false, length=100)
 	private String detail;
 
-	public String getIdCollectMethod() {
+	public int getIdCollectMethod() {
 		return idCollectMethod;
 	}
 
-	public void setIdCollectMethod(String idCollectMethod) {
+	public void setIdCollectMethod(int idCollectMethod) {
 		this.idCollectMethod = idCollectMethod;
 	}
 
@@ -45,7 +48,7 @@ public class CollectMethod implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CollectMethod(String idCollectMethod, String detail) {
+	public CollectMethod(int idCollectMethod, String detail) {
 		super();
 		this.idCollectMethod = idCollectMethod;
 		this.detail = detail;

@@ -8,5 +8,5 @@ import com.unimer.cotizaciones.entities.CurrencyExchange;
 
 @Repository("currencyExchangeJpaRepository")
 public interface CurrencyExchangeJpaRepository extends JpaRepository<CurrencyExchange, Serializable>{
-	
+	public abstract CurrencyExchange findByIdCurrencyExchange(int idCurrencyExchange);
 }

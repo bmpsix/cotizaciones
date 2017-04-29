@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="tbl_log_assessment")
+@Table(name="log_assessment")
 public class LogAssessment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -33,16 +33,16 @@ public class LogAssessment implements Serializable {
 	private String detail;
 
 	@Column(name="id_assessment", nullable=false, length=8)
-	private String idAssessment;
+	private int idAssessment;
 
 	@Column(name="id_currency_exchange", nullable=false, length=8)
-	private String idCurrencyExchange;
+	private int idCurrencyExchange;
 
 	@Column(name="id_sa_client", nullable=false, length=8)
-	private String idSaClient;
+	private int idSaClient;
 
 	@Column(name="id_user", nullable=false, length=8)
-	private String idUser;
+	private int idUser;
 	
 
 
@@ -90,41 +90,41 @@ public class LogAssessment implements Serializable {
 		this.detail = detail;
 	}
 
-	public String getIdAssessment() {
+	public int getIdAssessment() {
 		return this.idAssessment;
 	}
 
-	public void setIdAssessment(String idAssessment) {
+	public void setIdAssessment(int idAssessment) {
 		this.idAssessment = idAssessment;
 	}
 
-	public String getIdCurrencyExchange() {
+	public int getIdCurrencyExchange() {
 		return this.idCurrencyExchange;
 	}
 
-	public void setIdCurrencyExchange(String idCurrencyExchange) {
+	public void setIdCurrencyExchange(int idCurrencyExchange) {
 		this.idCurrencyExchange = idCurrencyExchange;
 	}
 
-	public String getIdSaClient() {
+	public int getIdSaClient() {
 		return this.idSaClient;
 	}
 
-	public void setIdSaClient(String idSaClient) {
+	public void setIdSaClient(int idSaClient) {
 		this.idSaClient = idSaClient;
 	}
 
-	public String getIdUser() {
+	public int getIdUser() {
 		return this.idUser;
 	}
 
-	public void setIdUser(String idUser) {
+	public void setIdUser(int idUser) {
 		this.idUser = idUser;
 	}
 	
 	
 	public LogAssessment(Date dateRecord, String actionDetail, String actionUser, Date creationDate, String detail,
-			String idAssessment, String idCurrencyExchange, String idSaClient, String idUser) {
+			int idAssessment, int idCurrencyExchange, int idSaClient, int idUser) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;

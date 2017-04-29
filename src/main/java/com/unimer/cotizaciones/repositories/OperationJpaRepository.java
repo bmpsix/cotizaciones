@@ -13,6 +13,6 @@ public interface OperationJpaRepository extends JpaRepository<Operation, Seriali
 	
 	public abstract Operation findByDetail(String detail);
 
-	public abstract Operation  findByIdOperation(String idOperation);
+	public abstract Operation  findByIdOperation(int idOperation);
 	
 }

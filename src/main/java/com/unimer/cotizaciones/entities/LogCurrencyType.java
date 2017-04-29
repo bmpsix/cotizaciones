@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="tbl_log_currency_type")
+@Table(name="log_currency_type")
 public class LogCurrencyType implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -32,7 +32,7 @@ public class LogCurrencyType implements Serializable {
 	private byte favorite;
 
 	@Column(name="id_curerncy_type", nullable=false, length=8)
-	private String idCurrencyType;
+	private int idCurrencyType;
 
 	@Column(nullable=false)
 	private byte status;
@@ -47,7 +47,7 @@ public class LogCurrencyType implements Serializable {
 	}
 
 	public LogCurrencyType(Date dateRecord, String actionDetail, String actionUser, String detail, byte favorite,
-			String idCurrencyType, byte status, String symbol) {
+			int idCurrencyType, byte status, String symbol) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;
@@ -99,11 +99,11 @@ public class LogCurrencyType implements Serializable {
 		this.favorite = favorite;
 	}
 
-	public String getIdCurerncyType() {
+	public int getIdCurerncyType() {
 		return this.idCurrencyType;
 	}
 
-	public void setIdCurerncyType(String idCurerncyType) {
+	public void setIdCurerncyType(int idCurerncyType) {
 		this.idCurrencyType = idCurerncyType;
 	}
 

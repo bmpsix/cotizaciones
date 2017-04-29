@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -17,13 +19,14 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
-@Table(name="tbl_target")
+@Table(name="target")
 public class Target implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_target", unique=true, nullable=false, length=8)
-	private String idTarget;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_target", unique=true, nullable=false)
+	private int idTarget;
 
 	@Temporal(TemporalType.TIMESTAMP)
 
@@ -43,11 +46,11 @@ public class Target implements Serializable {
 	@Column(nullable=false, length=100)
 	private String observations;
 
-	public String getIdTarget() {
+	public int getIdTarget() {
 		return idTarget;
 	}
 
-	public void setIdTarget(String idTarget) {
+	public void setIdTarget(int idTarget) {
 		this.idTarget = idTarget;
 	}
 
@@ -88,7 +91,7 @@ public class Target implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Target(String idTarget, Date creationDate, Date endDate, Date initialDate, String observations) {
+	public Target(int idTarget, Date creationDate, Date endDate, Date initialDate, String observations) {
 		super();
 		this.idTarget = idTarget;
 		this.creationDate = creationDate;

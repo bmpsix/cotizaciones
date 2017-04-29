@@ -12,5 +12,5 @@ public interface ExecutionTypeJpaRepository extends JpaRepository<ExecutionType,
 	
 	public abstract ExecutionType findByDetail(String detail);
 
-	public abstract ExecutionType findByIdExecutionType(String idExecutionType);
+	public abstract ExecutionType findByIdExecutionType(int idExecutionType);
 }

@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="tbl_log_proposal_type")
+@Table(name="log_proposal_type")
 public class LogProposalType implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -29,7 +29,7 @@ public class LogProposalType implements Serializable {
 	private String detail;
 
 	@Column(name="id_proposal_type", nullable=false, length=8)
-	private String idProposalType;
+	private int idProposalType;
 	
 	
 	@Override
@@ -50,7 +50,7 @@ public class LogProposalType implements Serializable {
 
 
 	public LogProposalType(Date dateRecord, String actionDetail, String actionUser, String detail,
-			String idProposalType) {
+			int idProposalType) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;
@@ -94,11 +94,11 @@ public class LogProposalType implements Serializable {
 		this.detail = detail;
 	}
 
-	public String getIdProposalType() {
+	public int getIdProposalType() {
 		return this.idProposalType;
 	}
 
-	public void setIdProposalType(String idProposalType) {
+	public void setIdProposalType(int idProposalType) {
 		this.idProposalType = idProposalType;
 	}
 

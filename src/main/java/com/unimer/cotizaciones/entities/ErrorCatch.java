@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="tbl_error_catch")
+@Table(name="error_catch")
 public class ErrorCatch implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -23,7 +23,7 @@ public class ErrorCatch implements Serializable {
 	private String detail;
 
 	@Column(name="id_user", length=8)
-	private String idUser;
+	private int idUser;
 
 	public ErrorCatch() {
 	}
@@ -44,11 +44,11 @@ public class ErrorCatch implements Serializable {
 		this.detail = detail;
 	}
 
-	public String getIdUser() {
+	public int getIdUser() {
 		return this.idUser;
 	}
 
-	public void setIdUser(String idUser) {
+	public void setIdUser(int idUser) {
 		this.idUser = idUser;
 	}
 

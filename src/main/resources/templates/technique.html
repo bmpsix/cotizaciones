@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<meta charset="UTF-8">
 <html>
-<head th:replace="fragments/header"></head>
+<head th:replace="fragments/header">
+<meta charset="UTF-8">
+</head>
 <body>
 	<div data-role="page" data-theme="a" data-dom-cache="false" >
 		<div data-role="header" data-position="inline" >
@@ -14,32 +15,21 @@
 		<h3>Control de las técnicas</h3>
 			<div data-role="fieldcontain">
 			
-					<form method="post" action="#" th:action="@{/admin/addtechnique}" th:object="${consecutive}" >
-					
-					<div  th:object="${updateTechnique}" >
-						<label for="idTechnique">Id de la técnica:</label>
-						
+					<form method="post" action="#" th:action="@{/admin/addtechnique}" th:object="${updateTechnique}" >
 						<div th:if="${updateTechnique==null}">
-							<input  type="text" name="idTechnique" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'TEC-1'}" disabled/>
 							<label for="detail">Detalle:</label>
 							<input title="Debe ingresar el nombre de la técnica" type="text" name="detail" th:value="${detail}" required/>
 										
 						</div>
 						
 						<div th:if="${updateTechnique!=null}">
-							<input type="text" name="idTechnique" th:value="${updateTechnique.idTechnique}" readonly />
+							<input type="hidden" name="idTechnique" th:value="${updateTechnique.idTechnique}" readonly />
 							<label for="detail">Detalle:</label>
 							<input title="Debe ingresar el nombre de la técnica" type="text" name="detail" th:value="${updateTechnique.detail}" required/>
-							
-							
-														
+							<a href="#" th:href="@{/admin/addtechnique}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>					
 						</div>
-					
-						
                     	<hr>
-                    </div>
-  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar nuevo">
-                   <!--  <input type="submit" name="submit" class="custom_text" data-icon="refresh" value="Modificar registro">-->
+  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
 				</form>
 			</div>
            	
@@ -51,7 +41,7 @@
            				<tr>
            				<th  style="padding-right: 15px;">ID</th>
            				<th  style="padding-right: 15px;">Detalle</th>
-           			
+           				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
            				</thead>
            				<tbody>
@@ -59,7 +49,7 @@
 							<td style="padding-right: 15px;" th:text="${Technique.idTechnique}"></td>
 							<td style="padding-right: 15px;" th:text="${Technique.detail}"></td>
 							
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargetechnique?idTechnique=__${Technique.idTechnique}__}"  >Edit</a></td>
+	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargetechnique?idTechnique=__${Technique.idTechnique}__}"  >Editar</a></td>
 	           				
            				</tr>
            				

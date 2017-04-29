@@ -10,15 +10,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.unimer.cotizaciones.entities.ClientType;
-import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.LogClientType;
-import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.repositories.ClientTypeJpaRepository;
-import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogClientTypeJpaRepository;
 import com.unimer.cotizaciones.services.ClientTypeService;
-import com.unimer.cotizaciones.services.TraceResponseService;
-
 @Service("clientTypeServiceImpl")
 public class ClientTypeServiceImpl implements ClientTypeService {
 
@@ -28,67 +23,27 @@ public class ClientTypeServiceImpl implements ClientTypeService {
 	private ClientTypeJpaRepository clientTypeJpaRepository;
 
 	@Autowired
-	@Qualifier("consecutivesJpaRepository")
-	private ConsecutivesJpaRepository consecutivesJpaRepository;
-
-	@Autowired
 	@Qualifier("logClientTypeJpaRepository")
 	private LogClientTypeJpaRepository logClientTypeJpaRepository;
-	
-	@Autowired
-	@Qualifier("traceResponseServiceImpl")
-	private TraceResponseService traceResponseService;
+
 
 	private static final Log LOG = LogFactory.getLog(ClientTypeServiceImpl.class);
 	
-	String ipCliente="";
-	
-
 	
 	@Override
-	public ClientType addClientType(ClientType clientType) {
+	public void addClientType(ClientType clientType) {
 
-		Consecutive consecutive = consecutivesJpaRepository.findByType("Client type");
-
-		if (consecutive == null) {
-			consecutive = new Consecutive();
-			consecutive.setType("Client type");
-			consecutive.setPrefix("CTP");
-			consecutive.setSubfix(1);
-			consecutive.setDetail("Default consecutive for client type");
-			consecutivesJpaRepository.save(consecutive);
-			clientType.setIdClientType(consecutive.getPrefix() + "-" + consecutive.getSubfix());
-
-			if (!clientType.getIdClientType().equals(clientTypeJpaRepository.findOne(clientType.getIdClientType()))) {
+	
+			if (clientType.getIdClientType()==0) {
 				
 				clientTypeJpaRepository.save(clientType);
 				LOG.info("METHOD: addClientType in ClientTypeServiceImpl -- PARAMS: " + clientType.toString());
-				consecutive.setSubfix(consecutive.getSubfix() + 1);
-				consecutivesJpaRepository.save(consecutive);
-				insertBinnacle("Se actualizo un nuevo tipo de cliente");
 
 			} else {
 				updateClientType(clientType);
 			}
 
-		} else if (clientType.getIdClientType() == null) {
-
-			clientType.setIdClientType(consecutive.getPrefix() + "-" + consecutive.getSubfix());
-			
-			if (!clientType.getIdClientType().equals(clientTypeJpaRepository.findOne(clientType.getIdClientType()))) {
-				LOG.info("METHOD: addClientType in ClientTypeServiceImpl -- PARAMS: " + clientType.toString());
-				clientTypeJpaRepository.save(clientType);
-				consecutive.setSubfix(consecutive.getSubfix() + 1);
-				consecutivesJpaRepository.save(consecutive);
-				insertBinnacle("Se agrego un tipo de cliente");
-			} else {
-				updateClientType(clientType);
-			}
-		} else {
-			updateClientType(clientType);
-		}
-		return clientType;
-	}
+		} 
 
 	@Override
 	public List<ClientType> listAllClientType() {
@@ -97,8 +52,8 @@ public class ClientTypeServiceImpl implements ClientTypeService {
 	}
 
 	@Override
-	public void updateStatusById(String idClientType, byte status) {
-		ClientType clientType = clientTypeJpaRepository.findOne(idClientType);
+	public void updateStatusById(int idClientType, byte status) {
+		ClientType clientType = clientTypeJpaRepository.findByIdClientType(idClientType);
 		if (clientType != null) {
 			clientType.setStatus(status);
 			clientTypeJpaRepository.save(clientType);
@@ -108,15 +63,11 @@ public class ClientTypeServiceImpl implements ClientTypeService {
 	}
 
 	@Override
-	public ClientType findById(String idClientType) {
+	public ClientType findById(int idClientType) {
 		return clientTypeJpaRepository.findByIdClientType(idClientType);
 	}
 
-	@Override
-	public Consecutive getConsecutive() {
-		return consecutivesJpaRepository.findByType("Client type");
-	}
-
+	
 	private void updateClientType(ClientType clientType) {
 		java.util.Date date = new Date();
 		ClientType clientTypeToUpdate = clientTypeJpaRepository.findByIdClientType(clientType.getIdClientType());
@@ -126,7 +77,6 @@ public class ClientTypeServiceImpl implements ClientTypeService {
 			clientTypeJpaRepository.save(clientType);
 			logClientTypeJpaRepository.save(logClientType);
 			
-			insertBinnacle("Se actualizo un tipo de cliente");
 		}
 	}
 
@@ -135,16 +85,5 @@ public class ClientTypeServiceImpl implements ClientTypeService {
 		return clientTypeJpaRepository.findByStatus((byte) 1);
 	}
 	
-	@Override
-	public void IP(String ip) {
-		ipCliente=ip;
-		
-	}
 	
-	private void insertBinnacle(String msg)
-	{
-		Date date = new Date();
-		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente,date);
-		traceResponseService.addTraceResponse(traceResponse);
-	}
 }

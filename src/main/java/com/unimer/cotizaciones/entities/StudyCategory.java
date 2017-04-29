@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,22 +15,23 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="tbl_study_category")
+@Table(name="study_category")
 public class StudyCategory implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_study_category", unique=true, nullable=false, length=8)
-	private String idStudyCategory;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_study_category", unique=true, nullable=false)
+	private int idStudyCategory;
 
 	@Column(name="detail", nullable=false, length=100)
 	private String detail;
 
-	public String getIdStudyCategory() {
+	public int getIdStudyCategory() {
 		return idStudyCategory;
 	}
 
-	public void setIdStudyCategory(String idStudyCategory) {
+	public void setIdStudyCategory(int idStudyCategory) {
 		this.idStudyCategory = idStudyCategory;
 	}
 
@@ -45,7 +48,7 @@ public class StudyCategory implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public StudyCategory(String idStudyCategory, String detail) {
+	public StudyCategory(int idStudyCategory, String detail) {
 		super();
 		this.idStudyCategory = idStudyCategory;
 		this.detail = detail;

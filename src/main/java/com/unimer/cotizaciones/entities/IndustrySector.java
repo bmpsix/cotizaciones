@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,22 +15,23 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="tbl_industry_sector")
+@Table(name="industry_sector")
 public class IndustrySector implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_industry_sector", unique=true, nullable=false, length=8)
-	private String idIndustrySector;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_industry_sector", unique=true, nullable=false)
+	private int idIndustrySector;
 
 	@Column(nullable=false, length=100)
 	private String detail;
 
-	public String getIdIndustrySector() {
+	public int getIdIndustrySector() {
 		return idIndustrySector;
 	}
 
-	public void setIdIndustrySector(String idIndustrySector) {
+	public void setIdIndustrySector(int idIndustrySector) {
 		this.idIndustrySector = idIndustrySector;
 	}
 
@@ -45,7 +48,7 @@ public class IndustrySector implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public IndustrySector(String idIndustrySector, String detail) {
+	public IndustrySector(int idIndustrySector, String detail) {
 		super();
 		this.idIndustrySector = idIndustrySector;
 		this.detail = detail;

@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,13 +15,14 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="tbl_sa_client")
+@Table(name="sa_client")
 public class SaClient implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_sa_client", unique=true, nullable=false, length=50)
-	private String idSaClient;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_sa_client", unique=true, nullable=false)
+	private int idSaClient;
 
 	@Column(nullable=false, length=50)
 	private String detail;
@@ -27,11 +30,11 @@ public class SaClient implements Serializable {
 	@Column(nullable=false)
 	private byte status;
 
-	public String getIdSaClient() {
+	public int getIdSaClient() {
 		return idSaClient;
 	}
 
-	public void setIdSaClient(String idSaClient) {
+	public void setIdSaClient(int idSaClient) {
 		this.idSaClient = idSaClient;
 	}
 
@@ -56,7 +59,7 @@ public class SaClient implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public SaClient(String idSaClient, String detail, byte status) {
+	public SaClient(int idSaClient, String detail, byte status) {
 		super();
 		this.idSaClient = idSaClient;
 		this.detail = detail;

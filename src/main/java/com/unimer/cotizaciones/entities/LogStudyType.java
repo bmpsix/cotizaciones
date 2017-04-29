@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="tbl_log_study_type")
+@Table(name="log_study_type")
 public class LogStudyType implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -29,7 +29,7 @@ public class LogStudyType implements Serializable {
 	private String detail;
 
 	@Column(name="id_study_type", nullable=false, length=8)
-	private String idStudyType;
+	private int idStudyType;
 	
 	@Override
 	public String toString() {
@@ -43,7 +43,7 @@ public class LogStudyType implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public LogStudyType(Date dateRecord, String actionDetail, String actionUser,String detail ,String idStudyType ) {
+	public LogStudyType(Date dateRecord, String actionDetail, String actionUser,String detail ,int idStudyType ) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;
@@ -85,11 +85,11 @@ public class LogStudyType implements Serializable {
 		this.detail = detail;
 	}
 
-	public String getIdStudyType() {
+	public int getIdStudyType() {
 		return this.idStudyType;
 	}
 
-	public void setIdStudyType(String idStudyType) {
+	public void setIdStudyType(int idStudyType) {
 		this.idStudyType = idStudyType;
 	}
 

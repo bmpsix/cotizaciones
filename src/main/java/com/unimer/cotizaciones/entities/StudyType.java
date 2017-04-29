@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,22 +15,23 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="tbl_study_type")
+@Table(name="study_type")
 public class StudyType implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_study_type", unique=true, nullable=false, length=8)
-	private String idStudyType;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_study_type", unique=true, nullable=false)
+	private int idStudyType;
 
 	@Column(nullable=false, length=100)
 	private String detail;
 
-	public String getIdStudyType() {
+	public int getIdStudyType() {
 		return idStudyType;
 	}
 
-	public void setIdStudyType(String idStudyType) {
+	public void setIdStudyType(int idStudyType) {
 		this.idStudyType = idStudyType;
 	}
 
@@ -45,7 +48,7 @@ public class StudyType implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public StudyType(String idStudyType, String detail) {
+	public StudyType(int idStudyType, String detail) {
 		super();
 		this.idStudyType = idStudyType;
 		this.detail = detail;

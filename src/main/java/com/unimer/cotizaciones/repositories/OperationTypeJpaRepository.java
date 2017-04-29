@@ -11,6 +11,6 @@ public interface OperationTypeJpaRepository extends JpaRepository<OperationType,
 	
 	public abstract OperationType findByDetail(String detail);
 	
-	public abstract OperationType findByIdOperationType(String idOperationType);
+	public abstract OperationType findByIdOperationType(int idOperationType);
 	
 }

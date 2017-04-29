@@ -12,7 +12,7 @@ public interface ClientTypeJpaRepository extends JpaRepository<ClientType, Seria
 
 	public abstract ClientType findByDetail(String detail);
 
-	public abstract ClientType findByIdClientType(String idClientType);
+	public abstract ClientType findByIdClientType(int idClientType);
 	
 	public abstract List<ClientType> findByStatus(byte status);
 }

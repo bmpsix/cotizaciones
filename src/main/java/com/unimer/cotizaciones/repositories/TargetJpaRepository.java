@@ -9,6 +9,6 @@ import com.unimer.cotizaciones.entities.Target;
 @Repository("targetJpaRepository")
 public interface TargetJpaRepository extends JpaRepository<Target, Serializable>{
 
-	Target findByIdTarget(String idTarget);
+	Target findByIdTarget(int idTarget);
 	
 }

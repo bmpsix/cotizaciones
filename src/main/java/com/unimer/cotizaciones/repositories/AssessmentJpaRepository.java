@@ -10,4 +10,5 @@ import com.unimer.cotizaciones.entities.Assessment;
 @Repository("assessmentJpaRepository")
 public interface AssessmentJpaRepository extends JpaRepository<Assessment, Serializable>{
 
+	public abstract Assessment  findByIdAssessment(int idAssessment);
 }

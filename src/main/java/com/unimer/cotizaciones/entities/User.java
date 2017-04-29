@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,13 +21,14 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
-@Table(name="tbl_user")
+@Table(name="user")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_user", unique=true, nullable=false, length=8)
-	private String idUser;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_user", unique=true, nullable=false)
+	private int idUser;
 
 	@Column(name="account_bank", nullable=false, length=50)
 	private String accountBank;
@@ -90,11 +93,11 @@ public class User implements Serializable {
 	@JoinColumn(name="id_rol", nullable=false)
 	private Rol rol;
 
-	public String getIdUser() {
+	public int getIdUser() {
 		return idUser;
 	}
 
-	public void setIdUser(String idUser) {
+	public void setIdUser(int idUser) {
 		this.idUser = idUser;
 	}
 
@@ -253,7 +256,7 @@ public class User implements Serializable {
 		this.rol = new Rol();
 	}
 
-	public User(String idUser, String accountBank, double commissionAmount, String confirmationToken, Date creationDate,
+	public User(int idUser, String accountBank, double commissionAmount, String confirmationToken, Date creationDate,
 			byte credentialExpired, Date credentialExpiredAt, byte expired, Date expiredAt, Date lastLoggin,
 			Date lastModification, String lastname, String midname, String password, byte status, int useCommission,
 			String username, Country country, Rol rol) {

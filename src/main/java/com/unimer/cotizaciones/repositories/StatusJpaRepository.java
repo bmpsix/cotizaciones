@@ -11,5 +11,5 @@ public interface StatusJpaRepository extends JpaRepository<Status, Serializable>
 
 	public abstract Status findByDetail(String detail);
 
-	public abstract Status findByIdStatus(String idStatus);
+	public abstract Status findByIdStatus(int idStatus);
 }

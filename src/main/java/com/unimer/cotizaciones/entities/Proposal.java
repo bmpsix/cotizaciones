@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,13 +21,14 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
-@Table(name="tbl_proposal")
+@Table(name="proposal")
 public class Proposal implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_proposal", unique=true, nullable=false, length=8)
-	private String idProposal;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_proposal", unique=true, nullable=false)
+	private int idProposal;
 
 	@Column(name="aporte_fijo", nullable=false)
 	private double aporteFijo;
@@ -120,11 +123,11 @@ public class Proposal implements Serializable {
 	@JoinColumn(name="id_target", nullable=false)
 	private Target target;
 
-	public String getIdProposal() {
+	public int getIdProposal() {
 		return idProposal;
 	}
 
-	public void setIdProposal(String idProposal) {
+	public void setIdProposal(int idProposal) {
 		this.idProposal = idProposal;
 	}
 
@@ -320,7 +323,7 @@ public class Proposal implements Serializable {
 		this.target = new Target();
 	}
 
-	public Proposal(String idProposal, double aporteFijo, Date creationDate, double currencyExchange, Date endDate,
+	public Proposal(int idProposal, double aporteFijo, Date creationDate, double currencyExchange, Date endDate,
 			double factor1, double imprevistoComisionable, double imprevistoNoComisionable, Date initialDate,
 			String observations, String targetText, Assessment assessment, ClientContact clientContact,
 			CollectMethod collectMethod, Country country, ExecutionType executionType, IndustrySector industrySector,

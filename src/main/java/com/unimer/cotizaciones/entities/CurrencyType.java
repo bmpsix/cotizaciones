@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,13 +15,14 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="tbl_currency_type")
+@Table(name="currency_type")
 public class CurrencyType implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_currency_type", unique=true, nullable=false, length=8)
-	private String idCurrencyType;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_currency_type", unique=true, nullable=false)
+	private int idCurrencyType;
 
 	@Column(nullable=false, length=100)
 	private String detail;
@@ -33,11 +36,11 @@ public class CurrencyType implements Serializable {
 	@Column(nullable=false, length=1)
 	private String symbol;
 
-	public String getIdCurrencyType() {
+	public int getIdCurrencyType() {
 		return idCurrencyType;
 	}
 
-	public void setIdCurrencyType(String idCurrencyType) {
+	public void setIdCurrencyType(int idCurrencyType) {
 		this.idCurrencyType = idCurrencyType;
 	}
 	
@@ -81,7 +84,7 @@ public class CurrencyType implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CurrencyType(String idCurrencyType, String detail, byte favorite, byte status, String symbol) {
+	public CurrencyType(int idCurrencyType, String detail, byte favorite, byte status, String symbol) {
 		super();
 		this.idCurrencyType = idCurrencyType;
 		this.detail = detail;

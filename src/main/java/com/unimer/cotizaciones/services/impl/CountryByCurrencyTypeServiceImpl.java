@@ -37,19 +37,12 @@ public class CountryByCurrencyTypeServiceImpl implements CountryByCurrencyTypeSe
 
 
 	@Override
-	public CountryByCurrencyType addCountryByCurrencyType(CountryByCurrencyType countryByCurrencyType) {
+	public void addCountryByCurrencyType(CountryByCurrencyType countryByCurrencyType) {
 		LOG.info("METHOD: addCountryByCurrencyType in CountryByCurrencyTypeServiceImpl -- PARAMS: " + countryByCurrencyType.toString());
 		countryByCurrencyTypeJpaRepository.save(countryByCurrencyType);
-		LOG.info("METHOD: addCountryByCurrencyType in CountryByCurrencyTypeServiceImpl 2 -- PARAMS: " + countryByCurrencyType.toString());
-		return countryByCurrencyType;
 	}
 
 
-	@Override
-	public void IP(String ip) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	
 	

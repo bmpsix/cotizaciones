@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,13 +15,14 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="tbl_country")
+@Table(name="country")
 public class Country implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_country", unique=true, nullable=false, length=8)
-	private String idCountry;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_country", unique=true, nullable=false)
+	private int idCountry;
 
 	@Column(nullable=false, length=3)
 	private String cod;
@@ -27,11 +30,11 @@ public class Country implements Serializable {
 	@Column(nullable=false, length=100)
 	private String detail;
 
-	public String getIdCountry() {
+	public int getIdCountry() {
 		return idCountry;
 	}
 
-	public void setIdCountry(String idCountry) {
+	public void setIdCountry(int idCountry) {
 		this.idCountry = idCountry;
 	}
 
@@ -57,7 +60,7 @@ public class Country implements Serializable {
 	}
 	
 
-	public Country(String idCountry, String cod, String detail) {
+	public Country(int idCountry, String cod, String detail) {
 		super();
 		this.idCountry = idCountry;
 		this.cod = cod;

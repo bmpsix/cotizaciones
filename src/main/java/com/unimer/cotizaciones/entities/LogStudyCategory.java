@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="tbl_log_study_category")
+@Table(name="log_study_category")
 public class LogStudyCategory implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -29,7 +29,7 @@ public class LogStudyCategory implements Serializable {
 	private String detail;
 
 	@Column(name="id_study_category", nullable=false, length=8)
-	private String idStudyCategory;
+	private int idStudyCategory;
 	
 	
 
@@ -46,7 +46,7 @@ public class LogStudyCategory implements Serializable {
 	}
 
 
-	public LogStudyCategory(Date dateRecord, String actionDetail, String actionUser,String idStudyCategory ,String detail ) {
+	public LogStudyCategory(Date dateRecord, String actionDetail, String actionUser,int idStudyCategory ,String detail ) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;
@@ -88,11 +88,11 @@ public class LogStudyCategory implements Serializable {
 		this.detail = detail;
 	}
 
-	public String getIdStudyCategory() {
+	public int getIdStudyCategory() {
 		return this.idStudyCategory;
 	}
 
-	public void setIdStudyCategory(String idStudyCategory) {
+	public void setIdStudyCategory(int idStudyCategory) {
 		this.idStudyCategory = idStudyCategory;
 	}
 

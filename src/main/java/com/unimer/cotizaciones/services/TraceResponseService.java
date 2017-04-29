@@ -8,6 +8,6 @@ public interface TraceResponseService {
 
 	public abstract List<TraceResponse> listAllTraceResponse();
 
-	public abstract TraceResponse addTraceResponse(TraceResponse traceResponse);
+	public abstract void addTraceResponse(TraceResponse traceResponse);
 	
 }

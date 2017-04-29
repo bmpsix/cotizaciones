@@ -15,20 +15,22 @@
 		<h3>Control de contacto de clientes</h3>
 			<div data-role="fieldcontain">
 					
-					<form method="post" action="#" th:action="@{/admin/addclientcontact}" th:object="${consecutive}" >
+					<form method="post" action="#" th:action="@{/admin/addclientcontact}" th:object="${updateClientContact}"  >
 					
-					<div  th:object="${updateClientContact}" >
-						<label for="idClientContact">Id del contacto de cliente:</label>
-						
+					
 						<div th:if="${updateClientContact==null}">
-							<input  type="text" name="idClientContact" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'CLC-1'}" disabled/>
+							
 							<label for="client">Cliente:</label>
-							<select name="client">
-								<option th:each="client : ${clients}" th:value="${client.idClient}"><p th:text="${client.detail}"></p></option>
+							<select name="client.idClient">
+								<option th:each="client : ${clients}" th:value="${client.idClient}">
+									<p name="client.detail" th:text="${client.detail}" th:value="${client.detail}" ></p>
+								</option>
 							</select>
 							<label for="country">País:</label>
-							<select name="country">
-								<option th:each="country : ${countries}" th:value="${country.idCountry}"><p th:text="${country.detail}"></p></option>
+							<select name="country.idCountry">
+								<option th:each="country : ${countries}" th:value="${country.idCountry}">
+									<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
+								</option>
 							</select>
 							<label for="name">Nombre:</label>
 							<input title="Debe ingresar el nombre del contacto" maxlength="100" type="text" name="name" th:value="${name}" required/>
@@ -47,16 +49,24 @@
 						</div>
 						
 						<div th:if="${updateClientContact!=null}">
-							<input type="text" name="idClientContact" th:value="${updateClientContact.idClientContact}" readonly />
+							<input type="hidden" name="idClientContact" th:value="${updateClientContact.idClientContact}" readonly />
 							<label for="client">Cliente:</label>
-							<select name="client">
-								<option th:each="client : ${clients}" th:value="${client.idClient}" th:if="${updateClientContact.Client.detail == client.detail}"  selected readonly><p th:text="${client.detail}" ></p></option>
-								<option th:each="client : ${clients}" th:value="${client.idClient}" th:if="${updateClientContact.Client.detail != client.detail}"   readonly><p th:text="${client.detail}" ></p></option>
+							<select name="client.idClient">
+								<option th:each="client : ${clients}" th:value="${client.idClient}" th:if="${updateClientContact.Client.detail == client.detail}"  selected readonly>
+									<p name="client.detail" th:text="${client.detail}" th:value="${client.detail}" ></p>
+								</option>
+								<option th:each="client : ${clients}" th:value="${client.idClient}" th:if="${updateClientContact.Client.detail != client.detail}"   readonly>
+									<p name="client.detail" th:text="${client.detail}" th:value="${client.detail}" ></p>
+								</option>
 							</select>
 							<label for="country">País:</label>
-							<select name="country">
-								<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${updateClientContact.Country.detail == country.detail}" selected readonly><p  th:text="${country.detail}"></p></option>
-								<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${updateClientContact.Country.detail != country.detail}" readonly><p  th:text="${country.detail}"></p></option>
+							<select name="country.idCountry">
+								<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${updateClientContact.Country.detail == country.detail}" selected readonly>
+									<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
+								</option>
+								<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${updateClientContact.Country.detail != country.detail}" readonly>
+									<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
+								</option>
 							</select>
 							<label for="name">Nombre:</label>
 							<input title="Debe ingresar el nombre del contacto" maxlength="100" type="text" name="name" th:value="${updateClientContact.name}" required/>
@@ -82,10 +92,7 @@
 							<a href="#" th:href="@{/admin/addclientcontact}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
 							
 						</div>
-					
-						
                     	<hr>
-                    </div>
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
                    
 				</form>
@@ -105,6 +112,7 @@
            				<th  style="padding-right: 15px;">Ext</th>
            				<th  style="padding-right: 15px;">Correo</th>
            				<th  style="padding-right: 15px;">Estado</th>
+           				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
            				</thead>
            				<tbody>

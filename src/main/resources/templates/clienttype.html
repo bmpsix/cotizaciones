@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head th:replace="fragments/header"></head>
+<head th:replace="fragments/header">
+<meta charset="UTF-8">
+</head>
 <body>
 	<div data-role="page" data-theme="a" data-dom-cache="false" >
 		<div data-role="header" data-position="inline" >
@@ -13,13 +15,9 @@
 		<h3>Control de tipo de clientes</h3>
 			<div data-role="fieldcontain">
 				
-					<form method="post" action="#" th:action="@{/admin/addclienttype}" th:object="${consecutive}" >
+					<form method="post" action="#" th:action="@{/admin/addclienttype}" th:object="${updateClientType}" >
 					
-					<div  th:object="${updateClientType}" >
-						<label for="idClientType">Id del tipo de cliente:</label>
-						
 						<div th:if="${updateClientType==null}">
-							<input  type="text" name="idClientType" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'CTP-1'}" disabled/>
 							<label for="detail">Detalle:</label>
 							<input title="Debe ingresar el tipo de cliente" type="text" name="detail" th:value="${detail}" required/>
 							<label for="status"  title="Indica si el tipo de cliente esta activo o inactivo">Estado</label>
@@ -30,7 +28,7 @@
 						</div>
 						
 						<div th:if="${updateClientType!=null}">
-							<input type="text" name="idClientType" th:value="${updateClientType.idClientType}" readonly />
+							<input type="hidden" name="idClientType" th:value="${updateClientType.idClientType}" readonly />
 							<label for="detail">Detalle:</label>
 							<input title="Debe ingresar el tipo de cliente" type="text" name="detail" th:value="${updateClientType.detail}" required/>
 							<label for="status"  title="Indica si el tipo de cliente esta activo o inactivo">Estado</label>
@@ -46,12 +44,10 @@
 									<option  value="1" selected>Activo</option>
 								</select>
 							</div>
+							<a href="#" th:href="@{/admin/addclienttype}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
 						</div>
-					
-						
                     	<hr>
-                    </div>
-  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar nuevo">
+  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
 				</form>
 			</div>
            	
@@ -64,6 +60,7 @@
            				<th  style="padding-right: 15px;">ID</th>
            				<th  style="padding-right: 15px;">Detalle</th>
            				<th  style="padding-right: 15px;">Estado</th>
+           				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
            				</thead>
            				<tbody>
@@ -72,7 +69,7 @@
 							<td style="padding-right: 15px;" th:text="${clienttype.detail}"></td>
 							<td style="padding-right: 15px;" th:if="${clienttype.status==1}">Activo</td>
 							<td style="padding-right: 15px;" th:if="${clienttype.status==0}">Inactivo</td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updateclienttype?idClientType=__${clienttype.idClientType}__}"  >Update</a></td>
+	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updateclienttype?idClientType=__${clienttype.idClientType}__}"  >Editar</a></td>
 	           				
            				</tr>
            				

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<meta charset="UTF-8">
+
 <html>
-<head th:replace="fragments/header"></head>
+<head th:replace="fragments/header">
+<meta charset="UTF-8">
+</head>
 <body>
 	<div data-role="page" data-theme="a" data-dom-cache="false" >
 		<div data-role="header" data-position="inline" >
@@ -14,32 +16,26 @@
 		<h3>Control de países</h3>
 			<div data-role="fieldcontain">
 			
-					<form method="post" action="#" th:action="@{/admin/addcountry}" th:object="${consecutive}" >
-					
-					<div  th:object="${updateCountry}" >
-						<label for="idCountry">Id del País:</label>
-						
+					<form method="post" action="#" th:action="@{/admin/addcountry}" th:object="${updateCountry}" >
 						<div th:if="${updateCountry==null}">
-							<input  type="text" name="idCountry" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'CTR-1'}" disabled/>
 							<label for="detail">Detalle:</label>
 							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${detail}" required/>
 							<label for="cod">Código del país:</label>
-							<input title="Debe ingresar el código del país" type="text" name="cod" th:value="${cod}" required/>						
+							<input title="Debe ingresar el código del país" type="text" name="cod" th:value="${cod}" maxlength="3" required/>						
 						</div>
 						
 						<div th:if="${updateCountry!=null}">
-							<input type="text" name="idCountry" th:value="${updateCountry.idCountry}" readonly />
+							<input type="hidden" name="idCountry" th:value="${updateCountry.idCountry}" readonly />
 							<label for="detail">Detalle:</label>
 							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${updateCountry.detail}" required/>
 							<label for="cod">Código del país:</label>
-							<input title="Debe ingresar el código del país" type="text" name="cod" th:value="${updateCountry.cod}" required/>	
-														
+							<input title="Debe ingresar el código del país" type="text" name="cod" th:value="${updateCountry.cod}"   maxlength="3" required/>	
+							<a href="#" th:href="@{/admin/addcountry}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>							
 						</div>
 					
 						
                     	<hr>
-                    </div>
-  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar nuevo">
+  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
                    <!--  <input type="submit" name="submit" class="custom_text" data-icon="refresh" value="Modificar registro">-->
 				</form>
 			</div>
@@ -53,6 +49,7 @@
            				<th  style="padding-right: 15px;">ID</th>
            				<th  style="padding-right: 15px;">Detalle</th>
            				<th  style="padding-right: 15px;">Código</th>
+           				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
            				</thead>
            				<tbody>
@@ -60,7 +57,7 @@
 							<td style="padding-right: 15px;" th:text="${country.idCountry}"></td>
 							<td style="padding-right: 15px;" th:text="${country.detail}"></td>
 							<td style="padding-right: 15px;" th:text="${country.cod}"></td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargecountry?idCountry=__${country.idCountry}__}"  >Edit</a></td>
+	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargecountry?idCountry=__${country.idCountry}__}"  >Editar</a></td>
 	           				
            				</tr>
            				

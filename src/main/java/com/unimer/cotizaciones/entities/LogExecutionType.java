@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="tbl_log_execution_type")
+@Table(name="log_execution_type")
 public class LogExecutionType implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -29,7 +29,7 @@ public class LogExecutionType implements Serializable {
 	private String detail;
 
 	@Column(name="id_execution_type", nullable=false, length=8)
-	private String idExecutionType;
+	private int idExecutionType;
 
 	public LogExecutionType() {
 	}
@@ -66,16 +66,16 @@ public class LogExecutionType implements Serializable {
 		this.detail = detail;
 	}
 
-	public String getIdExecutionType() {
+	public int getIdExecutionType() {
 		return this.idExecutionType;
 	}
 
-	public void setIdExecutionType(String idExecutionType) {
+	public void setIdExecutionType(int idExecutionType) {
 		this.idExecutionType = idExecutionType;
 	}
 
 	public LogExecutionType(Date dateRecord, String actionDetail, String actionUser, String detail,
-			String idExecutionType) {
+			int idExecutionType) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;

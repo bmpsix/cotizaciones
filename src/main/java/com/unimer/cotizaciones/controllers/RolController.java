@@ -1,9 +1,5 @@
 package com.unimer.cotizaciones.controllers;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Date;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import com.unimer.cotizaciones.entities.Rol;
-import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.services.RolService;
-import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Controller
 public class RolController {
@@ -28,40 +22,23 @@ public class RolController {
 	@Autowired
 	@Qualifier("rolServiceImpl")
 	private RolService rolService;
-	
-	@Autowired
-	@Qualifier("traceResponseServiceImpl")
-	private TraceResponseService traceResponseService;
-	
+
 	private static final Log LOG = LogFactory.getLog(RolController.class);
 	
 	@GetMapping("/admin/role")
-	public ModelAndView role() throws UnknownHostException{
-		Date date = new Date();
-		String ip = InetAddress.getLocalHost().getHostAddress();
-		TraceResponse traceResponse = new TraceResponse(null,"test","Se incresó a la página de Rol",ip,date);
-		traceResponseService.addTraceResponse(traceResponse);
+	public ModelAndView role(){
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("role");
 		modelAndView.addObject("roles", rolService.listAllRol());
-		modelAndView.addObject("consecutive", rolService.getConsecutive());
-		modelAndView.addObject("updateRole", null);
 		return modelAndView;
 	}
 	
 	@PostMapping("/admin/addrole")
-	public ModelAndView addRole(@ModelAttribute(name = "role") Rol rol, Model model) throws UnknownHostException {
+	public String addRole(@ModelAttribute(name = "role") Rol rol, Model model) {
 		LOG.info("METHOD: addRol in RolController -- PARAMS: " + rol.toString());
-		String ip = InetAddress.getLocalHost().getHostAddress();
-		rolService.IP(ip);
 		rolService.addRol(rol);
-		 ModelAndView modelAndView = new ModelAndView();
-		 modelAndView.setViewName("role");
-		 modelAndView.addObject("roles", rolService.listAllRol());
-		 modelAndView.addObject("consecutive", rolService.getConsecutive());
-		 modelAndView.addObject("updateRole", null);
-		 return modelAndView;
+		 return "redirect:/admin/role";
 	}
 	
 	@GetMapping("/admin/addrole")
@@ -70,12 +47,11 @@ public class RolController {
 	}
 	
 	@GetMapping("/admin/updaterole")
-	public ModelAndView updateRole(String idRol, Model model) {
+	public ModelAndView updateRole(int idRol, Model model) {
 		
 			ModelAndView modelAndView = new ModelAndView();
 			modelAndView.setViewName("role");
 			modelAndView.addObject("roles", rolService.listAllRol());
-			modelAndView.addObject("consecutive", rolService.getConsecutive());
 			modelAndView.addObject("updateRole",rolService.findById(idRol));
 
 		return modelAndView;

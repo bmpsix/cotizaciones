@@ -8,12 +8,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.Technique;
-import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.entities.LogTechnique;
-import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.TechniqueJpaRepository;
 import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.repositories.LogTechniqueJpaRepository;
@@ -28,10 +24,7 @@ public class TechniqueServiceImpl implements TechniqueService{
 	@Qualifier("TechniqueJpaRepository")
 	private TechniqueJpaRepository TechniqueJpaRepository;
 
-	@Autowired
-	@Qualifier("consecutivesJpaRepository")
-	private ConsecutivesJpaRepository consecutivesJpaRepository;
-
+	
 	@Autowired
 	@Qualifier("logTechniqueJpaRepository")
 	private LogTechniqueJpaRepository logTechniqueJpaRepository;
@@ -51,51 +44,21 @@ public class TechniqueServiceImpl implements TechniqueService{
 	
 	
 	@Override
-	public Technique addTechnique(Technique Technique) {
+	public void addTechnique(Technique Technique) {
 
-		Consecutive consecutive = consecutivesJpaRepository.findByType("Technique");
+		
 
-		if (consecutive == null) {
-			consecutive = new Consecutive();
-			consecutive.setType("Technique");
-			consecutive.setPrefix("TEC");
-			consecutive.setSubfix(1);
-			consecutive.setDetail("Default consecutive of Technique table");
-			consecutivesJpaRepository.save(consecutive);
-			Technique.setIdTechnique(consecutive.getPrefix() + "-" + consecutive.getSubfix());
-
-			if (!Technique.getIdTechnique().equals(TechniqueJpaRepository.findOne(Technique.getIdTechnique()))) {
+			if (Technique.getIdTechnique()==0) {
 				
 				TechniqueJpaRepository.save(Technique);
 				LOG.info("METHOD: addTechnique in TechniqueServiceImpl -- PARAMS: " + Technique.toString());
-				consecutive.setSubfix(consecutive.getSubfix() + 1);
-				consecutivesJpaRepository.save(consecutive);
-
-				insertBinnacle("Se agregó una tecnica");
-
-			} else {
-				updateTechnique(Technique);
-			}
-
-		} else if (Technique.getIdTechnique() == null) {
-
-			Technique.setIdTechnique(consecutive.getPrefix() + "-" + consecutive.getSubfix());
 			
-			if (!Technique.getIdTechnique().equals(TechniqueJpaRepository.findOne(Technique.getIdTechnique()))) {
-				LOG.info("METHOD: addTechnique in TechniqueServiceImpl -- PARAMS: " + Technique.toString());
-				TechniqueJpaRepository.save(Technique);
-				consecutive.setSubfix(consecutive.getSubfix() + 1);
-				consecutivesJpaRepository.save(consecutive);
 
-				insertBinnacle("Se agregó una tecnica");
 			} else {
 				updateTechnique(Technique);
 			}
-		} else {
-			updateTechnique(Technique);
+
 		}
-		return Technique;
-	}
 
 	
 	@Override
@@ -104,15 +67,11 @@ public class TechniqueServiceImpl implements TechniqueService{
 	}	
 
 	@Override
-	public Technique findById(String idTechnique) {
+	public Technique findById(int idTechnique) {
 		return TechniqueJpaRepository.findByIdTechnique(idTechnique);
 	}
 
-	@Override
-	public Consecutive getConsecutive() {
-		return consecutivesJpaRepository.findByType("Technique");
-	}
-
+	
 	private void updateTechnique(Technique Technique) {
 		java.util.Date date = new Date();
 		Technique TechniqueToUpdate = TechniqueJpaRepository.findByIdTechnique(Technique.getIdTechnique());
@@ -120,23 +79,9 @@ public class TechniqueServiceImpl implements TechniqueService{
 			LogTechnique logTechnique = new LogTechnique(date, "Technique  modified", "test", TechniqueToUpdate.getDetail(), TechniqueToUpdate.getIdTechnique());
 			TechniqueJpaRepository.save(Technique);
 			logTechniqueJpaRepository.save(logTechnique);
-			insertBinnacle("Se actualizó una tecnica");
+			
 		}
 	}
-	
-	@Override
-	public void IP(String ip) {
-		ipCliente=ip;
-		
-	}
-	
-	private void insertBinnacle(String msg)
-	{
-		Date date = new Date();
-		TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente,date);
-		traceResponseService.addTraceResponse(traceResponse);
-	}
-	
 	
 
 }

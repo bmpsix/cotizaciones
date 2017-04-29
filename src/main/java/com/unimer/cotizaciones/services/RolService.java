@@ -2,24 +2,20 @@ package com.unimer.cotizaciones.services;
 
 import java.util.List;
 
-import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.Rol;
 
 
 
 public interface RolService {
 
-	public abstract Rol addRol(Rol rol);
+	public abstract void addRol(Rol rol);
 	
 	public abstract List<Rol> listAllRol();
 	
 	public abstract List<Rol> findByActiveStatus();
 	
-	public abstract void updateStatusById(String idRol, byte status);
+	public abstract void updateStatusById(int idRol, byte status);
 	
-	public abstract Rol findById(String idRol);
+	public abstract Rol findById(int idRol);
 	
-	public abstract Consecutive getConsecutive();
-	
-	public abstract void IP(String string);
 }

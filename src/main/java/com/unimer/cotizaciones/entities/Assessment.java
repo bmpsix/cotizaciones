@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,13 +21,14 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
-@Table(name="tbl_assessment")
+@Table(name="assessment")
 public class Assessment implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_assessment", unique=true, nullable=false, length=8)
-	private String idAssessment;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_assessment", unique=true, nullable=false)
+	private int idAssessment;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="creation_date", nullable=false)
@@ -49,11 +52,11 @@ public class Assessment implements Serializable {
 	@JoinColumn(name="id_user", nullable=false)
 	private User user;
 
-	public String getIdAssessment() {
+	public int getIdAssessment() {
 		return idAssessment;
 	}
 
-	public void setIdAssessment(String idAssessment) {
+	public void setIdAssessment(int idAssessment) {
 		this.idAssessment = idAssessment;
 	}
 
@@ -105,7 +108,7 @@ public class Assessment implements Serializable {
 		this.user = new User();
 	}
 
-	public Assessment(String idAsseament, Date creationDate, String detail, CurrencyExchange currencyExchange,
+	public Assessment(int idAsseament, Date creationDate, String detail, CurrencyExchange currencyExchange,
 			SaClient saClient, User user) {
 		super();
 		this.idAssessment = idAsseament;

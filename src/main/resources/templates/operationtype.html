@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<meta charset="UTF-8">
 <html>
-<head th:replace="fragments/header"></head>
+<head th:replace="fragments/header">
+<meta charset="UTF-8">
+</head>
 <body>
 	<div data-role="page" data-theme="a" data-dom-cache="false" >
 		<div data-role="header" data-position="inline" >
@@ -14,26 +15,20 @@
 		<h3>Control de tipos de operación</h3>
 			<div data-role="fieldcontain">
 			
-					<form method="post" action="#" th:action="@{/admin/addoperationtype}" th:object="${consecutive}" >
+					<form method="post" action="#" th:action="@{/admin/addoperationtype}" th:object="${updateOperationType}" >
 					
-					<div  th:object="${updateOperationType}" >
-						<label for="idOperationType">Id del tipo de operación:</label>
-						
 						<div th:if="${updateOperationType==null}">
-							<input  type="text" name="idOperationType" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'OPT-1'}" disabled/>
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre que describe el tipo de operación" type="text" name="detail" th:value="${detail}" required/>
-										
+							<input title="Debe ingresar el nombre que describe el tipo de operación" type="text" name="detail" th:value="${detail}" required/>	
 						</div>
 						
 						<div th:if="${updateOperationType!=null}">
-							<input type="text" name="idOperationType" th:value="${updateOperationType.idOperationType}" readonly />
+							<input type="hidden" name="idOperationType" th:value="${updateOperationType.idOperationType}" readonly />
 							<label for="detail">Detalle:</label>
 							<input title="Debe ingresar el nombre que describe el tipo de operación" type="text" name="detail" th:value="${updateOperationType.detail}" required/>	
 							<a href="#" th:href="@{/admin/addoperationtype}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>					
 						</div>
                     	<hr>
-                    </div>
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
 				</form>
 			</div>
@@ -46,7 +41,7 @@
            				<tr>
            				<th  style="padding-right: 15px;">ID</th>
            				<th  style="padding-right: 15px;">Detalle</th>
-           			
+           				<th  style="padding-right: 15px;">opción</th>
            				</tr>
            				</thead>
            				<tbody>

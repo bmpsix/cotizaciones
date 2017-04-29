@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,13 +18,14 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="tbl_operation")
+@Table(name="operation")
 public class Operation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_operation", unique=true, nullable=false, length=8)
-	private String idOperation;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_operation", unique=true, nullable=false)
+	private int idOperation;
 
 	@Column(nullable=false, length=100)
 	private String detail;
@@ -32,11 +35,11 @@ public class Operation implements Serializable {
 	@JoinColumn(name="id_operation_type", nullable=false)
 	private OperationType operationType;
 
-	public String getIdOperation() {
+	public int getIdOperation() {
 		return idOperation;
 	}
 
-	public void setIdOperation(String idOperation) {
+	public void setIdOperation(int idOperation) {
 		this.idOperation = idOperation;
 	}
 
@@ -61,7 +64,7 @@ public class Operation implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Operation(String idOperation, String detail, OperationType operationType) {
+	public Operation(int idOperation, String detail, OperationType operationType) {
 		super();
 		this.idOperation = idOperation;
 		this.detail = detail;

@@ -12,7 +12,7 @@ public interface SaClientJpaRepository extends JpaRepository<SaClient, Serializa
 	
 	public abstract SaClient findByDetail(String detail);
 	
-	public abstract SaClient findByIdSaClient(String idSaClient);
+	public abstract SaClient findByIdSaClient(int idSaClient);
 	
 	public abstract List<SaClient> findByStatus(byte status);
 }

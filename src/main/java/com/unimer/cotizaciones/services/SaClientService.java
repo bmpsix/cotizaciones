@@ -2,21 +2,18 @@ package com.unimer.cotizaciones.services;
 
 import java.util.List;
 
-import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.SaClient;
 
 public interface SaClientService {
 
-	public abstract SaClient addSaClient(SaClient saClient);
+	public abstract void addSaClient(SaClient saClient);
 	
 	public abstract List<SaClient> listAllSaClient();
 	
-	public abstract void updateStatusById(String idSaClient, byte status);
+	public abstract void updateStatusById(int idSaClient, byte status);
 	
-	public abstract SaClient findById(String idSaClient);
+	public abstract SaClient findById(int idSaClient);
 	
-	public abstract Consecutive getConsecutive();
 	
 	public abstract List<SaClient> findByActiveStatus();
-	public abstract void IP(String string);
 }

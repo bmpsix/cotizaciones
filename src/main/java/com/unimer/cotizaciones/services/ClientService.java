@@ -3,20 +3,15 @@ package com.unimer.cotizaciones.services;
 import java.util.List;
 
 import com.unimer.cotizaciones.entities.Client;
-import com.unimer.cotizaciones.entities.Consecutive;
 
 public interface ClientService {
 
-	
-	public abstract Consecutive getConsecutive();
-	
-	public abstract Client addClient(Client client);
+	public abstract void addClient(Client client);
 	
 	public abstract List<Client> listAllClient();
 	
-	public abstract Client findById(String idClient);
+	public abstract Client findById(int idClient);
 	
 	public abstract List<Client> findByActiveStatus();
 
-	public abstract void IP(String ip);
 }

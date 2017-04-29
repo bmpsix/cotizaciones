@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -16,13 +18,14 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
-@Table(name="tbl_trace_response")
+@Table(name="trace_response")
 public class TraceResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_trace_response", unique=true, nullable=false, length=8)
-	private String idTraceResponse;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_trace_response", unique=true, nullable=false)
+	private int idTraceResponse;
 
 	@Column(name="action_user", length=8)
 	private String actionUser;
@@ -51,13 +54,13 @@ public class TraceResponse implements Serializable {
 
 	
 
-	public String getIdTraceResponse() {
+	public int getIdTraceResponse() {
 		return idTraceResponse;
 	}
 
 
 
-	public void setIdTraceResponse(String idTraceResponse) {
+	public void setIdTraceResponse(int idTraceResponse) {
 		this.idTraceResponse = idTraceResponse;
 	}
 
@@ -97,9 +100,9 @@ public class TraceResponse implements Serializable {
 
 
 
-	public TraceResponse(String idTraceResponse, String actionUser, String detail, String ip, Date entrydate) {
+	public TraceResponse(String actionUser, String detail, String ip, Date entrydate) {
 		super();
-		this.idTraceResponse = idTraceResponse;
+	
 		this.actionUser = actionUser;
 		this.detail = detail;
 		this.ip = ip;

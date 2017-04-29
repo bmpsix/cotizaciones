@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="tbl_log_country_by_currency_type")
+@Table(name="log_country_by_currency_type")
 public class LogCountryByCurrencyType implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -26,10 +26,10 @@ public class LogCountryByCurrencyType implements Serializable {
 	private String actionUser;
 
 	@Column(name="id_country", nullable=false, length=8)
-	private String idCountry;
+	private int idCountry;
 
 	@Column(name="id_currency_type", nullable=false, length=8)
-	private String idCurrencyType;
+	private int idCurrencyType;
 
 	public LogCountryByCurrencyType() {
 	}
@@ -58,19 +58,19 @@ public class LogCountryByCurrencyType implements Serializable {
 		this.actionUser = actionUser;
 	}
 
-	public String getIdCountry() {
+	public int getIdCountry() {
 		return this.idCountry;
 	}
 
-	public void setIdCountry(String idCountry) {
+	public void setIdCountry(int idCountry) {
 		this.idCountry = idCountry;
 	}
 
-	public String getIdCurrencyType() {
+	public int getIdCurrencyType() {
 		return this.idCurrencyType;
 	}
 
-	public void setIdCurrencyType(String idCurrencyType) {
+	public void setIdCurrencyType(int idCurrencyType) {
 		this.idCurrencyType = idCurrencyType;
 	}
 

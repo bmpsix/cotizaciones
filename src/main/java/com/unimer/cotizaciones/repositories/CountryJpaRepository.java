@@ -13,7 +13,7 @@ public interface CountryJpaRepository extends JpaRepository<Country, Serializabl
 	
 	public abstract Country findByDetail(String detail);
 	
-	public abstract Country findByIdCountry(String idCountry);
+	public abstract Country findByIdCountry(int idCountry);
 
 	public abstract Object findByCod(String cod);
 }

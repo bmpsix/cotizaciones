@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="tbl_log_industry_sector")
+@Table(name="log_industry_sector")
 public class LogIndustrySector implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -29,7 +29,7 @@ public class LogIndustrySector implements Serializable {
 	private String detail;
 
 	@Column(name="id_industry_sector", nullable=false, length=8)
-	private String idIndustrySector;	
+	private int idIndustrySector;	
 	
 	
 	
@@ -43,7 +43,7 @@ public class LogIndustrySector implements Serializable {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public LogIndustrySector(Date dateRecord, String actionDetail, String actionUser, String detail, String idIndustrySector) {
+	public LogIndustrySector(Date dateRecord, String actionDetail, String actionUser, String detail, int idIndustrySector) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;
@@ -85,11 +85,11 @@ public class LogIndustrySector implements Serializable {
 		this.detail = detail;
 	}
 
-	public String getIdIndustrySector() {
+	public int getIdIndustrySector() {
 		return this.idIndustrySector;
 	}
 
-	public void setIdIndustrySector(String idIndustrySector) {
+	public void setIdIndustrySector(int idIndustrySector) {
 		this.idIndustrySector = idIndustrySector;
 	}
 	

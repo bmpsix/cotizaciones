@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,18 +18,19 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="tbl_client")
+@Table(name="client")
 public class Client implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_client", unique=true, nullable=false, length=8)
-	private String idClient;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_client", unique=true, nullable=false)
+	private int idClient;
 
 	@Column(length=100)
 	private String detail;
 
-	@Column(length=20)
+	@Column(length=50)
 	private String email;
 
 	@Column(length=15)
@@ -54,11 +57,11 @@ public class Client implements Serializable {
 	@Column(name="status", nullable=false)
 	private byte status;
 
-	public String getIdClient() {
+	public int getIdClient() {
 		return idClient;
 	}
 
-	public void setIdClient(String idClient) {
+	public void setIdClient(int idClient) {
 		this.idClient = idClient;
 	}
 
@@ -137,7 +140,7 @@ public class Client implements Serializable {
 		this.clientType = new ClientType();
 	}
 
-	public Client(String idClient, String detail, String email, String fax, String phone, Country country,
+	public Client(int idClient, String detail, String email, String fax, String phone, Country country,
 			SaClient saClient, ClientType clientType, byte status) {
 		super();
 		this.idClient = idClient;

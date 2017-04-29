@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="tbl_log_operation")
+@Table(name="log_operation")
 public class LogOperation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -29,7 +29,7 @@ public class LogOperation implements Serializable {
 	private String detail;
 
 	@Column(name="id_operation", nullable=false, length=8)
-	private String idOperation;
+	private int idOperation;
 
 	public LogOperation() {
 	}
@@ -66,15 +66,15 @@ public class LogOperation implements Serializable {
 		this.detail = detail;
 	}
 
-	public String getIdOperation() {
+	public int getIdOperation() {
 		return this.idOperation;
 	}
 
-	public void setIdOperation(String idOperation) {
+	public void setIdOperation(int idOperation) {
 		this.idOperation = idOperation;
 	}
 
-	public LogOperation(Date dateRecord, String actionDetail, String actionUser, String detail, String idOperation) {
+	public LogOperation(Date dateRecord, String actionDetail, String actionUser, String detail, int idOperation) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;

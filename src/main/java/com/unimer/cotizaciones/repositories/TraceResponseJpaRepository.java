@@ -9,5 +9,5 @@ import com.unimer.cotizaciones.entities.TraceResponse;
 public interface TraceResponseJpaRepository extends JpaRepository<TraceResponse, Serializable>{
 
 	
-	public abstract TraceResponse findByIdTraceResponse(String idTraceResponse);
+	public abstract TraceResponse findByIdTraceResponse(int idTraceResponse);
 }

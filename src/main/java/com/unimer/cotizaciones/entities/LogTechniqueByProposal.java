@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="tbl_log_technique_by_proposal")
+@Table(name="log_technique_by_proposal")
 public class LogTechniqueByProposal implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -26,10 +26,10 @@ public class LogTechniqueByProposal implements Serializable {
 	private String actionUser;
 
 	@Column(name="id_proposal", nullable=false, length=8)
-	private String idProposal;
+	private int idProposal;
 
 	@Column(name="id_technique", nullable=false, length=8)
-	private String idTechnique;
+	private int idTechnique;
 
 	public LogTechniqueByProposal() {
 	}
@@ -58,19 +58,19 @@ public class LogTechniqueByProposal implements Serializable {
 		this.actionUser = actionUser;
 	}
 
-	public String getIdProposal() {
+	public int getIdProposal() {
 		return this.idProposal;
 	}
 
-	public void setIdProposal(String idProposal) {
+	public void setIdProposal(int idProposal) {
 		this.idProposal = idProposal;
 	}
 
-	public String getIdTechnique() {
+	public int getIdTechnique() {
 		return this.idTechnique;
 	}
 
-	public void setIdTechnique(String idTechnique) {
+	public void setIdTechnique(int idTechnique) {
 		this.idTechnique = idTechnique;
 	}
 

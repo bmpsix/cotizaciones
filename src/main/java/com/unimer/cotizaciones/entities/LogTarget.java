@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="tbl_log_target")
+@Table(name="log_target")
 public class LogTarget implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -34,7 +34,7 @@ public class LogTarget implements Serializable {
 	private Date endDate;
 
 	@Column(name="id_target", nullable=false, length=8)
-	private String idTarget;
+	private int idTarget;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="initial_date", nullable=false)
@@ -86,11 +86,11 @@ public class LogTarget implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public String getIdTarget() {
+	public int getIdTarget() {
 		return this.idTarget;
 	}
 
-	public void setIdTarget(String idTarget) {
+	public void setIdTarget(int idTarget) {
 		this.idTarget = idTarget;
 	}
 
@@ -118,7 +118,7 @@ public class LogTarget implements Serializable {
 	}
 
 	public LogTarget(Date dateRecord, String actionDetail, String actionUser, Date creationDate, Date endDate,
-			String idTarget, Date initialDate, String observations) {
+			int idTarget, Date initialDate, String observations) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;

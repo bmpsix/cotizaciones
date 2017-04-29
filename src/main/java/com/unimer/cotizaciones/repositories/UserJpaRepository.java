@@ -10,6 +10,6 @@ import com.unimer.cotizaciones.entities.User;
 public interface UserJpaRepository extends JpaRepository<User, Serializable>{
 	
 
-	public abstract User  findByIdUser(String idUser);
+	public abstract User  findByIdUser(int idUser);
 	
 }

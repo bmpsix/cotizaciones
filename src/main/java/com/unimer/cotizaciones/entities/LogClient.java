@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="tbl_log_client")
+@Table(name="log_client")
 public class LogClient implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -35,16 +35,16 @@ public class LogClient implements Serializable {
 	private String fax;
 
 	@Column(name="id_client", nullable=false, length=8)
-	private String idClient;
+	private int idClient;
 
 	@Column(name="id_client_type", length=8)
-	private String idClientType;
+	private int idClientType;
 
 	@Column(name="id_country", length=8)
-	private String idCountry;
+	private int idCountry;
 
 	@Column(name="id_sa_client", length=8)
-	private String idSaClient;
+	private int idSaClient;
 
 	@Column(length=15)
 	private String phone;
@@ -105,35 +105,35 @@ public class LogClient implements Serializable {
 		this.fax = fax;
 	}
 
-	public String getIdClient() {
+	public int getIdClient() {
 		return this.idClient;
 	}
 
-	public void setIdClient(String idClient) {
+	public void setIdClient(int idClient) {
 		this.idClient = idClient;
 	}
 
-	public String getIdClientType() {
+	public int getIdClientType() {
 		return this.idClientType;
 	}
 
-	public void setIdClientType(String idClientType) {
+	public void setIdClientType(int idClientType) {
 		this.idClientType = idClientType;
 	}
 
-	public String getIdCountry() {
+	public int getIdCountry() {
 		return this.idCountry;
 	}
 
-	public void setIdCountry(String idCountry) {
+	public void setIdCountry(int idCountry) {
 		this.idCountry = idCountry;
 	}
 
-	public String getIdSaClient() {
+	public int getIdSaClient() {
 		return this.idSaClient;
 	}
 
-	public void setIdSaClient(String idSaClient) {
+	public void setIdSaClient(int idSaClient) {
 		this.idSaClient = idSaClient;
 	}
 
@@ -157,7 +157,7 @@ public class LogClient implements Serializable {
 	}
 
 	public LogClient(Date dateRecord, String actionDetail, String actionUser, String detail, String email, String fax,
-			String idClient, String idClientType, String idCountry, String idSaClient, String phone, byte status) {
+			int idClient, int idClientType, int idCountry, int idSaClient, String phone, byte status) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;

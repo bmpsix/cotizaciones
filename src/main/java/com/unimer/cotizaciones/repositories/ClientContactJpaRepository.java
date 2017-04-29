@@ -13,5 +13,5 @@ public interface ClientContactJpaRepository extends JpaRepository<ClientContact,
 	
 	public abstract List<ClientContact> findByStatus(byte status);
 	
-	public abstract ClientContact findByIdClientContact(String idClientContact);
+	public abstract ClientContact findByIdClientContact(int idClientContact);
 }

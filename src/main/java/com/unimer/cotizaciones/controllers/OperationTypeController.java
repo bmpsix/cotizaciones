@@ -1,9 +1,5 @@
 package com.unimer.cotizaciones.controllers;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Date;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.OperationType;
-import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.services.OperationTypeService;
-import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Controller
 public class OperationTypeController {
@@ -28,42 +22,22 @@ public class OperationTypeController {
 	@Qualifier("operationTypeServiceImpl")
 	private OperationTypeService operationTypeService;
 	
-	@Autowired
-	@Qualifier("traceResponseServiceImpl")
-	private TraceResponseService traceResponseService;
-	
-	
 	
 	private static final Log LOG = LogFactory.getLog(OperationTypeController.class);
 	
 	@GetMapping("/admin/operationtype")
-	public ModelAndView operationType() throws UnknownHostException{
-		Date date = new Date();
-		String ip = InetAddress.getLocalHost().getHostAddress();
-		TraceResponse traceResponse = new TraceResponse(null,"test","Se incresó a la página de Tipo de operaciones",ip,date);
-		traceResponseService.addTraceResponse(traceResponse);
-		
-		
+	public ModelAndView operationType(){
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("operationtype");
 		modelAndView.addObject("operationTypes", operationTypeService.listAllOperationType());
-		modelAndView.addObject("consecutive", operationTypeService.getConsecutive());
-		modelAndView.addObject("updateOperationType", null);
 		return modelAndView;
 	}
 	
 	@PostMapping("/admin/addoperationtype")
-	public ModelAndView addOperationType(@ModelAttribute(name = "operationType") OperationType operationType, Model model) throws UnknownHostException {
+	public String addOperationType(@ModelAttribute(name = "operationType") OperationType operationType, Model model){
 		LOG.info("METHOD: addOperationType in OperationTypeController -- PARAMS: " + operationType.toString());
-		String ip = InetAddress.getLocalHost().getHostAddress();
-		operationTypeService.IP(ip);
 		operationTypeService.addOperationType(operationType);
-		 ModelAndView modelAndView = new ModelAndView();
-		 modelAndView.setViewName("operationtype");
-		 modelAndView.addObject("operationTypes", operationTypeService.listAllOperationType());
-		 modelAndView.addObject("consecutive", operationTypeService.getConsecutive());
-		 modelAndView.addObject("updateOperationType", null);
-		 return modelAndView;
+		 return "redirect:/admin/operationtype";
 	}
 	
 	@GetMapping("/admin/addoperationtype")
@@ -72,12 +46,11 @@ public class OperationTypeController {
 	}
 	
 	@GetMapping("/admin/updateoperationtype")
-	public ModelAndView updateOperationType(String idOperationType, Model model) {
+	public ModelAndView updateOperationType(int idOperationType, Model model) {
 		
 			ModelAndView modelAndView = new ModelAndView();
 			modelAndView.setViewName("operationtype");
 			modelAndView.addObject("operationTypes", operationTypeService.listAllOperationType());
-			modelAndView.addObject("consecutive", operationTypeService.getConsecutive());
 			modelAndView.addObject("updateOperationType",operationTypeService.findById(idOperationType));
 
 		return modelAndView;

@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,22 +15,23 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="tbl_status")
+@Table(name="status")
 public class Status implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_status", unique=true, nullable=false, length=8)
-	private String idStatus;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_status", unique=true, nullable=false)
+	private int idStatus;
 
 	@Column(nullable=false, length=100)
 	private String detail;
 
-	public String getIdStatus() {
+	public int getIdStatus() {
 		return idStatus;
 	}
 
-	public void setIdStatus(String idStatus) {
+	public void setIdStatus(int idStatus) {
 		this.idStatus = idStatus;
 	}
 
@@ -45,7 +48,7 @@ public class Status implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Status(String idStatus, String detail) {
+	public Status(int idStatus, String detail) {
 		super();
 		this.idStatus = idStatus;
 		this.detail = detail;

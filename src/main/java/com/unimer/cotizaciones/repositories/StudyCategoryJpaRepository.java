@@ -11,6 +11,6 @@ public interface StudyCategoryJpaRepository extends JpaRepository<StudyCategory,
 
 	public abstract StudyCategory findByDetail(String detail);
 	
-	public abstract StudyCategory findByIdStudyCategory(String idStudyCategory);
+	public abstract StudyCategory findByIdStudyCategory(int idStudyCategory);
 	
 }

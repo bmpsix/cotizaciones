@@ -44,15 +44,15 @@ public class CountryByCurrencyTypeController {
 	}
 	
 	@PostMapping("/admin/addcountrybycurrencytype")
-	public ModelAndView addCountryByCurrencyType(@ModelAttribute(name = "countryByCurrencyType") CountryByCurrencyType countryByCurrencyType, Model model) {
+	public String addCountryByCurrencyType(@ModelAttribute(name = "countryByCurrencyType") CountryByCurrencyType countryByCurrencyType, Model model) {
 		LOG.info("METHOD: addCountryByCurrencyType in CountryByCurrencyTypeController -- PARAMS: " + countryByCurrencyType.toString());
 		countryByCurrencyTypeService.addCountryByCurrencyType(countryByCurrencyType);
-		 return CountryByCurrencyType();
+		 return "redirect:/admin/countrybycurrencytype";
 	}
 	
 	@GetMapping("/admin/addcountrybycurrencytype")
-	public ModelAndView getCountryByCurrencyType(){
-		return CountryByCurrencyType();
+	public String getCountryByCurrencyType(){
+		return "redirect:/admin/countrybycurrencytype";
 	}
 	
 

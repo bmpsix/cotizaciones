@@ -11,6 +11,6 @@ public interface TechniqueJpaRepository extends JpaRepository<Technique, Seriali
 
 	public abstract Technique findByDetail(String detail);
 	
-	public abstract Technique findByIdTechnique(String idTechnique);
+	public abstract Technique findByIdTechnique(int idTechnique);
 	
 }

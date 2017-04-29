@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="tbl_log_user")
+@Table(name="log_user")
 public class LogUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -53,13 +53,13 @@ public class LogUser implements Serializable {
 	private Date expiredAt;
 
 	@Column(name="id_country", nullable=false, length=8)
-	private String idCountry;
+	private int idCountry;
 
 	@Column(name="id_rol", nullable=false, length=8)
-	private String idRol;
+	private int idRol;
 
 	@Column(name="id_user", nullable=false, length=8)
-	private String idUser;
+	private int idUser;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_loggin", nullable=false)
@@ -172,27 +172,27 @@ public class LogUser implements Serializable {
 		this.expiredAt = expiredAt;
 	}
 
-	public String getIdCountry() {
+	public int getIdCountry() {
 		return this.idCountry;
 	}
 
-	public void setIdCountry(String idCountry) {
+	public void setIdCountry(int idCountry) {
 		this.idCountry = idCountry;
 	}
 
-	public String getIdRol() {
+	public int getIdRol() {
 		return this.idRol;
 	}
 
-	public void setIdRol(String idRol) {
+	public void setIdRol(int idRol) {
 		this.idRol = idRol;
 	}
 
-	public String getIdUser() {
+	public int getIdUser() {
 		return this.idUser;
 	}
 
-	public void setIdUser(String idUser) {
+	public void setIdUser(int idUser) {
 		this.idUser = idUser;
 	}
 
@@ -272,7 +272,7 @@ public class LogUser implements Serializable {
 
 	public LogUser(Date dateRecord, String accountBank, String actionDetail, String actionUser, double commissionAmount,
 			String confirmationToken, Date creationDate, byte credentialExpired, Date credentialExpiredAt, byte expired,
-			Date expiredAt, String idCountry, String idRol, String idUser, Date lastLoggin, Date lastModification,
+			Date expiredAt, int idCountry, int idRol, int idUser, Date lastLoggin, Date lastModification,
 			String lastname, String midname, String password, byte status, int useCommission, String username) {
 		super();
 		this.dateRecord = dateRecord;

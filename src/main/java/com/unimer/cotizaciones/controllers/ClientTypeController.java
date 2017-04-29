@@ -1,9 +1,5 @@
 package com.unimer.cotizaciones.controllers;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Date;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.ClientType;
-import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.services.ClientTypeService;
-import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Controller
 public class ClientTypeController {
@@ -29,39 +23,23 @@ public class ClientTypeController {
 	@Qualifier("clientTypeServiceImpl")
 	private ClientTypeService clientTypeService;
 	
-	@Autowired
-	@Qualifier("traceResponseServiceImpl")
-	private TraceResponseService traceResponseService;
 	
 	private static final Log LOG = LogFactory.getLog(ClientTypeController.class);
 	
 	@GetMapping("/admin/clienttype")
-	public ModelAndView clientType() throws UnknownHostException{
-		Date date = new Date();
-		String ip = InetAddress.getLocalHost().getHostAddress();
-		TraceResponse traceResponse = new TraceResponse(null,"test","Se ingreso a la pagina de tipo de cliente",ip,date);
-		traceResponseService.addTraceResponse(traceResponse);
+	public ModelAndView clientType() {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("clienttype");
 		modelAndView.addObject("clienttypes", clientTypeService.listAllClientType());
-		modelAndView.addObject("consecutive", clientTypeService.getConsecutive());
-		modelAndView.addObject("updateClientType", null);
 		return modelAndView;
 	}
 	
 	@PostMapping("/admin/addclienttype")
-	public ModelAndView addClientType(@ModelAttribute(name = "clienttype") ClientType clientType, Model model) throws UnknownHostException {
+	public String addClientType(@ModelAttribute(name = "clienttype") ClientType clientType, Model model){
 		LOG.info("METHOD: addClientType in ClientTypeController -- PARAMS: " + clientType.toString());
-		String ip = InetAddress.getLocalHost().getHostAddress();
-		clientTypeService.IP(ip);
 		clientTypeService.addClientType(clientType);
-		 ModelAndView modelAndView = new ModelAndView();
-		 modelAndView.setViewName("clienttype");
-			modelAndView.addObject("clienttypes", clientTypeService.listAllClientType());
-			modelAndView.addObject("consecutive", clientTypeService.getConsecutive());
-			modelAndView.addObject("updateClientType", null);
-		 return modelAndView;
+		 return "redirect:/admin/clienttype";
 	}
 	
 	@GetMapping("/admin/addclienttype")
@@ -70,12 +48,11 @@ public class ClientTypeController {
 	}
 	
 	@GetMapping("/admin/updateclienttype")
-	public ModelAndView updateRole(String idClientType, Model model) {
+	public ModelAndView updateRole(int idClientType, Model model) {
 		
 			ModelAndView modelAndView = new ModelAndView();
 			modelAndView.setViewName("clienttype");
 			modelAndView.addObject("clienttypes", clientTypeService.listAllClientType());
-			modelAndView.addObject("consecutive", clientTypeService.getConsecutive());
 			modelAndView.addObject("updateClientType",clientTypeService.findById(idClientType));
 
 		return modelAndView;

@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="tbl_log_proposal")
+@Table(name="log_proposal")
 public class LogProposal implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -43,37 +43,37 @@ public class LogProposal implements Serializable {
 	private double factor1;
 
 	@Column(name="id_assesment", nullable=false, length=8)
-	private String idAssesment;
+	private int idAssesment;
 
 	@Column(name="id_client_contact", nullable=false, length=8)
-	private String idClientContact;
+	private int idClientContact;
 
 	@Column(name="id_colect_method", nullable=false, length=8)
-	private String idColectMethod;
+	private int idColectMethod;
 
 	@Column(name="id_country", nullable=false, length=8)
-	private String idCountry;
+	private int idCountry;
 
 	@Column(name="id_execution_type", nullable=false, length=8)
-	private String idExecutionType;
+	private int idExecutionType;
 
 	@Column(name="id_industry_sector", nullable=false, length=8)
-	private String idIndustrySector;
+	private int idIndustrySector;
 
 	@Column(name="id_proposal", nullable=false, length=8)
-	private String idProposal;
+	private int idProposal;
 
 	@Column(name="id_proposal_type", nullable=false, length=8)
-	private String idProposalType;
+	private int idProposalType;
 
 	@Column(name="id_status", nullable=false, length=8)
-	private String idStatus;
+	private int idStatus;
 
 	@Column(name="id_study_category", nullable=false, length=8)
-	private String idStudyCategory;
+	private int idStudyCategory;
 
 	@Column(name="id_study_type", nullable=false, length=8)
-	private String idStudyType;
+	private int idStudyType;
 
 	@Column(name="imprevisto_comisionable", nullable=false)
 	private double imprevistoComisionable;
@@ -158,91 +158,91 @@ public class LogProposal implements Serializable {
 		this.factor1 = factor1;
 	}
 
-	public String getIdAssesment() {
+	public int getIdAssesment() {
 		return this.idAssesment;
 	}
 
-	public void setIdAssesment(String idAssesment) {
+	public void setIdAssesment(int idAssesment) {
 		this.idAssesment = idAssesment;
 	}
 
-	public String getIdClientContact() {
+	public int getIdClientContact() {
 		return this.idClientContact;
 	}
 
-	public void setIdClientContact(String idClientContact) {
+	public void setIdClientContact(int idClientContact) {
 		this.idClientContact = idClientContact;
 	}
 
-	public String getIdColectMethod() {
+	public int getIdColectMethod() {
 		return this.idColectMethod;
 	}
 
-	public void setIdColectMethod(String idColectMethod) {
+	public void setIdColectMethod(int idColectMethod) {
 		this.idColectMethod = idColectMethod;
 	}
 
-	public String getIdCountry() {
+	public int getIdCountry() {
 		return this.idCountry;
 	}
 
-	public void setIdCountry(String idCountry) {
+	public void setIdCountry(int idCountry) {
 		this.idCountry = idCountry;
 	}
 
-	public String getIdExecutionType() {
+	public int getIdExecutionType() {
 		return this.idExecutionType;
 	}
 
-	public void setIdExecutionType(String idExecutionType) {
+	public void setIdExecutionType(int idExecutionType) {
 		this.idExecutionType = idExecutionType;
 	}
 
-	public String getIdIndustrySector() {
+	public int getIdIndustrySector() {
 		return this.idIndustrySector;
 	}
 
-	public void setIdIndustrySector(String idIndustrySector) {
+	public void setIdIndustrySector(int idIndustrySector) {
 		this.idIndustrySector = idIndustrySector;
 	}
 
-	public String getIdProposal() {
+	public int getIdProposal() {
 		return this.idProposal;
 	}
 
-	public void setIdProposal(String idProposal) {
+	public void setIdProposal(int idProposal) {
 		this.idProposal = idProposal;
 	}
 
-	public String getIdProposalType() {
+	public int getIdProposalType() {
 		return this.idProposalType;
 	}
 
-	public void setIdProposalType(String idProposalType) {
+	public void setIdProposalType(int idProposalType) {
 		this.idProposalType = idProposalType;
 	}
 
-	public String getIdStatus() {
+	public int getIdStatus() {
 		return this.idStatus;
 	}
 
-	public void setIdStatus(String idStatus) {
+	public void setIdStatus(int idStatus) {
 		this.idStatus = idStatus;
 	}
 
-	public String getIdStudyCategory() {
+	public int getIdStudyCategory() {
 		return this.idStudyCategory;
 	}
 
-	public void setIdStudyCategory(String idStudyCategory) {
+	public void setIdStudyCategory(int idStudyCategory) {
 		this.idStudyCategory = idStudyCategory;
 	}
 
-	public String getIdStudyType() {
+	public int getIdStudyType() {
 		return this.idStudyType;
 	}
 
-	public void setIdStudyType(String idStudyType) {
+	public void setIdStudyType(int idStudyType) {
 		this.idStudyType = idStudyType;
 	}
 

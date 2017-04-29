@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,22 +15,23 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name="tbl_operation_type")
+@Table(name="operation_type")
 public class OperationType implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id_operation_type", unique=true, nullable=false, length=8)
-	private String idOperationType;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_operation_type", unique=true, nullable=false)
+	private int idOperationType;
 
 	@Column(nullable=false, length=100)
 	private String detail;
 
-	public String getIdOperationType() {
+	public int getIdOperationType() {
 		return idOperationType;
 	}
 
-	public void setIdOperationType(String idOperationType) {
+	public void setIdOperationType(int idOperationType) {
 		this.idOperationType = idOperationType;
 	}
 
@@ -45,9 +48,9 @@ public class OperationType implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public OperationType(String idOperationType, String detail) {
+	public OperationType(int idOperationType, String detail) {
 		super();
-		this.idOperationType = idOperationType;
+		this.idOperationType = (idOperationType);
 		this.detail = detail;
 	}
 

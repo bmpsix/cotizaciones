@@ -10,16 +10,11 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import com.unimer.cotizaciones.entities.Consecutive;
 import com.unimer.cotizaciones.entities.LogUser;
-import com.unimer.cotizaciones.entities.TraceResponse;
 import com.unimer.cotizaciones.entities.User;
-import com.unimer.cotizaciones.repositories.ConsecutivesJpaRepository;
 import com.unimer.cotizaciones.repositories.LogUserJpaRepository;
 import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.repositories.UserJpaRepository;
-import com.unimer.cotizaciones.services.TraceResponseService;
 import com.unimer.cotizaciones.services.UserService;
 
 @Service("userServiceImpl")
@@ -29,10 +24,7 @@ public class UserServiceImpl implements UserService {
 	@Qualifier("userJpaRepository")
 	private UserJpaRepository userJpaRepository;
 
-	@Autowired
-	@Qualifier("consecutivesJpaRepository")
-	private ConsecutivesJpaRepository consecutivesJpaRepository;
-
+	
 	@Autowired
 	@Qualifier("logUserJpaRepository")
 	private LogUserJpaRepository logUserJpaRepository;
@@ -41,10 +33,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	@Qualifier("traceResponseJpaRepository")
 	private TraceResponseJpaRepository traceResponseJpaRepository;
-	
-	@Autowired
-	@Qualifier("traceResponseServiceImpl")
-	private TraceResponseService traceResponseService;
+
 	
 	String ipCliente="";
 
@@ -53,24 +42,9 @@ public class UserServiceImpl implements UserService {
 	//  protected static SecureRandom random = new SecureRandom();
 
 	@Override
-	public Consecutive getConsecutive() {
-		return consecutivesJpaRepository.findByType("User");
-	}
-
-	@Override
-	public User addUser(User user) {
-		Consecutive consecutive = consecutivesJpaRepository.findByType("User");
-
-		if (consecutive == null) {
-			consecutive = new Consecutive();
-			consecutive.setType("User");
-			consecutive.setPrefix("USR");
-			consecutive.setSubfix(1);
-			consecutive.setDetail("Default consecutive for user");
-			consecutivesJpaRepository.save(consecutive);
-			user.setIdUser(consecutive.getPrefix() + "-" + consecutive.getSubfix());
-
-			if (!user.getIdUser().equals(userJpaRepository.findOne(user.getIdUser()))) {
+	public void addUser(User user) {
+		
+			if (user.getIdUser()==0) {
 				java.util.Date date = new Date();
 				user.setLastLoggin(date);
 				user.setExpiredAt(date);
@@ -80,42 +54,14 @@ public class UserServiceImpl implements UserService {
 				user.setCommissionAmount(0);
 				user.setUseCommission(0);
 				user.setConfirmationToken(getToken(4));
-				LOG.info("METHOD: addUser new1 in UserServiceImpl -- PARAMS: " + user.toString());
+				LOG.info("METHOD: addUser new in UserServiceImpl -- PARAMS: " + user.toString());
 				userJpaRepository.save(user);
-				LOG.info("METHOD: addUser new 2 in UserServiceImpl -- PARAMS: " + user.toString());
-				consecutive.setSubfix(consecutive.getSubfix() + 1);
-				consecutivesJpaRepository.save(consecutive);
-				insertBinnacle("Se agregó un usuario");
+			
 
 			} else {
 				updateUser(user);
 			}
 
-		} else if (user.getIdUser() == null) {
-			java.util.Date date = new Date();
-			user.setIdUser(consecutive.getPrefix() + "-" + consecutive.getSubfix());
-			user.setLastLoggin(date);
-			user.setExpiredAt(date);
-			user.setCredentialExpiredAt(date);
-			user.setCreationDate(date);
-			user.setLastModification(date);
-			user.setCommissionAmount(0);
-			user.setUseCommission(0);
-			user.setConfirmationToken(getToken(4));
-
-			if (!user.getIdUser().equals(userJpaRepository.findOne(user.getIdUser()))) {
-				LOG.info("METHOD: addUser in userServiceImpl -- PARAMS: " + user.toString());
-				userJpaRepository.save(user);
-				consecutive.setSubfix(consecutive.getSubfix() + 1);
-				consecutivesJpaRepository.save(consecutive);
-				insertBinnacle("Se agregó un usuario");
-			} else {
-				updateUser(user);
-			}
-		} else {
-			updateUser(user);
-		}
-		return user;
 	}
 
 	@Override
@@ -124,8 +70,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findById(String idUser) {
-		return userJpaRepository.findOne(idUser);
+	public User findById(int idUser) {
+		return userJpaRepository.findByIdUser(idUser);
 	}
 
 	private void updateUser(User user) {
@@ -150,7 +96,7 @@ public class UserServiceImpl implements UserService {
 					userToUpdate.getStatus(), userToUpdate.getUseCommission(), userToUpdate.getUsername());
 			userJpaRepository.save(user);
 			logUserJpaRepository.save(logUser);
-			insertBinnacle("Se actualizó un usuario");
+			
 		}
 	}
 
@@ -169,18 +115,5 @@ public class UserServiceImpl implements UserService {
         
 	}*/
 	
-		@Override
-		public void IP(String ip) {
-			ipCliente=ip;
-			
-		}
-		
-		private void insertBinnacle(String msg)
-		{
-			Date date = new Date();
-			TraceResponse traceResponse = new TraceResponse(null,"test",msg,ipCliente,date);
-			traceResponseService.addTraceResponse(traceResponse);
-		}
-		
 
 }

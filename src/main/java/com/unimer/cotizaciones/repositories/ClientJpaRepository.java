@@ -12,7 +12,7 @@ public interface ClientJpaRepository extends JpaRepository<Client, Serializable>
 
 	public abstract Client findByDetail(String detail);
 
-	public abstract Client  findByIdClient(String idClient);
+	public abstract Client  findByIdClient(int idClient);
 	
 	public abstract List<Client> findByStatus(byte status);
 

@@ -14,7 +14,7 @@ public interface RolJpaRepository extends JpaRepository<Rol, Serializable>{
 	
 	public abstract Rol findByDetail(String detail);
 	
-	public abstract Rol findByIdRol(String idRol);
+	public abstract Rol findByIdRol(int idRol);
 	
 	
 }

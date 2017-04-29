@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="tbl_log_sa_client")
+@Table(name="log_sa_client")
 public class LogSaClient implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -29,7 +29,7 @@ public class LogSaClient implements Serializable {
 	private String detail;
 
 	@Column(name="id_sa_client", nullable=false, length=50)
-	private String idSaClient;
+	private int idSaClient;
 
 	@Column(nullable=false)
 	private byte status;
@@ -69,11 +69,11 @@ public class LogSaClient implements Serializable {
 		this.detail = detail;
 	}
 
-	public String getIdSaClient() {
+	public int getIdSaClient() {
 		return this.idSaClient;
 	}
 
-	public void setIdSaClient(String idSaClient) {
+	public void setIdSaClient(int idSaClient) {
 		this.idSaClient = idSaClient;
 	}
 
@@ -85,7 +85,7 @@ public class LogSaClient implements Serializable {
 		this.status = status;
 	}
 
-	public LogSaClient(Date dateRecord, String actionDetail, String actionUser, String detail, String idSaClient,
+	public LogSaClient(Date dateRecord, String actionDetail, String actionUser, String detail, int idSaClient,
 			byte status) {
 		super();
 		this.dateRecord = dateRecord;

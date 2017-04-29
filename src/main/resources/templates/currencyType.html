@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head th:replace="fragments/header"></head>
+<head th:replace="fragments/header">
+<meta charset="UTF-8">
+</head>
 <body>
 	<div data-role="page" data-theme="a" data-dom-cache="false" >
 		<div data-role="header" data-position="inline" >
@@ -12,39 +14,28 @@
 		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
 		<h3>Tipo de cambio monetario</h3>
 			<div data-role="fieldcontain">
-				<form method="post" action="#" th:action="@{/admin/addcurrencytype}" th:object="${consecutive}">
-					<div  th:object="${updateCurrencyType}" >
-					
-					<div th:if="${updateCurrencyType==null}">
-					
-						<label for="idCurrencyType">Id del Metodo:</label>
-						<input type="text"  name="idCurrencyType" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'CUT-1'}" disabled/>
-						
+				<form method="post" action="#" th:action="@{/admin/addcurrencytype}" th:object="${updateCurrencyType}">
+				
+					<div th:if="${updateCurrencyType==null}">			
 						<label for="detail">Detalle:</label>
-						<input type="text" name="detail" required/>
-						
+						<input type="text" name="detail" required/>			
 						<label for="favorite"  title="Indica si es el favorito o no ">Favorito:</label>
 						<select  name="favorite" data-role="slider">
 								<option value="0" selected>Inactivo</option>
 								<option value="1">Activo</option>
 						</select>
-						
 						<label for="symbol">Symbolo:</label>
 						<input type="text" name="symbol" min="1" maxlength="1" required/>
-						
 						<label for="status"  title="Indica si esta vigente si o no ">Estado:</label>
 						<select  name="status" data-role="slider">
 								<option value="0" selected>Inactivo</option>
 								<option value="1">Activo</option>
 						</select>
-
 					</div>
-					
 					
 					<div th:if="${updateCurrencyType !=null}">
 					
-						<label for="idCurrencyType">Id del Metodo:</label>
-						<input type="text"  name="idCurrencyType" th:value="${updateCurrencyType.idCurrencyType}" readonly/>
+						<input type="hidden"  name="idCurrencyType" th:value="${updateCurrencyType.idCurrencyType}" readonly/>
 						
 						<label for="detail">Detalle:</label>
 						<input type="text" name="detail" th:value="${updateCurrencyType.detail}"required/>
@@ -62,8 +53,7 @@
 								<option value="0">Inactivo</option>
 								<option value="1" selected>Activo</option>
 							</select>
-						</div>
-												
+						</div>			
 						<label for="symbol">Symbolo:</label>
 						<input type="text" name="symbol" th:value="${updateCurrencyType.symbol}"required/>
 						
@@ -74,19 +64,16 @@
 								<option value="1" selected>Activo</option>
 							</select>
 						</div>
-						
 						<div th:if="${updateCurrencyType.status == 0}">
 							<select  name="status" data-role="slider" th:value="${updateCurrencyType.status}">
 								<option value="0" selected>Inactivo</option>
 								<option value="1">Activo</option>
 							</select>
 						</div>
-
+						<a href="#" th:href="@{/admin/addcurrencytype}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
 					</div>	
                     <hr>
-                    </div>
-  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar nuevo">
-                   <!--  <input type="submit" name="submit" class="custom_text" data-icon="refresh" value="Modificar registro">-->
+  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar ">
 				</form>
 			</div>
            	 	
@@ -99,7 +86,8 @@
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Detalle</th>
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Favorita</th>
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Estado</th>
-           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Symbolo</th>
+           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Símbolo</th>
+           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Opción</th>
            				</tr>
            				</thead>
            				<tbody>

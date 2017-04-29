@@ -15,69 +15,86 @@
 		<h3>Evaluaciones</h3>
 			<div data-role="fieldcontain">
 					
-					<form method="post" action="#" th:action="@{/admin/addassessment}" th:object="${consecutive}" >
+					<form method="post" action="#" th:action="@{/admin/addassessment}" th:object="${updateAssessment}">
 					
-					<div  th:object="${updateAssessment}" >
-						<label for="idAssessment">Id de la Evaluacion:</label>
-						
+					
+					
 						<div th:if="${updateAssessment==null}">
-						
-							<input  type="text" name="idAssessment" th:value="${consecutive != null ? consecutive.prefix + '- '+consecutive.subfix  : 'CLI-1'}" disabled/>
-													
+							<input type="hidden" name="idAssessment" th:value="0" readonly />						
 							<label for="detail">Detalle:</label>
 							<input  type="text" name="detail"  required/>
 							
 							<label for="currencyExchange">Cambio de Divisas:</label>
-							<select name="currencyExchange">
-								<option th:each="currencyExchange : ${currencyExchanges}" th:value="${currencyExchange.idCurrencyExchange}"><p th:text="${currencyExchange.currencyType.detail}"></p></option>
+							<select name="idCurrencyExchange">
+								<option th:each="currencyExchange : ${currencyExchanges}" th:value="${currencyExchange.idCurrencyExchange}">
+									<p  th:text="${currencyExchange.CurrencyType.detail}" th:value="${currencyExchange.idCurrencyExchange}" ></p>
+								</option>
 							</select>
 							
 							
 							<label for="saClient">SA Cliente:</label>
-							<select name="saClient">
-								<option th:each="saClient : ${saClients}" th:value="${saClient.idSaClient}"><p th:text="${saClient.detail}"></p></option>
+							<select name="idSaClient">
+								<option th:each="saClient : ${saClients}" th:value="${saClient.idSaClient}">
+									<p th:text="${saClient.detail}" th:value="${saClient.idSaClient}" ></p>
+								</option>
 							</select>
 							
 							<label for="user">Usuario:</label>
-							<select name="user">
-								<option th:each="user : ${users}" th:value="${user.idUser}"><p th:text="${user.username}"></p></option>
+							<select  name="idUser" >
+								<option th:each="user : ${users}" th:value="${user.idUser}">
+									<p th:text="${user.username}" th:value="${user.idUser}" ></p>
+								</option>
 							</select>
 							
 						</div>
-						
+				
 						<div th:if="${updateAssessment!=null}">
-							
-							<input  type="text" name="idAssessment" th:value="${updateAssessment.idAssessment}" readonly/>
-							
+						
+							<input type="hidden" name="idAssessment" th:value="${updateAssessment.idAssessment}" readonly />
 							<label for="creationDate">Fecha de Creacion:</label>
 							<input  type="text" name="creationDate"  th:value="${#dates.format(updateAssessment.creationDate, 'dd-MMM-yyyy')}" readonly/>
 							
 							<label for="detail">Detalle:</label>
 							<input  type="text" name="detail"  th:value="${updateAssessment.detail}" required/>
 							
+							
 							<label for="currencyExchange">Cambio de Divisas:</label>
-							<select name="currencyExchange">
-								<option th:each="currencyExchange : ${currencyExchanges}" th:value="${currencyExchange.idCurrencyExchange}"><p th:text="${currencyExchange.currencyType.detail}"></p></option>
+							<select name="idCurrencyExchange">
+								<option th:each="currencyExchange : ${currencyExchanges}" th:value="${currencyExchange.idCurrencyExchange}" th:if="${updateAssessment.CurrencyExchange.CurrencyType.idCurrencyType == currencyExchange.CurrencyType.idCurrencyType}"  selected readonly>
+									<p  th:text="${currencyExchange.CurrencyType.detail}" th:value="${currencyExchange.idCurrencyExchange}" ></p>
+								</option>
+								<option th:each="currencyExchange : ${currencyExchanges}" th:value="${currencyExchange.idCurrencyExchange}"  th:if="${updateAssessment.CurrencyExchange.CurrencyType.idCurrencyType != currencyExchange.CurrencyType.idCurrencyType}"   readonly>
+									<p  th:text="${currencyExchange.CurrencyType.detail}" th:value="${currencyExchange.idCurrencyExchange}" ></p>
+								</option>
 							</select>
 							
-							
 							<label for="saClient">SA Cliente:</label>
-							<select name="saClient">
-								<option th:each="saClient : ${saClients}" th:value="${saClient.idSaClient}"><p th:text="${saClient.detail}"></p></option>
+							<select name="idSaClient">
+								<option th:each="saClient : ${saClients}" th:value="${saClient.idSaClient}" th:if="${updateAssessment.SaClient.idSaClient == saClient.idSaClient}"  selected readonly>
+									<p th:text="${saClient.detail}" th:value="${saClient.idSaClient}" ></p>
+								</option>
+								<option th:each="saClient : ${saClients}" th:value="${saClient.idSaClient}" th:if="${updateAssessment.SaClient.idSaClient != saClient.idSaClient}"   readonly>
+									<p th:text="${saClient.detail}" th:value="${saClient.idSaClient}" ></p>
+								</option>
 							</select>
 							
 							<label for="user">Usuario:</label>
-							<select name="user">
-								<option th:each="user : ${users}" th:value="${user.idUser}"><p th:text="${user.username}"></p></option>
+							
+							<select  name="idUser" >
+								<option th:each="user : ${users}" th:value="${user.idUser}" th:if="${updateAssessment.User.idUser == user.idUser}"  selected readonly>
+									<p th:text="${user.username}" th:value="${user.idUser}" ></p>
+								</option>
+								<option th:each="user : ${users}" th:value="${user.idUser}" th:if="${updateAssessment.User.idUser != user.idUser}"   readonly>
+									<p th:text="${user.username}" th:value="${user.idUser}" ></p>
+								</option>
 							</select>
 							
 							<a href="#" th:href="@{/admin/addassessment}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
 							
 						</div>
 					
-						
                     	<hr>
-                    </div>
+                    
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
                    
 				</form>
@@ -95,6 +112,7 @@
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Cambio de Divisas</th>
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">SA Cliente</th>
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Usuario</th>
+           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Opción</th>
            				</tr>
            				</thead>
            				<tbody>

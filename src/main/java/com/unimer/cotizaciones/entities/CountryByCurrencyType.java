@@ -9,43 +9,43 @@ import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
 @Entity
-@Table(name = "tbl_country_by_currency_type")
+@Table(name = "country_by_currency_type")
 public class CountryByCurrencyType  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	
 	@Id
 	@JoinColumn(name = "id_country")
-	@Column(name="id_country", unique=true, nullable=false, length=8)
-	private String idCountry;
+	@Column(name="id_country", unique=true, nullable=false)
+	private int idCountry;
 
 	
 	@JoinColumn(name = "id_currency_type")	
-	@Column(name="id_currency_type", unique=true, nullable=false, length=8)
-	private String idCurrencyType;
+	@Column(name="id_currency_type", unique=true, nullable=false)
+	private int idCurrencyType;
 
 
-	public String getIdCountry() {
+	public int getIdCountry() {
 		return idCountry;
 	}
 
 
-	public void setIdCountry(String idCountry) {
+	public void setIdCountry(int idCountry) {
 		this.idCountry = idCountry;
 	}
 
 
-	public String getIdCurrencyType() {
+	public int getIdCurrencyType() {
 		return idCurrencyType;
 	}
 
 
-	public void setIdCurrencyType(String idCurrencyType) {
+	public void setIdCurrencyType(int idCurrencyType) {
 		this.idCurrencyType = idCurrencyType;
 	}
 
 
-	public CountryByCurrencyType(String idCountry, String idCurrencyType) {
+	public CountryByCurrencyType(int idCountry, int idCurrencyType) {
 		super();
 		this.idCountry = idCountry;
 		this.idCurrencyType = idCurrencyType;

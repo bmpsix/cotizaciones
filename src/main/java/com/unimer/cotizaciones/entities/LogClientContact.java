@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="tbl_log_client_contact")
+@Table(name="log_client_contact")
 public class LogClientContact implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -32,13 +32,13 @@ public class LogClientContact implements Serializable {
 	private String ext;
 
 	@Column(name="id_client", nullable=false, length=8)
-	private String idClient;
+	private int idClient;
 
 	@Column(name="id_client_contact", nullable=false, length=8)
-	private String idClientContact;
+	private int idClientContact;
 
 	@Column(name="id_country", nullable=false, length=8)
-	private String idCountry;
+	private int idCountry;
 
 	@Column(nullable=false, length=50)
 	private String name;
@@ -92,27 +92,27 @@ public class LogClientContact implements Serializable {
 		this.ext = ext;
 	}
 
-	public String getIdClient() {
+	public int getIdClient() {
 		return this.idClient;
 	}
 
-	public void setIdClient(String idClient) {
+	public void setIdClient(int idClient) {
 		this.idClient = idClient;
 	}
 
-	public String getIdClientContact() {
+	public int getIdClientContact() {
 		return this.idClientContact;
 	}
 
-	public void setIdClientContact(String idClientContact) {
+	public void setIdClientContact(int idClientContact) {
 		this.idClientContact = idClientContact;
 	}
 
-	public String getIdCountry() {
+	public int getIdCountry() {
 		return this.idCountry;
 	}
 
-	public void setIdCountry(String idCountry) {
+	public void setIdCountry(int idCountry) {
 		this.idCountry = idCountry;
 	}
 
@@ -141,7 +141,7 @@ public class LogClientContact implements Serializable {
 	}
 
 	public LogClientContact(Date dateRecord, String actionDetail, String actionUser, String email, String ext,
-			String idClient, String idClientContact, String idCountry, String name, String phone, byte status) {
+			int idClient, int idClientContact, int idCountry, String name, String phone, byte status) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;
