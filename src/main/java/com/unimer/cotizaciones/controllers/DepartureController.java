@@ -12,14 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.Departure;
 import com.unimer.cotizaciones.services.DepartureService;
-import com.unimer.cotizaciones.services.DepartureTypeService;
+import com.unimer.cotizaciones.services.CountryService;
+
 
 @Controller
 public class DepartureController {
 
 	@Autowired
-	@Qualifier("departureTypeServiceImpl")
-	private DepartureTypeService departureTypeService;
+	@Qualifier("countryServiceImpl")
+	private CountryService countryService;
 
 	@Autowired
 	@Qualifier("departureServiceImpl")
@@ -33,7 +34,7 @@ public class DepartureController {
 	public ModelAndView departure(){
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("departure");
-		modelAndView.addObject("departureTypes", departureTypeService.listAllDepartureType());
+		modelAndView.addObject("countries", countryService.listAllCountries());
 		modelAndView.addObject("departures", departureService.listAllDeparture());
 		return modelAndView;
 	}
@@ -56,7 +57,7 @@ public class DepartureController {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("departure");;
-		modelAndView.addObject("departureTypes", departureTypeService.listAllDepartureType());
+		modelAndView.addObject("countries", countryService.listAllCountries());
 		modelAndView.addObject("departures", departureService.listAllDeparture());
 		modelAndView.addObject("updateDeparture", departureService.findById(idDeparture));
 
