@@ -1,4 +1,4 @@
-package com.unimer.cotizaciones.repositories;
+/*package com.unimer.cotizaciones.repositories;
 
 import java.io.Serializable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,5 +9,6 @@ import com.unimer.cotizaciones.entities.CountryByCurrencyType;
 @Repository("countryByCurrencyTypeJpaRepository")
 public interface CountryByCurrencyTypeJpaRepository  extends JpaRepository<CountryByCurrencyType, Serializable> {
 
-	//public abstract void saveId(String idCountry, String idCurrencyType);
+	public abstract void saveId(String idCountry, String idCurrencyType);
 }
+*/

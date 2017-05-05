@@ -35,7 +35,7 @@
            	
            	<fieldset data-role="controlgroup"  data-type="horizontal">
            	<legend><h3>País por tipo de moneda</h3></legend>
-           		<table style="text-align:justify;">
+           	<!-- Utilizando iteraciones 	<table style="text-align:justify;">
            				<thead>
            				<tr>
            				<th  style="padding-right: 15px;">País</th>
@@ -44,12 +44,36 @@
            				</thead>
            				<tbody>
 	           			<tr th:each="countryByCurrencyTypes : ${countryByCurrencyTypes}">
-							<td style="padding-right: 15px;" th:text="${countryByCurrencyTypes.idCountry}"></td>
-							<td style="padding-right: 15px;" th:text="${countryByCurrencyTypes.idCurrencyType}"></td>
+							<td style="padding-right: 15px;" th:text="${countryByCurrencyTypes.detail}"></td>
+							<td>
+								 <span th:each="currencyType,iterStat : ${countryByCurrencyTypes.getCurrencyType()}">
+        						<span th:text="${currencyType.detail}"/><th:block th:if="${!iterStat.last}">,</th:block>
+							
+							</td>
+							
            				</tr>
            				
           			</tbody>
-           			</table>
+           			</table> -->
+           			
+           			
+           			<table style="text-align:justify;">
+           				<thead>
+           				<tr>
+           				<th  style="padding-right: 15px;">País</th>
+           				<th  style="padding-right: 15px;">Moneda</th>
+           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Opción</th>
+           				</tr>
+           				</thead>
+           				<tbody th:each="countryByCurrencyTypes : ${countryByCurrencyTypes}">
+	           			<tr th:each="currencyType: ${countryByCurrencyTypes.getCurrencyType()}">
+							<td style="padding-right: 15px;" th:text="${countryByCurrencyTypes.detail}"></td>
+							<td style="padding-right: 15px;" th:text="${currencyType.detail}"></td>
+							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;"><a href="#" th:href="@{/admin/deletecountrybycurrencytype?idCountry=__${countryByCurrencyTypes.idCountry}__&idCurrencyType=__${currencyType.idCurrencyType}__}">Eliminar</a></td>
+           				</tr>
+           				
+          			</tbody>
+           			</table> 
            	</fieldset>
            	
 		</div>

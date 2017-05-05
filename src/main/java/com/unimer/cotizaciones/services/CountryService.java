@@ -12,4 +12,6 @@ public interface CountryService {
 	public abstract List<Country> listAllCountries();	
 
 	public abstract Country findById(int idCountry);
+	
+	public abstract void deleteCountryByCurrencyType(int idCountry, int idCurrencyType);
 }

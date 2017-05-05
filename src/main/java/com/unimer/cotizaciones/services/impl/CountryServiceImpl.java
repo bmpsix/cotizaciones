@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.Country;
+import com.unimer.cotizaciones.entities.CurrencyType;
 import com.unimer.cotizaciones.entities.LogCountry;
 import com.unimer.cotizaciones.repositories.CountryJpaRepository;
+import com.unimer.cotizaciones.repositories.CurrencyTypeJpaRepository;
 import com.unimer.cotizaciones.repositories.LogCountryJpaRepository;
 import com.unimer.cotizaciones.services.CountryService;
 
@@ -23,8 +25,14 @@ public class CountryServiceImpl implements CountryService {
 	private CountryJpaRepository countryJpaRepository;
 
 	@Autowired
+	@Qualifier("currencyTypeJpaRepository")
+	private CurrencyTypeJpaRepository currencyTypeJpaRepository;
+
+	
+	@Autowired
 	@Qualifier("logCountryJpaRepository")
 	private LogCountryJpaRepository logCountryJpaRepository;
+	
 	
 
 	private static final Log LOG = LogFactory.getLog(CountryServiceImpl.class);
@@ -71,6 +79,19 @@ public class CountryServiceImpl implements CountryService {
 			
 			
 		}
+	}
+
+
+	@Override
+	public void deleteCountryByCurrencyType(int idCountry, int idCurrencyType) {
+		Country country = countryJpaRepository.findByIdCountry(idCountry);
+		CurrencyType currencyType = currencyTypeJpaRepository.findByIdCurrencyType(idCurrencyType);
+		
+		LOG.info("METHOD: Pais con todo -- PARAMS: " + country.toString());
+		country.dropCurrencyType(currencyType);
+		LOG.info("METHOD: Pais despues del drop -- PARAMS: " + country.toString());
+		countryJpaRepository.save(country);
+		
 	}
 	
 

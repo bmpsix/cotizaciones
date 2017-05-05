@@ -1,68 +1,114 @@
 package com.unimer.cotizaciones.entities;
 
-import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.JoinColumn;
 
-@Entity
-@Table(name = "country_by_currency_type")
-public class CountryByCurrencyType  implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	
-	@Id
-	@JoinColumn(name = "id_country")
-	@Column(name="id_country", unique=true, nullable=false)
-	private int idCountry;
+public class CountryByCurrencyType {
 
 	
-	@JoinColumn(name = "id_currency_type")	
-	@Column(name="id_currency_type", unique=true, nullable=false)
+private int idCountry;
+	
+	private String cod;
+
+	private String countryDetail;
+
+	
 	private int idCurrencyType;
 
+	private String currencyTypeDetail;
 
+	private byte favorite;
+
+	private byte status;
+
+	private String symbol;
+	
+	
 	public int getIdCountry() {
 		return idCountry;
 	}
-
 
 	public void setIdCountry(int idCountry) {
 		this.idCountry = idCountry;
 	}
 
+	public String getCod() {
+		return cod;
+	}
+
+	public void setCod(String cod) {
+		this.cod = cod;
+	}
+
+	public String getCountryDetail() {
+		return countryDetail;
+	}
+
+	public void setCountryDetail(String countryDetail) {
+		this.countryDetail = countryDetail;
+	}
 
 	public int getIdCurrencyType() {
 		return idCurrencyType;
 	}
 
-
 	public void setIdCurrencyType(int idCurrencyType) {
 		this.idCurrencyType = idCurrencyType;
 	}
 
+	public String getCurrencyTypeDetail() {
+		return currencyTypeDetail;
+	}
 
-	public CountryByCurrencyType(int idCountry, int idCurrencyType) {
+	public void setCurrencyTypeDetail(String currencyTypeDetail) {
+		this.currencyTypeDetail = currencyTypeDetail;
+	}
+
+	public byte getFavorite() {
+		return favorite;
+	}
+
+	public void setFavorite(byte favorite) {
+		this.favorite = favorite;
+	}
+
+	public byte getStatus() {
+		return status;
+	}
+
+	public void setStatus(byte status) {
+		this.status = status;
+	}
+
+	public String getSymbol() {
+		return symbol;
+	}
+
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
+
+	public CountryByCurrencyType(int idCountry, String cod, String countryDetail, int idCurrencyType,
+			String currencyTypeDetail, byte favorite, byte status, String symbol) {
 		super();
 		this.idCountry = idCountry;
+		this.cod = cod;
+		this.countryDetail = countryDetail;
 		this.idCurrencyType = idCurrencyType;
+		this.currencyTypeDetail = currencyTypeDetail;
+		this.favorite = favorite;
+		this.status = status;
+		this.symbol = symbol;
 	}
-
-
-	@Override
-	public String toString() {
-		return "CountryByCurrencyType [idCountry=" + idCountry + ", idCurrencyType=" + idCurrencyType + "]";
-	}
-
-
 
 	public CountryByCurrencyType() {
 		super();
-		
 	}
+
+	
+	
+	
+	
+	
 	
 	
 }
