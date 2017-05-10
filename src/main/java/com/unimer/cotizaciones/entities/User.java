@@ -2,6 +2,8 @@ package com.unimer.cotizaciones.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.unimer.cotizaciones.entities.User;
 
 /**
  * The persistent class for the tbl_user database table.
@@ -92,6 +95,18 @@ public class User implements Serializable {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_rol", nullable=false)
 	private Rol rol;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Set<User> userRole = new HashSet<User>();
+	
+
+	public Set<User> getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRole(Set<User> userRole) {
+		this.userRole = userRole;
+	}
 
 	public int getIdUser() {
 		return idUser;
@@ -231,7 +246,6 @@ public class User implements Serializable {
 		this.rol = rol;
 	}
 
-	
 	public double getCommissionAmount() {
 		return commissionAmount;
 	}
@@ -247,6 +261,7 @@ public class User implements Serializable {
 	public void setUseCommission(int useCommission) {
 		this.useCommission = useCommission;
 	}
+	
 
 	
 	public User() {
@@ -255,11 +270,20 @@ public class User implements Serializable {
 		this.country = new Country();
 		this.rol = new Rol();
 	}
+	
+
+	public User(String password, byte status, String username, Country country) {
+		super();
+		this.password = password;
+		this.status = status;
+		this.username = username;
+		this.country = country;
+	}
 
 	public User(int idUser, String accountBank, double commissionAmount, String confirmationToken, Date creationDate,
 			byte credentialExpired, Date credentialExpiredAt, byte expired, Date expiredAt, Date lastLoggin,
 			Date lastModification, String lastname, String midname, String password, byte status, int useCommission,
-			String username, Country country, Rol rol) {
+			String username, Country country, Rol rol, Set<User> userRole) {
 		super();
 		this.idUser = idUser;
 		this.accountBank = accountBank;
@@ -280,6 +304,7 @@ public class User implements Serializable {
 		this.username = username;
 		this.country = country;
 		this.rol = rol;
+		this.userRole = userRole;
 	}
 
 	@Override

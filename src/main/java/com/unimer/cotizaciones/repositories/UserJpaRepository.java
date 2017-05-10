@@ -9,7 +9,8 @@ import com.unimer.cotizaciones.entities.User;
 @Repository("userJpaRepository")
 public interface UserJpaRepository extends JpaRepository<User, Serializable>{
 	
-
 	public abstract User  findByIdUser(int idUser);
+	
+	public abstract User findByUsername(String username);
 	
 }
