@@ -5,14 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unimer.cotizaciones.entities.ProposalType;
 import com.unimer.cotizaciones.entities.QueryCatalog;
-import com.unimer.cotizaciones.repositories.QueryCatalogJpaRepository;
 import com.unimer.cotizaciones.services.CollectMethodService;
 import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.IndustrySectorService;

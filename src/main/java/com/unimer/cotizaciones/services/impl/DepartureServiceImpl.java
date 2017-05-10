@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.LogDeparture;
-import com.unimer.cotizaciones.entities.LogOperation;
-import com.unimer.cotizaciones.entities.Operation;
 import com.unimer.cotizaciones.entities.Departure;
 import com.unimer.cotizaciones.repositories.LogDepartureJpaRepository;
 import com.unimer.cotizaciones.repositories.DepartureJpaRepository;

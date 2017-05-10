@@ -2,7 +2,6 @@ package com.unimer.cotizaciones.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -12,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -85,6 +86,9 @@ public class User implements Serializable {
 
 	@Column(nullable=false, length=50)
 	private String username;
+	
+	@Column(nullable=false)
+	private String email;
 
 	//bi-directional many-to-one association to Country
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -92,20 +96,16 @@ public class User implements Serializable {
 	private Country country;
 
 	//bi-directional many-to-one association to Rol
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_rol", nullable=false)
-	private Rol rol;
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinTable(name="user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Rol> roles;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Set<User> userRole = new HashSet<User>();
-	
-
-	public Set<User> getUserRole() {
-		return userRole;
+	public Set<Rol> getRoles() {
+		return roles;
 	}
 
-	public void setUserRole(Set<User> userRole) {
-		this.userRole = userRole;
+	public void setRoles(Set<Rol> roles) {
+		this.roles = roles;
 	}
 
 	public int getIdUser() {
@@ -123,8 +123,6 @@ public class User implements Serializable {
 	public void setAccountBank(String accountBank) {
 		this.accountBank = accountBank;
 	}
-
-	
 
 	public String getConfirmationToken() {
 		return confirmationToken;
@@ -238,14 +236,6 @@ public class User implements Serializable {
 		this.country = country;
 	}
 
-	public Rol getRol() {
-		return rol;
-	}
-
-	public void setRol(Rol rol) {
-		this.rol = rol;
-	}
-
 	public double getCommissionAmount() {
 		return commissionAmount;
 	}
@@ -262,28 +252,36 @@ public class User implements Serializable {
 		this.useCommission = useCommission;
 	}
 	
+	public String getEmail() {
+		return email;
+	}
 
-	
-	public User() {
-		super();
-		// TODO Auto-generated constructor stub
-		this.country = new Country();
-		this.rol = new Rol();
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 
-	public User(String password, byte status, String username, Country country) {
+	public User() {
 		super();
+	}
+	
+	
+	public User(String lastname, String midname, String password, byte status, String username, String email,
+			Country country) {
+		super();
+		this.lastname = lastname;
+		this.midname = midname;
 		this.password = password;
 		this.status = status;
 		this.username = username;
+		this.email = email;
 		this.country = country;
 	}
 
 	public User(int idUser, String accountBank, double commissionAmount, String confirmationToken, Date creationDate,
 			byte credentialExpired, Date credentialExpiredAt, byte expired, Date expiredAt, Date lastLoggin,
 			Date lastModification, String lastname, String midname, String password, byte status, int useCommission,
-			String username, Country country, Rol rol, Set<User> userRole) {
+			String username, String email, Country country, Set<Rol> roles) {
 		super();
 		this.idUser = idUser;
 		this.accountBank = accountBank;
@@ -302,9 +300,9 @@ public class User implements Serializable {
 		this.status = status;
 		this.useCommission = useCommission;
 		this.username = username;
+		this.email = email;
 		this.country = country;
-		this.rol = rol;
-		this.userRole = userRole;
+		this.roles = roles;
 	}
 
 	@Override
@@ -314,9 +312,10 @@ public class User implements Serializable {
 				+ credentialExpired + ", credentialExpiredAt=" + credentialExpiredAt + ", expired=" + expired
 				+ ", expiredAt=" + expiredAt + ", lastLoggin=" + lastLoggin + ", lastModification=" + lastModification
 				+ ", lastname=" + lastname + ", midname=" + midname + ", password=" + password + ", status=" + status
-				+ ", useCommission=" + useCommission + ", username=" + username + ", country=" + country + ", rol="
-				+ rol + "]";
+				+ ", useCommission=" + useCommission + ", username=" + username + ", country=" + country + "]";
 	}
+
+	
 
 
 	

@@ -1,12 +1,14 @@
 package com.unimer.cotizaciones.entities;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 
@@ -29,6 +31,17 @@ public class Rol implements Serializable {
 
 	@Column(name="status", nullable=false)
 	private byte status;
+	
+	@ManyToMany(mappedBy = "roles")
+	private Set<User> users;
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
 
 	public int getIdRol() {
 		return idRol;
