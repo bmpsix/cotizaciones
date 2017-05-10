@@ -52,10 +52,10 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 
 	@Override
 	public boolean removeCurrencyExchange(int idCurrencyExchange) {
-		if(currencyExchangeJpaRepository.exists(idCurrencyExchange)){
+		if(currencyExchangeJpaRepository.existsById(idCurrencyExchange)){
 			return false;
 		}else{
-			currencyExchangeJpaRepository.delete(idCurrencyExchange);
+			currencyExchangeJpaRepository.deleteById(idCurrencyExchange);
 			return true;
 		}
 	}

@@ -69,10 +69,10 @@ public class CollectMethodServiceImpl implements CollectMethodService{
 
 	@Override
 	public boolean removeCollectMethod(int id) {
-		if(collectMethodJpaRepository.exists(id)){
+		if(collectMethodJpaRepository.existsById(id)){
 			return false;
 		}else{
-			collectMethodJpaRepository.delete(id);
+			collectMethodJpaRepository.deleteById(id);
 			return true;
 		}
 		
