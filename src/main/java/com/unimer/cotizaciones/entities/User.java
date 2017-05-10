@@ -94,7 +94,7 @@ public class User implements Serializable {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_country", nullable=false)
 	private Country country;
-
+	
 	//bi-directional many-to-one association to Rol
 	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(name="user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))

@@ -86,12 +86,12 @@ public class UserServiceImpl implements UserService {
 		user.setLastModification(date);
 		LOG.info("METHOD: updateUser in userServiceImpl -- PARAMS: " + user.toString());
 		if (userToUpdate != null) {
+			//revisa esto
 			LogUser logUser = new LogUser(date, userToUpdate.getAccountBank(), "User modified", "test",
 					userToUpdate.getCommissionAmount(), userToUpdate.getConfirmationToken(),
 					userToUpdate.getCreationDate(), userToUpdate.getCredentialExpired(),
 					userToUpdate.getCredentialExpiredAt(), userToUpdate.getExpired(), userToUpdate.getExpiredAt(),
-					userToUpdate.getCountry().getIdCountry(), userToUpdate.getRol().getIdRol(),
-					userToUpdate.getIdUser(), userToUpdate.getLastLoggin(), userToUpdate.getLastModification(),
+					userToUpdate.getIdUser(), userToUpdate.getStatus(), userToUpdate.getLastLoggin(), userToUpdate.getLastModification(),
 					userToUpdate.getLastname(), userToUpdate.getMidname(), userToUpdate.getPassword(),
 					userToUpdate.getStatus(), userToUpdate.getUseCommission(), userToUpdate.getUsername());
 			userJpaRepository.save(user);
