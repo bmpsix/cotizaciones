@@ -17,12 +17,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
-	@Qualifier("userService")
-	private UserDetailsService userService;
+	@Qualifier("authService")
+	private UserDetailsService authService;
 	
 	@Autowired
 	public void COnfigureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-		auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
+		auth.userDetailsService(authService).passwordEncoder(new BCryptPasswordEncoder());
 		
 	}
 

@@ -1,12 +1,15 @@
 package com.unimer.cotizaciones.services.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,25 +18,36 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.Rol;
 import com.unimer.cotizaciones.repositories.UserJpaRepository;
 
-@Service("userService")
+@Service("authService")
 public class LoginServiceImpl implements UserDetailsService {
 
 	@Autowired
 	@Qualifier("userJpaRepository")
-	private UserJpaRepository userRepository;
+	private UserJpaRepository userJpaRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		
-        com.unimer.cotizaciones.entities.User user = userRepository.findByEmail(email);
-
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for (Rol role : user.getRoles()){
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getDetail()));
-        }
-
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
+		com.unimer.cotizaciones.entities.User user = userJpaRepository.findByEmail(email);
 		
+		List<GrantedAuthority> authorities = buildAuthorities(user.getRol());
+		return buildUser(user, authorities);
+		
+	}
+
+	private User buildUser(com.unimer.cotizaciones.entities.User user, List<GrantedAuthority> authorities) {
+		return new User(user.getEmail(), user.getPassword(),true,true,true,true, authorities);
+	}
+
+	private List<GrantedAuthority> buildAuthorities(Set<Rol> set) {
+		
+		Set<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
+
+		for (Rol userRole : set) {
+			auths.add(new SimpleGrantedAuthority(userRole.getDetail()));
+		}
+
+		return new ArrayList<GrantedAuthority>(auths);
 	}
 }
 

@@ -2,6 +2,7 @@ package com.unimer.cotizaciones.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -11,9 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,7 +33,7 @@ public class User implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_user", unique=true, nullable=false)
 	private int idUser;
-
+	
 	@Column(name="account_bank", nullable=false, length=50)
 	private String accountBank;
 
@@ -96,18 +96,9 @@ public class User implements Serializable {
 	private Country country;
 	
 	//bi-directional many-to-one association to Rol
-	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinTable(name="user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Rol> roles;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private Set<Rol> rol = new HashSet<Rol>();
 	
-	public Set<Rol> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Rol> roles) {
-		this.roles = roles;
-	}
-
 	public int getIdUser() {
 		return idUser;
 	}
@@ -260,17 +251,27 @@ public class User implements Serializable {
 		this.email = email;
 	}
 	
+	public Set<Rol> getRol() {
+		return rol;
+	}
+
+	public void setRol(Set<Rol> rol) {
+		this.rol = rol;
+	}
 
 	public User() {
 		super();
 	}
-	
-	
-	public User(String lastname, String midname, String password, byte status, String username, String email,
-			Country country) {
+
+	public User(String lastname, String password, Country country) {
+		this.lastname = lastname;
+		this.password = password;
+		this.country = country;
+	}
+
+	public User(String lastname, String password, byte status, String username, String email, Country country) {
 		super();
 		this.lastname = lastname;
-		this.midname = midname;
 		this.password = password;
 		this.status = status;
 		this.username = username;
@@ -281,7 +282,7 @@ public class User implements Serializable {
 	public User(int idUser, String accountBank, double commissionAmount, String confirmationToken, Date creationDate,
 			byte credentialExpired, Date credentialExpiredAt, byte expired, Date expiredAt, Date lastLoggin,
 			Date lastModification, String lastname, String midname, String password, byte status, int useCommission,
-			String username, String email, Country country, Set<Rol> roles) {
+			String username, String email, Country country, Set<Rol> rol) {
 		super();
 		this.idUser = idUser;
 		this.accountBank = accountBank;
@@ -302,7 +303,18 @@ public class User implements Serializable {
 		this.username = username;
 		this.email = email;
 		this.country = country;
-		this.roles = roles;
+		this.rol = rol;
+	}
+	
+	
+
+
+	public User(String password, byte status, String username, Set<Rol> rol) {
+		super();
+		this.password = password;
+		this.status = status;
+		this.username = username;
+		this.rol = rol;
 	}
 
 	@Override
@@ -312,11 +324,26 @@ public class User implements Serializable {
 				+ credentialExpired + ", credentialExpiredAt=" + credentialExpiredAt + ", expired=" + expired
 				+ ", expiredAt=" + expiredAt + ", lastLoggin=" + lastLoggin + ", lastModification=" + lastModification
 				+ ", lastname=" + lastname + ", midname=" + midname + ", password=" + password + ", status=" + status
-				+ ", useCommission=" + useCommission + ", username=" + username + ", country=" + country + "]";
+				+ ", useCommission=" + useCommission + ", username=" + username + ", email=" + email + ", country="
+				+ country + ", rol=" + rol + "]";
 	}
-
 	
 
+	
+	
+
+
+	
+	
+
+	
+	
+
+
+
+
+	
+	
 
 	
 	

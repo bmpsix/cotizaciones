@@ -1,14 +1,15 @@
 package com.unimer.cotizaciones.entities;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
@@ -28,21 +29,15 @@ public class Rol implements Serializable {
 
 	@Column(name="detail", nullable=false, length=100)
 	private String detail;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name ="email",nullable = false)
+	private User user;
 
 	@Column(name="status", nullable=false)
 	private byte status;
 	
-	@ManyToMany(mappedBy = "roles")
-	private Set<User> users;
-
-	public Set<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(Set<User> users) {
-		this.users = users;
-	}
-
+	
 	public int getIdRol() {
 		return idRol;
 	}
@@ -65,6 +60,14 @@ public class Rol implements Serializable {
 
 	public void setStatus(byte status) {
 		this.status = status;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Rol() {
