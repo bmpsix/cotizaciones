@@ -9,7 +9,7 @@
            </h1>
 	</div>
 	<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
-          <form id="logginForm" method="post" thaction=@{/logincheck} onsubmit="return checkrequired()">
+          <form id="logginForm" method="post" th:action=@{/logincheck}>
                <fieldset data-role="controlgroup"  data-type="horizontal">
                		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                    <legend>Ingreso al sistema - control de acceso</legend>

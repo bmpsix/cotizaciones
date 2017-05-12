@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,6 +26,9 @@ public class LoginServiceImpl implements UserDetailsService {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userServiceImpl;
+	
+	
+	private static final Log LOG = LogFactory.getLog(LoginServiceImpl.class);
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -44,6 +49,7 @@ public class LoginServiceImpl implements UserDetailsService {
 		Set<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
 
 		for (UserRole userRole : set) {
+			LOG.info("EL ROLES ES:"+userRole.getRole());
 			auths.add(new SimpleGrantedAuthority(userRole.getRole()));
 		}
 
