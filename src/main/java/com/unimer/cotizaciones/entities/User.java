@@ -27,6 +27,7 @@ import com.unimer.cotizaciones.entities.User;
 @Entity
 @Table(name="user")
 public class User implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -75,17 +76,17 @@ public class User implements Serializable {
 	@Column(nullable=false, length=50)
 	private String midname;
 
-	@Column(nullable=false, length=50)
+	@Column(nullable=false)
 	private String password;
 
 	@Column(nullable=false)
-	private byte status;
+	private boolean status;
 
 	@Column(name="use_commission", nullable=false)
 	private int useCommission;
 
 	@Column(nullable=false, length=50)
-	private String username;
+	private String name;
 	
 	@Column(nullable=false)
 	private String email;
@@ -96,8 +97,8 @@ public class User implements Serializable {
 	private Country country;
 	
 	//bi-directional many-to-one association to Rol
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<Rol> rol = new HashSet<Rol>();
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+	private Set<UserRole> rol = new HashSet<UserRole>();
 	
 	public int getIdUser() {
 		return idUser;
@@ -202,23 +203,19 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public byte getStatus() {
+	
+	public boolean getStatus() {
 		return status;
 	}
 
-	public void setStatus(byte status) {
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
 
-	public String getUsername() {
-		return username;
+	public void setRol(Set<UserRole> rol) {
+		this.rol = rol;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	
 	public Country getCountry() {
 		return country;
 	}
@@ -251,13 +248,20 @@ public class User implements Serializable {
 		this.email = email;
 	}
 	
-	public Set<Rol> getRol() {
-		return rol;
+
+	public String getName() {
+		return name;
 	}
 
-	public void setRol(Set<Rol> rol) {
-		this.rol = rol;
+	public void setName(String name) {
+		this.name = name;
 	}
+
+	public Set<UserRole> getRol() {
+		return rol;
+	}
+	
+	
 
 	public User() {
 		super();
@@ -269,51 +273,23 @@ public class User implements Serializable {
 		this.country = country;
 	}
 
-	public User(String lastname, String password, byte status, String username, String email, Country country) {
+	public User(String lastname, String password, boolean status, String name, String email, Country country) {
 		super();
 		this.lastname = lastname;
 		this.password = password;
 		this.status = status;
-		this.username = username;
+		this.name = name;
 		this.email = email;
 		this.country = country;
 	}
 
-	public User(int idUser, String accountBank, double commissionAmount, String confirmationToken, Date creationDate,
-			byte credentialExpired, Date credentialExpiredAt, byte expired, Date expiredAt, Date lastLoggin,
-			Date lastModification, String lastname, String midname, String password, byte status, int useCommission,
-			String username, String email, Country country, Set<Rol> rol) {
-		super();
-		this.idUser = idUser;
-		this.accountBank = accountBank;
-		this.commissionAmount = commissionAmount;
-		this.confirmationToken = confirmationToken;
-		this.creationDate = creationDate;
-		this.credentialExpired = credentialExpired;
-		this.credentialExpiredAt = credentialExpiredAt;
-		this.expired = expired;
-		this.expiredAt = expiredAt;
-		this.lastLoggin = lastLoggin;
-		this.lastModification = lastModification;
-		this.lastname = lastname;
-		this.midname = midname;
-		this.password = password;
-		this.status = status;
-		this.useCommission = useCommission;
-		this.username = username;
-		this.email = email;
-		this.country = country;
-		this.rol = rol;
-	}
-	
 	
 
-
-	public User(String password, byte status, String username, Set<Rol> rol) {
+	public User(String password, boolean status, String name, Set<UserRole> rol) {
 		super();
 		this.password = password;
 		this.status = status;
-		this.username = username;
+		this.name = name;
 		this.rol = rol;
 	}
 
@@ -324,7 +300,7 @@ public class User implements Serializable {
 				+ credentialExpired + ", credentialExpiredAt=" + credentialExpiredAt + ", expired=" + expired
 				+ ", expiredAt=" + expiredAt + ", lastLoggin=" + lastLoggin + ", lastModification=" + lastModification
 				+ ", lastname=" + lastname + ", midname=" + midname + ", password=" + password + ", status=" + status
-				+ ", useCommission=" + useCommission + ", username=" + username + ", email=" + email + ", country="
+				+ ", useCommission=" + useCommission + ", username=" + name + ", email=" + email + ", country="
 				+ country + ", rol=" + rol + "]";
 	}
 	

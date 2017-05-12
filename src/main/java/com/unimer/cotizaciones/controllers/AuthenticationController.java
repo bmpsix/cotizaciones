@@ -27,6 +27,11 @@ public class AuthenticationController {
 		return "index";
 	}
 	
+	@GetMapping("/loginsuccess")
+	public String loginsuccess(){
+		return "proposal";
+	}
+	
 	
 	
 	

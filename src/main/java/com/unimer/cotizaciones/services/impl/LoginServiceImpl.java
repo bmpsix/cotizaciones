@@ -15,20 +15,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.unimer.cotizaciones.entities.Rol;
-import com.unimer.cotizaciones.repositories.UserJpaRepository;
+import com.unimer.cotizaciones.entities.UserRole;
+import com.unimer.cotizaciones.services.UserService;
 
 @Service("authService")
 public class LoginServiceImpl implements UserDetailsService {
 
 	@Autowired
-	@Qualifier("userJpaRepository")
-	private UserJpaRepository userJpaRepository;
+	@Qualifier("userServiceImpl")
+	private UserService userServiceImpl;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		
-		com.unimer.cotizaciones.entities.User user = userJpaRepository.findByEmail(email);
+		com.unimer.cotizaciones.entities.User user = userServiceImpl.findByEmail(email);
 		
 		List<GrantedAuthority> authorities = buildAuthorities(user.getRol());
 		return buildUser(user, authorities);
@@ -36,15 +36,15 @@ public class LoginServiceImpl implements UserDetailsService {
 	}
 
 	private User buildUser(com.unimer.cotizaciones.entities.User user, List<GrantedAuthority> authorities) {
-		return new User(user.getEmail(), user.getPassword(),true,true,true,true, authorities);
+		return new User(user.getEmail(), user.getPassword(),user.getStatus(),true,true,true, authorities);
 	}
 
-	private List<GrantedAuthority> buildAuthorities(Set<Rol> set) {
+	private List<GrantedAuthority> buildAuthorities(Set<UserRole> set) {
 		
 		Set<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
 
-		for (Rol userRole : set) {
-			auths.add(new SimpleGrantedAuthority(userRole.getDetail()));
+		for (UserRole userRole : set) {
+			auths.add(new SimpleGrantedAuthority(userRole.getRole()));
 		}
 
 		return new ArrayList<GrantedAuthority>(auths);

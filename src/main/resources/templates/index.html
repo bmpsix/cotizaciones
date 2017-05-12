@@ -9,10 +9,11 @@
            </h1>
 	</div>
 	<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
-          <form id="logginForm" method="post" action="#" onsubmit="return checkrequired()">
+          <form id="logginForm" method="post" thaction=@{/logincheck} onsubmit="return checkrequired()">
                <fieldset data-role="controlgroup"  data-type="horizontal">
+               		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                    <legend>Ingreso al sistema - control de acceso</legend>
-                   <p>Usuario: <input type="text" name="username" id="username"/></p>
+                   <p>Usuario: <input type="text" name="email" id="email"/></p>
                    <p>Contrase&ntilde;a: <input type="password" name="password" id="password" /></p>
                    <br>
                        <input  type="submit" name="submit"  class="custom_text" value="Ingresar">
