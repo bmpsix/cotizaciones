@@ -85,7 +85,7 @@ public class LogUser implements Serializable {
 	private int useCommission;
 
 	@Column(nullable=false, length=50)
-	private String username;
+	private String name;
 	
 	@Column(nullable=false)
 	private String email;
@@ -251,12 +251,12 @@ public class LogUser implements Serializable {
 
 
 
-	public String getUsername() {
-		return this.username;
+	public String getName() {
+		return this.name;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUsername(String name) {
+		this.name = name;
 	}
 
 	public double getCommissionAmount() {
@@ -275,10 +275,13 @@ public class LogUser implements Serializable {
 		this.useCommission = useCommission;
 	}
 
+	
+
 	public LogUser(Date dateRecord, String accountBank, String actionDetail, String actionUser, double commissionAmount,
 			String confirmationToken, Date creationDate, byte credentialExpired, Date credentialExpiredAt, byte expired,
-			Date expiredAt, int idCountry, int idUser, Date lastLoggin, Date lastModification,
-			String lastname, String midname, String password, byte status, int useCommission, String username) {
+			Date expiredAt, int idCountry, int idRole, int idUser, Date lastLoggin, Date lastModification,
+			String lastname, String midname, String password, byte status, int useCommission, String name,
+			String email) {
 		super();
 		this.dateRecord = dateRecord;
 		this.accountBank = accountBank;
@@ -292,6 +295,7 @@ public class LogUser implements Serializable {
 		this.expired = expired;
 		this.expiredAt = expiredAt;
 		this.idCountry = idCountry;
+		this.idRole = idRole;
 		this.idUser = idUser;
 		this.lastLoggin = lastLoggin;
 		this.lastModification = lastModification;
@@ -300,7 +304,8 @@ public class LogUser implements Serializable {
 		this.password = password;
 		this.status = status;
 		this.useCommission = useCommission;
-		this.username = username;
+		this.name = name;
+		this.email = email;
 	}
 
 	@Override
@@ -311,8 +316,8 @@ public class LogUser implements Serializable {
 				+ ", credentialExpiredAt=" + credentialExpiredAt + ", expired=" + expired + ", expiredAt=" + expiredAt
 				+ ", idCountry=" + idCountry + ", idUser=" + idUser + ", lastLoggin=" + lastLoggin
 				+ ", lastModification=" + lastModification + ", lastname=" + lastname + ", midname=" + midname
-				+ ", password=" + password + ", status=" + status + ", useCommission=" + useCommission + ", username="
-				+ username + ", email=" + email + "]";
+				+ ", password=" + password + ", status=" + status + ", useCommission=" + useCommission + ", name="
+				+ name + ", email=" + email + "]";
 	}
 
 	

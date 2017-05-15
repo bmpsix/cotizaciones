@@ -16,8 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import com.unimer.cotizaciones.entities.UserRole;
+import com.unimer.cotizaciones.entities.Rol;
 import com.unimer.cotizaciones.services.UserService;
 
 @Service("authService")
@@ -34,24 +33,34 @@ public class LoginServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		
 		com.unimer.cotizaciones.entities.User user = userServiceImpl.findByEmail(email);
+		if(user!=null)
+		{
+			Set<Rol> roles = new HashSet<Rol>();
+			roles.add(user.getRol());
+			List<GrantedAuthority> authorities = buildAuthorities(roles);
+			return buildUser(user, authorities);
+		}
+		else return  null;
 		
-		List<GrantedAuthority> authorities = buildAuthorities(user.getRol());
-		return buildUser(user, authorities);
 		
 	}
 
 	private User buildUser(com.unimer.cotizaciones.entities.User user, List<GrantedAuthority> authorities) {
-		return new User(user.getEmail(), user.getPassword(),user.getStatus(),true,true,true, authorities);
+		boolean status=false;
+		if(user.getStatus()==1) status=true;
+		return new User(user.getEmail(), user.getPassword(),status,true,true,true, authorities);
 	}
 
-	private List<GrantedAuthority> buildAuthorities(Set<UserRole> set) {
+	private List<GrantedAuthority> buildAuthorities(Set<Rol> roles) {
 		
 		Set<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
 
-		for (UserRole userRole : set) {
-			LOG.info("EL ROLES ES:"+userRole.getRole());
-			auths.add(new SimpleGrantedAuthority(userRole.getRole()));
+		for (Rol rol : roles) {
+			LOG.info("EL ROLES ES:"+rol.getDetail());
+			auths.add(new SimpleGrantedAuthority("ROLE_"+rol.getDetail().toUpperCase()));
 		}
+		
+		LOG.info("EL GrantedAuthority ES:"+auths.toString());
 
 		return new ArrayList<GrantedAuthority>(auths);
 	}

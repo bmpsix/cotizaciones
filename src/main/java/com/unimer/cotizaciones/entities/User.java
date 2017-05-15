@@ -2,9 +2,6 @@ package com.unimer.cotizaciones.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,6 +23,9 @@ import com.unimer.cotizaciones.entities.User;
 @Entity
 @Table(name="user")
 public class User implements Serializable {
+	
+	
+
 	
 	private static final long serialVersionUID = 1L;
 
@@ -80,7 +79,7 @@ public class User implements Serializable {
 	private String password;
 
 	@Column(nullable=false)
-	private boolean status;
+	private byte status;
 
 	@Column(name="use_commission", nullable=false)
 	private int useCommission;
@@ -97,8 +96,17 @@ public class User implements Serializable {
 	private Country country;
 	
 	//bi-directional many-to-one association to Rol
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-	private Set<UserRole> rol = new HashSet<UserRole>();
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="id_rol", nullable=false)
+	private Rol rol;
+		
+	public Rol getRol() {
+		return rol;
+	}
+
+	public void setRol(Rol rol) {
+		this.rol = rol;
+	}
 	
 	public int getIdUser() {
 		return idUser;
@@ -204,17 +212,14 @@ public class User implements Serializable {
 		this.password = password;
 	}
 	
-	public boolean getStatus() {
+	public byte getStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(byte status) {
 		this.status = status;
 	}
 
-	public void setRol(Set<UserRole> rol) {
-		this.rol = rol;
-	}
 
 	public Country getCountry() {
 		return country;
@@ -257,10 +262,6 @@ public class User implements Serializable {
 		this.name = name;
 	}
 
-	public Set<UserRole> getRol() {
-		return rol;
-	}
-	
 	
 
 	public User() {
@@ -273,7 +274,7 @@ public class User implements Serializable {
 		this.country = country;
 	}
 
-	public User(String lastname, String password, boolean status, String name, String email, Country country) {
+	public User(String lastname, String password, byte status, String name, String email, Country country) {
 		super();
 		this.lastname = lastname;
 		this.password = password;
@@ -285,14 +286,16 @@ public class User implements Serializable {
 
 	
 
-	public User(String password, boolean status, String name, Set<UserRole> rol) {
+	public User(String password, byte status, String name, Rol rol) {
 		super();
 		this.password = password;
 		this.status = status;
 		this.name = name;
-		this.rol = rol;
+		this.rol=rol;
 	}
 
+
+	
 	@Override
 	public String toString() {
 		return "User [idUser=" + idUser + ", accountBank=" + accountBank + ", commissionAmount=" + commissionAmount
@@ -300,10 +303,11 @@ public class User implements Serializable {
 				+ credentialExpired + ", credentialExpiredAt=" + credentialExpiredAt + ", expired=" + expired
 				+ ", expiredAt=" + expiredAt + ", lastLoggin=" + lastLoggin + ", lastModification=" + lastModification
 				+ ", lastname=" + lastname + ", midname=" + midname + ", password=" + password + ", status=" + status
-				+ ", useCommission=" + useCommission + ", username=" + name + ", email=" + email + ", country="
-				+ country + ", rol=" + rol + "]";
+				+ ", useCommission=" + useCommission + ", name=" + name + ", email=" + email + ", country=" + country
+				+ ", rol=" + rol + "]";
 	}
-	
+
+
 
 	
 	

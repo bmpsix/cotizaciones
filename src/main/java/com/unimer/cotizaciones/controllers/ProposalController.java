@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProposalController {
 	
 	@GetMapping("/admin/proposal")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView proposal(){
 
 		ModelAndView modelAndView = new ModelAndView();
