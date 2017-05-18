@@ -1,4 +1,4 @@
-/*package com.unimer.cotizaciones.controllers;
+package com.unimer.cotizaciones.controllers;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -54,12 +54,12 @@ public class AssessmentController {
 	
 	
 	@PostMapping("/admin/addassessment")
-	public String addAssessment(@RequestParam("idAssessment") int idAssessment,@RequestParam("detail") String detail, @RequestParam("idCurrencyExchange") int idCurrencyExchange,@RequestParam("idSaClient") int idSaClient,@RequestParam("email") String email) {
+	public String addAssessment(@RequestParam("idAssessment") int idAssessment,@RequestParam("detail") String detail, @RequestParam("idCurrencyExchange") int idCurrencyExchange,@RequestParam("idSaClient") int idSaClient,@RequestParam("idUser") int idUser) {
 		LOG.info("METHOD: addAssessment in AssessmentController -- PARAMS: detail: "+detail+" idCurrencyExchange: "+idCurrencyExchange+" saClient: "+idSaClient+" idUser: "+idUser );
 		CurrencyExchange currencyExchange = new CurrencyExchange();
 		currencyExchange = currencyExchangeService.getCurrencyExchange(idCurrencyExchange);
 		User user = new User();
-		user=userServiceImpl.findByEmail(email);
+		user=userServiceImpl.findById(idUser);
 		SaClient saClient = new SaClient();
 		saClient = saClientService.findById(idSaClient);
 		Assessment assessment = new Assessment();
@@ -90,4 +90,4 @@ public class AssessmentController {
 
 		return modelAndView;
 	}
-}*/
+}

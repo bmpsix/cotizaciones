@@ -39,9 +39,9 @@ public class AuthenticationController {
 	/*En este controller debe de ir toda la logica de logeos, autentificacion y redirecciones*/
 
 	
-	@GetMapping({"/loginsuccess","/"})
+	@GetMapping({"/loginsuccess","/","/css/images/ajax-loader.gif"})
 	public String loginCheck(){
-		return  "redirect:/admin/proposal";
+			return  "redirect:/admin/proposal";
 	}
 	
 	

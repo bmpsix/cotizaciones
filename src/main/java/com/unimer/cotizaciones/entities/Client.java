@@ -27,31 +27,31 @@ public class Client implements Serializable {
 	@Column(name="id_client", unique=true, nullable=false)
 	private int idClient;
 
-	@Column(length=100)
+	@Column(length=100, nullable=false)
 	private String detail;
 
-	@Column(length=50)
+	@Column(length=50, nullable=false)
 	private String email;
 
-	@Column(length=15)
+	@Column(length=15, nullable=false)
 	private String fax;
 
-	@Column(length=15)
+	@Column(length=15, nullable=false)
 	private String phone;
 
 	//bi-directional many-to-one association to Country
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_country")
+	@JoinColumn(name="id_country", nullable=false)
 	private Country country;
 
 	//bi-directional many-to-one association to SaClient
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_sa_client")
+	@JoinColumn(name="id_sa_client", nullable=false)
 	private SaClient saClient;
 
 	//bi-directional many-to-one association to ClientType
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_client_type")
+	@JoinColumn(name="id_client_type", nullable=false)
 	private ClientType clientType;
 	
 	@Column(name="status", nullable=false)
