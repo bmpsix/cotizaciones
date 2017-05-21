@@ -22,8 +22,8 @@ public class LogProposal implements Serializable {
 	@Column(name="action_detail", nullable=false, length=100)
 	private String actionDetail;
 
-	@Column(name="action_user", nullable=false, length=8)
-	private String actionUser;
+	@Column(name="action_user", nullable=false)
+	private int actionUser;
 
 	@Column(name="aporte_fijo", nullable=false)
 	private double aporteFijo;
@@ -110,11 +110,11 @@ public class LogProposal implements Serializable {
 		this.actionDetail = actionDetail;
 	}
 
-	public String getActionUser() {
+	public int getActionUser() {
 		return this.actionUser;
 	}
 
-	public void setActionUser(String actionUser) {
+	public void setActionUser(int actionUser) {
 		this.actionUser = actionUser;
 	}
 

@@ -31,7 +31,7 @@ public class ClientTypeServiceImpl implements ClientTypeService {
 	
 	
 	@Override
-	public void addClientType(ClientType clientType) {
+	public void addClientType(ClientType clientType, int idUser) {
 
 	
 			if (clientType.getIdClientType()==0) {
@@ -40,7 +40,7 @@ public class ClientTypeServiceImpl implements ClientTypeService {
 				LOG.info("METHOD: addClientType in ClientTypeServiceImpl -- PARAMS: " + clientType.toString());
 
 			} else {
-				updateClientType(clientType);
+				updateClientType(clientType, idUser);
 			}
 
 		} 
@@ -68,11 +68,11 @@ public class ClientTypeServiceImpl implements ClientTypeService {
 	}
 
 	
-	private void updateClientType(ClientType clientType) {
+	private void updateClientType(ClientType clientType, int idUser) {
 		java.util.Date date = new Date();
 		ClientType clientTypeToUpdate = clientTypeJpaRepository.findByIdClientType(clientType.getIdClientType());
 		if (clientTypeToUpdate != null) {
-			LogClientType logClientType = new LogClientType(date, "Client type  modified", "test", clientTypeToUpdate.getDetail(), clientTypeToUpdate.getIdClientType(),
+			LogClientType logClientType = new LogClientType(date, "Client type  modified", idUser, clientTypeToUpdate.getDetail(), clientTypeToUpdate.getIdClientType(),
 					clientTypeToUpdate.getStatus());
 			clientTypeJpaRepository.save(clientType);
 			logClientTypeJpaRepository.save(logClientType);

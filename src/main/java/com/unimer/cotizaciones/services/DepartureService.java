@@ -5,7 +5,7 @@ import com.unimer.cotizaciones.entities.Departure;
 
 public interface DepartureService {
 	
-public abstract void addDeparture(Departure departure);
+public abstract void addDeparture(Departure departure, int idUser);
 	
 	public abstract List<Departure> listAllDeparture();
 	

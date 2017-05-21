@@ -6,16 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.ProposalType;
+import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.services.ProposalTypeService;
 
 
 @Controller
+@SessionAttributes({"userSession"})
 public class ProposalTypeController {
 	@Autowired
 	@Qualifier("proposalTypeServiceImpl")
@@ -32,9 +36,9 @@ public class ProposalTypeController {
 	}
 	
 	@PostMapping("/admin/addproposaltype")
-	public String addProposalType(@ModelAttribute(name = "proposalType") ProposalType proposalType, Model model) {
+	public String addProposalType(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "proposalType") ProposalType proposalType, Model model) {
 		LOG.info("METHOD: addProposalType in ProposalTypeController -- PARAMS: " + proposalType.toString());
-		proposalTypeService.addProposalType(proposalType);
+		proposalTypeService.addProposalType(proposalType,userSession.getIdUser());
 		 return "redirect:/admin/proposaltype";
 	}
 	

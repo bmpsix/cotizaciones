@@ -32,7 +32,7 @@ public class OperationTypeServiceImpl implements OperationTypeService {
 	
 	
 	@Override
-	public void addOperationType(OperationType operationType) {
+	public void addOperationType(OperationType operationType, int idUser) {
 
 			if (operationType.getIdOperationType()==0) {
 				
@@ -41,7 +41,7 @@ public class OperationTypeServiceImpl implements OperationTypeService {
 				
 
 			} else {
-				updateOperationType(operationType);
+				updateOperationType(operationType, idUser);
 			}
 
 		}
@@ -58,11 +58,11 @@ public class OperationTypeServiceImpl implements OperationTypeService {
 
 
 	
-	private void updateOperationType(OperationType operationType) {
+	private void updateOperationType(OperationType operationType, int idUser) {
 		java.util.Date date = new Date();
 		OperationType operationTypeToUpdate = operationTypeJpaRepository.findByIdOperationType(operationType.getIdOperationType());
 		if (operationTypeToUpdate != null) {
-			LogOperationType logOperationType = new LogOperationType(date, "Operation type  modified", "test", operationTypeToUpdate.getDetail(), operationTypeToUpdate.getIdOperationType());
+			LogOperationType logOperationType = new LogOperationType(date, "Operation type  modified", idUser, operationTypeToUpdate.getDetail(), operationTypeToUpdate.getIdOperationType());
 			operationTypeJpaRepository.save(operationType);
 			logOperationTypeJpaRepository.save(logOperationType);
 			

@@ -6,17 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.CurrencyType;
+import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.services.CurrencyTypeService;
 
 
 
 @Controller
+@SessionAttributes({"userSession"})
 public class CurrencyTypeController {
 	
 	@Autowired
@@ -35,9 +39,9 @@ public class CurrencyTypeController {
 	}
 	
 	@PostMapping("/admin/addcurrencytype")
-	public String addCurrencyType(@ModelAttribute(name = "currencytype") CurrencyType currencyType, Model model) {
+	public String addCurrencyType(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "currencytype") CurrencyType currencyType, Model model) {
 		LOG.info("METHOD: addCurrencyType in CurrencyTypeController -- PARAMS: " + currencyType.toString());
-		currencyTypeService.addCurrencyType(currencyType);
+		currencyTypeService.addCurrencyType(currencyType,userSession.getIdUser());
 		 return "redirect:/admin/currencytype";
 	}
 	

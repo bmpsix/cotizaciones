@@ -46,7 +46,7 @@ public class ClientContactServiceImpl implements ClientContactService {
 	private static final Log LOG = LogFactory.getLog(ClientContactServiceImpl.class);
 	
 	@Override
-	public void addClientContact(ClientContact clientContact) {
+	public void addClientContact(ClientContact clientContact, int idUser) {
 		
 			if (clientContact.getIdClientContact()==0) {
 				
@@ -56,7 +56,7 @@ public class ClientContactServiceImpl implements ClientContactService {
 		
 
 			} else {
-				updateClientContact(clientContact);
+				updateClientContact(clientContact, idUser);
 			}
 
 		} 
@@ -78,11 +78,11 @@ public class ClientContactServiceImpl implements ClientContactService {
 
 	
 
-	private void updateClientContact(ClientContact clientContact) {
+	private void updateClientContact(ClientContact clientContact, int idUser) {
 		java.util.Date date = new Date();
 		ClientContact clientContactToUpdate = clientContactJpaRepository.findByIdClientContact(clientContact.getIdClientContact());
 		if (clientContactToUpdate != null) {
-			LogClientContact logClientContact = new LogClientContact(date, "Client contact  modified", "test", clientContactToUpdate.getEmail(),clientContactToUpdate.getExt(),
+			LogClientContact logClientContact = new LogClientContact(date, "Client contact  modified", idUser, clientContactToUpdate.getEmail(),clientContactToUpdate.getExt(),
 					clientContactToUpdate.getClient().getIdClient(),clientContactToUpdate.getIdClientContact(),clientContactToUpdate.getCountry().getIdCountry(),clientContactToUpdate.getName(),
 					clientContactToUpdate.getPhone(),clientContactToUpdate.getStatus());
 			clientContactJpaRepository.save(clientContact);

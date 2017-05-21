@@ -6,7 +6,7 @@ import com.unimer.cotizaciones.entities.Client;
 
 public interface ClientService {
 
-	public abstract void addClient(Client client);
+	public abstract void addClient(Client client, int idUser);
 	
 	public abstract List<Client> listAllClient();
 	

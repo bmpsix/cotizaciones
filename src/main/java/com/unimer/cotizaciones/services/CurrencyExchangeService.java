@@ -7,7 +7,7 @@ import com.unimer.cotizaciones.entities.CurrencyExchange;
 public interface CurrencyExchangeService {
 	
 	
-	public abstract void addCurrencyExchange(CurrencyExchange currencyExchange);
+	public abstract void addCurrencyExchange(CurrencyExchange currencyExchange, int idUser);
 	
 	public abstract List<CurrencyExchange> listAllCurrencyExchange();
 	

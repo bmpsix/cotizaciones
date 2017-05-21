@@ -25,8 +25,8 @@ public class LogUser implements Serializable {
 	@Column(name="action_detail", nullable=false, length=100)
 	private String actionDetail;
 
-	@Column(name="action_user", nullable=false, length=8)
-	private String actionUser;
+	@Column(name="action_user", nullable=false)
+	private int actionUser;
 
 	@Column(name="commission_amount", nullable=false)
 	private double commissionAmount;
@@ -74,9 +74,6 @@ public class LogUser implements Serializable {
 
 	@Column(nullable=false, length=50)
 	private String midname;
-
-	@Column(nullable=false, length=50)
-	private String password;
 
 	@Column(nullable=false)
 	private byte status;
@@ -126,11 +123,11 @@ public class LogUser implements Serializable {
 		this.actionDetail = actionDetail;
 	}
 
-	public String getActionUser() {
+	public int getActionUser() {
 		return this.actionUser;
 	}
 
-	public void setActionUser(String actionUser) {
+	public void setActionUser(int actionUser) {
 		this.actionUser = actionUser;
 	}
 
@@ -233,14 +230,6 @@ public class LogUser implements Serializable {
 		this.midname = midname;
 	}
 
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public byte getStatus() {
 		return this.status;
 	}
@@ -277,10 +266,10 @@ public class LogUser implements Serializable {
 
 	
 
-	public LogUser(Date dateRecord, String accountBank, String actionDetail, String actionUser, double commissionAmount,
+	public LogUser(Date dateRecord, String accountBank, String actionDetail, int actionUser, double commissionAmount,
 			String confirmationToken, Date creationDate, byte credentialExpired, Date credentialExpiredAt, byte expired,
 			Date expiredAt, int idCountry, int idRole, int idUser, Date lastLoggin, Date lastModification,
-			String lastname, String midname, String password, byte status, int useCommission, String name,
+			String lastname, String midname, byte status, int useCommission, String name,
 			String email) {
 		super();
 		this.dateRecord = dateRecord;
@@ -301,7 +290,6 @@ public class LogUser implements Serializable {
 		this.lastModification = lastModification;
 		this.lastname = lastname;
 		this.midname = midname;
-		this.password = password;
 		this.status = status;
 		this.useCommission = useCommission;
 		this.name = name;
@@ -316,7 +304,7 @@ public class LogUser implements Serializable {
 				+ ", credentialExpiredAt=" + credentialExpiredAt + ", expired=" + expired + ", expiredAt=" + expiredAt
 				+ ", idCountry=" + idCountry + ", idUser=" + idUser + ", lastLoggin=" + lastLoggin
 				+ ", lastModification=" + lastModification + ", lastname=" + lastname + ", midname=" + midname
-				+ ", password=" + password + ", status=" + status + ", useCommission=" + useCommission + ", name="
+				+ ", status=" + status + ", useCommission=" + useCommission + ", name="
 				+ name + ", email=" + email + "]";
 	}
 

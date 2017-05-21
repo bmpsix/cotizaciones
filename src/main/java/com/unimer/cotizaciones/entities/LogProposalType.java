@@ -22,8 +22,8 @@ public class LogProposalType implements Serializable {
 	@Column(name="action_detail", nullable=false, length=100)
 	private String actionDetail;
 
-	@Column(name="action_user", nullable=false, length=8)
-	private String actionUser;
+	@Column(name="action_user", nullable=false)
+	private int actionUser;
 
 	@Column(nullable=false, length=100)
 	private String detail;
@@ -49,7 +49,7 @@ public class LogProposalType implements Serializable {
 	
 
 
-	public LogProposalType(Date dateRecord, String actionDetail, String actionUser, String detail,
+	public LogProposalType(Date dateRecord, String actionDetail, int actionUser, String detail,
 			int idProposalType) {
 		super();
 		this.dateRecord = dateRecord;
@@ -78,11 +78,11 @@ public class LogProposalType implements Serializable {
 		this.actionDetail = actionDetail;
 	}
 
-	public String getActionUser() {
+	public int getActionUser() {
 		return this.actionUser;
 	}
 
-	public void setActionUser(String actionUser) {
+	public void setActionUser(int actionUser) {
 		this.actionUser = actionUser;
 	}
 

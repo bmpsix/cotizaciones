@@ -8,16 +8,20 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.Country;
+import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.services.CountryService;
 
 
 
 @Controller
+@SessionAttributes({"userSession"})
 public class CountryController {
 
 	
@@ -39,9 +43,9 @@ public class CountryController {
 	}
 	
 	@PostMapping("/admin/addcountry")
-	public String addCountry(@ModelAttribute(name = "country") Country country, Model model) {
+	public String addCountry(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "country") Country country, Model model) {
 		LOG.info("METHOD: addCountry in CountryController -- PARAMS: " + country.toString());
-		countryService.addCountry(country);
+		countryService.addCountry(country,userSession.getIdUser());
 		 return "redirect:/admin/country";
 	}
 	

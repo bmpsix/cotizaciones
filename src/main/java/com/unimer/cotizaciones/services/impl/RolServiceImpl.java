@@ -42,7 +42,7 @@ public class RolServiceImpl implements RolService {
 	
 	
 	@Override
-	public void addRol(Rol rol) {
+	public void addRol(Rol rol, int idUser) {
 
 		if (rol.getIdRol()==0) {
 				
@@ -50,7 +50,7 @@ public class RolServiceImpl implements RolService {
 				LOG.info("METHOD: addRol in RolServiceImpl -- PARAMS: " + rol.toString());
 
 			} else {
-				updateRol(rol);
+				updateRol(rol, idUser);
 			}
 
 	} 
@@ -82,11 +82,11 @@ public class RolServiceImpl implements RolService {
 		return rolJpaRepository.findByStatus((byte) 1);
 	}
 	
-	private void updateRol(Rol rol) {
+	private void updateRol(Rol rol, int idUser) {
 		java.util.Date date = new Date();
 		Rol rolToUpdate = rolJpaRepository.findByIdRol(rol.getIdRol());
 		if (rolToUpdate != null) {
-			LogRol logRol = new LogRol(date, "Role  modified", "test", rolToUpdate.getDetail(), rolToUpdate.getIdRol(),
+			LogRol logRol = new LogRol(date, "Role  modified", idUser, rolToUpdate.getDetail(), rolToUpdate.getIdRol(),
 					rolToUpdate.getStatus());
 			rolJpaRepository.save(rol);
 			logRolJpaRepository.save(logRol);

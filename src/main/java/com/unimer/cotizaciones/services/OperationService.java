@@ -5,7 +5,7 @@ import java.util.List;
 import com.unimer.cotizaciones.entities.Operation;
 
 public interface OperationService {
-	public abstract void addOperation(Operation operation);
+	public abstract void addOperation(Operation operation, int idUser);
 	
 	public abstract List<Operation> listAllOperation();
 	

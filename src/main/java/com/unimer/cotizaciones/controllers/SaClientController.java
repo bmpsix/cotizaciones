@@ -6,14 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.SaClient;
+import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.services.SaClientService;
 
 @Controller
+@SessionAttributes({"userSession"})
 public class SaClientController {
 
 	@Autowired
@@ -32,9 +36,9 @@ public class SaClientController {
 	}
 	
 	@PostMapping("/admin/addsaclient")
-	public String addSaClient(@ModelAttribute(name = "saClient") SaClient saClient, Model model) {
+	public String addSaClient(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "saClient") SaClient saClient, Model model) {
 		LOG.info("METHOD: addRol in RolController -- PARAMS: " + saClient.toString());
-		saClientService.addSaClient(saClient);
+		saClientService.addSaClient(saClient,userSession.getIdUser());
 		 return "redirect:/admin/saclient";
 	}
 	

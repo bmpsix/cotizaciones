@@ -6,15 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.Technique;
+import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.services.TechniqueService;
 
 @Controller
+@SessionAttributes({"userSession"})
 public class TechniqueController {
 	@Autowired
 	@Qualifier("TechniqueServiceImpl")
@@ -33,9 +37,9 @@ public class TechniqueController {
 	}
 	
 	@PostMapping("/admin/addtechnique")
-	public String addTechnique(@ModelAttribute(name = "Technique") Technique Technique, Model model) {
+	public String addTechnique(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "Technique") Technique Technique, Model model) {
 		LOG.info("METHOD: addTechnique in TechniqueController -- PARAMS: " + Technique.toString());
-		TechniqueService.addTechnique(Technique);
+		TechniqueService.addTechnique(Technique,userSession.getIdUser());
 		 return "redirect:/admin/technique";
 	}
 	

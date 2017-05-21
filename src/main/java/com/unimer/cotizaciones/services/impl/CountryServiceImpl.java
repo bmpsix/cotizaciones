@@ -41,7 +41,7 @@ public class CountryServiceImpl implements CountryService {
 	
 	
 	@Override
-	public void addCountry(Country country) {
+	public void addCountry(Country country, int idUser) {
 
 			if (country.getIdCountry()==0) {
 				
@@ -49,7 +49,7 @@ public class CountryServiceImpl implements CountryService {
 				LOG.info("METHOD: addCountry in CountryServiceImpl -- PARAMS: " + country.toString());
 				
 			} else {
-				updateCountry(country);
+				updateCountry(country,idUser);
 			}
 
 		} 
@@ -66,12 +66,12 @@ public class CountryServiceImpl implements CountryService {
 	}
 
 	
-	private void updateCountry(Country country) {
+	private void updateCountry(Country country, int idUser) {
 		
 		java.util.Date date = new Date();
 		Country countryToUpdate = countryJpaRepository.findByIdCountry(country.getIdCountry());
 		if (countryToUpdate != null) {
-			LogCountry logCountry = new LogCountry(date, "Country  modified", "test", countryToUpdate.getIdCountry(), countryToUpdate.getDetail(),
+			LogCountry logCountry = new LogCountry(date, "Country  modified", idUser, countryToUpdate.getIdCountry(), countryToUpdate.getDetail(),
 					countryToUpdate.getCod());
 			LOG.info("METHOD: addCountry in CountryServiceImpl -- PARAMS: " + logCountry.toString());
 			countryJpaRepository.save(country);

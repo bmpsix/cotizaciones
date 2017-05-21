@@ -35,7 +35,7 @@ public class StatusServiceImpl implements StatusService {
 	
 	
 	@Override
-	public void addStatus(Status status) {
+	public void addStatus(Status status, int idUser) {
 		
 			if (status.getIdStatus()==0) {
 				
@@ -43,7 +43,7 @@ public class StatusServiceImpl implements StatusService {
 				LOG.info("METHOD: addStatus in StatuseServiceImpl -- PARAMS: " + status.toString());
 			
 			} else {
-				updateStatus(status);
+				updateStatus(status, idUser);
 			}
 	}
 
@@ -58,11 +58,11 @@ public class StatusServiceImpl implements StatusService {
 	}
 
 
-	private void updateStatus(Status status) {
+	private void updateStatus(Status status, int idUser) {
 		java.util.Date date = new Date();
 		Status statusToUpdate = statusJpaRepository.findByIdStatus(status.getIdStatus());
 		if (statusToUpdate != null) {
-			LogStatus logStatus = new LogStatus(date, "Status  modified", "test", statusToUpdate.getDetail(), statusToUpdate.getIdStatus());
+			LogStatus logStatus = new LogStatus(date, "Status  modified", idUser, statusToUpdate.getDetail(), statusToUpdate.getIdStatus());
 			statusJpaRepository.save(status);
 			logStatusJpaRepository.save(logStatus);
 			

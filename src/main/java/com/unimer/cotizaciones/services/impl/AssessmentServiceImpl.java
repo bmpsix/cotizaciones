@@ -32,7 +32,7 @@ public class AssessmentServiceImpl implements AssessmentService {
 	
 	
 	@Override
-	public void addAssessment(Assessment assessment) {
+	public void addAssessment(Assessment assessment, int idUser) {
 		
 			if (assessment.getIdAssessment()==0) {
 				java.util.Date date = new Date();
@@ -42,7 +42,7 @@ public class AssessmentServiceImpl implements AssessmentService {
 			
 
 			} else {
-				updateAssessment(assessment);
+				updateAssessment(assessment, idUser);
 			}
 	}
 
@@ -57,13 +57,13 @@ public class AssessmentServiceImpl implements AssessmentService {
 	}
 
 	
-	@Override
-	public void updateAssessment(Assessment assessment) {
+	
+	private void updateAssessment(Assessment assessment, int idUser) {
 
 			java.util.Date date = new Date();
 			Assessment asessmentToUpdate = assessmentJpaRepository.findByIdAssessment(assessment.getIdAssessment());
 			if (asessmentToUpdate != null) {
-				LogAssessment logAssessment = new LogAssessment(date, "Assesssment  modified", "test", asessmentToUpdate.getCreationDate(),asessmentToUpdate.getDetail() ,
+				LogAssessment logAssessment = new LogAssessment(date, "Assesssment  modified", idUser, asessmentToUpdate.getCreationDate(),asessmentToUpdate.getDetail() ,
 						asessmentToUpdate.getIdAssessment(),asessmentToUpdate.getCurrencyExchange().getIdCurrencyExchange(),asessmentToUpdate.getSaClient().getIdSaClient(),asessmentToUpdate.getUser().getIdUser());
 				//assessment.setCreationDate(date);
 				assessmentJpaRepository.save(assessment);

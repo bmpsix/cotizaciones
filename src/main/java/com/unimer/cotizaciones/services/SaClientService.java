@@ -6,11 +6,9 @@ import com.unimer.cotizaciones.entities.SaClient;
 
 public interface SaClientService {
 
-	public abstract void addSaClient(SaClient saClient);
+	public abstract void addSaClient(SaClient saClient, int idUser);
 	
 	public abstract List<SaClient> listAllSaClient();
-	
-	public abstract void updateStatusById(int idSaClient, byte status);
 	
 	public abstract SaClient findById(int idSaClient);
 	

@@ -22,8 +22,8 @@ public class LogClientContact implements Serializable {
 	@Column(name="action_detail", nullable=false, length=100)
 	private String actionDetail;
 
-	@Column(name="action_user", nullable=false, length=8)
-	private String actionUser;
+	@Column(name="action_user", nullable=false)
+	private int actionUser;
 
 	@Column(nullable=false, length=20)
 	private String email;
@@ -68,11 +68,11 @@ public class LogClientContact implements Serializable {
 		this.actionDetail = actionDetail;
 	}
 
-	public String getActionUser() {
+	public int getActionUser() {
 		return this.actionUser;
 	}
 
-	public void setActionUser(String actionUser) {
+	public void setActionUser(int actionUser) {
 		this.actionUser = actionUser;
 	}
 
@@ -140,7 +140,7 @@ public class LogClientContact implements Serializable {
 		this.status = status;
 	}
 
-	public LogClientContact(Date dateRecord, String actionDetail, String actionUser, String email, String ext,
+	public LogClientContact(Date dateRecord, String actionDetail, int actionUser, String email, String ext,
 			int idClient, int idClientContact, int idCountry, String name, String phone, byte status) {
 		super();
 		this.dateRecord = dateRecord;

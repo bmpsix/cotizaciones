@@ -45,7 +45,7 @@ public class CountryByCurrencyTypeServiceImpl implements CountryByCurrencyTypeSe
 
 
 	@Override
-	public void addCountryByCurrencyType(int idCountry,int idCurrencyType) {
+	public void addCountryByCurrencyType(int idCountry,int idCurrencyType, int idUser) {
 		LOG.info("METHOD: addCountryByCurrencyType in CountryByCurrencyTypeServiceImpl -- PARAMS: idCountry: "+idCountry+" idCurrencyType: "+idCurrencyType);
 		Country country = countryJpaRepository.findByIdCountry(idCountry);
 		CurrencyType currencyType= currencyTypeJpaRepository.findByIdCurrencyType(idCurrencyType);

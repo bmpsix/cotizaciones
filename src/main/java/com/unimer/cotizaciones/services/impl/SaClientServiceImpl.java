@@ -36,7 +36,7 @@ public class SaClientServiceImpl implements SaClientService {
 	private static final Log LOG = LogFactory.getLog(SaClientServiceImpl.class);
 	
 	@Override
-	public void addSaClient(SaClient saClient) {
+	public void addSaClient(SaClient saClient, int idUser) {
 		
 			if (saClient.getIdSaClient()==0) {
 				
@@ -45,7 +45,7 @@ public class SaClientServiceImpl implements SaClientService {
 				
 
 			} else {
-				updateSaClient(saClient);
+				updateSaClient(saClient,idUser);
 			}
 
 		}
@@ -55,16 +55,6 @@ public class SaClientServiceImpl implements SaClientService {
 		return saClientJpaRepository.findAll();
 	}
 
-	@Override
-	public void updateStatusById(int idSaClient, byte status) {
-		SaClient saClient = saClientJpaRepository.findByIdSaClient(idSaClient);
-
-		if (saClient != null) {
-			saClient.setStatus(status);
-			saClientJpaRepository.save(saClient);
-		}
-
-	}
 
 	@Override
 	public SaClient findById(int idSaClient) {
@@ -72,11 +62,11 @@ public class SaClientServiceImpl implements SaClientService {
 	}
 
 	
-	private void updateSaClient(SaClient saClient) {
+	private void updateSaClient(SaClient saClient, int idUser) {
 		java.util.Date date = new Date();
 		SaClient saClientToUpdate = saClientJpaRepository.findByIdSaClient(saClient.getIdSaClient());
 		if (saClientToUpdate != null) {
-			LogSaClient logSaClient = new LogSaClient(date, "SA client  modified", "test", saClientToUpdate.getDetail(), saClientToUpdate.getIdSaClient(),
+			LogSaClient logSaClient = new LogSaClient(date, "SA client  modified", idUser, saClientToUpdate.getDetail(), saClientToUpdate.getIdSaClient(),
 					saClientToUpdate.getStatus());
 			saClientJpaRepository.save(saClient);
 			logSaClientJpaRepository.save(logSaClient);

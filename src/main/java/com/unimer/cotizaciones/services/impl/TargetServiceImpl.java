@@ -34,14 +34,14 @@ public class TargetServiceImpl implements TargetService {
 	
 	
 	@Override
-	public void addTarget(Target target) {
+	public void addTarget(Target target, int idUser) {
 		
 			if (target.getIdTarget()==0) {
 				
 				targetJpaRepository.save(target);
 				LOG.info("METHOD: addtarget in targetServiceImpl -- PARAMS: " + target.toString());
 			} else {
-				updateTarget(target);
+				updateTarget(target, idUser);
 			}
 		} 
 	
@@ -58,14 +58,14 @@ public class TargetServiceImpl implements TargetService {
 		return targetJpaRepository.findByIdTarget(idTarget);
 	}
 
-	private void updateTarget(Target target)
+	private void updateTarget(Target target, int idUser)
 	
 	{
 		java.util.Date date = new Date();
 		Target targetToUpdate = targetJpaRepository.findByIdTarget(target.getIdTarget());
 		if (targetToUpdate != null)
 		{
-			LogTarget logTarget = new LogTarget(date, "Target  modified", "test", targetToUpdate.getCreationDate(), targetToUpdate.getEndDate(),targetToUpdate.getIdTarget(),targetToUpdate.getInitialDate(),targetToUpdate.getObservations());
+			LogTarget logTarget = new LogTarget(date, "Target  modified", idUser, targetToUpdate.getCreationDate(), targetToUpdate.getEndDate(),targetToUpdate.getIdTarget(),targetToUpdate.getInitialDate(),targetToUpdate.getObservations());
 			LOG.info("METHOD: updateTarget in targetServiceImpl -- PARAMS: " + logTarget.toString());
 			targetJpaRepository.save(target);
 			logTargetJpaRepository.save(logTarget);

@@ -7,11 +7,9 @@ import com.unimer.cotizaciones.entities.CurrencyType;
 public interface CurrencyTypeService {
 	
 	
-	public abstract void addCurrencyType(CurrencyType currencyType);
+	public abstract void addCurrencyType(CurrencyType currencyType, int idUser);
 	
 	public abstract List<CurrencyType> listAllCurrencyType();
-	
-	public abstract void updateCurrencyType(CurrencyType currencyType);
 	
 	public abstract CurrencyType getCurrencyType(int idCurrencyType);
 	

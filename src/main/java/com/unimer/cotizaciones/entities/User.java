@@ -75,7 +75,7 @@ public class User implements Serializable {
 	@Column(nullable=false, length=50)
 	private String midname;
 
-	@Column(nullable=false)
+	@Column(nullable=false, length=100)
 	private String password;
 
 	@Column(nullable=false)
@@ -87,7 +87,7 @@ public class User implements Serializable {
 	@Column(nullable=false, length=50)
 	private String name;
 	
-	@Column(nullable=false)
+	@Column(nullable=false, length=100, unique=true)
 	private String email;
 
 	//bi-directional many-to-one association to Country

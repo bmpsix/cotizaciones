@@ -33,7 +33,7 @@ public class IndustrySectorServiceImpl implements IndustrySectorService{
 	String ipCliente="";
 	
 	@Override
-	public void addIndustrySector(IndustrySector industrySector) {
+	public void addIndustrySector(IndustrySector industrySector, int idUser) {
 
 
 			if (industrySector.getIdIndustrySector()==0) {
@@ -42,7 +42,7 @@ public class IndustrySectorServiceImpl implements IndustrySectorService{
 				LOG.info("METHOD: addIndustrySector in IndustrySectorServiceImpl -- PARAMS: " + industrySector.toString());
 				
 			} else {
-				updateIndustrySector(industrySector);
+				updateIndustrySector(industrySector, idUser);
 			}
 
 		}
@@ -58,11 +58,11 @@ public class IndustrySectorServiceImpl implements IndustrySectorService{
 		return industrySectorJpaRepository.findByIdIndustrySector(idIndustrySector);
 	}
 
-	private void updateIndustrySector(IndustrySector industrySector) {
+	private void updateIndustrySector(IndustrySector industrySector, int idUser) {
 		java.util.Date date = new Date();
 		IndustrySector industrySectorToUpdate = industrySectorJpaRepository.findByIdIndustrySector(industrySector.getIdIndustrySector());
 		if (industrySectorToUpdate != null) {
-			LogIndustrySector logIndustrySector = new LogIndustrySector(date, "IndustrySector  modified", "test", industrySectorToUpdate.getDetail(), industrySectorToUpdate.getIdIndustrySector());
+			LogIndustrySector logIndustrySector = new LogIndustrySector(date, "IndustrySector  modified", idUser, industrySectorToUpdate.getDetail(), industrySectorToUpdate.getIdIndustrySector());
 			industrySectorJpaRepository.save(industrySector);
 			logIndustrySectorJpaRepository.save(logIndustrySector);
 			

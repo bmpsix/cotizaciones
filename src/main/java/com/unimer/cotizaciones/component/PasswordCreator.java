@@ -1,4 +1,4 @@
-package com.unimer.cotizaciones;
+package com.unimer.cotizaciones.component;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;

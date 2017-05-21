@@ -8,7 +8,7 @@ import com.unimer.cotizaciones.entities.Technique;
 
 public interface TechniqueService {
 
-	public abstract void addTechnique(Technique Technique);
+	public abstract void addTechnique(Technique Technique, int idUser);
 	
 	public abstract List<Technique> listAllTechniques();	
 

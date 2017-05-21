@@ -28,7 +28,7 @@ public class CurrencyTypeServiceImpl implements CurrencyTypeService{
 	private static final Log LOG = LogFactory.getLog(CurrencyTypeServiceImpl.class);
 
 	@Override
-	public void addCurrencyType(CurrencyType currencyType) {
+	public void addCurrencyType(CurrencyType currencyType, int idUser) {
 		
 			if (currencyType.getIdCurrencyType()==0) {
 				
@@ -36,7 +36,7 @@ public class CurrencyTypeServiceImpl implements CurrencyTypeService{
 				LOG.info("METHOD: addCurrencyType in currencyTypeJpaRepository -- PARAMS: " + currencyType.toString());
 			
 			} else {
-				updateCurrencyType(currencyType);
+				updateCurrencyType(currencyType, idUser);
 			}
 
 		}
@@ -46,13 +46,13 @@ public class CurrencyTypeServiceImpl implements CurrencyTypeService{
 		return currencyTypeJpaRepository.findAll();
 	}
 
-	@Override
-	public void updateCurrencyType(CurrencyType currencyType) {
+	
+	private void updateCurrencyType(CurrencyType currencyType, int idUser) {
 		
 		java.util.Date date = new Date();
 		CurrencyType currencyTypeToUpdate = currencyTypeJpaRepository.findByIdCurrencyType(currencyType.getIdCurrencyType());
 		if (currencyTypeToUpdate != null) {
-			LogCurrencyType logCurrencyType= new LogCurrencyType(date, "Currency Type  modified", "test", currencyTypeToUpdate.getDetail(), 
+			LogCurrencyType logCurrencyType= new LogCurrencyType(date, "Currency Type  modified", idUser, currencyTypeToUpdate.getDetail(), 
 					currencyTypeToUpdate.getFavorite(),currencyTypeToUpdate.getIdCurrencyType(),currencyTypeToUpdate.getStatus(),currencyTypeToUpdate.getSymbol());
 			currencyTypeJpaRepository.save(currencyType);
 			logCurrencyTypeJpaRepository.save(logCurrencyType);

@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +47,9 @@ public class UserController {
 	@PostMapping("/admin/adduser")
 	public String addUser(@ModelAttribute(name = "user") User user, Model model) {
 		LOG.info("METHOD: addUser in UserController -- PARAMS: " + user.toString());
-		userService.addUser(user);
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		User userSession = userService.findByEmail(email);
+		userService.addUser(user,userSession.getIdUser());
 		return "redirect:/admin/user";
 	}
 

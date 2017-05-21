@@ -32,7 +32,7 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 	String ipCliente="";
 
 	@Override
-	public void addCurrencyExchange(CurrencyExchange currencyExchange) {
+	public void addCurrencyExchange(CurrencyExchange currencyExchange, int idUser) {
 		
 		if (currencyExchange.getIdCurrencyExchange()==0) {
 				
@@ -40,7 +40,7 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 				LOG.info("METHOD: addCurrencyExchange in currencyExchangeJpaRepository -- PARAMS: " + currencyExchange.toString());
 				
 			} else {
-				updateCurrencyExchange(currencyExchange);
+				updateCurrencyExchange(currencyExchange,idUser);
 			}
 
 		} 
@@ -60,14 +60,14 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 		}
 	}
 
-	private void updateCurrencyExchange(CurrencyExchange currencyExchange) {
+	private void updateCurrencyExchange(CurrencyExchange currencyExchange, int idUser) {
 		
 		java.util.Date date = new Date();
 		currencyExchange.setDate(new Date());
 		CurrencyExchange currencyExchangeToUpdate = currencyExchangeJpaRepository.findByIdCurrencyExchange(currencyExchange.getIdCurrencyExchange());
 		LOG.info("METHOD: currencyExchangeToUpdate in currencyExchangeJpaRepository -- PARAMS: currencyExchangeToUpdate" + currencyExchange.toString() + currencyExchangeToUpdate.toString() );
 		if (currencyExchangeToUpdate != null) {
-			LogCurrencyExchange logCurrencyExchange = new LogCurrencyExchange(date, "Currency Exchange  modified", "test", currencyExchange.getBuy(),
+			LogCurrencyExchange logCurrencyExchange = new LogCurrencyExchange(date, "Currency Exchange  modified",idUser, currencyExchange.getBuy(),
 					currencyExchange.getDate(),currencyExchange.getCountry().getIdCountry(),currencyExchange.getIdCurrencyExchange(),currencyExchange.getCurrencyType().getIdCurrencyType(),currencyExchange.getSell());
 			currencyExchangeJpaRepository.save(currencyExchange);
 			logCurrencyExchangeJpaRepository.save(logCurrencyExchange);

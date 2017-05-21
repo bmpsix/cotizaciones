@@ -8,7 +8,7 @@ import com.unimer.cotizaciones.entities.Country;
 public interface CountryByCurrencyTypeService {
 	
 	public abstract List<Country> listAllCountryByCurrencyType();
-	public abstract void addCountryByCurrencyType(int idCountry,int idCurrencyType);
+	public abstract void addCountryByCurrencyType(int idCountry,int idCurrencyType, int idUser);
 	
 	
 }

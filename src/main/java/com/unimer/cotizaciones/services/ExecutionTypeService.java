@@ -7,7 +7,7 @@ import com.unimer.cotizaciones.entities.ExecutionType;
 public interface ExecutionTypeService {
 
 
-	public abstract void addExecutionType(ExecutionType executionType);
+	public abstract void addExecutionType(ExecutionType executionType, int idUser);
 	
 	public abstract List<ExecutionType> listAllExecutionType();
 	

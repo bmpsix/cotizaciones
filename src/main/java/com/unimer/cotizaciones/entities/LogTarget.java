@@ -22,8 +22,8 @@ public class LogTarget implements Serializable {
 	@Column(name="action_detail", nullable=false, length=100)
 	private String actionDetail;
 
-	@Column(name="action_user", nullable=false, length=8)
-	private String actionUser;
+	@Column(name="action_user", nullable=false)
+	private int actionUser;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="creation_date", nullable=false)
@@ -62,11 +62,11 @@ public class LogTarget implements Serializable {
 		this.actionDetail = actionDetail;
 	}
 
-	public String getActionUser() {
+	public int getActionUser() {
 		return this.actionUser;
 	}
 
-	public void setActionUser(String actionUser) {
+	public void setActionUser(int actionUser) {
 		this.actionUser = actionUser;
 	}
 
@@ -117,7 +117,7 @@ public class LogTarget implements Serializable {
 				+ ", initialDate=" + initialDate + ", observations=" + observations + "]";
 	}
 
-	public LogTarget(Date dateRecord, String actionDetail, String actionUser, Date creationDate, Date endDate,
+	public LogTarget(Date dateRecord, String actionDetail, int actionUser, Date creationDate, Date endDate,
 			int idTarget, Date initialDate, String observations) {
 		super();
 		this.dateRecord = dateRecord;

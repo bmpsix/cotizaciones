@@ -6,7 +6,7 @@ import com.unimer.cotizaciones.entities.ClientType;
 
 public interface ClientTypeService {
 
-public abstract void addClientType(ClientType clientType);
+public abstract void addClientType(ClientType clientType, int idUser);
 	
 	public abstract List<ClientType> listAllClientType();
 	

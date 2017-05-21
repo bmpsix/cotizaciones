@@ -37,7 +37,7 @@ public class OperationServiceImpl implements OperationService {
 	
 
 	@Override
-	public void addOperation(Operation operation) {
+	public void addOperation(Operation operation, int idUser) {
 	
 
 			if (operation.getIdOperation()==0) {
@@ -46,7 +46,7 @@ public class OperationServiceImpl implements OperationService {
 				LOG.info("METHOD: addOperation in OperationServiceImpl -- PARAMS: " + operation.toString());
 			
 			} else {
-				 updateOperation(operation);
+				 updateOperation(operation, idUser);
 			}
 
 		} 
@@ -61,11 +61,11 @@ public class OperationServiceImpl implements OperationService {
 		return operationJpaRepository.findByIdOperation(idOperation);
 	}
 
-	private void updateOperation(Operation operation) {
+	private void updateOperation(Operation operation, int idUser) {
 		java.util.Date date = new Date();
 		Operation operationToUpdate = operationJpaRepository.findByIdOperation(operation.getIdOperation());
 		if (operationToUpdate != null) {
-			LogOperation logOperation = new LogOperation(date, "Operation  modified", "test", operationToUpdate.getDetail(),operationToUpdate.getIdOperation());
+			LogOperation logOperation = new LogOperation(date, "Operation  modified", idUser, operationToUpdate.getDetail(),operationToUpdate.getIdOperation());
 			operationJpaRepository.save(operation);
 			logOperationJpaRepository.save(logOperation);
 		

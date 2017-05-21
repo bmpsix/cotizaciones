@@ -11,7 +11,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import com.unimer.cotizaciones.PasswordCreator;
+
+import com.unimer.cotizaciones.component.PasswordCreator;
 import com.unimer.cotizaciones.entities.LogUser;
 import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.repositories.LogUserJpaRepository;
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
 	
 	@Override
-	public void addUser(User user) {
+	public void addUser(User user, int idUser) {
 		
 			if (user.getIdUser()==0) {
 				java.util.Date date = new Date();
@@ -78,13 +79,13 @@ public class UserServiceImpl implements UserService {
 				userJpaRepository.save(user);
 
 			} else {
-				updateUser(user);
+				updateUser(user,idUser);
 			}
 
 	}
 
 
-	private void updateUser(User user) {
+	private void updateUser(User user, int idUser) {
 		java.util.Date date = new Date();
 		User userToUpdate = userJpaRepository.findByIdUser(user.getIdUser());
 		user.setCommissionAmount(userToUpdate.getCommissionAmount());
@@ -95,12 +96,13 @@ public class UserServiceImpl implements UserService {
 		user.setLastLoggin(userToUpdate.getLastLoggin());
 		user.setLastModification(date);
 		user.setPassword(passwordCreator.EncodePass(user.getPassword()));
-		LOG.info("METHOD: updateUser in userServiceImpl -- PARAMS: " + user.toString());
+		LOG.info("METHOD: updateUser  User in userServiceImpl -- PARAMS: " + user.toString());
+		LOG.info("METHOD: updateUser  userToUpdate in userServiceImpl -- PARAMS: " + user.toString());
 		if (userToUpdate != null) {
-			LogUser logUser = new LogUser(date,userToUpdate.getAccountBank(),"User modified", "test",userToUpdate.getCommissionAmount(),
+			LogUser logUser = new LogUser(date,userToUpdate.getAccountBank(),"User modified", idUser,userToUpdate.getCommissionAmount(),
 					userToUpdate.getConfirmationToken(), userToUpdate.getCreationDate(), userToUpdate.getCredentialExpired(), userToUpdate.getCredentialExpiredAt(), userToUpdate.getExpired(),
 					userToUpdate.getExpiredAt(), userToUpdate.getCountry().getIdCountry(), userToUpdate.getRol().getIdRol(), userToUpdate.getIdUser(), userToUpdate.getLastLoggin(),userToUpdate.getLastModification(),
-					userToUpdate.getLastname(), userToUpdate.getMidname(), userToUpdate.getPassword(), userToUpdate.getStatus(), userToUpdate.getUseCommission(), userToUpdate.getName(), userToUpdate.getEmail());
+					userToUpdate.getLastname(), userToUpdate.getMidname(), userToUpdate.getStatus(), userToUpdate.getUseCommission(), userToUpdate.getName(), userToUpdate.getEmail());
 			userJpaRepository.save(user);
 			logUserJpaRepository.save(logUser);
 		}

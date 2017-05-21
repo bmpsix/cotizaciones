@@ -44,7 +44,7 @@ public class TechniqueServiceImpl implements TechniqueService{
 	
 	
 	@Override
-	public void addTechnique(Technique Technique) {
+	public void addTechnique(Technique Technique, int idUser) {
 
 		
 
@@ -55,7 +55,7 @@ public class TechniqueServiceImpl implements TechniqueService{
 			
 
 			} else {
-				updateTechnique(Technique);
+				updateTechnique(Technique, idUser);
 			}
 
 		}
@@ -72,11 +72,11 @@ public class TechniqueServiceImpl implements TechniqueService{
 	}
 
 	
-	private void updateTechnique(Technique Technique) {
+	private void updateTechnique(Technique Technique, int idUser) {
 		java.util.Date date = new Date();
 		Technique TechniqueToUpdate = TechniqueJpaRepository.findByIdTechnique(Technique.getIdTechnique());
 		if (TechniqueToUpdate != null) {
-			LogTechnique logTechnique = new LogTechnique(date, "Technique  modified", "test", TechniqueToUpdate.getDetail(), TechniqueToUpdate.getIdTechnique());
+			LogTechnique logTechnique = new LogTechnique(date, "Technique  modified", idUser, TechniqueToUpdate.getDetail(), TechniqueToUpdate.getIdTechnique());
 			TechniqueJpaRepository.save(Technique);
 			logTechniqueJpaRepository.save(logTechnique);
 			

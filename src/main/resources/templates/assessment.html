@@ -42,7 +42,7 @@
 							<label for="user">Usuario:</label>
 							<select  name="idUser" >
 								<option th:each="user : ${users}" th:value="${user.idUser}">
-									<p th:text="${user.username}" th:value="${user.idUser}" ></p>
+									<p th:text="${user.name}" th:value="${user.idUser}" ></p>
 								</option>
 							</select>
 							
@@ -82,10 +82,10 @@
 							
 							<select  name="idUser" >
 								<option th:each="user : ${users}" th:value="${user.idUser}" th:if="${updateAssessment.User.idUser == user.idUser}"  selected readonly>
-									<p th:text="${user.username}" th:value="${user.idUser}" ></p>
+									<p th:text="${user.name}" th:value="${user.idUser}" ></p>
 								</option>
 								<option th:each="user : ${users}" th:value="${user.idUser}" th:if="${updateAssessment.User.idUser != user.idUser}"   readonly>
-									<p th:text="${user.username}" th:value="${user.idUser}" ></p>
+									<p th:text="${user.name}" th:value="${user.idUser}" ></p>
 								</option>
 							</select>
 							
@@ -122,7 +122,7 @@
 							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.detail}"></td>
 							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.currencyExchange.currencyType.detail}"></td>
 							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.saClient.detail}"></td>
-							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.user.username}"></td>
+							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.user.name}"></td>
 	           				<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;"><a href="#" th:href="@{/admin/updateassesssment?idAssessment=__${assessment.idAssessment}__}"  >Editar</a></td>		
            				</tr>
            				

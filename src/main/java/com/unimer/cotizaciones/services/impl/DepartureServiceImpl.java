@@ -36,7 +36,7 @@ public class DepartureServiceImpl implements DepartureService{
 	private static final Log LOG = LogFactory.getLog(DepartureServiceImpl.class);
 	
 	@Override
-	public void addDeparture(Departure departure) {
+	public void addDeparture(Departure departure, int idUser) {
 	
 
 			if (departure.getIdDeparture()==0) {
@@ -45,7 +45,7 @@ public class DepartureServiceImpl implements DepartureService{
 				LOG.info("METHOD: addDeparture in DepartureServiceImpl -- PARAMS: " + departure.toString());
 			
 			} else {
-				 updateDeparture(departure);
+				 updateDeparture(departure, idUser);
 			}
 
 		} 
@@ -60,11 +60,11 @@ public class DepartureServiceImpl implements DepartureService{
 		return departureJpaRepository.findByIdDeparture(idDeparture);
 	}
 	
-	private void updateDeparture(Departure departure) {
+	private void updateDeparture(Departure departure, int idUser) {
 		java.util.Date date = new Date();
 		Departure departureToUpdate = departureJpaRepository.findByIdDeparture(departure.getIdDeparture());
 		if (departureToUpdate != null) {
-			LogDeparture logDeparture = new LogDeparture(date, "Departure modified", "test", departureToUpdate.getDetail(),departureToUpdate.getIdDeparture());
+			LogDeparture logDeparture = new LogDeparture(date, "Departure modified",idUser, departureToUpdate.getDetail(),departureToUpdate.getIdDeparture());
 			departureJpaRepository.save(departure);
 			logDepartureJpaRepository.save(logDeparture);
 		

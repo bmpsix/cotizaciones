@@ -20,6 +20,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="trace_response")
 public class TraceResponse implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -27,16 +28,19 @@ public class TraceResponse implements Serializable {
 	@Column(name="id_trace_response", unique=true, nullable=false)
 	private int idTraceResponse;
 
-	@Column(name="action_user", length=8)
-	private String actionUser;
+	@Column(name="action_user", nullable=false)
+	private int actionUser;
 
-	@Column(nullable=false, length=100)
+	@Column(nullable=false, length=200)
 	private String detail;
+	
+	@Column(nullable=false, length=150)
+	private String url;
 
-	@Column(nullable=false, length=25)
+	@Column(nullable=false, length=50)
 	private String ip;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="entry_date", nullable=false)
 	private Date entryDate;
 	
@@ -48,8 +52,6 @@ public class TraceResponse implements Serializable {
 		this.entryDate = entryDate;
 	}
 
-	public TraceResponse() {
-	}
 
 
 	
@@ -66,11 +68,11 @@ public class TraceResponse implements Serializable {
 
 
 
-	public String getActionUser() {
+	public int getActionUser() {
 		return this.actionUser;
 	}
 
-	public void setActionUser(String actionUser) {
+	public void setActionUser(int actionUser) {
 		this.actionUser = actionUser;
 	}
 
@@ -89,26 +91,35 @@ public class TraceResponse implements Serializable {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
+	
+	public String getUrl() {
+		return url;
+	}
 
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
 
+	public TraceResponse(int actionUser, String detail, String url, String ip, Date entryDate) {
+		super();
+		this.actionUser = actionUser;
+		this.detail = detail;
+		this.url = url;
+		this.ip = ip;
+		this.entryDate = entryDate;
+	}
+
+	public TraceResponse() {
+	}
 
 	@Override
 	public String toString() {
 		return "TraceResponse [idTraceResponse=" + idTraceResponse + ", actionUser=" + actionUser + ", detail=" + detail
-				+ ", ip=" + ip + ", entrydate"+ entryDate +"]";
+				+ ", url=" + url + ", ip=" + ip + ", entryDate=" + entryDate + "]";
 	}
 
-
-
-	public TraceResponse(String actionUser, String detail, String ip, Date entrydate) {
-		super();
 	
-		this.actionUser = actionUser;
-		this.detail = detail;
-		this.ip = ip;
-		this.entryDate = entrydate;
-		
-	}
 
 	
 	

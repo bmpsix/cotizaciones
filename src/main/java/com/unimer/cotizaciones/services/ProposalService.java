@@ -7,7 +7,7 @@ public interface ProposalService {
 
 	
 	
-	public abstract void addProposalType(ProposalType proposalType);
+	public abstract void addProposalType(ProposalType proposalType, int idUser);
 	
 	public abstract List<ProposalType> listAllProposalTypes();
 	

@@ -22,8 +22,8 @@ public class LogCountryByCurrencyType implements Serializable {
 	@Column(name="action_detail", nullable=false, length=100)
 	private String actionDetail;
 
-	@Column(name="action_user", nullable=false, length=8)
-	private String actionUser;
+	@Column(name="action_user", nullable=false)
+	private int actionUser;
 
 	@Column(name="id_country", nullable=false, length=8)
 	private int idCountry;
@@ -50,11 +50,11 @@ public class LogCountryByCurrencyType implements Serializable {
 		this.actionDetail = actionDetail;
 	}
 
-	public String getActionUser() {
+	public int getActionUser() {
 		return this.actionUser;
 	}
 
-	public void setActionUser(String actionUser) {
+	public void setActionUser(int actionUser) {
 		this.actionUser = actionUser;
 	}
 
@@ -79,6 +79,17 @@ public class LogCountryByCurrencyType implements Serializable {
 		return "LogCountryByCurrencyType [dateRecord=" + dateRecord + ", actionDetail=" + actionDetail + ", actionUser="
 				+ actionUser + ", idCountry=" + idCountry + ", idCurrencyType=" + idCurrencyType + "]";
 	}
+
+	public LogCountryByCurrencyType(Date dateRecord, String actionDetail, int actionUser, int idCountry,
+			int idCurrencyType) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.idCountry = idCountry;
+		this.idCurrencyType = idCurrencyType;
+	}
+	
 	
 	
 

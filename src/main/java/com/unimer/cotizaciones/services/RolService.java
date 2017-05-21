@@ -8,7 +8,7 @@ import com.unimer.cotizaciones.entities.Rol;
 
 public interface RolService {
 
-	public abstract void addRol(Rol rol);
+	public abstract void addRol(Rol rol, int idUser);
 	
 	public abstract List<Rol> listAllRol();
 	

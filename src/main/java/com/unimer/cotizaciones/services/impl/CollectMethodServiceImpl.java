@@ -34,7 +34,7 @@ public class CollectMethodServiceImpl implements CollectMethodService{
 	
 
 	@Override
-	public void addCollectMethod(CollectMethod collectmethod) {
+	public void addCollectMethod(CollectMethod collectmethod, int idUser) {
 		
 	if (collectmethod.getIdCollectMethod()==0) {
 				
@@ -42,18 +42,18 @@ public class CollectMethodServiceImpl implements CollectMethodService{
 				LOG.info("METHOD: addCollectMethod in CollectMethodServiceImpl -- PARAMS: " + collectmethod.toString());
 				
 			} else {
-				updateCollectMethod(collectmethod);
+				updateCollectMethod(collectmethod, idUser);
 			}
 
 		} 
 
-	@Override
-	public void updateCollectMethod(CollectMethod collectMethod) {
+	
+	private void updateCollectMethod(CollectMethod collectMethod, int idUser) {
 		
 		java.util.Date date = new Date();
 		CollectMethod collectMethodToUpdate = collectMethodJpaRepository.findByIdCollectMethod(collectMethod.getIdCollectMethod());
 		if (collectMethodToUpdate != null) {
-			LogCollectMethod logCollectMethod = new LogCollectMethod(date, "Collect Method  modified", "test", collectMethodToUpdate.getDetail(), 
+			LogCollectMethod logCollectMethod = new LogCollectMethod(date, "Collect Method  modified",  idUser, collectMethodToUpdate.getDetail(), 
 					collectMethodToUpdate.getIdCollectMethod());
 			collectMethodJpaRepository.save(collectMethod);
 			logCollectMethodJpaRepository.save(logCollectMethod);

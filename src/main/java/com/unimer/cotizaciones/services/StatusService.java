@@ -6,7 +6,7 @@ import com.unimer.cotizaciones.entities.Status;
 
 public interface StatusService {
 
-public abstract void addStatus(Status status);
+public abstract void addStatus(Status status, int idUser);
 	
 	public abstract List<Status> listAllStatus();
 	

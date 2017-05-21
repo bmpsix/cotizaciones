@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.Assessment;
 import com.unimer.cotizaciones.entities.CurrencyExchange;
@@ -20,6 +23,7 @@ import com.unimer.cotizaciones.services.SaClientService;
 import com.unimer.cotizaciones.services.UserService;
 
 @Controller
+@SessionAttributes({"userSession"})
 public class AssessmentController {
 	
 	@Autowired
@@ -54,7 +58,7 @@ public class AssessmentController {
 	
 	
 	@PostMapping("/admin/addassessment")
-	public String addAssessment(@RequestParam("idAssessment") int idAssessment,@RequestParam("detail") String detail, @RequestParam("idCurrencyExchange") int idCurrencyExchange,@RequestParam("idSaClient") int idSaClient,@RequestParam("idUser") int idUser) {
+	public String addAssessment(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@RequestParam("idAssessment") int idAssessment,@RequestParam("detail") String detail, @RequestParam("idCurrencyExchange") int idCurrencyExchange,@RequestParam("idSaClient") int idSaClient,@RequestParam("idUser") int idUser) {
 		LOG.info("METHOD: addAssessment in AssessmentController -- PARAMS: detail: "+detail+" idCurrencyExchange: "+idCurrencyExchange+" saClient: "+idSaClient+" idUser: "+idUser );
 		CurrencyExchange currencyExchange = new CurrencyExchange();
 		currencyExchange = currencyExchangeService.getCurrencyExchange(idCurrencyExchange);
@@ -68,7 +72,7 @@ public class AssessmentController {
 		assessment.setDetail(detail);
 		assessment.setSaClient(saClient);
 		assessment.setUser(user);
-		assessmentService.addAssessment(assessment);
+		assessmentService.addAssessment(assessment,userSession.getIdUser());
 		return "redirect:/admin/assessment";
 	}
 	

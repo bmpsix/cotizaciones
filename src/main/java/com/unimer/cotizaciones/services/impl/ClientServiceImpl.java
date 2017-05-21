@@ -34,7 +34,7 @@ public class ClientServiceImpl implements ClientService {
 	
 
 	@Override
-	public void addClient(Client client) {
+	public void addClient(Client client, int idUser) {
 		
 			if (client.getIdClient()==0) {
 				
@@ -42,7 +42,7 @@ public class ClientServiceImpl implements ClientService {
 				LOG.info("METHOD: addClient in ClientServiceImpl -- PARAMS: " + client.toString());
 			
 			} else {
-				 updateClient(client);
+				 updateClient(client, idUser);
 			}
 
 		} 
@@ -62,12 +62,12 @@ public class ClientServiceImpl implements ClientService {
 		return clientJpaRepository.findByStatus((byte) 1);
 	}
 	
-	private void updateClient(Client client) {
+	private void updateClient(Client client, int idUser) {
 		java.util.Date date = new Date();
 		Client clientToUpdate = clientJpaRepository.findByIdClient(client.getIdClient());
 		if (clientToUpdate != null) {
 			
-			LogClient logClient = new LogClient(date, "Client  modified", "test", clientToUpdate.getDetail(), clientToUpdate.getEmail(),clientToUpdate.getFax(), clientToUpdate.getIdClient(),clientToUpdate.getClientType().getIdClientType(),clientToUpdate.getCountry().getIdCountry(),clientToUpdate.getSaClient().getIdSaClient(),clientToUpdate.getPhone(),clientToUpdate.getStatus());
+			LogClient logClient = new LogClient(date, "Client  modified", idUser, clientToUpdate.getDetail(), clientToUpdate.getEmail(),clientToUpdate.getFax(), clientToUpdate.getIdClient(),clientToUpdate.getClientType().getIdClientType(),clientToUpdate.getCountry().getIdCountry(),clientToUpdate.getSaClient().getIdSaClient(),clientToUpdate.getPhone(),clientToUpdate.getStatus());
 			clientJpaRepository.save(client);
 			logClientJpaRepository.save(logClient);
 			

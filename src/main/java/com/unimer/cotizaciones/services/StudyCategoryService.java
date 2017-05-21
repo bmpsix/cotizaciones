@@ -8,7 +8,7 @@ import com.unimer.cotizaciones.entities.StudyCategory;
 
 public interface StudyCategoryService {
 
-	public abstract void addStudyCategory(StudyCategory studyCategory);
+	public abstract void addStudyCategory(StudyCategory studyCategory, int idUser);
 	
 	public abstract List<StudyCategory> listAllStudyCategories();	
 

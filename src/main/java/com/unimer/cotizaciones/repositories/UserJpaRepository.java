@@ -2,7 +2,11 @@ package com.unimer.cotizaciones.repositories;
 
 import java.io.Serializable;
 
-import org.springframework.data.jpa.repository.JpaRepository;import org.springframework.stereotype.Repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import com.unimer.cotizaciones.entities.User;
 
@@ -10,7 +14,9 @@ import com.unimer.cotizaciones.entities.User;
 public interface UserJpaRepository extends JpaRepository<User, Serializable>{
 	
 	public abstract User findByIdUser(int idUser);
-	public abstract User findByEmail(String email);
+	
+	@Query("select U from User U where U.email like %:email%")
+	public abstract User findByEmail(@Param("email")String email);
 	
 	
 }

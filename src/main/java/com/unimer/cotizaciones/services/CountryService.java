@@ -7,7 +7,7 @@ import com.unimer.cotizaciones.entities.Country;
 
 public interface CountryService {
 	
-	public abstract void addCountry(Country country);
+	public abstract void addCountry(Country country, int idUser);
 	
 	public abstract List<Country> listAllCountries();	
 

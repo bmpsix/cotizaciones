@@ -7,7 +7,7 @@ import com.unimer.cotizaciones.entities.ClientContact;
 
 public interface ClientContactService {
 
-	public abstract void addClientContact(ClientContact clientContact);
+	public abstract void addClientContact(ClientContact clientContact, int idUser);
 	
 	public abstract List<ClientContact> listAllClientContact();
 	

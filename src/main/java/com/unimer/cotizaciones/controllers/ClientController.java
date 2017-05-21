@@ -6,18 +6,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.Client;
+import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.services.ClientService;
 import com.unimer.cotizaciones.services.ClientTypeService;
 import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.SaClientService;
 
 @Controller
+@SessionAttributes({"userSession"})
 public class ClientController {
 	
 	@Autowired
@@ -53,9 +57,9 @@ public class ClientController {
 	}
 	
 	@PostMapping("/admin/addclient")
-	public String addClient(@ModelAttribute(name = "client") Client client, Model model){
+	public String addClient(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "client") Client client, Model model){
 		LOG.info("METHOD: addClient in ClientController -- PARAMS: " + client.toString());
-		clientService.addClient(client);
+		clientService.addClient(client,userSession.getIdUser());
 			return"redirect:/admin/client";
 	}
 	

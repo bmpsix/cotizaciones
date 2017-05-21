@@ -34,7 +34,7 @@ public class StudyCategoryServiceImpl implements StudyCategoryService{
 	private static final Log LOG = LogFactory.getLog(StudyCategoryServiceImpl.class);
 	
 	@Override
-	public void  addStudyCategory(StudyCategory studyCategory) {
+	public void  addStudyCategory(StudyCategory studyCategory, int idUser) {
 
 	if (studyCategory.getIdStudyCategory()==0) {
 				
@@ -43,7 +43,7 @@ public class StudyCategoryServiceImpl implements StudyCategoryService{
 				
 
 			} else {
-				updateStudyCategory(studyCategory);
+				updateStudyCategory(studyCategory, idUser);
 			}
 
 		
@@ -62,11 +62,11 @@ public class StudyCategoryServiceImpl implements StudyCategoryService{
 	}
 
 
-	private void updateStudyCategory(StudyCategory studyCategory) {
+	private void updateStudyCategory(StudyCategory studyCategory, int idUser) {
 		java.util.Date date = new Date();
 		StudyCategory studyCategoryToUpdate = studyCategoryJpaRepository.findByIdStudyCategory(studyCategory.getIdStudyCategory());
 		if (studyCategoryToUpdate != null) {
-			LogStudyCategory logStudyCategory = new LogStudyCategory(date, "Study category  modified", "test",studyCategoryToUpdate.getIdStudyCategory() ,studyCategoryToUpdate.getDetail());
+			LogStudyCategory logStudyCategory = new LogStudyCategory(date, "Study category  modified", idUser,studyCategoryToUpdate.getIdStudyCategory() ,studyCategoryToUpdate.getDetail());
 			studyCategoryJpaRepository.save(studyCategory);
 			logStudyCategoryJpaRepository.save(logStudyCategory);
 			

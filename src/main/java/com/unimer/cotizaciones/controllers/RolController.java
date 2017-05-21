@@ -6,16 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 
 import com.unimer.cotizaciones.entities.Rol;
+import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.services.RolService;
 
 @Controller
+@SessionAttributes({"userSession"})
 public class RolController {
 
 	
@@ -35,9 +39,9 @@ public class RolController {
 	}
 	
 	@PostMapping("/admin/addrole")
-	public String addRole(@ModelAttribute(name = "role") Rol rol, Model model) {
+	public String addRole(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "role") Rol rol, Model model) {
 		LOG.info("METHOD: addRol in RolController -- PARAMS: " + rol.toString());
-		rolService.addRol(rol);
+		rolService.addRol(rol,userSession.getIdUser());
 		 return "redirect:/admin/role";
 	}
 	

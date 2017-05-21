@@ -36,6 +36,8 @@
             	<li><a href="#adminmenu"  data-rel="popup" data-transition="flip" data-icon="grid" >Opciones</a></li>
             	<li><a href="#" data-icon="" data-ajax="false">Procesos</a></li>
             	<li><a href="#" data-icon="" data-ajax="false">Reporteria</a></li>
-            	<li><a href="#" data-icon="forward" data-ajax="false">Salir</a></li>
+            	<li><form th:action="@{/logout}" method="POST">
+            		<button type="submit" data-icon="forward" data-ajax="false">Salir</button>
+            	</form></li>
            	</ul>
        	</div>

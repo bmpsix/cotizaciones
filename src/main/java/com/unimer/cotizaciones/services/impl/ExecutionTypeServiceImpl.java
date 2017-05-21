@@ -35,7 +35,7 @@ public class ExecutionTypeServiceImpl implements ExecutionTypeService {
 	String ipCliente="";
 	
 	@Override
-	public void addExecutionType(ExecutionType executionType) {
+	public void addExecutionType(ExecutionType executionType, int idUser) {
 	
 			if (executionType.getIdExecutionType()==0) {
 				
@@ -43,7 +43,7 @@ public class ExecutionTypeServiceImpl implements ExecutionTypeService {
 				LOG.info("METHOD: addExecutionType in ExecutionTypeServiceImpl -- PARAMS: " + executionType.toString());
 	
 			} else {
-				updateExecutionType(executionType);
+				updateExecutionType(executionType, idUser);
 			}
 
 		} 
@@ -59,25 +59,14 @@ public class ExecutionTypeServiceImpl implements ExecutionTypeService {
 	}
 
 	
-	/*@Override
-	public void updateStatusById(String idExecutionType, byte status) {
-
-		ExecutionType executionType = executionTypeJpaRepository.findOne(idExecutionType);
-
-		if (executionType != null) {
-			executionType.setStatus(status);
-			executionTypeJpaRepository.save(executionType);
-		}
-	}*/
-
 	
 	
 
-	private void updateExecutionType(ExecutionType executionType) {
+	private void updateExecutionType(ExecutionType executionType, int idUser) {
 		java.util.Date date = new Date();
 		ExecutionType executionTypeToUpdate = executionTypeJpaRepository.findByIdExecutionType(executionType.getIdExecutionType());
 		if (executionTypeToUpdate != null) {
-			LogExecutionType logExecutionType = new LogExecutionType(date, "Execution type  modified", "test", executionTypeToUpdate.getDetail(), executionTypeToUpdate.getIdExecutionType());
+			LogExecutionType logExecutionType = new LogExecutionType(date, "Execution type  modified", idUser, executionTypeToUpdate.getDetail(), executionTypeToUpdate.getIdExecutionType());
 			executionTypeJpaRepository.save(executionType);
 			logRolJpaRepository.save(logExecutionType);
 		}

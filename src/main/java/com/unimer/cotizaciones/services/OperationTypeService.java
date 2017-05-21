@@ -5,7 +5,7 @@ import com.unimer.cotizaciones.entities.OperationType;
 
 public interface OperationTypeService {
 
-public abstract void addOperationType(OperationType operationType);
+public abstract void addOperationType(OperationType operationType, int idUser);
 	
 	public abstract List<OperationType> listAllOperationType();
 	

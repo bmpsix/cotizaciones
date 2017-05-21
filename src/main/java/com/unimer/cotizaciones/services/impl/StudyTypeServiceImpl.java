@@ -34,7 +34,7 @@ public class StudyTypeServiceImpl implements StudyTypeService{
 	private static final Log LOG = LogFactory.getLog(StudyTypeServiceImpl.class);
 	
 	@Override
-	public void  addStudyType(StudyType StudyType) {
+	public void  addStudyType(StudyType StudyType, int idUser) {
 
 
 			if (StudyType.getIdStudyType()==0) {
@@ -43,7 +43,7 @@ public class StudyTypeServiceImpl implements StudyTypeService{
 				LOG.info("METHOD: addStudyType in StudyTypeServiceImpl -- PARAMS: " + StudyType.toString());
 
 			} else {
-				updateStudyType(StudyType);
+				updateStudyType(StudyType,idUser);
 			}
 
 		} 
@@ -61,11 +61,11 @@ public class StudyTypeServiceImpl implements StudyTypeService{
 
 	
 
-	private void updateStudyType(StudyType StudyType) {
+	private void updateStudyType(StudyType StudyType, int idUser) {
 		java.util.Date date = new Date();
 		StudyType StudyTypeToUpdate = StudyTypeJpaRepository.findByIdStudyType(StudyType.getIdStudyType());
 		if (StudyTypeToUpdate != null) {
-			LogStudyType logStudyType = new LogStudyType(date, "Study Type modified", "test",StudyTypeToUpdate.getDetail(),StudyTypeToUpdate.getIdStudyType() );
+			LogStudyType logStudyType = new LogStudyType(date, "Study Type modified", idUser,StudyTypeToUpdate.getDetail(),StudyTypeToUpdate.getIdStudyType() );
 			StudyTypeJpaRepository.save(StudyType);
 			logStudyTypeJpaRepository.save(logStudyType);
 		}

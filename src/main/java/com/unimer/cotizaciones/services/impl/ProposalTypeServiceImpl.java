@@ -8,6 +8,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
 import com.unimer.cotizaciones.entities.LogProposalType;
 import com.unimer.cotizaciones.entities.ProposalType;
 import com.unimer.cotizaciones.repositories.LogProposalTypeJpaRepository;
@@ -16,6 +18,7 @@ import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.services.ProposalTypeService;
 
 @Service("proposalTypeServiceImpl")
+@SessionAttributes({"userSession"})
 public class ProposalTypeServiceImpl implements ProposalTypeService {
 
 	@Autowired
@@ -38,7 +41,7 @@ public class ProposalTypeServiceImpl implements ProposalTypeService {
 	
 
 	@Override
-	public void addProposalType(ProposalType proposalType) {
+	public void addProposalType(ProposalType proposalType, int idUser) {
 		
 			if (proposalType.getIdProposalType()==0) {
 				
@@ -47,7 +50,7 @@ public class ProposalTypeServiceImpl implements ProposalTypeService {
 			
 
 			} else {
-				updateProposalType(proposalType);
+				updateProposalType(proposalType,idUser);
 			}
 
 		} 
@@ -63,11 +66,11 @@ public class ProposalTypeServiceImpl implements ProposalTypeService {
 		return proposalTypeJpaRepository.findByIdProposalType(idProposalType);
 	}
 	
-	private void updateProposalType(ProposalType proposalType) {
+	private void updateProposalType(ProposalType proposalType, int idUser) {
 		java.util.Date date = new Date();
 		ProposalType proposalTypeToUpdate = proposalTypeJpaRepository.findByIdProposalType(proposalType.getIdProposalType());
 		if (proposalTypeToUpdate != null) {
-			LogProposalType logProposalType = new LogProposalType(date, "Proposal Type  modified", "test", proposalTypeToUpdate.getDetail(), proposalTypeToUpdate.getIdProposalType());
+			LogProposalType logProposalType = new LogProposalType(date, "Proposal Type  modified",idUser, proposalTypeToUpdate.getDetail(), proposalTypeToUpdate.getIdProposalType());
 			proposalTypeJpaRepository.save(proposalType);
 			logProposalTypeJpaRepository.save(logProposalType);
 		}
