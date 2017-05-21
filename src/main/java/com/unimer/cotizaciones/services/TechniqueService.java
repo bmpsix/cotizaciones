@@ -14,6 +14,7 @@ public interface TechniqueService {
 
 	public abstract Technique findById(int idTechnique);
 	
+	public abstract List<Technique> orderlistAllTechniques();
 }
 
 

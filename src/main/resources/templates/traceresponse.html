@@ -20,7 +20,8 @@
            				<tr>
            				<th  style="padding-right: 15px;">ID</th>
            				<th  style="padding-right: 15px;">Usuario</th>
-           				<th  style="padding-right: 15px;">Detalle</th>
+           				<!--  <th  style="padding-right: 15px;">Detalle</th>-->
+           				<th  style="padding-right: 15px;">URL</th>
            				<th  style="padding-right: 15px;">IP</th>
            				<th  style="padding-right: 15px;">Fecha</th>
            				</tr>
@@ -29,7 +30,8 @@
 	           			<tr th:each="trace : ${traces}">
 							<td style="padding-right: 15px;" th:text="${trace.idTraceResponse}"></td>
 							<td style="padding-right: 15px;" th:text="${trace.actionUser}"></td>
-	           				<td style="padding-right: 15px;" th:text="${trace.detail}"></td>
+	           				<!--<td style="padding-right: 15px;" th:text="${trace.detail}"></td>-->
+	           				<td style="padding-right: 15px;" th:text="${trace.url}"></td>
 	           				<td style="padding-right: 15px;" th:text="${trace.ip}"></td>
 	           				<td style="padding-right: 15px;" th:text="${trace.entryDate}"></td>
            				</tr>

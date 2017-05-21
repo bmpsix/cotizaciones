@@ -32,7 +32,7 @@
 <p title="Para cambiar mis datos personales, preciona click aqu&iacute;" style="text-align: center;cursor: pointer;" onclick="return window.location.href='/'">Usuario activo: ADMIN</p>
         <div data-role="navbar" data-iconpos="right">
             <ul>
-            	<li><a href="#" data-ajax="false" data-icon="home" th:classappend="${viewName=='dashboard'} ? 'ui-btn-active ui-state-persist'">Inicio</a></li>
+            	<li><a href="#"  onclick="return window.location.href='/admin/proposal'" data-ajax="false" data-icon="home" th:classappend="${viewName=='dashboard'} ? 'ui-btn-active ui-state-persist'">Inicio</a></li>
             	<li><a href="#adminmenu"  data-rel="popup" data-transition="flip" data-icon="grid" >Opciones</a></li>
             	<li><a href="#" data-icon="" data-ajax="false">Procesos</a></li>
             	<li><a href="#" data-icon="" data-ajax="false">Reporteria</a></li>
