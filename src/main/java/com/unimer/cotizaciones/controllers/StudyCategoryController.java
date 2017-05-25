@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.StudyCategory;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.StudyCategoryService;
 
 @Controller
@@ -36,9 +36,9 @@ public class StudyCategoryController {
 	}
 	
 	@PostMapping("/admin/addStudyCategory")
-	public String addStudyCategory(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "studyCategory") StudyCategory studyCategory, Model model){
+	public String addStudyCategory(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "studyCategory") StudyCategory studyCategory, Model model){
 		LOG.info("METHOD: addStudyCategory in StudyCategoryController -- PARAMS: " + studyCategory.toString());
-		studyCategoryService.addStudyCategory(studyCategory,userSession.getIdUser());
+		studyCategoryService.addStudyCategory(studyCategory,userSession.getId());
 		 return "redirect:/admin/studyCategory";
 	}
 	

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.Target;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.TargetService;
 
 @Controller
@@ -37,10 +37,10 @@ public class TargetController {
 		return modelAndView;
 	}
 	@PostMapping("/admin/addtarget")
-	public  String addTarget(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "target") Target target, Model model)
+	public  String addTarget(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "target") Target target, Model model)
 	{
 		LOG.info("METHOD: addTarget in TargetController -- PARAMS:" + model);		
-		targetService.addTarget(target,userSession.getIdUser());
+		targetService.addTarget(target,userSession.getId());
 		return "redirect:/admin/target";
 	}
 	

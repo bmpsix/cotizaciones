@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.CollectMethodService;
 import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.IndustrySectorService;
@@ -54,7 +54,7 @@ public class ProposalController {
 	
 	@GetMapping("/admin/proposal")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ModelAndView proposal(ModelMap model,@ModelAttribute("userSession") User userSession){
+	public ModelAndView proposal(ModelMap model,@ModelAttribute("userSession") UserSession userSession){
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("countries",countryService.listAllCountries());
 		modelAndView.addObject("collectmethods", collectMethodService.listAllCollectMethod());

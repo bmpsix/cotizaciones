@@ -20,6 +20,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name="departure")
 public class Departure implements Serializable {
+	@Override
+	public String toString() {
+		return "Departure [idDeparture=" + idDeparture + ", detail=" + detail + ", country=" + country + "]";
+	}
+
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -71,9 +76,5 @@ public class Departure implements Serializable {
 		this.country = country;
 	}
 	
-	@Override
-	public String toString() {
-		return "Operation [idDeparture=" + idDeparture + ", detail=" + detail + ", country=" + country+ "]";
-	}	
 	
 }

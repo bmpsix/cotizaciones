@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.ClientContact;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.ClientContactService;
 import com.unimer.cotizaciones.services.ClientService;
 import com.unimer.cotizaciones.services.CountryService;
@@ -50,9 +50,9 @@ public class ClientContactController {
 	}
 	
 	@PostMapping("/admin/addclientcontact")
-	public String addClientContact(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "clientContact") ClientContact clientContact, Model model) {
+	public String addClientContact(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "clientContact") ClientContact clientContact, Model model) {
 		LOG.info("METHOD: addClientContact in ClientContactController -- PARAMS: " + clientContact.toString());
-		clientContactService.addClientContact(clientContact,userSession.getIdUser());
+		clientContactService.addClientContact(clientContact,userSession.getId());
 			return "redirect:/admin/clientcontact";
 	}
 	

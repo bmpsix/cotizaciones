@@ -17,6 +17,7 @@ import com.unimer.cotizaciones.entities.Assessment;
 import com.unimer.cotizaciones.entities.CurrencyExchange;
 import com.unimer.cotizaciones.entities.SaClient;
 import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.AssessmentService;
 import com.unimer.cotizaciones.services.CurrencyExchangeService;
 import com.unimer.cotizaciones.services.SaClientService;
@@ -58,7 +59,7 @@ public class AssessmentController {
 	
 	
 	@PostMapping("/admin/addassessment")
-	public String addAssessment(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@RequestParam("idAssessment") int idAssessment,@RequestParam("detail") String detail, @RequestParam("idCurrencyExchange") int idCurrencyExchange,@RequestParam("idSaClient") int idSaClient,@RequestParam("idUser") int idUser) {
+	public String addAssessment(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@RequestParam("idAssessment") int idAssessment,@RequestParam("detail") String detail, @RequestParam("idCurrencyExchange") int idCurrencyExchange,@RequestParam("idSaClient") int idSaClient,@RequestParam("idUser") int idUser) {
 		LOG.info("METHOD: addAssessment in AssessmentController -- PARAMS: detail: "+detail+" idCurrencyExchange: "+idCurrencyExchange+" saClient: "+idSaClient+" idUser: "+idUser );
 		CurrencyExchange currencyExchange = new CurrencyExchange();
 		currencyExchange = currencyExchangeService.getCurrencyExchange(idCurrencyExchange);
@@ -72,7 +73,7 @@ public class AssessmentController {
 		assessment.setDetail(detail);
 		assessment.setSaClient(saClient);
 		assessment.setUser(user);
-		assessmentService.addAssessment(assessment,userSession.getIdUser());
+		assessmentService.addAssessment(assessment,userSession.getId());
 		return "redirect:/admin/assessment";
 	}
 	

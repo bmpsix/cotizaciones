@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.unimer.cotizaciones.entities.CurrencyExchange;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.CurrencyExchangeService;
 import com.unimer.cotizaciones.services.CurrencyTypeService;
@@ -52,9 +51,9 @@ public class CurrencyExchangeController {
 	}
 	
 	@PostMapping("/admin/addcurrencyexchange")
-	public String addCurrencyExchange(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "currencyExchange") CurrencyExchange currencyExchange, Model model) {
+	public String addCurrencyExchange(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "currencyExchange") CurrencyExchange currencyExchange, Model model) {
 		LOG.info("METHOD: addCurrencyExchange in CurrencyExchangeController -- PARAMS: " + currencyExchange.toString());
-		currencyExchangeService.addCurrencyExchange(currencyExchange,userSession.getIdUser());
+		currencyExchangeService.addCurrencyExchange(currencyExchange,userSession.getId());
 		 return "redirect:/admin/currencyexchange";
 	}
 	

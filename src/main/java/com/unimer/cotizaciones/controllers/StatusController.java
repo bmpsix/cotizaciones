@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.Status;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.StatusService;
 
 @Controller
@@ -37,9 +37,9 @@ public class StatusController {
 	}
 
 	@PostMapping("/admin/addstatus")
-	public String addStatus(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "status") Status status,Model model){
+	public String addStatus(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "status") Status status,Model model){
 		LOG.info("METHOD: addStatus in StatusController -- PARAMS: " + status.toString());
-		statusService.addStatus(status,userSession.getIdUser());
+		statusService.addStatus(status,userSession.getId());
 		return "redirect:/admin/status";
 	}
 

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.SaClient;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.SaClientService;
 
 @Controller
@@ -36,9 +36,9 @@ public class SaClientController {
 	}
 	
 	@PostMapping("/admin/addsaclient")
-	public String addSaClient(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "saClient") SaClient saClient, Model model) {
+	public String addSaClient(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "saClient") SaClient saClient, Model model) {
 		LOG.info("METHOD: addRol in RolController -- PARAMS: " + saClient.toString());
-		saClientService.addSaClient(saClient,userSession.getIdUser());
+		saClientService.addSaClient(saClient,userSession.getId());
 		 return "redirect:/admin/saclient";
 	}
 	

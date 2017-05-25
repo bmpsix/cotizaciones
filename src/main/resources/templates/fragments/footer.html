@@ -24,6 +24,8 @@
 				<li><a href="#" onclick="return window.location.href='/admin/target'" th:classappend="${viewName=='target'} ?'active-class-botton-menu'">Target</a></li>
 				<li><a href="#" onclick="return window.location.href='/admin/technique'" th:classappend="${viewName=='technique'} ?'active-class-botton-menu' : null">Technique</a></li>
 				<li><a href="#" onclick="return window.location.href='/admin/traceresponse'" th:classappend="${viewName=='traceresponse'} ?'active-class-botton-menu' : null">Trace response</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/departure'" th:classappend="${viewName=='departure'} ?'active-class-botton-menu' : null">Departure</a></li>
+				
 				<!-- <li><a href="#" onclick="return window.location.href='/admin/techniquebyproposal'"  th:classappend="${viewName=='techniquebyproposal'} ?'active-class-botton-menu'">Technique By Proposal</a></li>
 				 --><li><a href="#" onclick="return window.location.href='/admin/user'" th:classappend="${viewName=='user'} ?'active-class-botton-menu'">User</a></li>
 		    </ul>
@@ -37,6 +39,7 @@
             	<li><a href="#" data-icon="" data-ajax="false">Procesos</a></li>
             	<li><a href="#" data-icon="" data-ajax="false">Reporteria</a></li>
             	<li><form th:action="@{/logout}" method="POST">
+            		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             		<button type="submit" data-icon="forward" data-ajax="false">Salir</button>
             	</form></li>
            	</ul>

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.CollectMethod;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.CollectMethodService;
 
 @Controller
@@ -37,8 +37,8 @@ public class CollectMethodController {
 	}
 	
 	@PostMapping("/admin/addcollectmethod")
-	public String addCollectMethod(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "collectMethod") CollectMethod collectMethod, Model model){
-		collectMethodService.addCollectMethod(collectMethod,userSession.getIdUser()); 
+	public String addCollectMethod(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "collectMethod") CollectMethod collectMethod, Model model){
+		collectMethodService.addCollectMethod(collectMethod,userSession.getId()); 
 		return "redirect:/admin/collectmethod";
 	}
 	

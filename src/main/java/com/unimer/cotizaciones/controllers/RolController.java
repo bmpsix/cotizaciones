@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import com.unimer.cotizaciones.entities.Rol;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.RolService;
 
 @Controller
@@ -39,9 +39,9 @@ public class RolController {
 	}
 	
 	@PostMapping("/admin/addrole")
-	public String addRole(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "role") Rol rol, Model model) {
+	public String addRole(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "role") Rol rol, Model model) {
 		LOG.info("METHOD: addRol in RolController -- PARAMS: " + rol.toString());
-		rolService.addRol(rol,userSession.getIdUser());
+		rolService.addRol(rol,userSession.getId());
 		 return "redirect:/admin/role";
 	}
 	

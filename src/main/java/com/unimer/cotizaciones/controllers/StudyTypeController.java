@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.unimer.cotizaciones.entities.StudyType;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.StudyTypeService;
 
 @Controller
@@ -38,9 +37,9 @@ public class StudyTypeController {
 	}
 	
 	@PostMapping("/admin/addstudytype")
-	public String addStudyType(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "StudyType") StudyType StudyType, Model model){
+	public String addStudyType(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "StudyType") StudyType StudyType, Model model){
 		LOG.info("METHOD: addStudyType in StudyTypeController -- PARAMS: " + StudyType.toString());
-		StudyTypeService.addStudyType(StudyType,userSession.getIdUser());
+		StudyTypeService.addStudyType(StudyType,userSession.getId());
 		 return "redirect:/admin/studytype";
 	}
 	

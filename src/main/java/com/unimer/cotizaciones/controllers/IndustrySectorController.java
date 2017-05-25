@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.IndustrySector;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.IndustrySectorService;
 @Controller
 public class IndustrySectorController {
@@ -33,9 +33,9 @@ public class IndustrySectorController {
 	}
 	
 	@PostMapping("/admin/addindustrysector")
-	public String addIndustrySector(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "industrySector") IndustrySector industrySector, Model model) {
+	public String addIndustrySector(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "industrySector") IndustrySector industrySector, Model model) {
 		LOG.info("METHOD: addIndustrySector in IndustrySectorController -- PARAMS: " + industrySector.toString());
-		industrySectorService.addIndustrySector(industrySector,userSession.getIdUser());
+		industrySectorService.addIndustrySector(industrySector,userSession.getId());
 		 return "redirect:/admin/industrysector";
 	}
 	

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.Technique;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.TechniqueService;
 
 @Controller
@@ -37,9 +37,9 @@ public class TechniqueController {
 	}
 	
 	@PostMapping("/admin/addtechnique")
-	public String addTechnique(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "Technique") Technique Technique, Model model) {
+	public String addTechnique(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "Technique") Technique Technique, Model model) {
 		LOG.info("METHOD: addTechnique in TechniqueController -- PARAMS: " + Technique.toString());
-		TechniqueService.addTechnique(Technique,userSession.getIdUser());
+		TechniqueService.addTechnique(Technique,userSession.getId());
 		 return "redirect:/admin/technique";
 	}
 	

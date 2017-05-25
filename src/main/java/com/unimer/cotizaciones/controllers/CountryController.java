@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.Country;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.CountryService;
 
 
@@ -43,9 +43,9 @@ public class CountryController {
 	}
 	
 	@PostMapping("/admin/addcountry")
-	public String addCountry(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "country") Country country, Model model) {
+	public String addCountry(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "country") Country country, Model model) {
 		LOG.info("METHOD: addCountry in CountryController -- PARAMS: " + country.toString());
-		countryService.addCountry(country,userSession.getIdUser());
+		countryService.addCountry(country,userSession.getId());
 		 return "redirect:/admin/country";
 	}
 	

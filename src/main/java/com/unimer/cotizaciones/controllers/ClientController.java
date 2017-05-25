@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.Client;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.ClientService;
 import com.unimer.cotizaciones.services.ClientTypeService;
 import com.unimer.cotizaciones.services.CountryService;
@@ -57,9 +57,9 @@ public class ClientController {
 	}
 	
 	@PostMapping("/admin/addclient")
-	public String addClient(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "client") Client client, Model model){
+	public String addClient(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "client") Client client, Model model){
 		LOG.info("METHOD: addClient in ClientController -- PARAMS: " + client.toString());
-		clientService.addClient(client,userSession.getIdUser());
+		clientService.addClient(client,userSession.getId());
 			return"redirect:/admin/client";
 	}
 	

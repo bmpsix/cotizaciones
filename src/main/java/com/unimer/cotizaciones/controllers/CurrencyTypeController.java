@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.CurrencyType;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.CurrencyTypeService;
 
 
@@ -39,9 +39,9 @@ public class CurrencyTypeController {
 	}
 	
 	@PostMapping("/admin/addcurrencytype")
-	public String addCurrencyType(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "currencytype") CurrencyType currencyType, Model model) {
+	public String addCurrencyType(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "currencytype") CurrencyType currencyType, Model model) {
 		LOG.info("METHOD: addCurrencyType in CurrencyTypeController -- PARAMS: " + currencyType.toString());
-		currencyTypeService.addCurrencyType(currencyType,userSession.getIdUser());
+		currencyTypeService.addCurrencyType(currencyType,userSession.getId());
 		 return "redirect:/admin/currencytype";
 	}
 	

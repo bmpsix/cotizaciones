@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.ProposalType;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.ProposalTypeService;
 
 
@@ -36,9 +36,9 @@ public class ProposalTypeController {
 	}
 	
 	@PostMapping("/admin/addproposaltype")
-	public String addProposalType(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "proposalType") ProposalType proposalType, Model model) {
+	public String addProposalType(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "proposalType") ProposalType proposalType, Model model) {
 		LOG.info("METHOD: addProposalType in ProposalTypeController -- PARAMS: " + proposalType.toString());
-		proposalTypeService.addProposalType(proposalType,userSession.getIdUser());
+		proposalTypeService.addProposalType(proposalType,userSession.getId());
 		 return "redirect:/admin/proposaltype";
 	}
 	

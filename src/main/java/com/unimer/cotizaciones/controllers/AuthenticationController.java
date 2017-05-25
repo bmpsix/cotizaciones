@@ -12,6 +12,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.UserService;
 
 
@@ -49,7 +51,8 @@ public class AuthenticationController {
 		
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();//sesión de usuario por defecto
 		com.unimer.cotizaciones.entities.User userEntity = userService.findByEmail(user.getUsername()); // datos usuario logueado
-		model.addAttribute("userSession",userEntity);//se asignan los datos a la variable
+		UserSession userSession = new UserSession(userEntity.getIdUser(),userEntity.getEmail(), user.getAuthorities().toString(),userEntity.getCountry().getIdCountry(), userEntity.getCountry().getCod());
+		model.addAttribute("userSession",userSession);//se asignan los datos a la variable
 		return  "redirect:/admin/proposal";
 	}
 	

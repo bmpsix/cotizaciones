@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.OperationType;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.OperationTypeService;
 
 @Controller
@@ -38,9 +38,9 @@ public class OperationTypeController {
 	}
 	
 	@PostMapping("/admin/addoperationtype")
-	public String addOperationType(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "operationType") OperationType operationType, Model model){
+	public String addOperationType(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "operationType") OperationType operationType, Model model){
 		LOG.info("METHOD: addOperationType in OperationTypeController -- PARAMS: " + operationType.toString());
-		operationTypeService.addOperationType(operationType,userSession.getIdUser());
+		operationTypeService.addOperationType(operationType,userSession.getId());
 		 return "redirect:/admin/operationtype";
 	}
 	

@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.unimer.cotizaciones.entities.ClientType;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.ClientTypeService;
 
 @Controller
@@ -40,9 +39,9 @@ public class ClientTypeController {
 	}
 	
 	@PostMapping("/admin/addclienttype")
-	public String addClientType(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name = "clienttype") ClientType clientType, Model model){
+	public String addClientType(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "clienttype") ClientType clientType, Model model){
 		LOG.info("METHOD: addClientType in ClientTypeController -- PARAMS: " + clientType.toString());
-		clientTypeService.addClientType(clientType,userSession.getIdUser());
+		clientTypeService.addClientType(clientType,userSession.getId());
 		 return "redirect:/admin/clienttype";
 	}
 	

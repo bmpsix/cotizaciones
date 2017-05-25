@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.Departure;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.DepartureService;
 import com.unimer.cotizaciones.services.CountryService;
 
@@ -45,9 +45,9 @@ public class DepartureController {
 	
 
 	@PostMapping("/admin/adddeparture")
-	public String addDeparture(ModelMap modelSession,@ModelAttribute("userSession") User userSession,@ModelAttribute(name ="departure") Departure departure, Model model) {
+	public String addDeparture(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name ="departure") Departure departure, Model model) {
 		LOG.info("METHOD: addDeparture in DepartureController -- PARAMS: " + departure.toString());
-		departureService.addDeparture(departure,userSession.getIdUser());
+		departureService.addDeparture(departure,userSession.getId());
 		return "redirect:/admin/departure";
 	}
 
