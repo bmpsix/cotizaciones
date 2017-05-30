@@ -4,12 +4,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.User;
@@ -70,6 +73,31 @@ public class UserController {
 		modelAndView.addObject("updateUser", userService.findById(idUser));
 		return modelAndView;
 	}
+	
+	@GetMapping("/admin/changepassword")
+	public String changePassword(){
+		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getCredentials();
+		LOG.info("La contrasena del usuario actual es: "+user.getUsername());
+		return "changePassword";
+	}
+	
+	@PostMapping("/admin/user/changePassword")
+	public String updatePassword(
+			@RequestParam(name="currentPasswaord") String currentPassword,
+			@RequestParam(name="newPassword") String newPassword){
+		
+		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getCredentials();
+		
+		if(currentPassword.equals(user.getName())){
+			
+		}
+		
+		
+		
+		return "index";
+	}
+	
+	
 	
 	
 
