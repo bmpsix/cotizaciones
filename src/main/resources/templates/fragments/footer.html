@@ -1,6 +1,7 @@
  <div data-role="popup" data-position="left" id="adminmenu">
 		 <a href="#" onclick="return window.location.href='/'" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right" >Cerrar</a>
 		     <ul data-role="listview" data-inset="true" style="min-width:210px;">
+		        <li><a href="#" onclick="return window.location.href='/admin/changepassword'" th:classappend="${viewName=='changePassword'} ?'active-class-botton-menu'">Change password</a></li>
 			    <li><a href="#" onclick="return window.location.href='/admin/assessment'" th:classappend="${viewName=='asseament'} ?'active-class-botton-menu'">Asseament</a></li>
 				<li><a href="#" onclick="return window.location.href='/admin/client'" th:classappend="${viewName=='client'} ?'active-class-botton-menu'">Client</a></li>
 				<li><a href="#" onclick="return window.location.href='/admin/clientcontact'" th:classappend="${viewName=='clientcontact'} ?'active-class-botton-menu'">Client Contact</a></li>

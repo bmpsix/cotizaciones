@@ -85,7 +85,6 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-
 	private void updateUser(User user, int idUser) {
 		java.util.Date date = new Date();
 		User userToUpdate = userJpaRepository.findByIdUser(user.getIdUser());
