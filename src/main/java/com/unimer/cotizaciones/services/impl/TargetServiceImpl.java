@@ -44,8 +44,6 @@ public class TargetServiceImpl implements TargetService {
 				updateTarget(target, idUser);
 			}
 		} 
-	
-
 	@Override
 	public List<Target> listAllTargets() {
 	
