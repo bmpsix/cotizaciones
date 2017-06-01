@@ -74,6 +74,7 @@ public class UserServiceImpl implements UserService {
 				user.setCommissionAmount(0);
 				user.setUseCommission(0);
 				user.setConfirmationToken(getToken(4));
+				LOG.info("METHOD: ENCRYPT PASSWORD -- PARAMS: " + user.toString());
 				user.setPassword(passwordCreator.EncodePass(user.getPassword()));
 				LOG.info("METHOD: addUser new1 in UserServiceImpl -- PARAMS: " + user.toString());
 				userJpaRepository.save(user);

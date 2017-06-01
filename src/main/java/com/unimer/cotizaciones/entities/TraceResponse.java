@@ -31,7 +31,7 @@ public class TraceResponse implements Serializable {
 	@Column(name="action_user", nullable=false)
 	private int actionUser;
 
-	@Column(nullable=false, length=200)
+	@Column(nullable=false)
 	private String detail;
 	
 	@Column(nullable=false, length=150)

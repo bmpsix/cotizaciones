@@ -4,8 +4,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -76,25 +76,33 @@ public class UserController {
 	
 	@GetMapping("/admin/changepassword")
 	public String changePassword(){
-		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getCredentials();
-		LOG.info("La contrasena del usuario actual es: "+user.getUsername());
 		return "changePassword";
 	}
 	
 	@PostMapping("/admin/user/changePassword")
-	public String updatePassword(
-			@RequestParam(name="currentPasswaord") String currentPassword,
+	public ModelAndView updatePassword(
+			@RequestParam(name="currentPassword") String currentPassword,
 			@RequestParam(name="newPassword") String newPassword){
 		
-		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getCredentials();
+		ModelAndView mvn = new ModelAndView();
+		mvn.setViewName("changePassword");
 		
-		if(currentPassword.equals(user.getName())){
+		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		User userData = userService.findByEmail(user.getUsername());
+		
+		if(new BCryptPasswordEncoder().matches(currentPassword, userData.getPassword())){
+		  userService.addUser(userData, userData.getIdUser());
+		  LOG.info("se ha cambiado la contrasena");
+		  mvn.addObject("success","Se ha cambio la contrasena correctamente");
+		  
+		}else{
 			
+		  LOG.info("hubo un error");
+		  mvn.addObject("error","Ha ocurrido un error");
 		}
 		
-		
-		
-		return "index";
+		return mvn;
 	}
 	
 	
