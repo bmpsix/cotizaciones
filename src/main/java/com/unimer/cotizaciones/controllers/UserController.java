@@ -92,6 +92,7 @@ public class UserController {
 		User userData = userService.findByEmail(user.getUsername());
 		
 		if(new BCryptPasswordEncoder().matches(currentPassword, userData.getPassword())){
+		  userData.setPassword(newPassword);
 		  userService.addUser(userData, userData.getIdUser());
 		  LOG.info("se ha cambiado la contrasena");
 		  mvn.addObject("success","Se ha cambio la contrasena correctamente");
