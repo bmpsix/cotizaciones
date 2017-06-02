@@ -16,7 +16,7 @@
 		<h3>Control de países</h3>
 			<div data-role="fieldcontain">
 			
-					<form method="post" action="#" th:action="@{/admin/addcountry}" th:object="${updateCountry}" >
+					<form method="post" action="#" th:action="@{/admin/addcountry}" th:object="${updateCountry}" onSubmit="if (detail.value!=null && cod.value!=null) return location.reload(); else return false;">
 						<div th:if="${updateCountry==null}">
 							<label for="detail">Detalle:</label>
 							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${detail}" required/>
