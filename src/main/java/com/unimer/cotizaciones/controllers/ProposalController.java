@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.CollectMethodService;
+import com.unimer.cotizaciones.services.CountryByCurrencyTypeService;
 import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.IndustrySectorService;
 import com.unimer.cotizaciones.services.StudyCategoryService;
@@ -51,10 +54,16 @@ public class ProposalController {
 	@Qualifier("TechniqueServiceImpl")
 	private TechniqueService techniqueService;
 	
+	@Autowired
+	@Qualifier("countryByCurrencyTypeServiceImpl")
+	private CountryByCurrencyTypeService countryByCurrencyTypeService;
+	
+	
 	
 	@GetMapping("/admin/proposal")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView proposal(ModelMap model,@ModelAttribute("userSession") UserSession userSession){
+		Country cntry = countryService.findById(userSession.getIdCountry());
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("countries",countryService.listAllCountries());
 		modelAndView.addObject("collectmethods", collectMethodService.listAllCollectMethod());
@@ -62,6 +71,7 @@ public class ProposalController {
 		modelAndView.addObject("studytypes", StudyTypeService.listAllStudyTypes());
 		modelAndView.addObject("industrysectors", industrySectorService.listAllIndustrySectors());
 		modelAndView.addObject("techniques", techniqueService.orderlistAllTechniques());
+		modelAndView.addObject("countryByCurrencyType", cntry.getCurrencyType());
 		modelAndView.setViewName("proposal");
 		return modelAndView;
 		
@@ -75,5 +85,7 @@ public class ProposalController {
 		return modelAndView;
 		
 	}
+	
+	
 	
 }

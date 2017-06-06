@@ -16,17 +16,17 @@
 		
     <div class="ui-grid-b" id="cotiHeader1">
       <div class="ui-block-a">
-        <label for="cotizacion"> <h5>Numero de Cotizacion:</h5> <span>002</span></label>
-      </div>
-      <div class="ui-block-b">
         <label for="cotizacion"> <h5>Numero de Propuesta:</h5> <span>000620</span></label>
       </div>
+      <div class="ui-block-b" data-inline=true>
+         <label style=" width: 90%;" for="cotizacion"><h5>Nombre de Cotizacion:</h5> <input   title="Debe ingresar un nombre para la propuesta" type="text" name="proposalName" th:value="${proposalName}" required/></label>
+      </div>
       <div class="ui-block-c">
-        <label for="tipo"><h5>Tipo de Proyecto:</h5></label>
-        <select>
-  			<option value="volvo">Cuantitativo</option>
-  			<option value="saab">Cualitativo</option>
-		</select>
+       
+        <label for="dateStart"><h5>Fecha inicio operaciones:</h5></label>
+        <input type="date" name="dateStart">
+        <label for="dateEnd"><h5>Fecha de entrega final:</h5></label>
+        <input type="date" name="dateEnd">
 			
       </div> 
        
@@ -35,17 +35,14 @@
 	<div class="ui-grid-b" id="cotiHeader2">
     
       <div class="ui-block-a">
-        <label for="cotizacion"><h5>Nombre de Cotizacion:</h5> <span>CUAS REFRESCO GASEOSO</span></label>
+     
       </div>
       <div class="ui-block-b" >
     
       </div>
       
       <div class="ui-block-c">
-        <label for="dateStart"><h5>Fecha inicio operaciones:</h5></label>
-        <input type="date" name="dateStart">
-        <label for="dateEnd"><h5>Fecha de entrega final:</h5></label>
-        <input type="date" name="dateEnd">
+       
       </div> 
            
 	</div>
@@ -91,7 +88,7 @@
 			</select>
 			
 			<label for="categoria"><h5>Categoria:</h5></label>
-        	<select name="country.idCountry">
+        	<select name="studyCategory.idStudyCategory">
 				<option th:each="studyCategory : ${studyCategories}" th:value="${studyCategory.idStudyCategory}">
 					<p name="studyCategory.detail" th:text="${studyCategory.detail}" th:value="${studyCategory.detail}" ></p>
 				</option>
@@ -109,6 +106,14 @@
   				<option value="1">Aplica</option>
   				<option value="2">No Aplica</option>
 			</select>
+			
+			<label for="currencyType"><h5>Tipo de moneda:</h5></label>
+        	<select name="currencyType.idCurrencyType">
+				<option th:each="currencyType : ${countryByCurrencyType}" th:value="${currencyType.idCurrencyType}">
+					<p name="currencyType.detail" th:text="${currencyType.detail}" th:value="${currencyType.detail}" ></p>
+				</option>
+			</select>
+			
 			
         </fieldset>
         
@@ -254,7 +259,9 @@
       </div>
        
 	</div>
-	<script type ="text/javascript">
+	
+	
+	<!--  <script type ="text/javascript">
 			$(document).ready(function(){
 				
 				var array = [];
@@ -377,7 +384,7 @@
 						
 			});
 			
-		</script> 
+		</script> -->
 	
 		<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
 			<div data-role="popup" data-position="left" id="adminmenu" th:replace="fragments/footer"></div>

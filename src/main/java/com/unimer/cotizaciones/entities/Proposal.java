@@ -30,6 +30,9 @@ public class Proposal implements Serializable {
 	@Column(name="id_proposal", unique=true, nullable=false)
 	private int idProposal;
 
+	@Column(name="proposal_name", nullable=false)
+	private double proposalName;
+	
 	@Column(name="aporte_fijo", nullable=false)
 	private double aporteFijo;
 
