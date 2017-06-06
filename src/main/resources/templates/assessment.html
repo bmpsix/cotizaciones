@@ -22,10 +22,10 @@
 							<label for="detail">Detalle:</label>
 							<input  type="text" name="detail"  required/>
 							
-							<label for="currencyExchange">Cambio de Divisas:</label>
-							<select name="idCurrencyExchange">
-								<option th:each="currencyExchange : ${currencyExchanges}" th:value="${currencyExchange.idCurrencyExchange}">
-									<p  th:text="${currencyExchange.CurrencyType.detail}" th:value="${currencyExchange.idCurrencyExchange}" ></p>
+							<label for="currencyType">Tipo de moneda:</label>
+							<select name="idCurrencyType">
+								<option th:each="currencyType : ${currencyTypes}" th:value="${currencyType.idCurrencyType}">
+									<p  th:text="${currencyType.detail}" th:value="${currencyType.idCurrencyType}" ></p>
 								</option>
 							</select>
 							
@@ -36,14 +36,6 @@
 									<p th:text="${saClient.detail}" th:value="${saClient.idSaClient}" ></p>
 								</option>
 							</select>
-							
-							<label for="user">Usuario:</label>
-							<select  name="idUser" >
-								<option th:each="user : ${users}" th:value="${user.idUser}">
-									<p th:text="${user.name}" th:value="${user.idUser}" ></p>
-								</option>
-							</select>
-							
 						</div>
 				
 						<div th:if="${updateAssessment!=null}">
@@ -56,13 +48,13 @@
 							<input  type="text" name="detail"  th:value="${updateAssessment.detail}" required/>
 							
 							
-							<label for="currencyExchange">Cambio de Divisas:</label>
-							<select name="idCurrencyExchange">
-								<option th:each="currencyExchange : ${currencyExchanges}" th:value="${currencyExchange.idCurrencyExchange}" th:if="${updateAssessment.CurrencyExchange.CurrencyType.idCurrencyType == currencyExchange.CurrencyType.idCurrencyType}"  selected readonly>
-									<p  th:text="${currencyExchange.CurrencyType.detail}" th:value="${currencyExchange.idCurrencyExchange}" ></p>
+							<label for="currencyType">Tipo de moneda:</label>
+							<select name="idCurrencyType">
+								<option th:each="currencyType : ${currencyTypes}" th:value="${currencyType.idCurrencyType}" th:if="${updateAssessment.CurrencyExchange.CurrencyType.idCurrencyType == currencyType.idCurrencyType}"  selected readonly>
+									<p  th:text="${currencyType.detail}" th:value="${currencyType.idCurrencyType}" ></p>
 								</option>
-								<option th:each="currencyExchange : ${currencyExchanges}" th:value="${currencyExchange.idCurrencyExchange}"  th:if="${updateAssessment.CurrencyExchange.CurrencyType.idCurrencyType != currencyExchange.CurrencyType.idCurrencyType}"   readonly>
-									<p  th:text="${currencyExchange.CurrencyType.detail}" th:value="${currencyExchange.idCurrencyExchange}" ></p>
+								<option th:each="currencyType : ${currencyTypes}" th:value="${currencyType.idCurrencyType}"  th:if="${updateAssessment.CurrencyExchange.CurrencyType.idCurrencyType != currencyType.idCurrencyType}"   readonly>
+									<p  th:text="${currencyType.detail}" th:value="${currencyType.idCurrencyType}" ></p>
 								</option>
 							</select>
 							
@@ -76,16 +68,6 @@
 								</option>
 							</select>
 							
-							<label for="user">Usuario:</label>
-							
-							<select  name="idUser" >
-								<option th:each="user : ${users}" th:value="${user.idUser}" th:if="${updateAssessment.User.idUser == user.idUser}"  selected readonly>
-									<p th:text="${user.name}" th:value="${user.idUser}" ></p>
-								</option>
-								<option th:each="user : ${users}" th:value="${user.idUser}" th:if="${updateAssessment.User.idUser != user.idUser}"   readonly>
-									<p th:text="${user.name}" th:value="${user.idUser}" ></p>
-								</option>
-							</select>
 							
 							<a href="#" th:href="@{/admin/addassessment}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
 							

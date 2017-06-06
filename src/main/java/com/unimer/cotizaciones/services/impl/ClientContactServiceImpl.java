@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.ClientContact;
+import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.entities.LogClientContact;
 import com.unimer.cotizaciones.repositories.ClientContactJpaRepository;
 import com.unimer.cotizaciones.repositories.ClientJpaRepository;
@@ -89,6 +90,11 @@ public class ClientContactServiceImpl implements ClientContactService {
 			logClientContactJpaRepository.save(logClientContact);
 			
 		}
+	}
+
+	@Override
+	public List<ClientContact> findByCountry(Country country) {
+		return clientContactJpaRepository.findByCountry(country);
 	}
 
 	

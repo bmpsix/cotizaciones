@@ -101,7 +101,7 @@
 				</option>
 			</select>
 			
-			<label for="tipoEstudio"><h5>Continuo/Tracker</h5></label>
+			<label for="tipoEstudio"><h5>Continuo/Tracker:</h5></label>
         	<select>
   				<option value="1">Aplica</option>
   				<option value="2">No Aplica</option>
@@ -114,6 +114,28 @@
 				</option>
 			</select>
 			
+			<label for="assessment"><h5>Evaluación:</h5></label>
+        	<select name="assessment.idAssessment">
+				<option th:each="assessment : ${assessments}" th:value="${assessment.idAssessment}">
+					<p name="assessment.detail" th:text="${assessment.detail}" th:value="${assessment.detail}" ></p>
+				</option>
+			</select>
+			
+			<label for="clientContact"><h5>Contacto de cliente</h5></label>
+        	<select name="clientContact.idClientContact">
+				<option th:each="clientContact : ${clientContacts}" th:value="${clientContact.idClientContact}">
+					<p name="clientContact.name" th:text="${clientContact.name}" th:value="${clientContact.name}" ></p>
+				</option>
+			</select>
+			
+			<label for="executionType"><h5>Tipo de ejecución</h5></label>
+        	<select name="executionType.idExecutionType">
+				<option th:each="executionType : ${executionTypes}" th:value="${executionType.idExecutionType}">
+					<p name="executionType.detail" th:text="${executionType.detail}" th:value="${executionType.detail}" ></p>
+				</option>
+			</select>
+			
+			
 			
         </fieldset>
         
@@ -122,11 +144,19 @@
       <div class="ui-block-b">
        <fieldset style="margin: 30px;">
         	<legend><h1>Paso 2</h1></legend>
-        	<label for="target"><h5>Target:</h5></label>
+        	<label for="target"><h5>Muestreo:</h5></label>
+        <!-- 	<select name="target.idTarget">
+				<option th:each="target : ${targets}" th:value="${target.idTarget}">
+					<p name="target.observations" th:text="${target.observations}" th:value="${target.observations}" ></p>
+				</option>
+			</select> -->
         	<textarea name="target" id="info" style="border-bottom:1px solid green;"></textarea>
         	
         	<label for="observacion"><h5>Observacion:</h5></label>
         	<textarea name="observacion" id="info" style="border-bottom:1px solid green;"></textarea>
+        	
+        	
+        	
         </fieldset>
       </div>
       <div class="ui-block-c">

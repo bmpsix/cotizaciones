@@ -8,11 +8,11 @@
 		<div data-role="header" data-position="inline" >
 			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
             <h1>
-            SIP Cotizaciones - Coleccion de Metodos
+            SIP Cotizaciones - Coleccion de Métodos
             </h1>
 		</div>
 		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
-		<h3>Control de Coleccion de Metodos</h3>
+		<h3>Control de Métodos de recolección</h3>
 			<div data-role="fieldcontain">
 				<form method="post" action="#" th:action="@{/admin/addcollectmethod}" th:object="${updateCollectMethod}">
 					<div th:if="${updateCollectMethod==null}">
@@ -32,11 +32,11 @@
 			</div>
            	 	
            	<fieldset data-role="controlgroup"  data-type="horizontal">
-           	<legend><h3>Metodos de Coleccion</h3></legend>
+           	<legend><h3>Métodos de recolección </h3></legend>
            		<table style="text-align:justify;">
            				<thead>
            				<tr>
-           				<th  style="padding-right: 15px;">Id Metodo</th>
+           				<th  style="padding-right: 15px;">ID</th>
            				<th  style="padding-right: 15px;">Detalle</th>
            				<th  style="padding-right: 15px;">Opción</th>
            				</tr>

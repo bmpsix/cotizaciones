@@ -2,7 +2,9 @@ package com.unimer.cotizaciones.services;
 
 import java.util.List;
 
+import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.entities.CurrencyExchange;
+import com.unimer.cotizaciones.entities.CurrencyType;
 
 public interface CurrencyExchangeService {
 	
@@ -15,5 +17,5 @@ public interface CurrencyExchangeService {
 	
 	public abstract CurrencyExchange getCurrencyExchange(int idCurrencyExchange);
 	
-	
+	public abstract CurrencyExchange findByCountryAndCurrencyType(Country country, CurrencyType currencyType);
 }

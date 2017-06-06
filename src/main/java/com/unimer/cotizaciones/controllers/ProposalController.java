@@ -12,13 +12,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.model.UserSession;
+import com.unimer.cotizaciones.services.AssessmentService;
 import com.unimer.cotizaciones.services.CollectMethodService;
 import com.unimer.cotizaciones.services.CountryByCurrencyTypeService;
 import com.unimer.cotizaciones.services.CountryService;
+import com.unimer.cotizaciones.services.ExecutionTypeService;
 import com.unimer.cotizaciones.services.IndustrySectorService;
 import com.unimer.cotizaciones.services.StudyCategoryService;
 import com.unimer.cotizaciones.services.StudyTypeService;
+import com.unimer.cotizaciones.services.TargetService;
 import com.unimer.cotizaciones.services.TechniqueService;
+import com.unimer.cotizaciones.services.impl.ClientContactServiceImpl;
 
 
 @Controller
@@ -58,7 +62,22 @@ public class ProposalController {
 	@Qualifier("countryByCurrencyTypeServiceImpl")
 	private CountryByCurrencyTypeService countryByCurrencyTypeService;
 	
+	@Autowired
+	@Qualifier("assessmentServiceImpl")
+	private AssessmentService assessmentService;
 	
+	
+	@Autowired
+	@Qualifier("targetServiceImpl")
+	private TargetService targetService;
+	
+	@Autowired
+	@Qualifier("clientContactServiceImpl")
+	private ClientContactServiceImpl clientContactService;
+	
+	@Autowired
+	@Qualifier("executionTypeServiceImpl")
+	private ExecutionTypeService executionTypeService;
 	
 	@GetMapping("/admin/proposal")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -72,6 +91,10 @@ public class ProposalController {
 		modelAndView.addObject("industrysectors", industrySectorService.listAllIndustrySectors());
 		modelAndView.addObject("techniques", techniqueService.orderlistAllTechniques());
 		modelAndView.addObject("countryByCurrencyType", cntry.getCurrencyType());
+		modelAndView.addObject("targets", targetService.listAllTargets());
+		modelAndView.addObject("assessments", assessmentService.listAllAssessment());
+		modelAndView.addObject("clientContacts", clientContactService.findByCountry(cntry));
+		modelAndView.addObject("executionTypes", executionTypeService.listAllExecutionType());
 		modelAndView.setViewName("proposal");
 		return modelAndView;
 		

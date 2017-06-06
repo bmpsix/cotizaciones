@@ -8,7 +8,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.entities.CurrencyExchange;
+import com.unimer.cotizaciones.entities.CurrencyType;
 import com.unimer.cotizaciones.entities.LogCurrencyExchange;
 import com.unimer.cotizaciones.repositories.CurrencyExchangeJpaRepository;
 import com.unimer.cotizaciones.repositories.LogCurrencyExchangeJpaRepository;
@@ -79,5 +82,10 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 	@Override
 	public CurrencyExchange getCurrencyExchange(int idCurrencyExchange) {
 		return currencyExchangeJpaRepository.findByIdCurrencyExchange(idCurrencyExchange);
+	}
+
+	@Override
+	public CurrencyExchange findByCountryAndCurrencyType(Country country, CurrencyType currencyType) {
+		return currencyExchangeJpaRepository.findByCountryAndCurrencyType(country, currencyType);
 	}
 }	
