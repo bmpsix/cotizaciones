@@ -1,17 +1,19 @@
 package com.unimer.cotizaciones.services;
 
 import java.util.List;
-import com.unimer.cotizaciones.entities.ProposalType;
+
+import com.unimer.cotizaciones.entities.Country;
+import com.unimer.cotizaciones.entities.Proposal;
+import com.unimer.cotizaciones.entities.User;
 
 public interface ProposalService {
 
 	
-	
-	public abstract void addProposalType(ProposalType proposalType, int idUser);
-	
-	public abstract List<ProposalType> listAllProposalTypes();
-	
-	public abstract ProposalType findById(int idProposalType);
-	
 	public abstract String autoIncrement();
+
+	public abstract void addProposal(Proposal proposal, int idUser);
+	
+	public abstract List<Proposal> findByCountry(Country country);
+	
+	public abstract List<Proposal> findByContryAndUser(Country country, User user);
 }

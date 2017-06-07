@@ -1,7 +1,6 @@
 package com.unimer.cotizaciones.entities;
 
 import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -39,6 +38,7 @@ public class Departure implements Serializable {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_country", nullable=false)
 	private Country country;
+
 	
 	public int getIdDeparture() {
 		return idDeparture;

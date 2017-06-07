@@ -1,16 +1,22 @@
 package com.unimer.cotizaciones.controllers;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.Country;
+import com.unimer.cotizaciones.entities.Proposal;
+import com.unimer.cotizaciones.entities.ProposalDetails;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.AssessmentService;
 import com.unimer.cotizaciones.services.CollectMethodService;
@@ -19,6 +25,7 @@ import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.ExecutionTypeService;
 import com.unimer.cotizaciones.services.IndustrySectorService;
 import com.unimer.cotizaciones.services.OperationService;
+import com.unimer.cotizaciones.services.ProposalDetailsService;
 import com.unimer.cotizaciones.services.ProposalService;
 import com.unimer.cotizaciones.services.ProposalTypeService;
 import com.unimer.cotizaciones.services.StatusService;
@@ -34,7 +41,7 @@ import com.unimer.cotizaciones.services.impl.ClientContactServiceImpl;
 public class ProposalController {
 	
 	
-	
+	private static final Log LOG = LogFactory.getLog(AssessmentController.class);
 	
 	@Autowired
 	@Qualifier("countryServiceImpl")
@@ -99,6 +106,10 @@ public class ProposalController {
 	@Qualifier("proposalTypeServiceImpl")
 	private ProposalTypeService proposalTypeService;
 	
+	@Autowired
+	@Qualifier("proposalDetailsServiceImpl")
+	private ProposalDetailsService proposalDetailsService;
+	
 	
 	@GetMapping("/admin/proposal")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -134,6 +145,33 @@ public class ProposalController {
 		
 	}
 	
+
+	@PostMapping("/admin/addproposal")
+	public String addProposal(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "proposal") Proposal proposal, Model model) {
+		LOG.info("METHOD: addProposalDetails in PrposalController -- PARAMS: " + proposal.toString());
+		proposalService.addProposal(proposal, userSession.getId());
+		 return "redirect:/admin/proposal";
+	}
+	
+	@GetMapping("/admin/addproposal")
+	public String getProposal() {
+		return "redirect:/admin/proposal";
+	}
+	
+	
+	
+	@PostMapping("/admin/addproposalDetails")
+	public String addProposalDetails(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "proposalDetails") ProposalDetails proposalDetails, Model model) {
+		LOG.info("METHOD: addProposalDetails in PrposalController -- PARAMS: " + proposalDetails.toString());
+		proposalDetailsService.addProposalDetails(proposalDetails, userSession.getId());
+		 return "redirect:/admin/proposal";
+	}
+	
+	@GetMapping("/admin/addproposalDetails")
+	public String getProposalDetails() {
+		return "redirect:/admin/proposal";
+	}
+
 	
 	
 }

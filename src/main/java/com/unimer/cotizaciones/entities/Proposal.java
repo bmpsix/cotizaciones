@@ -2,7 +2,6 @@ package com.unimer.cotizaciones.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,6 +22,9 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="proposal")
 public class Proposal implements Serializable {
+	
+
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -33,8 +35,8 @@ public class Proposal implements Serializable {
 	@Column(name="proposal_name", nullable=false)
 	private double proposalName;
 	
-	@Column(name="aporte_fijo", nullable=false)
-	private double aporteFijo;
+	/*@Column(name="aporte_fijo", nullable=false)
+	private double aporteFijo;*/
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="creation_date", nullable=false)
@@ -47,14 +49,14 @@ public class Proposal implements Serializable {
 	@Column(name="end_date", nullable=false)
 	private Date endDate;
 
-	@Column(nullable=false)
+	/*@Column(nullable=false)
 	private double factor1;
 
 	@Column(name="imprevisto_comisionable", nullable=false)
 	private double imprevistoComisionable;
 
 	@Column(name="imprevisto_no_comisionable", nullable=false)
-	private double imprevistoNoComisionable;
+	private double imprevistoNoComisionable;*/
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="initial_date", nullable=false)
@@ -126,6 +128,21 @@ public class Proposal implements Serializable {
 	@JoinColumn(name="id_target", nullable=false)
 	private Target target;*/
 
+
+	//bi-directional many-to-one association to TblUser
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_user", nullable=false)
+	private User user;
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	
 	public int getIdProposal() {
 		return idProposal;
 	}
@@ -134,13 +151,13 @@ public class Proposal implements Serializable {
 		this.idProposal = idProposal;
 	}
 
-	public double getAporteFijo() {
+/*	public double getAporteFijo() {
 		return aporteFijo;
 	}
 
 	public void setAporteFijo(double aporteFijo) {
 		this.aporteFijo = aporteFijo;
-	}
+	}*/
 
 	public Date getCreationDate() {
 		return creationDate;
@@ -166,7 +183,7 @@ public class Proposal implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public double getFactor1() {
+	/*public double getFactor1() {
 		return factor1;
 	}
 
@@ -188,7 +205,7 @@ public class Proposal implements Serializable {
 
 	public void setImprevistoNoComisionable(double imprevistoNoComisionable) {
 		this.imprevistoNoComisionable = imprevistoNoComisionable;
-	}
+	}*/
 
 	public Date getInitialDate() {
 		return initialDate;
@@ -310,6 +327,15 @@ public class Proposal implements Serializable {
 		this.target = target;
 	}*/
 
+	
+	public double getProposalName() {
+		return proposalName;
+	}
+
+	public void setProposalName(double proposalName) {
+		this.proposalName = proposalName;
+	}
+
 	public Proposal() {
 		super();
 		this.assessment = new Assessment();
@@ -323,24 +349,25 @@ public class Proposal implements Serializable {
 		this.status = new Status();
 		this.studyCategory = new StudyCategory();
 		this.studyType = new StudyType();
+		this.user = new User();
 		//this.target = new Target();
 	}
 
-	public Proposal(int idProposal, double aporteFijo, Date creationDate, double currencyExchange, Date endDate,
-			double factor1, double imprevistoComisionable, double imprevistoNoComisionable, Date initialDate,
+	public Proposal(int idProposal/*, double aporteFijo*/, Date creationDate, double currencyExchange, Date endDate/*,
+			double factor1*/,/* double imprevistoComisionable, double imprevistoNoComisionable,*/ Date initialDate,
 			String observations, String targetText, Assessment assessment, ClientContact clientContact,
 			CollectMethod collectMethod, Country country, ExecutionType executionType, IndustrySector industrySector,
 			Operation operation, ProposalType proposalType, Status status, StudyCategory studyCategory,
-			StudyType studyType/*, Target target*/) {
+			StudyType studyType/*, Target target*/,User user) {
 		super();
 		this.idProposal = idProposal;
-		this.aporteFijo = aporteFijo;
+		//this.aporteFijo = aporteFijo;
 		this.creationDate = creationDate;
 		this.currencyExchange = currencyExchange;
 		this.endDate = endDate;
-		this.factor1 = factor1;
-		this.imprevistoComisionable = imprevistoComisionable;
-		this.imprevistoNoComisionable = imprevistoNoComisionable;
+		//this.factor1 = factor1;
+		//this.imprevistoComisionable = imprevistoComisionable;
+		//this.imprevistoNoComisionable = imprevistoNoComisionable;
 		this.initialDate = initialDate;
 		this.observations = observations;
 		this.targetText = targetText;
@@ -355,19 +382,20 @@ public class Proposal implements Serializable {
 		this.status = status;
 		this.studyCategory = studyCategory;
 		this.studyType = studyType;
+		this.user=user;
 		//this.target = target;
 	}
 
 	@Override
 	public String toString() {
-		return "Proposal [idProposal=" + idProposal + ", aporteFijo=" + aporteFijo + ", creationDate=" + creationDate
-				+ ", currencyExchange=" + currencyExchange + ", endDate=" + endDate + ", factor1=" + factor1
+		return "Proposal [idProposal=" + idProposal + /*", aporteFijo=" + aporteFijo +*/ ", creationDate=" + creationDate
+				+ ", currencyExchange=" + currencyExchange + ", endDate=" + endDate + /*", factor1=" + factor1
 				+ ", imprevistoComisionable=" + imprevistoComisionable + ", imprevistoNoComisionable="
-				+ imprevistoNoComisionable + ", initialDate=" + initialDate + ", observations=" + observations
+				+ imprevistoNoComisionable + */", initialDate=" + initialDate + ", observations=" + observations
 				+ ", targetText=" + targetText + ", asseament=" + assessment + ", clientContact=" + clientContact
 				+ ", collectMethod=" + collectMethod + ", country=" + country + ", executionType=" + executionType
 				+ ", industrySector=" + industrySector + ", operation=" + operation + ", proposalType=" + proposalType
 				+ ", status=" + status + ", studyCategory=" + studyCategory + ", studyType=" + studyType + /*", target="
-				+ target +*/ "]";
+				+ target +*/"user="+user+"]";
 	}
 }
