@@ -21,7 +21,15 @@
         <label for="cotizacion"> <h5>Numero de Propuesta:</h5> <span th:text="${autoIncrement}" ></span></label>
       </div>
       <div class="ui-block-b" data-inline=true>
-         <label style=" width: 99%;" for="cotizacion"><h5>Nombre de Cotizacion:</h5> <input   title="Debe ingresar un nombre para la propuesta" type="text" name="proposalName" th:value="${proposalName}" required/></label>
+         <label style=" width: 99%;" for="cotizacion"><h5>Nombre de Cotizacion:</h5> <input placeholder="Nombre para la cotización"  title="Debe ingresar un nombre para la propuesta" type="text" name="proposalName" th:value="${proposalName}" required/></label>
+      	
+      		<label for="executionType"><h5>Estado</h5></label>
+        	<select name="status.idStatus">
+				<option th:each="status : ${statuss}" th:value="${status.idStatus}">
+					<p name="status.detail" th:text="${status.detail}" th:value="${status.detail}" ></p>
+				</option>
+			</select>
+      
       </div>
       <div class="ui-block-c">
        
@@ -119,18 +127,18 @@
 			<label for="assessment"><h5>Evaluación:</h5></label>
         	<select name="assessment.idAssessment">
 				<option th:each="assessment : ${assessments}" th:value="${assessment.idAssessment}">
-					<p name="assessment.detail" th:text="${assessment.detail}" th:value="${assessment.detail}" ></p>
+					<p name="assessment.detail" th:text="${assessment.detail  + ' - ' + assessment.saClient.detail}" th:value="${assessment.detail}" ></p>
 				</option>
 			</select>
 			
-			<label for="clientContact"><h5>Contacto de cliente</h5></label>
+			<label for="clientContact"><h5>Contacto de cliente:</h5></label>
         	<select name="clientContact.idClientContact">
 				<option th:each="clientContact : ${clientContacts}" th:value="${clientContact.idClientContact}">
 					<p name="clientContact.name" th:text="${clientContact.name}" th:value="${clientContact.name}" ></p>
 				</option>
 			</select>
 			
-			<label for="executionType"><h5>Tipo de ejecución</h5></label>
+			<label for="executionType"><h5>Tipo de ejecución:</h5></label>
         	<select name="executionType.idExecutionType">
 				<option th:each="executionType : ${executionTypes}" th:value="${executionType.idExecutionType}">
 					<p name="executionType.detail" th:text="${executionType.detail}" th:value="${executionType.detail}" ></p>
@@ -138,6 +146,20 @@
 			</select>
 			
 			
+			<label for="executionType"><h5>Operaciones:</h5></label>
+        	<select name="operation.idOperation">
+				<option th:each="operation : ${operations}" th:value="${operation.idOperation}">
+					<p name="operation.detail" th:text="${operation.detail  + ' - ' + operation.OperationType.detail}" th:value="${operation.detail}" ></p>
+				</option>
+			</select>
+			
+				
+			<label for="proposalType"><h5>Tipos de propuesta:</h5></label>
+        	<select name="proposalType.idProposalType">
+				<option th:each="proposalType : ${proposalTypes}" th:value="${proposalType.idProposalType}">
+					<p name="proposalType.detail" th:text="${proposalType.detail}" th:value="${proposalType.detail}" ></p>
+				</option>
+			</select>
 			
         </fieldset>
         
@@ -253,7 +275,7 @@
 		                <td>(fact de 2.39), (Impre 10%)</td>
 		                <td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" th:href="@{/admin/dialogoPartidas}" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
 		            </tr>
-		            <tr>
+		            <tr  style="color:white; background:#005d54;">
 		                <th><input type="checkbox"/></th>
 		                <td>74</td>
 		                <td>Codificacion</td>
@@ -280,7 +302,80 @@
 
       </div>
       <div class="ui-block-c" style="margin: 30px;">
-      <p>Aqui va la calculadora</p>
+      
+      
+       
+      	<div id="Comisionable">
+      	<h3>Comisionable</h3>
+      	
+      	<table data-role="table" class="ui-responsive">
+      	<thead  style="color:white; background:#005d54; ">
+		   	<tr>
+      	  		<th >Subtotal 1</th>
+      	  		<td ><span >0000</span></td>
+      	  	</tr>
+      	  		<tr>
+      	  		<th >Imprevisto %</th>
+      	  		<td ><label style=" width: 25%;" for="imprevisto"><input placeholder="%"  title="Debe ingresar un valor de imprevisto" type="number" min="1" maxlength="2" name=" imprevistoComisionable" th:value="${imprevistoComisionable}" required/></label>
+      		</td>
+      	  	</tr>
+      	  	<tr>
+      	  		<th>Total imprevisto</th>
+      	  		<td >0000</td>
+      	  	</tr>
+      	  	<tr>
+      	  		<th >Factor 1</th>
+      	  		<td ><label style=" width: 25%;" for="factor1"><input placeholder="Valor de factor 1"  title="Debe ingresar un valor para el factor 1" type="number" name="factor1" th:value="${factor1}" required/></label>
+      		</td>
+      	  	</tr>
+      	  	<tr>
+      	  		<th >Subtotal 3</th>
+      	  		<td >0000</td>
+      	  	</tr>
+      	  	<tr>
+      	  		<th>Aporte fijo</th>
+      	  		<td ><label style=" width: 25%;" for="AporteFijo"><input placeholder="Valor de aporte fijo"  title="Debe ingresar un valor para el aporte fijo" type="number"  name="aporteFijo" th:value="${aporteFijo}" required/></label>
+      	    	</td>
+      	  	</tr>
+      	  	<tr>
+      	  		<th>Total 1</th>
+      	  		<td >0000</td>
+      	  	</tr>
+      	  	<tr>
+      	  		<th >Tipo de cambio $</th>
+      	  		<td >0000</td>
+      	  	</tr>
+         </thead>
+      	</table>
+      	
+      	</div>
+      	<div id="NoComisionable">
+      	
+      	<h3>No comisionable</h3>
+      	
+      	<table data-role="table" class="ui-responsive">
+      	<thead  style="color:white; background:#005d54;">
+		   	<tr>
+      	  		<th >Sub total 4:</th>
+      	  		<td ><span >0000</span></td>
+      	  	</tr>
+      	  		<tr>
+      	  		<th >Factor 2:</th>
+      	  		<td ><label style=" width: 25%;" for="factor2"><input placeholder="Valor de factor 2"  title="Debe ingresar un valor para el factor 2" type="number" name="factor2" th:value="${factor2}" required/></label>
+      			</td>
+      	  	</tr>
+      	  	<tr>
+      	  		<th >Sub total 5:</th>
+      	  		<td ><span >0000</span></td>
+      	  	</tr>
+      	  	<tr>
+      	  		<th >Total 2:</th>
+      	  		<td ><span >0000</span></td>
+      	  	</tr>
+      	 </thead>
+      	</table>
+      	</div>
+      
       </div>
 	</div>
 

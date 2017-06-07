@@ -18,7 +18,10 @@ import com.unimer.cotizaciones.services.CountryByCurrencyTypeService;
 import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.ExecutionTypeService;
 import com.unimer.cotizaciones.services.IndustrySectorService;
+import com.unimer.cotizaciones.services.OperationService;
 import com.unimer.cotizaciones.services.ProposalService;
+import com.unimer.cotizaciones.services.ProposalTypeService;
+import com.unimer.cotizaciones.services.StatusService;
 import com.unimer.cotizaciones.services.StudyCategoryService;
 import com.unimer.cotizaciones.services.StudyTypeService;
 import com.unimer.cotizaciones.services.TargetService;
@@ -84,6 +87,19 @@ public class ProposalController {
 	@Qualifier("proposalServiceImpl")
 	private ProposalService proposalService;
 	
+	@Autowired
+	@Qualifier("operationServiceImpl")
+	private OperationService operationService;
+	
+	@Autowired
+	@Qualifier("statusServiceImpl")
+	private StatusService statusService;
+	
+	@Autowired
+	@Qualifier("proposalTypeServiceImpl")
+	private ProposalTypeService proposalTypeService;
+	
+	
 	@GetMapping("/admin/proposal")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView proposal(ModelMap model,@ModelAttribute("userSession") UserSession userSession){
@@ -101,6 +117,9 @@ public class ProposalController {
 		modelAndView.addObject("clientContacts", clientContactService.findByCountry(cntry));
 		modelAndView.addObject("executionTypes", executionTypeService.listAllExecutionType());
 		modelAndView.addObject("autoIncrement", proposalService.autoIncrement());
+		modelAndView.addObject("operations", operationService.listAllOperation());
+		modelAndView.addObject("statuss", statusService.listAllStatus());
+		modelAndView.addObject("proposalTypes", proposalTypeService.listAllProposalTypes());
 		modelAndView.setViewName("proposal");
 		return modelAndView;
 		
