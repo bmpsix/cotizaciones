@@ -15,11 +15,13 @@
 		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
 		
     <div class="ui-grid-b" id="cotiHeader1">
+    
+    <input type="hidden" th:text="${email}" th:value="${email}"></input>
       <div class="ui-block-a">
-        <label for="cotizacion"> <h5>Numero de Propuesta:</h5> <span>000620</span></label>
+        <label for="cotizacion"> <h5>Numero de Propuesta:</h5> <span th:text="${autoIncrement}" ></span></label>
       </div>
       <div class="ui-block-b" data-inline=true>
-         <label style=" width: 90%;" for="cotizacion"><h5>Nombre de Cotizacion:</h5> <input   title="Debe ingresar un nombre para la propuesta" type="text" name="proposalName" th:value="${proposalName}" required/></label>
+         <label style=" width: 99%;" for="cotizacion"><h5>Nombre de Cotizacion:</h5> <input   title="Debe ingresar un nombre para la propuesta" type="text" name="proposalName" th:value="${proposalName}" required/></label>
       </div>
       <div class="ui-block-c">
        
@@ -291,6 +293,10 @@
 	</div>
 	
 	
+	<script type="text/javascript">
+		window.load = userSet();
+		
+	</script>
 	<!--  <script type ="text/javascript">
 			$(document).ready(function(){
 				

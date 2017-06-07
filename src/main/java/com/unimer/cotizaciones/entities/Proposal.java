@@ -121,10 +121,10 @@ public class Proposal implements Serializable {
 	@JoinColumn(name="id_study_type", nullable=false)
 	private StudyType studyType;
 
-	//bi-directional many-to-one association to TblTarget
+	/*//bi-directional many-to-one association to TblTarget
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_target", nullable=false)
-	private Target target;
+	private Target target;*/
 
 	public int getIdProposal() {
 		return idProposal;
@@ -302,13 +302,13 @@ public class Proposal implements Serializable {
 		this.studyType = studyType;
 	}
 
-	public Target getTarget() {
+	/*public Target getTarget() {
 		return target;
 	}
 
 	public void setTarget(Target target) {
 		this.target = target;
-	}
+	}*/
 
 	public Proposal() {
 		super();
@@ -323,7 +323,7 @@ public class Proposal implements Serializable {
 		this.status = new Status();
 		this.studyCategory = new StudyCategory();
 		this.studyType = new StudyType();
-		this.target = new Target();
+		//this.target = new Target();
 	}
 
 	public Proposal(int idProposal, double aporteFijo, Date creationDate, double currencyExchange, Date endDate,
@@ -331,7 +331,7 @@ public class Proposal implements Serializable {
 			String observations, String targetText, Assessment assessment, ClientContact clientContact,
 			CollectMethod collectMethod, Country country, ExecutionType executionType, IndustrySector industrySector,
 			Operation operation, ProposalType proposalType, Status status, StudyCategory studyCategory,
-			StudyType studyType, Target target) {
+			StudyType studyType/*, Target target*/) {
 		super();
 		this.idProposal = idProposal;
 		this.aporteFijo = aporteFijo;
@@ -355,7 +355,7 @@ public class Proposal implements Serializable {
 		this.status = status;
 		this.studyCategory = studyCategory;
 		this.studyType = studyType;
-		this.target = target;
+		//this.target = target;
 	}
 
 	@Override
@@ -367,7 +367,7 @@ public class Proposal implements Serializable {
 				+ ", targetText=" + targetText + ", asseament=" + assessment + ", clientContact=" + clientContact
 				+ ", collectMethod=" + collectMethod + ", country=" + country + ", executionType=" + executionType
 				+ ", industrySector=" + industrySector + ", operation=" + operation + ", proposalType=" + proposalType
-				+ ", status=" + status + ", studyCategory=" + studyCategory + ", studyType=" + studyType + ", target="
-				+ target + "]";
+				+ ", status=" + status + ", studyCategory=" + studyCategory + ", studyType=" + studyType + /*", target="
+				+ target +*/ "]";
 	}
 }

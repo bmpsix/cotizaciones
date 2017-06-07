@@ -12,4 +12,6 @@ public interface ProposalService {
 	public abstract List<ProposalType> listAllProposalTypes();
 	
 	public abstract ProposalType findById(int idProposalType);
+	
+	public abstract String autoIncrement();
 }

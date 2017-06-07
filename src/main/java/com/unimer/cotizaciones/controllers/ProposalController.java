@@ -18,6 +18,7 @@ import com.unimer.cotizaciones.services.CountryByCurrencyTypeService;
 import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.ExecutionTypeService;
 import com.unimer.cotizaciones.services.IndustrySectorService;
+import com.unimer.cotizaciones.services.ProposalService;
 import com.unimer.cotizaciones.services.StudyCategoryService;
 import com.unimer.cotizaciones.services.StudyTypeService;
 import com.unimer.cotizaciones.services.TargetService;
@@ -79,6 +80,10 @@ public class ProposalController {
 	@Qualifier("executionTypeServiceImpl")
 	private ExecutionTypeService executionTypeService;
 	
+	@Autowired
+	@Qualifier("proposalServiceImpl")
+	private ProposalService proposalService;
+	
 	@GetMapping("/admin/proposal")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView proposal(ModelMap model,@ModelAttribute("userSession") UserSession userSession){
@@ -95,6 +100,7 @@ public class ProposalController {
 		modelAndView.addObject("assessments", assessmentService.listAllAssessment());
 		modelAndView.addObject("clientContacts", clientContactService.findByCountry(cntry));
 		modelAndView.addObject("executionTypes", executionTypeService.listAllExecutionType());
+		modelAndView.addObject("autoIncrement", proposalService.autoIncrement());
 		modelAndView.setViewName("proposal");
 		return modelAndView;
 		

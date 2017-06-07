@@ -31,7 +31,7 @@ public class OperationServiceImpl implements OperationService {
 	@Qualifier("traceResponseJpaRepository")
 	private TraceResponseJpaRepository traceResponseJpaRepository;
 	
-	String ipCliente="";
+	
 	
 	private static final Log LOG = LogFactory.getLog(OperationServiceImpl.class);
 	
