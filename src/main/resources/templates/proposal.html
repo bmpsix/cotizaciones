@@ -200,46 +200,13 @@
     		
         </fieldset>
       </div> 
-      
-      
-      <!-- Yuya metodo
-      <div class="ui-block-c">
-       <fieldset style="margin: 30px;">
-        	<legend><h1>Paso 3</h1></legend>
-        	<h5>Tecnicas/Modelo:</h5>
-    		<form class="ui-filterable">
-      			<input id="myFilter" data-type="search" placeholder="Busca las tecnicas/modelos">
-    		</form>
-    		<ul data-role="listview" data-filter="true" data-input="#myFilter" data-autodividers="true" data-inset="true">
-      			<li><a href="#">Adele</a></li>
-      			<li><a href="#">Agnes</a></li>
-     			<li><a href="#">Albert</a></li>
-      			<li><a href="#">Billy</a></li>
-      			<li><a href="#">Bob</a></li>
-      			<li><a href="#">Calvin</a></li>
-      			<li><a href="#">Cameron</a></li>
-			    <li><a href="#">Chloe</a></li>
-			    <li><a href="#">Christina</a></li>
-			    <li><a href="#">Diana</a></li>
-			    <li><a href="#">Gabriel</a></li>
-			    <li><a href="#">Glen</a></li>
-			    <li><a href="#">Ralph</a></li>
-			    <li><a href="#">Valarie</a></li>
-    		</ul>
-    		
-    		<button  onclick="return window.location.href='/admin/technique'" class="ui-btn">Agregar-Tecnica/Modelos</button>
-    		
-        </fieldset>
-      </div> 
-      
-       -->
        
 	</div>
 	
-	<div class="ui-grid-solo" id="detalleCoti" style="display: none;">
-    
-      <div class="ui-block-b" style="margin: 30px;">
-      		<h5>Partidas:</h5>
+	<div class="ui-grid-b" id="detalleCoti" style="display: none;">
+     <div class="ui-block-a" >
+        <fieldset style="margin: 30px;">
+        	<h5>Partidas:</h5>
  			<form class="ui-filterable">
       			<input id="myFilter2" data-type="search" placeholder="Busca la partida">
       			<div class="ui-block-b">
@@ -247,7 +214,7 @@
 		    	</div>
     		</form> 
     		
-    		<table data-role="table" id="movie-table" data-filter="true" data-input="#myFilter2" class="ui-responsive" >
+    		<table data-role="table" id="movie-table" data-filter="true" data-input="#myFilter2" class="ui-responsive">
     			<thead>
 		        <tr>
 		            <th data-priority="1">Opcion</th>
@@ -299,86 +266,80 @@
 		            </tr>
 		        </tbody>
     		</table>
-
+        </fieldset>       
       </div>
-      <div class="ui-block-c" style="margin: 30px;">
-      
-      
-       
-      	<div id="Comisionable">
-      	<h3>Comisionable</h3>
-      	
-      	<table data-role="table" class="ui-responsive">
-      	<thead  style="color:white; background:#005d54; ">
-		   	<tr>
-      	  		<th >Subtotal 1</th>
-      	  		<td ><span >0000</span></td>
-      	  	</tr>
-      	  		<tr>
-      	  		<th >Imprevisto %</th>
-      	  		<td ><label style=" width: 25%;" for="imprevisto"><input placeholder="%"  title="Debe ingresar un valor de imprevisto" type="number" min="1" maxlength="2" name=" imprevistoComisionable" th:value="${imprevistoComisionable}" required/></label>
-      		</td>
-      	  	</tr>
-      	  	<tr>
-      	  		<th>Total imprevisto</th>
-      	  		<td >0000</td>
-      	  	</tr>
-      	  	<tr>
-      	  		<th >Factor 1</th>
-      	  		<td ><label style=" width: 25%;" for="factor1"><input placeholder="Valor de factor 1"  title="Debe ingresar un valor para el factor 1" type="number" name="factor1" th:value="${factor1}" required/></label>
-      		</td>
-      	  	</tr>
-      	  	<tr>
-      	  		<th >Subtotal 3</th>
-      	  		<td >0000</td>
-      	  	</tr>
-      	  	<tr>
-      	  		<th>Aporte fijo</th>
-      	  		<td ><label style=" width: 25%;" for="AporteFijo"><input placeholder="Valor de aporte fijo"  title="Debe ingresar un valor para el aporte fijo" type="number"  name="aporteFijo" th:value="${aporteFijo}" required/></label>
-      	    	</td>
-      	  	</tr>
-      	  	<tr>
-      	  		<th>Total 1</th>
-      	  		<td >0000</td>
-      	  	</tr>
-      	  	<tr>
-      	  		<th >Tipo de cambio $</th>
-      	  		<td >0000</td>
-      	  	</tr>
-         </thead>
-      	</table>
-      	
-      	</div>
-      	<div id="NoComisionable">
-      	
-      	<h3>No comisionable</h3>
-      	
-      	<table data-role="table" class="ui-responsive">
-      	<thead  style="color:white; background:#005d54;">
-		   	<tr>
-      	  		<th >Sub total 4:</th>
-      	  		<td ><span >0000</span></td>
-      	  	</tr>
-      	  		<tr>
-      	  		<th >Factor 2:</th>
-      	  		<td ><label style=" width: 25%;" for="factor2"><input placeholder="Valor de factor 2"  title="Debe ingresar un valor para el factor 2" type="number" name="factor2" th:value="${factor2}" required/></label>
-      			</td>
-      	  	</tr>
-      	  	<tr>
-      	  		<th >Sub total 5:</th>
-      	  		<td ><span >0000</span></td>
-      	  	</tr>
-      	  	<tr>
-      	  		<th >Total 2:</th>
-      	  		<td ><span >0000</span></td>
-      	  	</tr>
-      	 </thead>
-      	</table>
-      	</div>
-      
+      <div class="ui-block-b">
+       <fieldset style="margin: 30px;">
+			<!-- Esta no se debe quitar por que es la que va  -->
+       </fieldset>
       </div>
-	</div>
+      <div class="ui-block-c">
+       <fieldset style="margin: 30px;">
+        	<h3>Comisionable</h3>
+      		<table>
+      			<tr>
+      				<th>Sub Total 1: $</th>
+      				<td><input type="text"/></td>
+      			</tr>
+      			<tr>
+      				<th>Imprevisto %: $</th>
+      				<td><input type="number"/></td>
+      			</tr>
+      			<tr>
+      				<th>Total Imprevisto: $</th>
+      				<td><input type="text"/></td>
+      			</tr>
+      			<tr>
+      				<th>Sub Total 2: $</th>
+      				<td><input type="text"/></td>
+      			</tr>
+      			<tr>
+      				<th>Factor 1: $: $</th>
+      				<td><input type="text"/></td>
+      			</tr>
+      			<tr>
+      				<th>Sub Total 3: $</th>
+      				<td><input type="text"/></td>
+      			</tr>
+      			<tr>
+      				<th>Aporte Fijo: $</th>
+      				<td><input type="text"/></td>
+      			</tr>
+      			<tr>
+      				<th>Total 1: $</th>
+      				<td><input type="text"/></td>
+      			</tr>
+      			<tr>
+      				<th>Tipo Cambio: $</th>
+      				<td><input type="text"/></td>
+      			</tr>
+      		</table>
+      		
+      		<h3>No Comisionable</h3>
+      		<table>
+      			<tr>
+      				<th>Sub Total 4: $</th>
+      				<td><input type="text"/></td>
+      			</tr>
+      			<tr>
+      				<th>Factor 2: $</th>
+      				<td><input type="text"/></td>
+      			</tr>
+      			<tr>
+      				<th>Sub Total 5: $</th>
+      				<td><input type="text"/></td>
+      			</tr>
+      			<tr>
+      				<th>Total 2: $</th>
+      				<td><input type="text"/></td>
+      			</tr>
+      		</table>
+    		
+    		
+       </fieldset>
+      </div>
 
+    </div>
 	<div class="ui-grid-b" id="facturaEscena" style="display: none;">
     
       <div class="ui-block-a">
