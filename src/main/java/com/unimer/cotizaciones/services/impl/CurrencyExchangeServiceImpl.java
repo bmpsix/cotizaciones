@@ -32,8 +32,6 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 	
 	private static final Log LOG = LogFactory.getLog(CurrencyExchangeServiceImpl.class);
 	
-	String ipCliente="";
-
 	@Override
 	public void addCurrencyExchange(CurrencyExchange currencyExchange, int idUser) {
 		

@@ -25,6 +25,9 @@ public class Proposal implements Serializable {
 	
 
 	
+
+
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -33,7 +36,13 @@ public class Proposal implements Serializable {
 	private int idProposal;
 
 	@Column(name="proposal_name", nullable=false)
-	private double proposalName;
+	private String proposalName;
+	
+	@Column(name="projectType", nullable=false)
+	private String projectType;
+	
+	@Column(name="tracker", nullable=false)
+	private String tracker;
 	
 	/*@Column(name="aporte_fijo", nullable=false)
 	private double aporteFijo;*/
@@ -128,11 +137,32 @@ public class Proposal implements Serializable {
 	@JoinColumn(name="id_target", nullable=false)
 	private Target target;*/
 
+	//bi-directional many-to-one association to TblUser
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_technique", nullable=false)
+	private Technique technique;
 
 	//bi-directional many-to-one association to TblUser
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_user", nullable=false)
 	private User user;
+	
+	
+	public String getTracker() {
+		return tracker;
+	}
+
+	public void setTracker(String tracker) {
+		this.tracker = tracker;
+	}
+
+	public Technique getTechnique() {
+		return technique;
+	}
+
+	public void setTechnique(Technique technique) {
+		this.technique = technique;
+	}
 	
 	public User getUser() {
 		return user;
@@ -328,12 +358,23 @@ public class Proposal implements Serializable {
 	}*/
 
 	
-	public double getProposalName() {
+	public String getProposalName() {
 		return proposalName;
 	}
 
-	public void setProposalName(double proposalName) {
+	public void setProposalName(String proposalName) {
 		this.proposalName = proposalName;
+	}
+	
+	
+	
+
+	public String getProjectType() {
+		return projectType;
+	}
+
+	public void setProjectType(String projectType) {
+		this.projectType = projectType;
 	}
 
 	public Proposal() {
@@ -349,25 +390,26 @@ public class Proposal implements Serializable {
 		this.status = new Status();
 		this.studyCategory = new StudyCategory();
 		this.studyType = new StudyType();
+		this.technique = new Technique();
 		this.user = new User();
 		//this.target = new Target();
 	}
 
-	public Proposal(int idProposal/*, double aporteFijo*/, Date creationDate, double currencyExchange, Date endDate/*,
-			double factor1*/,/* double imprevistoComisionable, double imprevistoNoComisionable,*/ Date initialDate,
+	/*public Proposal(int idProposal, double aporteFijo, Date creationDate, double currencyExchange, Date endDate,
+			double factor1,double imprevistoComisionable, double imprevistoNoComisionable, Date initialDate,
 			String observations, String targetText, Assessment assessment, ClientContact clientContact,
 			CollectMethod collectMethod, Country country, ExecutionType executionType, IndustrySector industrySector,
 			Operation operation, ProposalType proposalType, Status status, StudyCategory studyCategory,
-			StudyType studyType/*, Target target*/,User user) {
+			StudyType studyType/*, Target target,User user) {
 		super();
 		this.idProposal = idProposal;
 		//this.aporteFijo = aporteFijo;
 		this.creationDate = creationDate;
 		this.currencyExchange = currencyExchange;
 		this.endDate = endDate;
-		//this.factor1 = factor1;
-		//this.imprevistoComisionable = imprevistoComisionable;
-		//this.imprevistoNoComisionable = imprevistoNoComisionable;
+		this.factor1 = factor1;
+		this.imprevistoComisionable = imprevistoComisionable;
+		this.imprevistoNoComisionable = imprevistoNoComisionable;
 		this.initialDate = initialDate;
 		this.observations = observations;
 		this.targetText = targetText;
@@ -383,7 +425,41 @@ public class Proposal implements Serializable {
 		this.studyCategory = studyCategory;
 		this.studyType = studyType;
 		this.user=user;
-		//this.target = target;
+		this.target = target;
+	}*/
+	
+	
+	
+
+	public Proposal(String proposalName, Date creationDate, double currencyExchange, Date endDate,
+			Date initialDate, String observations, String targetText, Assessment assessment,
+			ClientContact clientContact, CollectMethod collectMethod, Country country, ExecutionType executionType,
+			IndustrySector industrySector, Operation operation, ProposalType proposalType, Status status,
+			StudyCategory studyCategory, StudyType studyType,Technique technique,String tracker,String projectType,  User user) {
+		super();
+		
+		this.proposalName = proposalName;
+		this.creationDate = creationDate;
+		this.currencyExchange = currencyExchange;
+		this.endDate = endDate;
+		this.initialDate = initialDate;
+		this.observations = observations;
+		this.targetText = targetText;
+		this.assessment = assessment;
+		this.clientContact = clientContact;
+		this.collectMethod = collectMethod;
+		this.country = country;
+		this.executionType = executionType;
+		this.industrySector = industrySector;
+		this.operation = operation;
+		this.proposalType = proposalType;
+		this.status = status;
+		this.studyCategory = studyCategory;
+		this.studyType = studyType;
+		this.technique = technique;
+		this.tracker=tracker;
+		this.projectType=projectType;
+		this.user = user;
 	}
 
 	@Override

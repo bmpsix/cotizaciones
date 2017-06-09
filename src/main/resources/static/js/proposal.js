@@ -3,7 +3,7 @@
  */
 
 $( document ).ready(function() {
-	
+	$("#generalInfo").show();
 	$(".first").click(function(){
 	        $("#generalInfo").show();
 	        $("#detalleCoti").hide();
@@ -22,4 +22,12 @@ $( document ).ready(function() {
         $("#generalInfo").hide();
 	});
   
+	 $('#getId a').click(function(){
+		   var a = $(this);
+		  $("#idTechnique").val(a.attr("value"));
+		 });
+	 
+	 
+	 
+	
 });

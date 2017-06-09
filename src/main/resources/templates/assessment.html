@@ -22,7 +22,7 @@
 							<label for="detail">Detalle:</label>
 							<input  type="text" name="detail"  required/>
 							
-							<label for="currencyType">Tipo de moneda:</label>
+							<label for="currencyType">Tipos de moneda disponibles en el país actual:</label>
 							<select name="idCurrencyType">
 								<option th:each="currencyType : ${currencyTypes}" th:value="${currencyType.idCurrencyType}">
 									<p  th:text="${currencyType.detail}" th:value="${currencyType.idCurrencyType}" ></p>
@@ -48,7 +48,7 @@
 							<input  type="text" name="detail"  th:value="${updateAssessment.detail}" required/>
 							
 							
-							<label for="currencyType">Tipo de moneda:</label>
+							<label for="currencyType">Tipos de moneda disponibles en el país actual:</label>
 							<select name="idCurrencyType">
 								<option th:each="currencyType : ${currencyTypes}" th:value="${currencyType.idCurrencyType}" th:if="${updateAssessment.CurrencyExchange.CurrencyType.idCurrencyType == currencyType.idCurrencyType}"  selected readonly>
 									<p  th:text="${currencyType.detail}" th:value="${currencyType.idCurrencyType}" ></p>
@@ -86,7 +86,7 @@
            		<table style="text-align:justify;">
            				<thead>
            				<tr>
-           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Id de la Evaluacion</th>
+           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">ID</th>
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Fecha de Creacion</th>
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Detalle</th>
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Cambio de Divisas</th>
@@ -98,7 +98,7 @@
            				<tbody>
 	           			<tr th:each="assessment : ${assessments}">
 							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.idAssessment}"></td>
-							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.creationDate}"></td>
+							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${#dates.format(assessment.creationDate, 'dd/MM/yyyy')}"></td>
 							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.detail}"></td>
 							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.currencyExchange.currencyType.detail}"></td>
 							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${assessment.saClient.detail}"></td>
