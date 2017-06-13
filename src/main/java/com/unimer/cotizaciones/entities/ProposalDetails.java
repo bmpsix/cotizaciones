@@ -72,6 +72,23 @@ public class ProposalDetails {
 		this.totalBudget = totalBudget;
 		this.proposal = proposal;
 	}
+	
+	public ProposalDetails(double aporteFijo, double factor, double imprevisto,
+			Departure departure, double price, byte commissionable, int number, int daysTimes, int totalBudget,
+			Proposal proposal) {
+		super();
+		this.aporteFijo = aporteFijo;
+		this.factor = factor;
+		this.imprevisto = imprevisto;
+		this.departure = departure;
+		this.price = price;
+		this.commissionable = commissionable;
+		this.number = number;
+		this.daysTimes = daysTimes;
+		this.totalBudget = totalBudget;
+		this.proposal = proposal;
+	}
+	
 
 	public ProposalDetails() {
 		super();

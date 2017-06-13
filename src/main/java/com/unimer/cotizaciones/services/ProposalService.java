@@ -11,7 +11,7 @@ public interface ProposalService {
 	
 	public abstract String autoIncrement();
 
-	public abstract void addProposal(Proposal proposal, int idUser);
+	public abstract Proposal addProposal(Proposal proposal, int idUser);
 	
 	public abstract List<Proposal> findByCountry(Country country);
 	

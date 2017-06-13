@@ -22,11 +22,14 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="proposal")
 public class Proposal implements Serializable {
-	
 
-	
+	public CurrencyType getCurrencyType() {
+		return currencyType;
+	}
 
-
+	public void setCurrencyType(CurrencyType currencyType) {
+		this.currencyType = currencyType;
+	}
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,6 +56,14 @@ public class Proposal implements Serializable {
 
 	@Column(name="currency_exchange", nullable=false)
 	private double currencyExchange;
+	
+	
+	//bi-directional many-to-one association to Assessment
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_currencyType", nullable=false)
+	private CurrencyType currencyType;
+
+	
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="end_date", nullable=false)
@@ -237,6 +248,9 @@ public class Proposal implements Serializable {
 		this.imprevistoNoComisionable = imprevistoNoComisionable;
 	}*/
 
+	
+	
+	
 	public Date getInitialDate() {
 		return initialDate;
 	}
@@ -392,6 +406,7 @@ public class Proposal implements Serializable {
 		this.studyType = new StudyType();
 		this.technique = new Technique();
 		this.user = new User();
+		this.currencyType = new CurrencyType();
 		//this.target = new Target();
 	}
 
@@ -435,7 +450,7 @@ public class Proposal implements Serializable {
 			Date initialDate, String observations, String targetText, Assessment assessment,
 			ClientContact clientContact, CollectMethod collectMethod, Country country, ExecutionType executionType,
 			IndustrySector industrySector, Operation operation, ProposalType proposalType, Status status,
-			StudyCategory studyCategory, StudyType studyType,Technique technique,String tracker,String projectType,  User user) {
+			StudyCategory studyCategory, StudyType studyType,Technique technique,String tracker,String projectType,  User user, CurrencyType currencyType) {
 		super();
 		
 		this.proposalName = proposalName;
@@ -460,6 +475,7 @@ public class Proposal implements Serializable {
 		this.tracker=tracker;
 		this.projectType=projectType;
 		this.user = user;
+		this.currencyType = currencyType;
 	}
 
 	@Override
@@ -472,6 +488,6 @@ public class Proposal implements Serializable {
 				+ ", collectMethod=" + collectMethod + ", country=" + country + ", executionType=" + executionType
 				+ ", industrySector=" + industrySector + ", operation=" + operation + ", proposalType=" + proposalType
 				+ ", status=" + status + ", studyCategory=" + studyCategory + ", studyType=" + studyType + /*", target="
-				+ target +*/"user="+user+"]";
+				+ target +*/"user="+user+"currencyType="+currencyType+"]";
 	}
 }

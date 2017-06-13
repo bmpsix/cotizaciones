@@ -1,6 +1,5 @@
 package com.unimer.cotizaciones.controllers;
 
-import java.util.Date;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,25 +11,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-import com.unimer.cotizaciones.entities.Assessment;
-import com.unimer.cotizaciones.entities.ClientContact;
-import com.unimer.cotizaciones.entities.CollectMethod;
+
 import com.unimer.cotizaciones.entities.Country;
-import com.unimer.cotizaciones.entities.CurrencyExchange;
-import com.unimer.cotizaciones.entities.CurrencyType;
-import com.unimer.cotizaciones.entities.ExecutionType;
-import com.unimer.cotizaciones.entities.IndustrySector;
-import com.unimer.cotizaciones.entities.Operation;
 import com.unimer.cotizaciones.entities.Proposal;
-import com.unimer.cotizaciones.entities.ProposalType;
-import com.unimer.cotizaciones.entities.Status;
-import com.unimer.cotizaciones.entities.StudyCategory;
-import com.unimer.cotizaciones.entities.StudyType;
-import com.unimer.cotizaciones.entities.Technique;
-import com.unimer.cotizaciones.entities.User;
+import com.unimer.cotizaciones.entities.ProposalDetails;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.AssessmentService;
 import com.unimer.cotizaciones.services.CollectMethodService;
@@ -38,9 +24,11 @@ import com.unimer.cotizaciones.services.CountryByCurrencyTypeService;
 import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.CurrencyExchangeService;
 import com.unimer.cotizaciones.services.CurrencyTypeService;
+import com.unimer.cotizaciones.services.DepartureService;
 import com.unimer.cotizaciones.services.ExecutionTypeService;
 import com.unimer.cotizaciones.services.IndustrySectorService;
 import com.unimer.cotizaciones.services.OperationService;
+import com.unimer.cotizaciones.services.ProposalDetailsService;
 import com.unimer.cotizaciones.services.ProposalService;
 import com.unimer.cotizaciones.services.ProposalTypeService;
 import com.unimer.cotizaciones.services.StatusService;
@@ -51,13 +39,21 @@ import com.unimer.cotizaciones.services.TechniqueService;
 import com.unimer.cotizaciones.services.UserService;
 import com.unimer.cotizaciones.services.impl.ClientContactServiceImpl;
 
-
 @Controller
 @SessionAttributes({"userSession", "proposedHeader"})
-public class ProposalController {
+public class ProposalDetailsController {
+
+	private static final Log LOG = LogFactory.getLog(ProposalDetailsController.class);
 	
 	
-	private static final Log LOG = LogFactory.getLog(ProposalController.class);
+
+	@Autowired
+	@Qualifier("proposalDetailsServiceImpl")
+	private ProposalDetailsService proposalDetailsService;
+	
+	@Autowired
+	@Qualifier("departureServiceImpl")
+	private DepartureService departureService;
 	
 	@Autowired
 	@Qualifier("countryServiceImpl")
@@ -135,12 +131,12 @@ public class ProposalController {
 	@Qualifier("currencyTypeServiceImpl")
 	private CurrencyTypeService currencyTypeService;
 	
-
-	@GetMapping("/admin/proposal")
+	
+	@GetMapping("/admin/proposaldetails")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ModelAndView proposal(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession){
-		Country cntry = countryService.findById(userSession.getIdCountry());
+	public ModelAndView proposalDetails(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute("proposedHeader") Proposal proposal){
 		ModelAndView modelAndView = new ModelAndView();
+		Country cntry = countryService.findById(userSession.getIdCountry());
 		modelAndView.addObject("countries",countryService.listAllCountries());
 		modelAndView.addObject("collectmethods", collectMethodService.listAllCollectMethod());
 		modelAndView.addObject("studyCategories", studyCategoryService.listAllStudyCategories());
@@ -156,59 +152,25 @@ public class ProposalController {
 		modelAndView.addObject("operations", operationService.listAllOperation());
 		modelAndView.addObject("statuss", statusService.listAllStatus());
 		modelAndView.addObject("proposalTypes", proposalTypeService.listAllProposalTypes());
-		modelAndView.setViewName("proposal");
+		modelAndView.addObject("proposal",proposal);
+		modelAndView.addObject("departures",departureService.listAllDeparture());
+		modelAndView.setViewName("proposaldetails");
 		return modelAndView;
 		
 	}
 	
-	@GetMapping("/admin/dialogoPartidas")
-	public ModelAndView dialogoPartidas(){
+	
+	@PostMapping("/admin/addproposalDetails")
+	public String addProposalDetails(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "proposalDetails") ProposalDetails proposalDetails, Model model) {
+		LOG.info("METHOD: addProposalDetails in ProposalController -- PARAMS: " + proposalDetails.toString());
+		proposalDetailsService.addProposalDetails(proposalDetails, userSession.getId());
+		 return "redirect:/admin/proposal";
+	}
+	
+	@GetMapping("/admin/addproposalDetails")
+	public ModelAndView getProposalDetails(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute("proposedHeader") Proposal proposal) {
+		return proposalDetails(modelSession, userSession, proposal );
+	}
 
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("dialogoPartidas");
-		return modelAndView;
-		
-	}
-	
-
-	@PostMapping("/admin/addproposal")
-	public String addProposal(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@RequestParam("proposalName") String proposalName,@RequestParam("idCurrencyType") int idCurrencyType,@RequestParam("endDate") Date endDate,@RequestParam("initialDate") Date initialDate,@RequestParam("observations") String observations,@RequestParam("targetText") String targetText,@RequestParam("idAssessment") int idAssessment,@RequestParam("idClientContact") int idClientContact,@RequestParam("idCollectMethod") int idCollectMethod,@RequestParam("idCountry") int idCountry,@RequestParam("idExecutionType") int idExecutionType,@RequestParam("idIndustrySector") int idIndustrySector,@RequestParam("idOperation") int idOperation,@RequestParam("idProposalType") int idProposalType,@RequestParam("idStatus") int idStatus,@RequestParam("idStudyCategory") int idStudyCategory,@RequestParam("idStudyType") int idStudyType,@RequestParam("idTechnique") int idTechnique,@RequestParam("tracker") String tracker,@RequestParam("projectType") String projectType,Model model) 
-	{
-		
-		Country cntry = countryService.findById(userSession.getIdCountry());
-		CurrencyType currencyType = currencyTypeService.getCurrencyType(idCurrencyType);
-		CurrencyExchange currencyE = currencyExchangeService.findByCountryAndCurrencyType(cntry, currencyType);
-		Assessment assessment = assessmentService.findById(idAssessment);
-		ClientContact clientContact = clientContactService.findById(idClientContact);
-		CollectMethod collectMethod = collectMethodService.getCollectMethod(idCollectMethod);
-		Country countryProposal = countryService.findById(idCountry);
-		ExecutionType executionType = executionTypeService.findById(idExecutionType);
-		IndustrySector industrySector = industrySectorService.findById(idIndustrySector);
-		Operation operation = operationService.findById(idOperation);
-		ProposalType proposalType = proposalTypeService.findById(idProposalType);
-		Status status = statusService.findById(idStatus);
-		StudyCategory studyCategory = studyCategoryService.findById(idStudyCategory);
-		StudyType studyType= studyTypeService.findById(idStudyType);
-		Technique technique = techniqueService.findById(idTechnique);		
-		User user = userService.findById(userSession.getId());
-		java.util.Date date = new Date();
-		Proposal proposal = new Proposal(proposalName,date,currencyE.getSell(), endDate,initialDate,  observations,  targetText,  assessment,clientContact,  collectMethod,  countryProposal,  executionType,industrySector,  operation,  proposalType,  status, studyCategory,  studyType,technique, tracker,projectType,user,currencyType);
-		proposal = proposalService.addProposal(proposal, userSession.getId());
-		LOG.info("METHOD: PROPOSAL -- PARAMS: " + proposal.toString());
-		modelSession.addAttribute("proposedHeader",proposal);
-		LOG.info("METHOD: addProposal in ProposalControllerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr -- PARAMS: " + proposal.toString());
-		return "redirect:/admin/proposaldetails";
-	}
-	
-	@GetMapping("/admin/addproposal")
-	public String getProposal(ModelMap modelSession,@ModelAttribute("proposedHeader") Proposal proposedHeader) {
-		
-		if(proposedHeader.getIdProposal()!=0) return "redirect:/admin/proposaldetails";
-		else return "redirect:/admin/proposal";
-	}
-	
-	
-	
-	
 	
 }

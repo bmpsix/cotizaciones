@@ -58,8 +58,8 @@ public class ProposalServiceImpl implements ProposalService {
 
 
 	@Override
-	public void addProposal(Proposal proposal, int idUser) {
-		proposalJpaRepository.save(proposal);
+	public Proposal addProposal(Proposal proposal, int idUser) {
+		return proposalJpaRepository.save(proposal);
 		
 	}
 
