@@ -13,6 +13,15 @@ $( document ).ready(function(){
 		$("#form-assessment").hide("slow");
 	});
 	
+	
+	$(function () {
+	    var token = $("input[name='_csrf']").val();
+	    var header = "X-CSRF-TOKEN";
+	    $(document).ajaxSend(function(e, xhr, options) {
+	        xhr.setRequestHeader(header, token);
+	    });
+	});
+	
 	$("#sendAssessment").click(function(){
 		
 		var creationDate = $("#creationDate").val();
