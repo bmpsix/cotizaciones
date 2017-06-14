@@ -410,42 +410,10 @@ public class Proposal implements Serializable {
 		//this.target = new Target();
 	}
 
-	/*public Proposal(int idProposal, double aporteFijo, Date creationDate, double currencyExchange, Date endDate,
-			double factor1,double imprevistoComisionable, double imprevistoNoComisionable, Date initialDate,
-			String observations, String targetText, Assessment assessment, ClientContact clientContact,
-			CollectMethod collectMethod, Country country, ExecutionType executionType, IndustrySector industrySector,
-			Operation operation, ProposalType proposalType, Status status, StudyCategory studyCategory,
-			StudyType studyType/*, Target target,User user) {
-		super();
-		this.idProposal = idProposal;
-		//this.aporteFijo = aporteFijo;
-		this.creationDate = creationDate;
-		this.currencyExchange = currencyExchange;
-		this.endDate = endDate;
-		this.factor1 = factor1;
-		this.imprevistoComisionable = imprevistoComisionable;
-		this.imprevistoNoComisionable = imprevistoNoComisionable;
-		this.initialDate = initialDate;
-		this.observations = observations;
-		this.targetText = targetText;
-		this.assessment = assessment;
-		this.clientContact = clientContact;
-		this.collectMethod = collectMethod;
-		this.country = country;
-		this.executionType = executionType;
-		this.industrySector = industrySector;
-		this.operation = operation;
-		this.proposalType = proposalType;
-		this.status = status;
-		this.studyCategory = studyCategory;
-		this.studyType = studyType;
-		this.user=user;
-		this.target = target;
-	}*/
 	
 	
 	
-
+	
 	public Proposal(String proposalName, Date creationDate, double currencyExchange, Date endDate,
 			Date initialDate, String observations, String targetText, Assessment assessment,
 			ClientContact clientContact, CollectMethod collectMethod, Country country, ExecutionType executionType,

@@ -172,7 +172,7 @@ public class ProposalController {
 	
 
 	@PostMapping("/admin/addproposal")
-	public String addProposal(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@RequestParam("proposalName") String proposalName,@RequestParam("idCurrencyType") int idCurrencyType,@RequestParam("endDate") Date endDate,@RequestParam("initialDate") Date initialDate,@RequestParam("observations") String observations,@RequestParam("targetText") String targetText,@RequestParam("idAssessment") int idAssessment,@RequestParam("idClientContact") int idClientContact,@RequestParam("idCollectMethod") int idCollectMethod,@RequestParam("idCountry") int idCountry,@RequestParam("idExecutionType") int idExecutionType,@RequestParam("idIndustrySector") int idIndustrySector,@RequestParam("idOperation") int idOperation,@RequestParam("idProposalType") int idProposalType,@RequestParam("idStatus") int idStatus,@RequestParam("idStudyCategory") int idStudyCategory,@RequestParam("idStudyType") int idStudyType,@RequestParam("idTechnique") int idTechnique,@RequestParam("tracker") String tracker,@RequestParam("projectType") String projectType,Model model) 
+	public String addProposal(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@RequestParam("idProposal") int idProposal,@RequestParam("proposalName") String proposalName,@RequestParam("idCurrencyType") int idCurrencyType,@RequestParam("endDate") Date endDate,@RequestParam("initialDate") Date initialDate,@RequestParam("observations") String observations,@RequestParam("targetText") String targetText,@RequestParam("idAssessment") int idAssessment,@RequestParam("idClientContact") int idClientContact,@RequestParam("idCollectMethod") int idCollectMethod,@RequestParam("idCountry") int idCountry,@RequestParam("idExecutionType") int idExecutionType,@RequestParam("idIndustrySector") int idIndustrySector,@RequestParam("idOperation") int idOperation,@RequestParam("idProposalType") int idProposalType,@RequestParam("idStatus") int idStatus,@RequestParam("idStudyCategory") int idStudyCategory,@RequestParam("idStudyType") int idStudyType,@RequestParam("idTechnique") int idTechnique,@RequestParam("tracker") String tracker,@RequestParam("projectType") String projectType,Model model) 
 	{
 		
 		Country cntry = countryService.findById(userSession.getIdCountry());
@@ -192,19 +192,17 @@ public class ProposalController {
 		Technique technique = techniqueService.findById(idTechnique);		
 		User user = userService.findById(userSession.getId());
 		java.util.Date date = new Date();
-		Proposal proposal = new Proposal(proposalName,date,currencyE.getSell(), endDate,initialDate,  observations,  targetText,  assessment,clientContact,  collectMethod,  countryProposal,  executionType,industrySector,  operation,  proposalType,  status, studyCategory,  studyType,technique, tracker,projectType,user,currencyType);
+		Proposal  proposal = new Proposal(proposalName,date,currencyE.getSell(), endDate,initialDate,  observations,  targetText,  assessment,clientContact,  collectMethod,  countryProposal,  executionType,industrySector,  operation,  proposalType,  status, studyCategory,  studyType,technique, tracker,projectType,user,currencyType);
+		if(idProposal!=0) proposal.setIdProposal(idProposal);	
 		proposal = proposalService.addProposal(proposal, userSession.getId());
 		LOG.info("METHOD: PROPOSAL -- PARAMS: " + proposal.toString());
 		modelSession.addAttribute("proposedHeader",proposal);
-		LOG.info("METHOD: addProposal in ProposalControllerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr -- PARAMS: " + proposal.toString());
 		return "redirect:/admin/proposaldetails";
 	}
 	
 	@GetMapping("/admin/addproposal")
 	public String getProposal(ModelMap modelSession,@ModelAttribute("proposedHeader") Proposal proposedHeader) {
-		
-		if(proposedHeader.getIdProposal()!=0) return "redirect:/admin/proposaldetails";
-		else return "redirect:/admin/proposal";
+		return "redirect:/admin/proposaldetails";
 	}
 	
 	

@@ -32,28 +32,36 @@ $( document ).ready(function() {
 
 $( document ).ready(function() {
 	$("#generalInfo").show();
-	$("#generalInfo2").hide();
-	$("#detalleCoti2").show();
+	$("#generalInfo2").show();
+	$("#aPaso1").show();
+	$(".paso2").hide();
+	$(".paso3").hide();
+	
 	$(".first").click(function(){
 	        $("#generalInfo").show();
 	        $("#generalInfo2").show();
 	        $("#detalleCoti").hide();
-	        $("#detalleCoti2").hide();
 	        $("#facturaEscena").hide();
+	        $("#aPaso1").show();
+	    	$("#aPaso2").show();
     });
 	
 	$(".second").click(function(){  
         $("#detalleCoti").show();
-        $("#detalleCoti2").show();
         $("#generalInfo").hide();
         $("#generalInfo2").hide();
         $("#facturaEscena").hide();
+        $("#aPaso1").hide();
+    	$("#aPaso2").hide();
 	});
 	
 	$(".third").click(function(){
         $("#facturaEscena").show();  
         $("#detalleCoti").hide();
         $("#generalInfo").hide();
+        $("#generalInfo2").hide();
+        $("#aPaso1").hide();
+    	$("#aPaso2").hide();
 	});
   
 	 $('#getId a').click(function(){
@@ -68,5 +76,19 @@ $( document ).ready(function() {
 		//alert(total);
 	 });
 	
+	 
+	 $("#aPaso1").click(function(){
+			$(".paso1").show();
+			$(".paso2").hide();
+			$(".paso3").hide();
+	 });
+	 
+	 $("#aPaso2").click(function(){
+			$(".paso1").hide();
+			$(".paso2").show();
+			$(".paso3").hide();
+	 });
+	 
+	 
 });
 

@@ -17,36 +17,24 @@
 
 		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
 		
-  <form action="#" method="POST" th:action="@{/admin/addproposal}" onSubmit="if ((initialDate.value <= endDate.value)) return true; else return false;"> <!-- PRIMER FORMULARIO -->
+	<form action="#" method="POST" th:action="@{/admin/addproposal}" onSubmit="if ((initialDate.value <= endDate.value)) return true; else return false;"> <!-- PRIMER FORMULARIO -->
+	
 	
     <div class="ui-grid-b" id="cotiHeader1">
     
-   
+    
+    
       <div class="ui-block-a">
-       <label for="cotizacion"> <h5>Número de Propuesta:</h5> <span th:text="${proposedHeader.idProposal}" ></span></label>
+         <label for="cotizacion"> <h5>Número de Propuesta:</h5> <span th:text="${proposal.idProposal}" ></span></label>
+         <input name="idProposal" type="hidden" th:value="${proposal.idProposal}" ></input>
       </div>
       
       <div class="ui-block-b" data-inline=true>
-       <label style=" width: 99%;" for="cotizacion"><h5>Nombre de Cotización:</h5> <input placeholder="Nombre para la cotización"  title="Debe ingresar un nombre para la propuesta" type="text" name="proposalName" th:value="${proposedHeader.proposalName}" required/></label>
-     
-      		<label for="status"><h5>Estado</h5></label>
-        	<select name="idStatus">
-				<option th:each="status : ${statuss}" th:value="${status.idStatus}"  th:if="${proposedHeader.Status.detail == status.detail}" selected readonly>
-					<p name="status.detail" th:text="${status.detail}" th:value="${status}" ></p>
-				</option>
-				<option th:each="status : ${statuss}" th:value="${status.idStatus}"  th:if="${proposedHeader.Status.detail != status.detail}"  readonly>
-					<p name="status.detail" th:text="${status.detail}" th:value="${status}" ></p>
-				</option>
-			</select>
-      
+         <label style=" width: 99%;" for="cotizacion"><h5>Nombre de Cotización:</h5> <input placeholder="Nombre para la cotización"  title="Debe ingresar un nombre para la propuesta" type="text" name="proposalName" th:value="${proposal.proposalName}" required/></label>
+    
       </div>
       <div class="ui-block-c">
-       
-       	<label for="initialDate"><h5>Fecha inicio operaciones:</h5></label>
-        <input name="initialDate" th:value="${#dates.format(proposedHeader.initialDate, 'dd/MM/yyyy')}"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text" required />  
-        <label for="endDate"><h5>Fecha de entrega final:</h5></label>
-        <input name="endDate"  th:value="${#dates.format(proposedHeader.endDate, 'dd/MM/yyyy')}"  data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }'  type="text" required/>   
-		
+      
       </div> 
        
 	</div>
@@ -68,146 +56,79 @@
 	
 	<div data-role="navbar">
 			<ul>
-				<li class="first"> <a href="#">Informacion General</a></li>
-				<li class="second"> <a href="#">Detalle de la Cotizacion</a> </li>
-				<li> <!--class="third" <a href="#">Escenarios de facturación</a>--><input type="submit" name="submit" class="custom_text" data-icon="plus" value="Escenarios de facturación"></li>
+				<li class="first"><a href="#">Informacion General</a></li>
+				<li class="second"><a href="#">Detalle de la Cotizacion</a></li>
+				<li><a href="#" >Escenarios de Facturacion</a></li>
 			</ul>
 	</div>
 	
-	<div class="ui-grid-b" id="generalInfo2" >
+	<div class="ui-grid-b" id="generalInfo2" style="display: none;">
     
       <div class="ui-block-a" >
         <fieldset style="margin: 30px;">
+        	
+        	<div class="paso1">
         	<legend><h1>Paso 1</h1></legend>
         	
+         	<label for="initialDate"><h5>Fecha inicio operaciones:</h5></label>
+        	<input name="initialDate" th:value="${#dates.format(proposal.initialDate, 'MM/dd/yyyy')}"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text" required />  
+        	<label for="endDate"><h5>Fecha de entrega final:</h5></label>
+       		<input name="endDate"  th:value="${#dates.format(proposal.endDate, 'MM/dd/yyyy')}"  data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }'  type="text" required/>   
+		
         	<label for="cotizacion"><h5>Tipo de Proyecto:</h5></label>
         	<select name="projectType" th:value="${projectType}">
-  				<option value="Cuantitativo" th:if="${proposedHeader.projectType =='Cuantitavito'}" selected >Cuantitativo</option>
-  				<option value="Cualitativo" th:if="${proposedHeader.projectType =='Cualitativo'}" selected>Cualitativo</option>
-  				<option value="Cuantitativo" th:if="${proposedHeader.projectType !='Cuantitavito'}"  >Cuantitativo</option>
-  				<option value="Cualitativo" th:if="${proposedHeader.projectType !='Cualitativo'}" >Cualitativo</option>
+  				<option value="Cuantitativo" th:if="${proposal.projectType =='Cuantitavito'}" selected >Cuantitativo</option>
+  				<option value="Cualitativo" th:if="${proposal.projectType =='Cualitativo'}" selected>Cualitativo</option>
+  				<option value="Cuantitativo" th:if="${proposal.projectType !='Cuantitavito'}"  >Cuantitavito</option>
+  				<option value="Cualitativo" th:if="${proposal.projectType !='Cualitativo'}" >Cualitativo</option>
 			</select>
 			
-			<label for="country"><h5>Pais donde se realizara el estudio:</h5></label>
-			<select name="idCountry">
-				<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${proposedHeader.Country.detail == country.detail}" selected>
+			<label for="status"><h5>Estado</h5></label>
+        	<select name="idStatus">
+				<option th:each="status : ${statuss}" th:value="${status.idStatus}"  th:if="${proposal.Status.detail == status.detail}" selected readonly>
+					<p name="status.detail" th:text="${status.detail}" th:value="${status}" ></p>
+				</option>
+				<option th:each="status : ${statuss}" th:value="${status.idStatus}"  th:if="${proposal.Status.detail != status.detail}"  readonly>
+					<p name="status.detail" th:text="${status.detail}" th:value="${status}" ></p>
+				</option>
+			</select>
+      
+			<label for="country"><h5>País donde se realizará el estudio:</h5></label>
+        	<select name="idCountry">
+				<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${proposal.Country.detail == country.detail}" selected>
 					<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
 				</option>
-				<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${proposedHeader.Country.detail != country.detail}">
+				<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${proposal.Country.detail != country.detail}">
 					<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
 				</option>
 			</select>
 			
 			<label for="metodo"><h5>Metodo de recoleccion de datos:</h5></label>
         	<select name="idCollectMethod">
-				<option th:each="collectMethod : ${collectmethods}"  th:value="${collectMethod.idCollectMethod}" th:if="${proposedHeader.CollectMethod.detail == collectMethod.detail}" selected>
+				<option th:each="collectMethod : ${collectmethods}"  th:value="${collectMethod.idCollectMethod}" th:if="${proposal.CollectMethod.detail == collectMethod.detail}" selected>
 					<p name="collectMethod.detail" th:text="${collectMethod.detail}" th:value="${collectMethod.detail}" ></p>
 				</option>
-				<option th:each="collectMethod : ${collectmethods}" th:value="${collectMethod.idCollectMethod}" th:if="${proposedHeader.CollectMethod.detail != collectMethod.detail}" >
+				<option th:each="collectMethod : ${collectmethods}" th:value="${collectMethod.idCollectMethod}" th:if="${proposal.CollectMethod.detail != collectMethod.detail}" >
 					<p name="collectMethod.detail" th:text="${collectMethod.detail}" th:value="${collectMethod.detail}" ></p>
 				</option>
 			</select>
+			</div>
 			
-			<label for="industry"><h5>Sector o industria:</h5></label>
-        	<select name="idIndustrySector">
-				<option th:each="industrySector : ${industrysectors}" th:value="${industrySector.idIndustrySector}" th:if="${proposedHeader.IndustrySector.detail == industrySector.detail}" selected>
-					<p name="industrySector.detail" th:text="${industrySector.detail}" th:value="${industrySector.detail}" ></p>
-				</option>
-				<option th:each="industrySector : ${industrysectors}" th:value="${industrySector.idIndustrySector}" th:if="${proposedHeader.IndustrySector.detail != industrySector.detail}">
-					<p name="industrySector.detail" th:text="${industrySector.detail}" th:value="${industrySector.detail}" ></p>
-				</option>
-			</select>
+			<div class="paso2">
 			
-			<label for="categoria"><h5>Categoria:</h5></label>
-        	<select name="idStudyCategory">
-				<option th:each="studyCategory : ${studyCategories}" th:value="${studyCategory.idStudyCategory}" th:if="${proposedHeader.StudyCategory.detail == studyCategory.detail}" selected>
-					<p name="studyCategory.detail" th:text="${studyCategory.detail}" th:value="${studyCategory.detail}" ></p>
-				</option>
-				<option th:each="studyCategory : ${studyCategories}" th:value="${studyCategory.idStudyCategory}" th:if="${proposedHeader.StudyCategory.detail != studyCategory.detail}">
-					<p name="studyCategory.detail" th:text="${studyCategory.detail}" th:value="${studyCategory.detail}" ></p>
-				</option>
-			</select>
+        	<legend><h1>Paso 2</h1></legend>
+        		
+        	<label for="target"><h5>Muestreo:</h5></label>
+        	<textarea name="targetText" id="info" style="border-bottom:1px solid green;" th:text="${proposal.targetText}" required></textarea>
+       
+        	<label for="observacion"><h5>Observacion:</h5></label>
+        	<textarea name="observations" id="info" style="border-bottom:1px solid green;" th:text="${proposal.observations}" required></textarea>
+        	
 			
-			<label for="tipoEstudio"><h5>Tipo de estudio:</h5></label>
-        	<select name="idStudyType">
-				<option th:each="studyType : ${studytypes}" th:value="${studyType.idStudyType}" th:if="${proposedHeader.StudyType.detail == studyType.detail}" selected>
-					<p name="studyType.detail" th:text="${studyType.detail}" th:value="${studyType.detail}" ></p>
-				</option>
-				<option th:each="studyType : ${studytypes}" th:value="${studyType.idStudyType}" th:if="${proposedHeader.StudyType.detail != studyType.detail}">
-					<p name="studyType.detail" th:text="${studyType.detail}" th:value="${studyType.detail}" ></p>
-				</option>
-			</select>
-			
-			<label for="tipoEstudio"><h5>Continuo/Tracker:</h5></label>
-        	<select  name="tracker" th:value="${tracker}">
-  				<option value="Aplica"    th:if="${proposedHeader.tracker =='Aplica'}" selected>Aplica</option>
-  				<option value="No aplica" th:if="${proposedHeader.tracker =='No Aplica'}" selected>No Aplica</option>
-  				<option value="Aplica"    th:if="${proposedHeader.tracker !='Aplica'}">Aplica</option>
-  				<option value="No aplica" th:if="${proposedHeader.tracker !='No Aplica'}">No Aplica</option>
-			</select>
-			
-			<label for="currencyType"><h5>Tipo de moneda:</h5></label>
-        	<select name="idCurrencyType" >
-				<option th:each="currencyType : ${countryByCurrencyType}" th:value="${currencyType.idCurrencyType}" th:if="${proposedHeader.CurrencyType.detail == currencyType.detail}" selected>
-					<p name="currencyType.detail" th:text="${currencyType.detail}"></p>
-				</option>
-				<option th:each="currencyType : ${countryByCurrencyType}" th:value="${currencyType.idCurrencyType}" th:if="${proposedHeader.CurrencyType.detail != currencyType.detail}">
-					<p name="currencyType.detail" th:text="${currencyType.detail}"></p>
-				</option>
-			</select>
-			
-			<label for="assessment"><h5>Evaluación:</h5></label>
-        	<select name="idAssessment">
-				<option th:each="assessment : ${assessments}" th:value="${assessment.idAssessment}" th:if="${proposedHeader.Assessment.detail == assessment.detail}" selected>
-					<p name="assessment.detail" th:text="${assessment.detail  + ' - ' + assessment.saClient.detail}" th:value="${assessment.detail}" ></p>
-				</option>
-				<option th:each="assessment : ${assessments}" th:value="${assessment.idAssessment}" th:if="${proposedHeader.Assessment.detail != assessment.detail}">
-					<p name="assessment.detail" th:text="${assessment.detail  + ' - ' + assessment.saClient.detail}" th:value="${assessment.detail}" ></p>
-				</option>
-			</select>
-			
-			<label for="clientContact"><h5>Contacto de cliente:</h5></label>
-        	<select name="idClientContact">
-				<option th:each="clientContact : ${clientContacts}" th:value="${clientContact.idClientContact}"  th:if="${proposedHeader.ClientContact.name == clientContact.name}" selected>
-					<p name="clientContact.name" th:text="${clientContact.name}" th:value="${clientContact.name}" ></p>
-				</option>
-				<option th:each="clientContact : ${clientContacts}" th:value="${clientContact.idClientContact}"  th:if="${proposedHeader.ClientContact.name != clientContact.name}">
-					<p name="clientContact.name" th:text="${clientContact.name}" th:value="${clientContact.name}" ></p>
-				</option>
-			</select>
-			
-			<label for="executionType"><h5>Tipo de ejecución:</h5></label>
-        	<select name="idExecutionType">
-				<option th:each="executionType : ${executionTypes}" th:value="${executionType.idExecutionType}" th:if="${proposedHeader.ExecutionType.detail == executionType.detail}" selected>
-					<p name="executionType.detail" th:text="${executionType.detail}" th:value="${executionType.detail}" ></p>
-				</option>
-				<option th:each="executionType : ${executionTypes}" th:value="${executionType.idExecutionType}" th:if="${proposedHeader.ExecutionType.detail != executionType.detail}">
-					<p name="executionType.detail" th:text="${executionType.detail}" th:value="${executionType.detail}" ></p>
-				</option>
-			</select>
+			</div>
 			
 			
-			<label for="operation"><h5>Operaciones:</h5></label>
-        	<select name="idOperation">
-				<option th:each="operation : ${operations}" th:value="${operation.idOperation}" th:if="${proposedHeader.Operation.detail == operation.detail}" selected>
-					<p name="operation.detail" th:text="${operation.detail  + ' - ' + operation.OperationType.detail}" th:value="${operation.detail}" ></p>
-				</option>
-					<option th:each="operation : ${operations}" th:value="${operation.idOperation}" th:if="${proposedHeader.Operation.detail == operation.detail}">
-					<p name="operation.detail" th:text="${operation.detail  + ' - ' + operation.OperationType.detail}" th:value="${operation.detail}" ></p>
-				</option>
-			</select>
 			
-				
-			<label for="proposalType"><h5>Tipos de propuesta:</h5></label>
-        	<select name="idProposalType">
-				<option th:each="proposalType : ${proposalTypes}" th:value="${proposalType.idProposalType}" th:if="${proposedHeader.ProposalType.detail == proposalType.detail}" selected>
-					<p name="proposalType.detail" th:text="${proposalType.detail}" th:value="${proposalType.detail}" ></p>
-				</option>
-				<option th:each="proposalType : ${proposalTypes}" th:value="${proposalType.idProposalType}" th:if="${proposedHeader.ProposalType.detail != proposalType.detail}">
-					<p name="proposalType.detail" th:text="${proposalType.detail}" th:value="${proposalType.detail}" ></p>
-				</option>
-			</select>
-		
 			
         </fieldset>
         
@@ -215,46 +136,193 @@
       </div>
       <div class="ui-block-b">
        <fieldset style="margin: 30px;">
-        	<legend><h1>Paso 2</h1></legend>
-        		
-        	<label for="target"><h5>Muestreo:</h5></label>
-        	<textarea name="targetText" id="info" style="border-bottom:1px solid green;" th:value="${proposedHeader.targetText}" required></textarea>
        
-        	<label for="observacion"><h5>Observacion:</h5></label>
-        	<textarea name="observations" id="info" style="border-bottom:1px solid green;" th:value="${proposedHeader.observations}" required></textarea>
-        	
-        </fieldset>
-      </div>
-      <div class="ui-block-c">
-       <fieldset style="margin: 30px;">
-        	<legend><h1>Paso 3</h1></legend>
+       		<div class="paso1">
+       		<legend><h1><br/></h1></legend>
+       		<label for="industry"><h5>Sector o industria:</h5></label>
+        	<select name="idIndustrySector">
+				<option th:each="industrySector : ${industrysectors}" th:value="${industrySector.idIndustrySector}" th:if="${proposal.IndustrySector.detail == industrySector.detail}" selected>
+					<p name="industrySector.detail" th:text="${industrySector.detail}" th:value="${industrySector.detail}" ></p>
+				</option>
+				<option th:each="industrySector : ${industrysectors}" th:value="${industrySector.idIndustrySector}" th:if="${proposal.IndustrySector.detail != industrySector.detail}">
+					<p name="industrySector.detail" th:text="${industrySector.detail}" th:value="${industrySector.detail}" ></p>
+				</option>
+			</select>
+			
+			<label for="categoria"><h5>Categoria:</h5></label>
+        	<select name="idStudyCategory">
+				<option th:each="studyCategory : ${studyCategories}" th:value="${studyCategory.idStudyCategory}" th:if="${proposal.StudyCategory.detail == studyCategory.detail}" selected>
+					<p name="studyCategory.detail" th:text="${studyCategory.detail}" th:value="${studyCategory.detail}" ></p>
+				</option>
+				<option th:each="studyCategory : ${studyCategories}" th:value="${studyCategory.idStudyCategory}" th:if="${proposal.StudyCategory.detail != studyCategory.detail}">
+					<p name="studyCategory.detail" th:text="${studyCategory.detail}" th:value="${studyCategory.detail}" ></p>
+				</option>
+			</select>
+			
+			<label for="tipoEstudio"><h5>Tipo de estudio:</h5></label>
+        	<select name="idStudyType">
+				<option th:each="studyType : ${studytypes}" th:value="${studyType.idStudyType}" th:if="${proposal.StudyType.detail == studyType.detail}" selected>
+					<p name="studyType.detail" th:text="${studyType.detail}" th:value="${studyType.detail}" ></p>
+				</option>
+				<option th:each="studyType : ${studytypes}" th:value="${studyType.idStudyType}" th:if="${proposal.StudyType.detail != studyType.detail}">
+					<p name="studyType.detail" th:text="${studyType.detail}" th:value="${studyType.detail}" ></p>
+				</option>
+			</select>
+			
+			<label for="tipoEstudio"><h5>Continuo/Tracker:</h5></label>
+        	<select  name="tracker" th:value="${tracker}">
+  				<option value="Aplica"    th:if="${proposal.tracker =='Aplica'}" selected>Aplica</option>
+  				<option value="No aplica" th:if="${proposal.tracker =='No Aplica'}" selected>No Aplica</option>
+  				<option value="Aplica"    th:if="${proposal.tracker !='Aplica'}">Aplica</option>
+  				<option value="No aplica" th:if="${proposal.tracker !='No Aplica'}">No Aplica</option>
+			</select>
+			
+			<label for="currencyType"><h5>Tipo de moneda:</h5></label>
+        	<select name="idCurrencyType" >
+				<option th:each="currencyType : ${countryByCurrencyType}" th:value="${currencyType.idCurrencyType}" th:if="${proposal.CurrencyType.detail == currencyType.detail}" selected>
+					<p name="currencyType.detail" th:text="${currencyType.detail}"></p>
+				</option>
+				<option th:each="currencyType : ${countryByCurrencyType}" th:value="${currencyType.idCurrencyType}" th:if="${proposal.CurrencyType.detail != currencyType.detail}">
+					<p name="currencyType.detail" th:text="${currencyType.detail}"></p>
+				</option>
+			</select>
+			
+			
+       		</div>
+       		
+       		
+       		<div class="paso2">
+			
+        		<legend><h1>Paso 3</h1></legend>
         	<h5>Tecnicas/Modelo:</h5>
+        	  	
     		<form class="ui-filterable">
       			<input id="myFilter" data-type="search" placeholder="Busca las tecnicas/modelos">
     		</form>
     		
-    		
+    		<select name="idTechnique">
+				<option th:each="technique : ${techniques}" th:value="${technique.idTechnique}" th:if="${proposal.Technique.detail == technique.detail}" selected>
+					<p name="technique.detail" th:text="${technique.detail}" th:value="${technique.detail}" ></p>
+				</option>
+				<option th:each="technique : ${techniques}" th:value="${technique.idTechnique}" th:if="${proposal.Technique.detail != technique.detail}">
+					<p name="technique.detail" th:text="${technique.detail}" th:value="${technique.detail}" ></p>
+				</option>
+			</select>
     	
-    	<ul  data-role="listview" data-filter="true" data-input="#myFilter" data-autodividers="true" data-inset="true">
+    	
+    		<!--	
+    			<form class="ui-filterable">
+      			<input id="myFilter" data-type="search" placeholder="Busca las tecnicas/modelos">
+    			</form>
+    
+    
+   				 <ul  data-role="listview" data-filter="true" data-input="#myFilter" data-autodividers="true" data-inset="true">
       			<li id="getId" th:each="technique : ${techniques}"  selected>
       				<a href="#" th:text="${technique.detail}" th:value="${technique.idTechnique}" ></a>
-      				    <input type="hidden" id="idTechnique" name="idTechnique" th:value="${proposedHeader.Technique.idTechnique}" ></input>
+      				    <input type="hidden" id="idTechnique" name="idTechnique" th:value="${technique.idTechnique}" ></input>
       			</li>
-    		</ul> 
-    		
+    		</ul> -->
+    		<br/>
     		<button  onclick="return window.location.href='/admin/technique'" class="ui-btn">Agregar-Tecnica/Modelos</button>
     		
+    		
+    		
+       		</div>
+       
+       
         </fieldset>
-       </div> 
+      </div>
+      <div class="ui-block-c">
+       <fieldset style="margin: 30px;">
+       
+       <div class="paso1">
+       <legend><h1><br/></h1></legend>
+       	<label for="assessment"><h5>Evaluación:</h5></label>
+        	<select name="idAssessment">
+				<option th:each="assessment : ${assessments}" th:value="${assessment.idAssessment}" th:if="${proposal.Assessment.detail == assessment.detail}" selected>
+					<p name="assessment.detail" th:text="${assessment.detail  + ' - ' + assessment.saClient.detail}" th:value="${assessment.detail}" ></p>
+				</option>
+				<option th:each="assessment : ${assessments}" th:value="${assessment.idAssessment}" th:if="${proposal.Assessment.detail != assessment.detail}">
+					<p name="assessment.detail" th:text="${assessment.detail  + ' - ' + assessment.saClient.detail}" th:value="${assessment.detail}" ></p>
+				</option>
+			</select>
+			
+			<label for="clientContact"><h5>Contacto de cliente:</h5></label>
+        	<select name="idClientContact">
+				<option th:each="clientContact : ${clientContacts}" th:value="${clientContact.idClientContact}"  th:if="${proposal.ClientContact.name == clientContact.name}" selected>
+					<p name="clientContact.name" th:text="${clientContact.name}" th:value="${clientContact.name}" ></p>
+				</option>
+				<option th:each="clientContact : ${clientContacts}" th:value="${clientContact.idClientContact}"  th:if="${proposal.ClientContact.name != clientContact.name}">
+					<p name="clientContact.name" th:text="${clientContact.name}" th:value="${clientContact.name}" ></p>
+				</option>
+			</select>
+			
+			<label for="executionType"><h5>Tipo de ejecución:</h5></label>
+        	<select name="idExecutionType">
+				<option th:each="executionType : ${executionTypes}" th:value="${executionType.idExecutionType}" th:if="${proposal.ExecutionType.detail == executionType.detail}" selected>
+					<p name="executionType.detail" th:text="${executionType.detail}" th:value="${executionType.detail}" ></p>
+				</option>
+				<option th:each="executionType : ${executionTypes}" th:value="${executionType.idExecutionType}" th:if="${proposal.ExecutionType.detail != executionType.detail}">
+					<p name="executionType.detail" th:text="${executionType.detail}" th:value="${executionType.detail}" ></p>
+				</option>
+			</select>
+			
+			
+			<label for="operation"><h5>Operaciones:</h5></label>
+        	<select name="idOperation">
+				<option th:each="operation : ${operations}" th:value="${operation.idOperation}" th:if="${proposal.Operation.detail == operation.detail}" selected>
+					<p name="operation.detail" th:text="${operation.detail  + ' - ' + operation.OperationType.detail}" th:value="${operation.detail}" ></p>
+				</option>
+					<option th:each="operation : ${operations}" th:value="${operation.idOperation}" th:if="${proposal.Operation.detail == operation.detail}">
+					<p name="operation.detail" th:text="${operation.detail  + ' - ' + operation.OperationType.detail}" th:value="${operation.detail}" ></p>
+				</option>
+			</select>
+			
+				
+			<label for="proposalType"><h5>Tipos de propuesta:</h5></label>
+        	<select name="idProposalType">
+				<option th:each="proposalType : ${proposalTypes}" th:value="${proposalType.idProposalType}" th:if="${proposal.ProposalType.detail == proposalType.detail}" selected>
+					<p name="proposalType.detail" th:text="${proposalType.detail}" th:value="${proposalType.detail}" ></p>
+				</option>
+				<option th:each="proposalType : ${proposalTypes}" th:value="${proposalType.idProposalType}" th:if="${proposal.ProposalType.detail != proposalType.detail}">
+					<p name="proposalType.detail" th:text="${proposalType.detail}" th:value="${proposalType.detail}" ></p>
+				</option>
+			</select>
+		
+       		
+       		
+       
        </div>
        
-       </form> <!-- PRIMER FORMULARIO -->
+       <div class="paso2">
+       		<legend><h1>Paso 4</h1></legend>
+       		<label for="executionType"><h5>Guardar información general</h5></label>
+       		<input type="submit" value="Guardar" data-icon="check" ></input>
+       </div>
+       
+    		
+        </fieldset>
+      </div> 
+       </div>
+       		
+       	<div class="paso1">
+       			<a id="aPaso2" class=" ui-btn ui-icon-arrow-r ui-btn-icon-right ">Siguiente paso</a>
+       	</div>
+       		
+       	<div class="paso2">
+       			<a id="aPaso1" class=" ui-btn ui-icon-arrow-l ui-btn-icon-left ">Regresar al paso anterior</a>
+       	</div>
+       		
+       	
+
+       
+	</form> <!-- PRIMER FORMULARIO -->
 	
 	
 	
 	
 	
-	<div class="ui-grid-b" id="detalleCoti2" style="display: none; ">
+	<div class="ui-grid-b" id="detalleCoti" style="display: none; ">
      <div class="ui-block-a" >
         <fieldset style="margin: 30px;">
         	<h5>Partidas:</h5>
