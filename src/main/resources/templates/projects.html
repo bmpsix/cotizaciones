@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/header">
+<meta charset="UTF-8"/>
+<meta th:name="_csrf" th:content="${_csrf.token}"/>
+<meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+	<div data-role="page" data-theme="a" data-dom-cache="false" >
+		<div data-role="header" data-position="inline" >
+			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
+            <h1>
+            Cotizaciones
+            </h1>
+		</div>
+
+		<div data-role="content" data-theme="a" style="width: 95%;margin: 1em auto;">
+			<h3 style="text-align: center;">Lista de Proyectos</h3>
+			
+			<div class="ui-grid-a" id="form-data">
+		     <div class="ui-block-a" >
+		        	<form id="form-data">
+					  <fieldset id="form-assessment" style="margin: 30px; display:none;">
+					  	
+					  	<h3>Detalle del Proyecto</h3>
+						<div>
+							
+							<label for="creationDate">Fecha de Creacion:</label>
+							<input  type="text" name="creationDate"  id="creationDate" th:value="${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}" placeholder="Fecha de Creacion" required/>
+						
+							<label for="detail">Detalle:</label>
+							<input  type="text" name="detail" id="detail" placeholder="Nombre del proyecto" required/>
+							
+							
+							 <label for="currencyType">Tipo de moneda:</label>
+							
+    						<input data-type="search" id="searchForSelect" placeholder="Busqueda de Tipo de Moneda"/>
+							<select name="idCurrencyExchange" id="idCurrencyExchange" data-filter="true" data-input="#searchForSelect" required>
+								<option value="">...Seleccione un Tipo de Moneda...</option>
+							    <option th:each="currencyexchange : ${currencyexchanges}" th:value="${currencyexchange.idCurrencyExchange}">
+							    	<p th:text="${currencyexchange.country.detail +'/'+ currencyexchange.currencyType.detail +'/'+ currencyexchange.sell}"></p>
+							    </option>
+							</select> 
+							
+							<label for="saClient">SA Cliente:</label>
+							<select name="idSaClient" id="idSaClient" required>
+								<option value="">...Seleccione un Cliente SA...</option>
+								<option th:each="saClient : ${saClients}" th:value="${saClient.idSaClient}">
+									<p th:text="${saClient.detail}"></p>
+								</option>
+							</select>
+							
+							<label for="idStatus">Estado del Proyecto:</label>
+							<select name="idStatus" id="idStatus" required>
+								<option th:each="statu : ${status}" th:value="${statu.idStatus}">
+									<p th:text="${statu.detail}"></p>
+								</option>
+							</select>
+							
+							<input type="hidden" th:object="${user}" th:value="${user.idUser}" name="idUser" id="idUser" required/>
+							
+							<a href="#" th:href="@{/assessment}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
+							
+						</div>
+					
+                    	<hr>
+                    
+  					<input type="button" id="sendAssessment" class="custom_text" data-icon="plus" value="Guardar">
+                   </fieldset>
+				</form>
+		               
+		      </div>
+		    </div>
+		    
+			<div class="ui-grid-solo" id="detalleCoti">
+		     <div class="ui-block-a" >
+		        <fieldset style="margin: 30px;">
+		        	<h5>Proyectos:</h5>
+		 			<form class="ui-filterable">
+		      			<input id="myFilter2" data-type="search" placeholder="Busca la partida">
+		      			<div class="ui-block-b">
+				        <button class="ui-icon-delete ui-btn-icon-notext ui-btn-inline" data-mini="true">Eliminar Seleccion</button>
+				    	</div>
+		    		</form> 
+		    		
+		    		<table data-role="table" id="movie-table" data-filter="true" data-input="#myFilter2" class="ui-responsive">
+		    			<thead>
+           				<tr>
+           				<th  style="padding-right: 15px;">ID de Propuesta</th>
+           				<th  style="padding-right: 15px;">Fecha de Creacion</th>
+           				<th  style="padding-right: 15px;">Nombre</th>
+           				<th  style="padding-right: 15px;">Tipo de Cambio</th>
+           				<th  style="padding-right: 15px;">Cliente</th>
+           				<th  style="padding-right: 15px;">Usuario de Creacion</th>
+           				<th  style="padding-right: 15px;">Estado</th>
+           				<th style="padding-right: 15px;">
+		            	<a id="addAssessment" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;">Plus</a>
+		                </th>
+           				</tr>
+           				</thead>
+				        <tbody>
+	           			<tr th:each="project : ${projects}">
+							<td style="padding-right: 15px;" th:text="${project.idAssessment}"></td>
+							<td style="padding-right: 15px;" th:text="${#dates.format(project.creationDate, 'dd-MMM-yyyy')}"></td>
+							<td style="padding-right: 15px;" th:text="${project.detail}"></td>
+							<td style="padding-right: 15px;" th:text="${project.currencyExchange.buy}"></td>
+							<td style="padding-right: 15px;" th:text="${project.saClient.detail}"></td>
+							<td style="padding-right: 15px;" th:text="${project.user.name}"></td>
+							<td style="padding-right: 15px;" th:text="${project.status.detail}"></td>
+	           				<td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" th:href="@{/admin/dialogoPartidas}" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
+	           				
+           				</tr>
+          			    </tbody>
+		    		</table>
+		        </fieldset>       
+		      </div>
+		    </div>
+	</div>
+	<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
+		<div data-role="popup" data-position="left" id="adminmenu" th:replace="fragments/footer"></div>
+		<!-- /panel -->	
+	</div>
+	</div>
+</body>
+</html>

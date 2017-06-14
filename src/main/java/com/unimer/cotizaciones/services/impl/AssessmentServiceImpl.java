@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.unimer.cotizaciones.entities.Assessment;
 import com.unimer.cotizaciones.entities.LogAssessment;
+import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.repositories.AssessmentJpaRepository;
 import com.unimer.cotizaciones.repositories.LogAssessmentJpaRepository;
 import com.unimer.cotizaciones.services.AssessmentService;
@@ -72,6 +73,11 @@ public class AssessmentServiceImpl implements AssessmentService {
 			
 			}
 		
+	}
+
+	@Override
+	public List<Assessment> listAllByUser(User user) {
+		return assessmentJpaRepository.findByUser(user);
 	}
 	
 
