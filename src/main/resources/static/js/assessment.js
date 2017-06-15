@@ -6,11 +6,11 @@
 $( document ).ready(function(){
 	
 	$("#addAssessment").click(function(){
-		$("#form-assessment").toggle("slow");
+		$(".form-assessment").toggle("slow");
 	});
 	
 	$(".ui-filterable").focusin(function(){
-		$("#form-assessment").hide("slow");
+		$(".form-assessment").hide("slow");
 	});
 	
 	

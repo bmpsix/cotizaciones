@@ -17,8 +17,8 @@
 			
 			<div class="ui-grid-a" id="form-data">
 		     <div class="ui-block-a" >
-		        	<form id="form-data">
-					  <fieldset id="form-assessment" style="margin: 30px; display:none;">
+		        	<form class="form-data-assessment">
+					  <fieldset class="form-assessment" style="margin: 30px; display:none;">
 					  	
 					  	<h3>Detalle del Proyecto</h3>
 						<div>
@@ -30,9 +30,24 @@
 							<input  type="text" name="detail" id="detail" placeholder="Nombre del proyecto" required/>
 							
 							
+						</div>
+					
+                    	<hr>
+                    
+                   </fieldset>
+				</form>
+		               
+		      </div>
+		      <div class="ui-block-b" >
+		      	 <form class="form-data-assessment">
+					  <fieldset class="form-assessment" style="margin: 30px; display:none;">
+					  	
+						<div>
+							
 							 <label for="currencyType">Tipo de moneda:</label>
 							
     						<input data-type="search" id="searchForSelect" placeholder="Busqueda de Tipo de Moneda"/>
+    						<hr>
 							<select name="idCurrencyExchange" id="idCurrencyExchange" data-filter="true" data-input="#searchForSelect" required>
 								<option value="">...Seleccione un Tipo de Moneda...</option>
 							    <option th:each="currencyexchange : ${currencyexchanges}" th:value="${currencyexchange.idCurrencyExchange}">
@@ -56,7 +71,7 @@
 							</select>
 							
 							<input type="hidden" th:object="${user}" th:value="${user.idUser}" name="idUser" id="idUser" required/>
-							
+							<h3>Opciones</h3>
 							<a href="#" th:href="@{/assessment}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
 							
 						</div>
@@ -66,7 +81,6 @@
   					<input type="button" id="sendAssessment" class="custom_text" data-icon="plus" value="Guardar">
                    </fieldset>
 				</form>
-		               
 		      </div>
 		    </div>
 		    
