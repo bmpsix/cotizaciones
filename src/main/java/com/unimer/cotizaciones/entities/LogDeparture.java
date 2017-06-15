@@ -12,6 +12,30 @@ import java.util.Date;
 @Entity
 @Table(name="log_departure")
 public class LogDeparture implements Serializable {
+	public byte getStatus() {
+		return status;
+	}
+
+	public void setStatus(byte status) {
+		this.status = status;
+	}
+
+	public int getIdCurrencyType() {
+		return idCurrencyType;
+	}
+
+	public void setIdCurrencyType(int idCurrencyType) {
+		this.idCurrencyType = idCurrencyType;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -31,6 +55,17 @@ public class LogDeparture implements Serializable {
 	@Column(name="id_departure", nullable=false, length=8)
 	private int idDeparture;
 
+	@Column(name="status", nullable=false)
+	private byte status;
+
+	@JoinColumn(name="id_currency_type", nullable=false)
+	private int idCurrencyType;
+	
+	@Column(name="price", nullable=true)
+	private double price;
+	
+	
+	
 	public LogDeparture() {
 	}
 
@@ -74,13 +109,20 @@ public class LogDeparture implements Serializable {
 		this.idDeparture = idDeparture;
 	}
 
-	public LogDeparture(Date dateRecord, String actionDetail, int actionUser, String detail, int idDeparture) {
+	
+	public LogDeparture(Date dateRecord, String actionDetail, int actionUser, String detail, int idDeparture,
+			byte status, int idCurrencyType, double price) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;
 		this.actionUser = actionUser;
 		this.detail = detail;
 		this.idDeparture = idDeparture;
+		this.status = status;
+		this.idCurrencyType = idCurrencyType;
+		this.price = price;
 	}
 
+	
+	
 }

@@ -19,7 +19,7 @@
 		<div data-role="content" data-theme="a" style="width: 95%;margin: 1em auto;">
 		
 		
-	<form action="#" method="POST" th:action="@{/admin/addproposal}" onSubmit="if ((initialDate.value <= endDate.value)) return true; else return false;"> <!-- PRIMER FORMULARIO -->
+	<form action="#" id="proposalForm" method="POST" th:action="@{/admin/addproposal}"> <!-- PRIMER FORMULARIO -->
 	
 	
     <div class="ui-grid-b" id="cotiHeader1">
@@ -32,7 +32,7 @@
       </div>
       
       <div class="ui-block-b" data-inline=true>
-         <label style=" width: 99%;" for="cotizacion"><h5>Nombre de Cotización:</h5> <input placeholder="Nombre para la cotización"  title="Debe ingresar un nombre para la propuesta" type="text" name="proposalName" th:value="${proposalName}" required/></label>
+         <label style=" width: 99%;" for="cotizacion"><h5>Nombre de propuesta:</h5> <input id="proposalName" placeholder="Nombre para la cotización"  title="Debe ingresar un nombre para la propuesta" type="text" name="proposalName" th:value="${proposalName}" required/></label>
      
       	
       </div>
@@ -75,9 +75,9 @@
         	<legend><h1>Paso 1</h1></legend>
         	
         	<label for="initialDate"><h5>Fecha inicio operaciones:</h5></label>
-        	<input name="initialDate" th:value="${initialDate}"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text" required />  
+        	<input id="initialDate" name="initialDate" th:value="${initialDate}"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text" required />  
         	<label for="endDate"><h5>Fecha de entrega final:</h5></label>
-        	<input name="endDate"  th:value="${endDate}"  data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }'  type="text" required/>   
+        	<input id="endDate" name="endDate"  th:value="${endDate}"  data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }'  type="text" required/>   
 			
         	<label for="cotizacion"><h5>Tipo de Proyecto:</h5></label>
         	<select name="projectType" th:value="${projectType}">
@@ -111,10 +111,10 @@
 			
         	<legend><h1>Paso 2</h1></legend>
         	<label for="target"><h5>Muestreo:</h5></label>
-        	<textarea name="targetText" id="info" style="border-bottom:1px solid green;" th:value="${targetText}" required></textarea>
+        	<textarea id="targetText" name="targetText" style="border-bottom:1px solid green;" th:value="${targetText}" required></textarea>
   
         	<label for="observacion"><h5>Observacion:</h5></label>
-        	<textarea name="observations" id="info" style="border-bottom:1px solid green;" required></textarea>
+        	<textarea id="observations" name="observations" style="border-bottom:1px solid green;" required></textarea>
         	
 			
 			</div>
@@ -196,7 +196,7 @@
       				    <input type="hidden" id="idTechnique" name="idTechnique" th:value="${technique.idTechnique}" ></input>
       			</li>
     		</ul> -->
-    		<br\>
+    		<br/>
     		<button  onclick="return window.location.href='/admin/technique'" class="ui-btn">Agregar-Tecnica/Modelos</button>
     		
     		
@@ -255,7 +255,8 @@
        <div class="paso2">
        		<legend><h1>Paso 4</h1></legend>
        		<label for="executionType"><h5>Guardar información general</h5></label>
-       		<input type="submit" value="Guardar" data-icon="check"></input>
+       		<input id="proposalSubmit" type="button" value="Guardar" data-icon="check"></input>
+       		<div id="msg"></div>
        </div>
        
     		
