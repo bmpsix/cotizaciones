@@ -23,6 +23,7 @@
 								<option th:each="saClient : ${saClients}" th:value="${saClient.idSaClient}">
 									<p name="saClient.detail" th:text="${saClient.detail}" th:value="${saClient.detail}" ></p>
 								</option>
+								
 							</select>
 							<label for="country">País:</label>
 							<select name="country.idCountry">
