@@ -15,9 +15,9 @@
             </h1>
 		</div>
 
-		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
+		<div data-role="content" data-theme="a" style="width: 95%;margin: 1em auto;">
 		
-	<form action="#" method="POST" th:action="@{/admin/addproposal}" onSubmit="if ((initialDate.value <= endDate.value)) return true; else return false;"> <!-- PRIMER FORMULARIO -->
+	<form action="#" method="POST" id="proposalForm" th:action="@{/admin/addproposal}"> <!-- PRIMER FORMULARIO -->
 	
 	
     <div class="ui-grid-b" id="cotiHeader1">
@@ -30,7 +30,7 @@
       </div>
       
       <div class="ui-block-b" data-inline=true>
-         <label style=" width: 99%;" for="cotizacion"><h5>Nombre de Cotización:</h5> <input placeholder="Nombre para la cotización"  title="Debe ingresar un nombre para la propuesta" type="text" name="proposalName" th:value="${proposal.proposalName}" required/></label>
+         <label style=" width: 99%;" for="cotizacion"><h5>Nombre de Cotización:</h5> <input placeholder="Nombre para la cotización"  title="Debe ingresar un nombre para la propuesta" type="text" id="proposalName" name="proposalName" th:value="${proposal.proposalName}" required/></label>
     
       </div>
       <div class="ui-block-c">
@@ -66,14 +66,13 @@
     
       <div class="ui-block-a" >
         <fieldset style="margin: 30px;">
-        	
+        	<div id="msgSave"></div>
         	<div class="paso1">
-        	<legend><h1>Paso 1</h1></legend>
-        	
-         	<label for="initialDate"><h5>Fecha inicio operaciones:</h5></label>
-        	<input name="initialDate" th:value="${#dates.format(proposal.initialDate, 'MM/dd/yyyy')}"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text" required />  
+        	<legend><h1>Paso 1</h1></legend> 
+         	<label  for="initialDate"><h5>Fecha inicio operaciones:</h5></label>
+        	<input id="initialDate" name="initialDate" th:value="${#dates.format(proposal.initialDate, 'MM/dd/yyyy')}"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text" required />  
         	<label for="endDate"><h5>Fecha de entrega final:</h5></label>
-       		<input name="endDate"  th:value="${#dates.format(proposal.endDate, 'MM/dd/yyyy')}"  data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }'  type="text" required/>   
+       		<input  id="endDate" name="endDate"  th:value="${#dates.format(proposal.endDate, 'MM/dd/yyyy')}"  data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }'  type="text" required/>   
 		
         	<label for="cotizacion"><h5>Tipo de Proyecto:</h5></label>
         	<select name="projectType" th:value="${projectType}">
@@ -119,10 +118,10 @@
         	<legend><h1>Paso 2</h1></legend>
         		
         	<label for="target"><h5>Muestreo:</h5></label>
-        	<textarea name="targetText" id="info" style="border-bottom:1px solid green;" th:text="${proposal.targetText}" required></textarea>
+        	<textarea name="targetText" id="targetText" style="border-bottom:1px solid green;" th:text="${proposal.targetText}" required></textarea>
        
         	<label for="observacion"><h5>Observacion:</h5></label>
-        	<textarea name="observations" id="info" style="border-bottom:1px solid green;" th:text="${proposal.observations}" required></textarea>
+        	<textarea name="observations" id="observations" style="border-bottom:1px solid green;" th:text="${proposal.observations}" required></textarea>
         	
 			
 			</div>
@@ -297,7 +296,8 @@
        <div class="paso2">
        		<legend><h1>Paso 4</h1></legend>
        		<label for="executionType"><h5>Guardar información general</h5></label>
-       		<input type="submit" value="Guardar" data-icon="check" ></input>
+       		<input id="proposalSubmit" type="button" value="Guardar" data-icon="check" ></input>
+       		<div id="msg"></div>
        </div>
        
     		
@@ -320,166 +320,181 @@
 	
 	
 	
+	<!-- DETALLE DE COTIZACION -->
 	
-	
-	<div class="ui-grid-b" id="detalleCoti" style="display: none; ">
+	<div class="ui-grid-a" id="detalleCoti" style="display: none;">
      <div class="ui-block-a" >
-        <fieldset style="margin: 30px;">
-        	<h5>Partidas:</h5>
- 			<form class="ui-filterable">
-      			<input id="myFilter2" data-type="search" placeholder="Busca la partida">
-      			<div class="ui-block-b">
-		        <button class="ui-icon-delete ui-btn-icon-notext ui-btn-inline" data-mini="true">Eliminar Seleccion</button>
-		    	</div>
-    		</form> 
-    		
-    		<form action="#" method="POST" th:action="@{/admin/addproposaldetails}" th:object="${proposaldetails}" onSubmit="">
-    		<table data-role="table" id="movie-table" data-filter="true" data-input="#myFilter2" class="ui-responsive">
-    			<thead>
-		        <tr>
-		            <th data-priority="1">Opcion</th>
-		            <th data-priority="persist">Codigo</th>
-		            <th data-priority="4">Partida</th>
-		            <th data-priority="3" >Precio</th>
-		            <th data-priority="8">Numero</th>
-		            <th data-priority="5">Dias/Veces</th>
-		            <th data-priority="6">Total Presupuesto</th>
-		            <th data-priority="7">Estado Partida</th>
-		            <th data-priority="2"></th>
-		        </tr>
-        		</thead>
-        		
-		        <tbody>
-		           <tr>
-		           		 	<th>
-		           		 	<p>Comisionable</p>
-								<select  name="commissionable" data-role="slider"  th:value="${commissionable}">
-										<option  value="0" >No </option>
-										<option  value="1" selected>Si</option>
-								</select>
-								
-		           		 	</th>
-		                	<td><input title="ID del detalle"  maxlength="30" type="hidden" name="idProposalDetails" th:value="${idProposalDetails}"  readonly/></td>
-		                	<td>
-		                		<select>
-									<option th:each="departure : ${departures}" th:value="${departure.idDeparture}">
-										<p name="departure.detail" th:text="${departure.detail}" th:value="${departure.detail}" ></p>
-									</option>
-								</select>
-						
-			
-		                	</td>
-		                	<td><input style="width: 100px" id="price"  title="Debe ingresar el precio"  maxlength="30" type="number" min="1" class="cal" name="cal" th:value="${price}" required/></td>
-		                	<td><input id="number" title="Debe ingresar la cantidad"  maxlength="30" type="number" min="1" name="cal" th:value="${number}"  class="cal" required/></td>
-		                	<td><input id="daysTimes" title="Debe ingresar la cantidad de días o veces"  maxlength="30" type="number"  min="1" name="cal" class="cal"  th:value="${daysTimes}" required/></td>
-		                	<td><p id="totalBudget" title="Total presupuesto" name="totalBudget" th:text="${totalBudget}" th:value="${totalBudget}" ></p></td>
-		                	<td>(fact de 2.39), (Impre 10%)</td>
-		                	<td data-priority="8">
-		            			<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;">Plus</a>
-		            		</td>
-		            </tr>
-		              
-		            <tr>
-		                <th><input type="checkbox"/></th>
-		                <td>74</td>
-		                <td>Codificacion</td>
-		                <td>300.00</td>
-		                <td>300.00</td>
-		                <td>1</td>
-		                <td>90.000,00</td>
-		                <td>(fact de 2.39), (Impre 10%)</td>
-		                <td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" th:href="@{/admin/dialogoPartidas}" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
-		            </tr>
-		            <tr  style="color:white; background:#005d54;">
-		                <th><input type="checkbox"/></th>
-		                <td>74</td>
-		                <td>Codificacion</td>
-		                <td>300.00</td>
-		                <td>300.00</td>
-		                <td>1</td>
-		                <td>90.000,00</td>
-		                <td>(fact de 2.39), (Impre 10%)</td>
-		                <td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" th:href="@{/admin/dialogoPartidas}" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
-		            </tr>
-		          
-		        </tbody>     
-    		</table>
-    		</form> 
-        </fieldset>       
-      </div>
-      <div class="ui-block-b">
-       <fieldset style="margin: 30px;">
-			<!-- Esta no se debe quitar por que es la que va  -->
-       </fieldset>
-      </div>
-      <div class="ui-block-c">
-       <fieldset style="margin: 30px;">
-        	<h3>Comisionable</h3>
-      		<table>
+        <fieldset style="margin: 30px ; ">
+        		<h3>Comisionable</h3>
+      		<table style="width:99%">
       			<tr>
       				<th ><p th:text="'Sub Total 1 '+${proposal.CurrencyType.symbol}+' :'"></p></th>
-      				<td><input type="text" readonly/></td>
+      				<td><input  style="background-color:#FFFAFA;" type="text" readonly/></td>
+      				<th>Factor 1:</th>
+      				<td><input type="number" min="0" step="any" th:value="${factor}"/></td>
       			</tr>
       			<tr>
       				<th>Imprevisto %:</th>
-      				<td><input type="number" th:value="${aporteFijo}"/></td>
+      				<td><input  type="number" min="0" step="any" th:value="${aporteFijo}"/></td>
+      				<th><p th:text="'Sub Total 3 '+${proposal.CurrencyType.symbol}+' :'"></p></th>
+      				<td ><input  style="background-color:#FFFAFA;" type="text" readonly/></td>
       			</tr>
       			<tr>
       				<th><p th:text="'Total Imprevisto '+${proposal.CurrencyType.symbol}+' :'"></p></th>
-      				<td><input type="text" readonly/></td>
+      				<td><input style="background-color:#FFFAFA;"  type="text" readonly/></td>
+      				<th><p th:text="'Aporte Fijo '+${proposal.CurrencyType.symbol}+' :'"></p></th>
+      				<td><input type="number"  min="0" step="any"/></td>
       			</tr>
       			<tr>
       				<th><p th:text="'Sub Total 2 '+${proposal.CurrencyType.symbol}+' :'"></p></th>
-      				<td><input type="text" readonly/></td>
-      			</tr>
-      			<tr>
-      				<th>Factor 1:</th>
-      				<td><input type="text" th:value="${factor}"/></td>
-      			</tr>
-      			<tr>
-      				<th><p th:text="'Sub Total 3 '+${proposal.CurrencyType.symbol}+' :'"></p></th>
-      				<td><input type="text" readonly/></td>
-      			</tr>
-      			<tr>
-      				<th><p th:text="'Aporte Fijo '+${proposal.CurrencyType.symbol}+' :'"></p></th>
-      				<td><input type="text" readonly/></td>
+      				<td><input  style="background-color:#FFFAFA;" type="text" readonly/></td>
+      				<th><p th:text="'Tipo de cambio '+${proposal.CurrencyType.symbol}+' :'"></p></th>
+      				<td><input  style="background-color:#FFFAFA;" type="text" th:value="${proposal.currencyExchange}" readonly/></td>
       			</tr>
       			<tr>
       				<th><p th:text="'Total 1 '+${proposal.CurrencyType.symbol}+' :'"></p></th>
-      				<td><input type="text"/></td>
-      			</tr>
-      			<tr>
-      				<th><p th:text="'Tipo de cambio '+${proposal.CurrencyType.symbol}+' :'"></p></th>
-      				<td><input type="text" th:value="${proposal.currencyExchange}" readonly/></td>
+      				<td colspan="3"><input  style="background-color:#FFFAFA;" type="text" readonly/></td>
+      				
       			</tr>
       		</table>
-      		
-      		<h3>No Comisionable</h3>
-      		<table>
+        
+      		<h3>Precios nacionales</h3>
+      		<table style="width:99%">
+      			<tr>
+      				<th><p th:text="'Precio nacional '+${proposal.CurrencyType.symbol}+' :'"></p></th>
+      				<td><input  style="background-color:#FFFAFA;" type="text" readonly/></td>
+      				
+      			</tr>
+      			<tr>
+      				<th><p th:text="'Precio nacional '+${proposal.CurrencyType.symbol}+' :'"></p></th>
+      				<td><input  style="background-color:#FFFAFA;" type="text" readonly/></td>
+      			</tr>
+
+      		</table>
+        </fieldset>       
+      </div>
+       
+      <div class="ui-block-b">
+       <fieldset style="margin: 30px;">
+         <h3>No Comisionable</h3>
+      		<table style="width:99%">
       			<tr>
       				<th><p th:text="'Sub Total 4 '+${proposal.CurrencyType.symbol}+' :'"></p></th>
-      				<td><input type="text" readonly/></td>
+      				<td><input  style="background-color:#FFFAFA;" type="text" readonly/></td>
       			</tr>
       			<tr>
       				<th>Factor 2:</th>
-      				<td><input type="text" th:value="${factor}"/></td>
+      				<td><input type="number"  min="0" step="any" th:value="${factor}"/></td>
       			</tr>
       			<tr>
       				<th><p th:text="'Sub Total 5 '+${proposal.CurrencyType.symbol}+' :'"></p></th>
-      				<td><input type="text" readonly/></td>
+      				<td><input  style="background-color:#FFFAFA;" type="text" readonly/></td>
       			</tr>
       			<tr>
       				<th><p th:text="'Total 2 '+${proposal.CurrencyType.symbol}+' :'"></p></th>
-      				<td><input type="text" readonly /></td>
+      				<td><input  style="background-color:#FFFAFA;" type="text" readonly /></td>
       			</tr>
       		</table>
-    		
-    		
+      		
+      		
+       </fieldset>
+      </div>
+     
+
+
+ 	<div >
+       <fieldset style="margin: 30px; width: 95%">
+       <h5>Partidas:</h5>
+	<form class="ui-filterable">
+		<input id="myFilter2" data-type="search" placeholder="Busca la partida">
+		<div class="ui-block-b">
+    <button class="ui-icon-delete ui-btn-icon-notext ui-btn-inline" data-mini="true">Eliminar Seleccion</button>
+	</div>
+	</form> 
+
+	<form action="#" method="POST" th:action="@{/admin/addproposaldetails}" th:object="${proposaldetails}" onSubmit="">
+	<table data-role="table" id="movie-table" data-filter="true" data-input="#myFilter2" class="ui-responsive">
+	<thead>
+    <tr>
+        <th data-priority="1">Opcion</th>
+        <th data-priority="persist">Codigo</th>
+        <th data-priority="4">Partida</th>
+        <th data-priority="3" >Precio</th>
+        <th data-priority="8">Numero</th>
+        <th data-priority="5">Dias/Veces</th>
+        <th data-priority="6">Total Presupuesto</th>
+        <th data-priority="7">Estado Partida</th>
+        <th data-priority="2"></th>
+    </tr>
+	</thead>
+	
+    <tbody>
+       <tr>
+       		 	<th>
+       		 	<p>Comisionable</p>
+					<select  name="commissionable" data-role="slider"  th:value="${commissionable}">
+							<option  value="0" >No </option>
+							<option  value="1" selected>Si</option>
+					</select>
+					
+       		 	</th>
+            	<td><input title="ID del detalle"  maxlength="30" type="hidden" name="idProposalDetails" th:value="${idProposalDetails}"  readonly/></td>
+            	<td>
+            		<select>
+						<option th:each="departure : ${departures}" th:value="${departure.idDeparture}">
+							<p name="departure.detail" th:text="${departure.detail}" th:value="${departure.detail}" ></p>
+						</option>
+					</select>
+			
+
+            	</td>
+            	<td><input style="width: 100px" id="price"  title="Debe ingresar el precio"  maxlength="30" type="number" min="1" step="any" class="cal" name="cal" th:value="${price}" required/></td>
+            	<td><input id="number" title="Debe ingresar la cantidad"  maxlength="30" type="number" min="1" name="cal" th:value="${number}"  class="cal" required/></td>
+            	<td><input id="daysTimes" title="Debe ingresar la cantidad de días o veces"  maxlength="30" type="number"  min="1"  name="cal" class="cal"  th:value="${daysTimes}" required/></td>
+            	<td><p id="totalBudget" title="Total presupuesto" name="totalBudget" th:text="${totalBudget}" th:value="${totalBudget}" ></p></td>
+            	<td>(fact de 2.39), (Impre 10%)</td>
+            	<td data-priority="8">
+        			<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;">Plus</a>
+        		</td>
+        </tr>
+          
+        <tr>
+            <th><input type="checkbox"/></th>
+            <td>74</td>
+            <td>Codificacion</td>
+            <td>300.00</td>
+            <td>300.00</td>
+            <td>1</td>
+            <td>90.000,00</td>
+            <td>(fact de 2.39), (Impre 10%)</td>
+            <td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" th:href="@{/admin/dialogoPartidas}" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
+        </tr>
+        <tr  style="color:white; background:#005d54;">
+            <th><input type="checkbox"/></th>
+            <td>74</td>
+            <td>Codificacion</td>
+            <td>300.00</td>
+            <td>300.00</td>
+            <td>1</td>
+            <td>90.000,00</td>
+            <td>(fact de 2.39), (Impre 10%)</td>
+            <td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" th:href="@{/admin/dialogoPartidas}" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
+        </tr>
+      
+    </tbody>     
+</table>
+</form> 
+       
+       
        </fieldset>
       </div>
 
+
     </div>
 	<div class="ui-grid-b" id="facturaEscena" style="display: none;">
+    
+    <!-- DETALLE DE COTIZACION -->
+    
     
       <div class="ui-block-a">
         <p>Esta Tercera Parte es el ultimo entregable</div>

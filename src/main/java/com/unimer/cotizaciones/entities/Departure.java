@@ -19,11 +19,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name="departure")
 public class Departure implements Serializable {
-	@Override
-	public String toString() {
-		return "Departure [idDeparture=" + idDeparture + ", detail=" + detail + ", country=" + country + "]";
-	}
+	
 
+	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -39,6 +37,44 @@ public class Departure implements Serializable {
 	@JoinColumn(name="id_country", nullable=false)
 	private Country country;
 
+	@Column(name="status", nullable=false)
+	private byte status;
+
+	//bi-directional many-to-one association to CurrencyType
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_currency_type", nullable=false)
+	private CurrencyType currencyType;
+	
+	@Column(name="price", nullable=true)
+	private double price;
+	
+	
+	
+	
+	
+	public byte getStatus() {
+		return status;
+	}
+
+	public void setStatus(byte status) {
+		this.status = status;
+	}
+
+	public CurrencyType getCurrencyType() {
+		return currencyType;
+	}
+
+	public void setCurrencyType(CurrencyType currencyType) {
+		this.currencyType = currencyType;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
 	
 	public int getIdDeparture() {
 		return idDeparture;
@@ -68,13 +104,24 @@ public class Departure implements Serializable {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	public Departure(int idDeparture, String detail, Country country) {
+
+	public Departure(int idDeparture, String detail, Country country, byte status, CurrencyType currencyType,
+			double price) {
 		super();
 		this.idDeparture = idDeparture;
 		this.detail = detail;
 		this.country = country;
+		this.status = status;
+		this.currencyType = currencyType;
+		this.price = price;
 	}
 	
+	
+	@Override
+	public String toString() {
+		return "Departure [idDeparture=" + idDeparture + ", detail=" + detail + ", country=" + country + ", status="
+				+ status + ", currencyType=" + currencyType + ", price=" + price + "]";
+	}
+
 	
 }

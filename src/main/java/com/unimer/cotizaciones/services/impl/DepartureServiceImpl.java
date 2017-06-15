@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.LogDeparture;
+import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.entities.Departure;
 import com.unimer.cotizaciones.repositories.LogDepartureJpaRepository;
 import com.unimer.cotizaciones.repositories.DepartureJpaRepository;
@@ -64,7 +65,7 @@ public class DepartureServiceImpl implements DepartureService{
 		java.util.Date date = new Date();
 		Departure departureToUpdate = departureJpaRepository.findByIdDeparture(departure.getIdDeparture());
 		if (departureToUpdate != null) {
-			LogDeparture logDeparture = new LogDeparture(date, "Departure modified",idUser, departureToUpdate.getDetail(),departureToUpdate.getIdDeparture());
+			LogDeparture logDeparture = new LogDeparture(date, "Departure modified",idUser, departureToUpdate.getDetail(),departureToUpdate.getIdDeparture(),departureToUpdate.getStatus(),departureToUpdate.getCurrencyType().getIdCurrencyType(),departureToUpdate.getPrice());
 			departureJpaRepository.save(departure);
 			logDepartureJpaRepository.save(logDeparture);
 		
@@ -74,6 +75,11 @@ public class DepartureServiceImpl implements DepartureService{
 	@Override
 	public Departure findByDetail(String detail) {
 		return departureJpaRepository.findByDetail(detail);
+	}
+
+	@Override
+	public List<Departure> findDepartureByCountry(Country country) {
+		return departureJpaRepository.findDepartureByCountry(country);
 	}
 	
 }

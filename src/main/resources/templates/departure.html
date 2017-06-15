@@ -27,6 +27,23 @@
 								
 							</select>
 							
+							<label for="currencyType">Tipo de modena sugerida</label> 
+						
+							<select name="currencyType.idCurrencyType">
+								<option th:each="type : ${types}" th:value="${type.idCurrencyType}">
+									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
+								</option>
+							</select>
+							
+							
+							<label for="sell">Precio sugerido:</label>
+							<input type="number" name="price" step="any" th:value="${price}" required/>
+							
+							<label for="status"  title="Estado de la partida o catálogo">Estado</label>
+							<select  name="status" data-role="slider"  th:value="${status}">
+								<option value="0">Inactivo</option>
+								<option value="1">Activo</option>
+							</select>
 						</div>
 						
 						<div th:if="${updateDeparture!=null}">
@@ -42,6 +59,34 @@
 										<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
 								</option>
 							</select>
+							
+							<label for="currencyType">Tipo de moneda sugerida:</label>
+							<select name="currencyType.idCurrencyType">
+								<option th:each="type : ${types}" th:value="${type.idCurrencyType}" th:if="${updateDeparture.CurrencyType.detail == type.detail}" selected readonly>
+									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
+								</option>
+								<option th:each="type : ${types}" th:value="${type.idCurrencyType}" th:if="${updateDeparture.CurrencyType.detail != type.detail}" readonly>
+									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
+								</option>
+							</select>
+							
+							<label for="text">Precio sugerido:</label>
+							<input type="text" name="price" step="any" th:value="${updateDeparture.price}" required/>
+							
+							<label for="status"  title="Estado de la partida o catálogo">Estado</label>
+							<div  th:if="${updateDeparture.status==0}">
+								<select  name="status" data-role="slider"  th:value="${status}">
+									<option  value="0" selected>Inactivo </option>
+									<option  value="1">Activo</option>
+								</select>
+							</div>
+							<div  th:if="${updateDeparture.status==1}">
+								<select  name="status" data-role="slider"  th:value="${status}">
+									<option  value="0" >Inactivo </option>
+									<option  value="1" selected>Activo</option>
+								</select>
+							</div>
+							
 							
 							<a href="#" th:href="@{/admin/adddeparture}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>	
 						</div>

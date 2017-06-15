@@ -16,6 +16,7 @@ import com.unimer.cotizaciones.entities.Departure;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.DepartureService;
 import com.unimer.cotizaciones.services.CountryService;
+import com.unimer.cotizaciones.services.CurrencyTypeService;
 
 
 @Controller
@@ -30,7 +31,9 @@ public class DepartureController {
 	@Qualifier("departureServiceImpl")
 	private DepartureService departureService;
 	
-
+	@Autowired
+	@Qualifier("currencyTypeServiceImpl")
+	private CurrencyTypeService currencyTypeService;
 
 	private static final Log LOG = LogFactory.getLog(DepartureController.class);
 
@@ -40,6 +43,7 @@ public class DepartureController {
 		modelAndView.setViewName("departure");
 		modelAndView.addObject("countries", countryService.listAllCountries());
 		modelAndView.addObject("departures", departureService.listAllDeparture());
+		modelAndView.addObject("types", currencyTypeService.listAllCurrencyType());
 		return modelAndView;
 	}
 	
@@ -60,11 +64,10 @@ public class DepartureController {
 	public ModelAndView updateDeparture(int idDeparture, Model model) {
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("departure");;
+		modelAndView.setViewName("departure");
 		modelAndView.addObject("countries", countryService.listAllCountries());
 		modelAndView.addObject("departures", departureService.listAllDeparture());
 		modelAndView.addObject("updateDeparture", departureService.findById(idDeparture));
-
 		return modelAndView;
 	}
 
