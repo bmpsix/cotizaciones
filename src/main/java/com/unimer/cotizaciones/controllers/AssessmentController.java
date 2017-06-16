@@ -101,10 +101,10 @@ public class AssessmentController {
 			
 			LOG.info(assessment.toString());
 			assessmentService.addAssessment(assessment, idUser);
-			return "se ha ingresado un nuevo proyecto";
+			return "true";
 			
 		}catch(Exception ex){
-			return "Hubo un error";
+			return null;
 			
 		}
 		

@@ -119,8 +119,9 @@
 							<td style="padding-right: 15px;" th:text="${project.saClient.detail}"></td>
 							<td style="padding-right: 15px;" th:text="${project.user.name}"></td>
 							<td style="padding-right: 15px;" th:text="${project.status.detail}"></td>
-	           				<td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" th:href="@{/admin/dialogoPartidas}" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
-	           				
+							<div th:object="${user}" th:if="${user.rol.detail == 'ADMIN' or user.rol.detail == 'CONTRIBUTOR'}">
+	           				<td ><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" th:href="@{/admin/dialogoPartidas}" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
+	           				</div>
            				</tr>
           			    </tbody>
 		    		</table>
