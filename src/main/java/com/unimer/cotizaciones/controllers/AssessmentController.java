@@ -80,9 +80,9 @@ public class AssessmentController {
 		
 	}
 	
-	@RequestMapping(value="/admin/addassessment", method=  RequestMethod.POST,produces="application/json; charset=UTF-8")
+	@RequestMapping(value="/admin/addassessment", method=  RequestMethod.POST)
 	@ResponseBody
-	public Assessment addAssessment(@RequestParam("creationDate") Date creationDate,
+	public String addAssessment(@RequestParam("creationDate") Date creationDate,
 			@RequestParam("detail") String detail,
 			@RequestParam("idCurrencyExchange") int idCurrencyExchange,
 			@RequestParam("idSaClient") int idSaClient,
@@ -100,10 +100,11 @@ public class AssessmentController {
 			assessment.setUser(userService.findById(idUser));
 			
 			LOG.info(assessment.toString());
-			return assessmentService.addAssessment(assessment, idUser);
+			assessmentService.addAssessment(assessment, idUser);
+			return "se ha ingresado un nuevo proyecto";
 			
 		}catch(Exception ex){
-			return null;
+			return "Hubo un error";
 			
 		}
 		
