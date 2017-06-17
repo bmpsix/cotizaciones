@@ -15,7 +15,6 @@ import com.unimer.cotizaciones.repositories.ClientContactJpaRepository;
 import com.unimer.cotizaciones.repositories.ClientJpaRepository;
 import com.unimer.cotizaciones.repositories.CountryJpaRepository;
 import com.unimer.cotizaciones.repositories.LogClientContactJpaRepository;
-import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.services.ClientContactService;
 
 @Service("clientContactServiceImpl")
@@ -25,11 +24,6 @@ public class ClientContactServiceImpl implements ClientContactService {
 	@Autowired
 	@Qualifier("clientContactJpaRepository")
 	private ClientContactJpaRepository clientContactJpaRepository;
-	
-	@Autowired
-	@Qualifier("traceResponseJpaRepository")
-	private TraceResponseJpaRepository traceResponseJpaRepository;
-
 	
 	@Autowired
 	@Qualifier("logClientContactJpaRepository")

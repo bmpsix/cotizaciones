@@ -13,7 +13,6 @@ import com.unimer.cotizaciones.entities.Target;
 import com.unimer.cotizaciones.services.TargetService;
 import com.unimer.cotizaciones.repositories.LogTargetJpaRepository;
 import com.unimer.cotizaciones.repositories.TargetJpaRepository;
-import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 
 @Service("targetServiceImpl")
 public class TargetServiceImpl implements TargetService {
@@ -25,11 +24,6 @@ public class TargetServiceImpl implements TargetService {
 	@Qualifier("logTargetJpaRepository")
 	private LogTargetJpaRepository logTargetJpaRepository;
 	
-	@Autowired
-	@Qualifier("traceResponseJpaRepository")
-	private TraceResponseJpaRepository traceResponseJpaRepository;
-	
-
 	private static final Log LOG = LogFactory.getLog(TargetServiceImpl.class);
 	
 	

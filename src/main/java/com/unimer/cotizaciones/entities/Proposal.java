@@ -55,7 +55,7 @@ public class Proposal implements Serializable {
 	private Date creationDate;
 
 	@Column(name="currency_exchange", nullable=false)
-	private double currencyExchange;
+	private float currencyExchange;
 	
 	
 	//bi-directional many-to-one association to Assessment
@@ -212,7 +212,7 @@ public class Proposal implements Serializable {
 		return currencyExchange;
 	}
 
-	public void setCurrencyExchange(double currencyExchange) {
+	public void setCurrencyExchange(float currencyExchange) {
 		this.currencyExchange = currencyExchange;
 	}
 
@@ -414,7 +414,7 @@ public class Proposal implements Serializable {
 	
 	
 	
-	public Proposal(String proposalName, Date creationDate, double currencyExchange, Date endDate,
+	public Proposal(String proposalName, Date creationDate, float currencyExchange, Date endDate,
 			Date initialDate, String observations, String targetText, Assessment assessment,
 			ClientContact clientContact, CollectMethod collectMethod, Country country, ExecutionType executionType,
 			IndustrySector industrySector, Operation operation, ProposalType proposalType, Status status,

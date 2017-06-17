@@ -16,7 +16,6 @@ import com.unimer.cotizaciones.component.PasswordCreator;
 import com.unimer.cotizaciones.entities.LogUser;
 import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.repositories.LogUserJpaRepository;
-import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.repositories.UserJpaRepository;
 import com.unimer.cotizaciones.services.UserService;
 
@@ -38,12 +37,6 @@ public class UserServiceImpl implements UserService {
 	@Qualifier("logUserJpaRepository")
 	private LogUserJpaRepository logUserJpaRepository;
 	
-	
-	@Autowired
-	@Qualifier("traceResponseJpaRepository")
-	private TraceResponseJpaRepository traceResponseJpaRepository;
-
-
 	
 	@Override
 	public List<User> listAllUser() {

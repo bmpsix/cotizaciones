@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html>
+<head th:replace="fragments/header">
+<meta charset="UTF-8">
+</head>
+<body>
+	<div data-role="page" data-theme="a" data-dom-cache="false" >
+		<div data-role="header" data-position="inline" >
+			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
+            <h1>
+            SIP Cotizaciones - Ajustes
+            </h1>
+		</div>
+		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
+		<h3>Control de ajustes</h3>
+			<div data-role="fieldcontain">
+			
+					<form method="post" action="#" th:action="@{/admin/addsettings}" th:object="${updateSettings}">
+						<div th:if="${updateSettings==null}">
+							<label for="currencyType">Tipo de modena favorita</label> 
+							<select name="currencyType.idCurrencyType">
+								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}">
+									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
+								</option>
+							</select>
+							<label for="detail">Imprevisto %:</label>
+							<input title="Debe ingresar el porcentaje de imprevisto" type="number"  min="0" max="50" step="any" name="imprevisto" th:value="${imprevisto}" required/>
+							<label for="cod">Factor 1 (Comisionables):</label>
+							<input title="Debe ingresar el valor del factor 1" type="number" min="0" step="any" name="factor1" th:value="${factor1}"  required/>	
+							<label for="detail">Aporte fijo:</label>
+							<input title="Debe ingresar el aporte fijo" type="number"  min="0"  step="any" name="aporteFijo" th:value="${aporteFijo}" required/>
+							<label for="cod">Factor 2 (No comisionables):</label>
+							<input title="Debe ingresar el valor del factor 1" type="number" min="0" step="any" name="factor2" th:value="${factor2}"  required/>	
+							
+												
+						</div>
+						
+						<div th:if="${updateSettings!=null}">
+							<input type="hidden" name="idSettings" th:value="${updateSettings.idSettings}" readonly />
+							<label for="currencyType">Tipo de moneda favorita:</label>
+							<select name="currencyType.idCurrencyType">
+								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}" th:if="${updateSettings.CurrencyType.detail == type.detail}" selected >
+									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
+								</option>
+								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}" th:if="${updateSettings.CurrencyType.detail != type.detail}">
+									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
+								</option>
+							</select>
+							<label for="detail">Imprevisto %:</label>
+							<input title="Debe ingresar el porcentaje de imprevisto" type="number"  min="0" max="50" step="any" name="imprevisto" th:value="${updateSettings.imprevisto}" required/>
+							<label for="cod">Factor 1 (Comisionables):</label>
+							<input title="Debe ingresar el valor del factor 1" type="number" min="0" step="any" name="factor1" th:value="${updateSettings.factor1}"  required/>	
+							<label for="detail">Aporte fijo:</label>
+							<input title="Debe ingresar el aporte fijo" type="number"  min="0" step="any" name="aporteFijo" th:value="${updateSettings.aporteFijo}" required/>
+							<label for="cod">Factor 2 (No comisionables):</label>
+							<input title="Debe ingresar el valor del factor 1" type="number" min="0" step="any" name="factor2" th:value="${updateSettings.factor2}"  required/>	
+							
+							
+							
+							
+							<a href="#" th:href="@{/admin/addsettings}"><button  class="custom_text" data-icon="delete">Cancelar</button></a>							
+						</div>
+					
+						
+                    	<hr>
+  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
+                   <!--  <input type="submit" name="submit" class="custom_text" data-icon="refresh" value="Modificar registro">-->
+				</form>
+			</div>
+           	
+           	
+           	<fieldset data-role="controlgroup"  data-type="horizontal">
+           	<legend><h3>Países en el sistema</h3></legend>
+           		<table style="text-align:justify;">
+           				<thead>
+           				<tr>
+           				<th  style="padding-right: 15px;">ID</th>
+           				<th  style="padding-right: 15px;">País</th>
+           				<th  style="padding-right: 15px;">Tipo de moneda favorita</th>
+           				<th  style="padding-right: 15px;">Imprevisto</th>
+           				<th  style="padding-right: 15px;">Factor 1</th>
+           				<th  style="padding-right: 15px;">Aporte fijo</th>
+           				<th  style="padding-right: 15px;">Factor 2</th>
+           				<th  style="padding-right: 15px;">Opción</th>
+           				</tr>
+           				</thead>
+           				<tbody>
+	           			<tr th:each="countrySetting : ${countrySettings}">
+							<td style="padding-right: 15px;" th:text="${countrySetting.idSettings}"></td>
+							<td style="padding-right: 15px;" th:text="${countrySetting.Country.detail}"></td>
+							<td style="padding-right: 15px;" th:text="${countrySetting.CurrencyType.detail}"></td>
+							<td style="padding-right: 15px;" th:text="${countrySetting.imprevisto}+'%'"></td>
+							<td style="padding-right: 15px;" th:text="${countrySetting.factor1}"></td>
+							<td style="padding-right: 15px;" th:text="${countrySetting.aporteFijo}"></td>
+							<td style="padding-right: 15px;" th:text="${countrySetting.factor2}"></td>
+	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updatesettings?idSettings=__${countrySetting.idSettings}__}"  >Editar</a></td>
+           				</tr>
+           				
+          			</tbody>
+           			</table>
+           	</fieldset>
+           	
+		</div>
+		<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
+			<div data-role="popup" data-position="left" id="adminmenu" th:replace="fragments/footer"></div>
+		<!-- /panel -->	
+		</div>
+	</div>
+</body>
+</html>

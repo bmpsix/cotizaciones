@@ -12,7 +12,6 @@ import com.unimer.cotizaciones.entities.LogStatus;
 import com.unimer.cotizaciones.entities.Status;
 import com.unimer.cotizaciones.repositories.LogStatusJpaRepository;
 import com.unimer.cotizaciones.repositories.StatusJpaRepository;
-import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.services.StatusService;
 
 @Service("statusServiceImpl")
@@ -26,11 +25,7 @@ public class StatusServiceImpl implements StatusService {
 	@Autowired
 	@Qualifier("logStatusJpaRepository")
 	private LogStatusJpaRepository logStatusJpaRepository;
-	
-	@Autowired
-	@Qualifier("traceResponseJpaRepository")
-	private TraceResponseJpaRepository traceResponseJpaRepository;
-	
+
 	private static final Log LOG = LogFactory.getLog(StatusServiceImpl.class);
 	
 	

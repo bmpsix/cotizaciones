@@ -349,7 +349,7 @@
       				<th><p th:text="'Sub Total 2 '+${proposal.CurrencyType.symbol}+' :'"></p></th>
       				<td><input  style="background-color:#FFFAFA;" type="text" readonly/></td>
       				<th><p th:text="'Tipo de cambio '+${proposal.CurrencyType.symbol}+' :'"></p></th>
-      				<td><input  style="background-color:#FFFAFA;" type="text" th:value="${proposal.currencyExchange}" readonly/></td>
+      				<td><input  style="background-color:#FFFAFA;" type="number"  th:value="${proposal.currencyExchange}" readonly/></td>
       			</tr>
       			<tr>
       				<th><p th:text="'Total 1 '+${proposal.CurrencyType.symbol}+' :'"></p></th>

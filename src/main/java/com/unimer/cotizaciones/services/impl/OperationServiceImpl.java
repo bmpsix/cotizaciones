@@ -12,7 +12,6 @@ import com.unimer.cotizaciones.entities.LogOperation;
 import com.unimer.cotizaciones.entities.Operation;
 import com.unimer.cotizaciones.repositories.LogOperationJpaRepository;
 import com.unimer.cotizaciones.repositories.OperationJpaRepository;
-import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.services.OperationService;
 
 @Service("operationServiceImpl")
@@ -26,12 +25,7 @@ public class OperationServiceImpl implements OperationService {
 	@Autowired
 	@Qualifier("logOperationJpaRepository")
 	private LogOperationJpaRepository logOperationJpaRepository;	
-	
-	@Autowired
-	@Qualifier("traceResponseJpaRepository")
-	private TraceResponseJpaRepository traceResponseJpaRepository;
-	
-	
+
 	
 	private static final Log LOG = LogFactory.getLog(OperationServiceImpl.class);
 	

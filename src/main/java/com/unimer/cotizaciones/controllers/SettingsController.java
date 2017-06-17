@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -14,66 +15,68 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.Country;
-import com.unimer.cotizaciones.entities.Departure;
+import com.unimer.cotizaciones.entities.Settings;
 import com.unimer.cotizaciones.model.UserSession;
-import com.unimer.cotizaciones.services.DepartureService;
 import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.CurrencyTypeService;
-
+import com.unimer.cotizaciones.services.SettingsService;
 
 @Controller
 @SessionAttributes({"userSession"})
-public class DepartureController {
+public class SettingsController {
 
+	@Autowired
+	@Qualifier("settingsServiceImpl")
+	private SettingsService settingsService;
+	
 	@Autowired
 	@Qualifier("countryServiceImpl")
 	private CountryService countryService;
-
-	@Autowired
-	@Qualifier("departureServiceImpl")
-	private DepartureService departureService;
 	
 	@Autowired
 	@Qualifier("currencyTypeServiceImpl")
 	private CurrencyTypeService currencyTypeService;
-
-	private static final Log LOG = LogFactory.getLog(DepartureController.class);
-
-	@GetMapping("/admin/departure")
-	public ModelAndView departure(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession){
+	
+	private static final Log LOG = LogFactory.getLog(CountryController.class);
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@GetMapping("/admin/settings")
+	public ModelAndView settings(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession){
 		Country cntry = countryService.findById(userSession.getIdCountry());
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("departure");
-		modelAndView.addObject("departures", departureService.listAllDeparture());
+		modelAndView.setViewName("settings");
+		modelAndView.addObject("countrySettings", settingsService.findSettingByCountry(cntry));
 		modelAndView.addObject("currencyTypes", cntry.getCurrencyType());
-		LOG.info("METHOD: addDeparture in DepartureController -- PARAMS: " +cntry.getCurrencyType().toString());
 		return modelAndView;
 	}
 	
-
-	@PostMapping("/admin/adddeparture")
-	public String addDeparture(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name ="departure") Departure departure, Model model) {
-		LOG.info("METHOD: addDeparture in DepartureController -- PARAMS: " + departure.toString());
+	@PostMapping("/admin/addsettings")
+	public String addSettings(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "settings") Settings settings, Model model) {
+		LOG.info("METHOD: addSettings in SettingsController -- PARAMS: " + settings.toString());
 		Country cntry = countryService.findById(userSession.getIdCountry());
-		departure.setCountry(cntry);
-		departureService.addDeparture(departure,userSession.getId());
-		return "redirect:/admin/departure";
+		settings.setCountry(cntry);
+		settingsService.addSettings(settings,userSession.getId());
+		 return "redirect:/admin/settings";
 	}
-
-	@GetMapping("/admin/adddeparture")
-	public String getDeparture(){
-		return "redirect:/admin/departure";
+	
+	@GetMapping("/admin/addsettings")
+	public String getCountry() {
+		return "redirect:/admin/settings";
 	}
-
-	@GetMapping("/admin/updatedeparture")
-	public ModelAndView updateDeparture(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,int idDeparture, Model model) {
+	
+	@GetMapping("/admin/updatesettings")
+	public ModelAndView updateSettings(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,int idSettings, Model model) {
 		Country cntry = countryService.findById(userSession.getIdCountry());
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("departure");
+		modelAndView.setViewName("settings");
+		modelAndView.addObject("countrySettings", settingsService.findSettingByCountry(cntry));
+		modelAndView.addObject("updateSettings",settingsService.findById(idSettings));
 		modelAndView.addObject("currencyTypes", cntry.getCurrencyType());
-		modelAndView.addObject("departures", departureService.listAllDeparture());
-		modelAndView.addObject("updateDeparture", departureService.findById(idDeparture));
 		return modelAndView;
 	}
+	
+	
 
+	
+	
 }

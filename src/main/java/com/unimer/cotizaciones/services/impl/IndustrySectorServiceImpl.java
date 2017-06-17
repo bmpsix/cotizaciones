@@ -30,8 +30,6 @@ public class IndustrySectorServiceImpl implements IndustrySectorService{
 
 	private static final Log LOG = LogFactory.getLog(IndustrySectorServiceImpl.class);
 	
-	String ipCliente="";
-	
 	@Override
 	public void addIndustrySector(IndustrySector industrySector, int idUser) {
 

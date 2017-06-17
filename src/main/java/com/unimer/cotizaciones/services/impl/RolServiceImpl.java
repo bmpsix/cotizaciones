@@ -12,9 +12,7 @@ import com.unimer.cotizaciones.entities.LogRol;
 import com.unimer.cotizaciones.entities.Rol;
 import com.unimer.cotizaciones.repositories.LogRolJpaRepository;
 import com.unimer.cotizaciones.repositories.RolJpaRepository;
-import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.services.RolService;
-import com.unimer.cotizaciones.services.TraceResponseService;
 
 @Service("rolServiceImpl")
 public class RolServiceImpl implements RolService {
@@ -27,16 +25,7 @@ public class RolServiceImpl implements RolService {
 	@Autowired
 	@Qualifier("logRolJpaRepository")
 	private LogRolJpaRepository logRolJpaRepository;
-	
-	@Autowired
-	@Qualifier("traceResponseJpaRepository")
-	private TraceResponseJpaRepository traceResponseJpaRepository;
-	
-	@Autowired
-	@Qualifier("traceResponseServiceImpl")
-	private TraceResponseService traceResponseService;
-	
-	String ipCliente="";
+
 
 	private static final Log LOG = LogFactory.getLog(RolServiceImpl.class);
 	

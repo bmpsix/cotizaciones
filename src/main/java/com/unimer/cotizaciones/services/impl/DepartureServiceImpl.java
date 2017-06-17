@@ -13,7 +13,6 @@ import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.entities.Departure;
 import com.unimer.cotizaciones.repositories.LogDepartureJpaRepository;
 import com.unimer.cotizaciones.repositories.DepartureJpaRepository;
-import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.services.DepartureService;
 
 
@@ -27,12 +26,6 @@ public class DepartureServiceImpl implements DepartureService{
 	@Autowired
 	@Qualifier("logDepartureJpaRepository")
 	private LogDepartureJpaRepository logDepartureJpaRepository;	
-	
-	@Autowired
-	@Qualifier("traceResponseJpaRepository")
-	private TraceResponseJpaRepository traceResponseJpaRepository;
-	
-	String ipCliente="";
 	
 	private static final Log LOG = LogFactory.getLog(DepartureServiceImpl.class);
 	

@@ -1,5 +1,5 @@
  <meta charset="utf-8" />
- <div data-role="popup" data-position="left" id="adminmenu">
+ <div data-role="popup" data-history="false" data-position="left" id="adminmenu">
 		 <a href="#" onclick="return window.location.href='/'" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right" >Cerrar</a>
 		     <ul data-role="listview" data-inset="true" style="min-width:210px;">
 		        <li><a href="#" onclick="return window.location.href='/admin/changepassword'" th:classappend="${viewName=='changePassword'} ?'active-class-botton-menu'">Cambio de contraseña</a></li>
@@ -24,12 +24,14 @@
 				<li><a href="#" onclick="return window.location.href='/admin/studyCategory'" th:classappend="${viewName=='studyCategory'} ?'active-class-botton-menu'">Categorías de estudio</a></li>
 				<li><a href="#" onclick="return window.location.href='/admin/studytype'" th:href="@{/admin/studytype}" th:classappend="${viewName=='studytype'} ?'active-class-botton-menu'">Tipos de estudio</a></li>
 				<li><a href="#" onclick="return window.location.href='/admin/target'" th:classappend="${viewName=='target'} ?'active-class-botton-menu'">Muestreos</a></li>
-				<li><a href="#" onclick="return window.location.href='/admin/technique'" th:classappend="${viewName=='technique'} ?'active-class-botton-menu' : null">Tecnicas</a></li>
-				<li><a href="#" onclick="return window.location.href='/admin/traceresponse'" th:classappend="${viewName=='traceresponse'} ?'active-class-botton-menu' : null">Rastreo</a></li>
-				<li><a href="#" onclick="return window.location.href='/admin/departure'" th:classappend="${viewName=='departure'} ?'active-class-botton-menu' : null">Partidas</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/technique'" th:classappend="${viewName=='technique'} ?'active-class-botton-menu'">Tecnicas</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/traceresponse'" th:classappend="${viewName=='traceresponse'} ?'active-class-botton-menu'">Rastreo</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/departure'" th:classappend="${viewName=='departure'} ?'active-class-botton-menu'">Partidas</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/user'" th:classappend="${viewName=='user'} ?'active-class-botton-menu'">Usuarios</a></li>
+				<li><a href="#" onclick="return window.location.href='/admin/settings'" th:classappend="${viewName=='settings'} ?'active-class-botton-menu'">Ajustes</a></li>
 				
 				<!-- <li><a href="#" onclick="return window.location.href='/admin/techniquebyproposal'"  th:classappend="${viewName=='techniquebyproposal'} ?'active-class-botton-menu'">Technique By Proposal</a></li>
-				 --><li><a href="#" onclick="return window.location.href='/admin/user'" th:classappend="${viewName=='user'} ?'active-class-botton-menu'">Usuarios</a></li>
+				 -->
 		    </ul>
 </div><!-- /panel -->
 
@@ -37,7 +39,7 @@
         <div data-role="navbar" data-iconpos="right">
             <ul>
             	<li><a href="#"  onclick="return window.location.href='/admin/proposal'" data-ajax="false" data-icon="home" th:classappend="${viewName=='dashboard'} ? 'ui-btn-active ui-state-persist'">Inicio</a></li>
-            	<li><a href="#adminmenu"  data-rel="popup" data-transition="flip" data-icon="grid" >Opciones</a></li>
+            	<li><a href="#adminmenu" data-rel="popup" data-transition="flip" data-icon="grid" >Opciones</a></li>
             	<li><a href="#" data-icon="" data-ajax="false">Procesos</a></li>
             	<li><a href="#" data-icon="" data-ajax="false">Reporteria</a></li>
             	<li><form th:action="@{/admin/logout}" method="post">

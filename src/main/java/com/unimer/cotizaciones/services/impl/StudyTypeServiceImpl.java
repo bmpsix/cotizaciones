@@ -12,7 +12,6 @@ import com.unimer.cotizaciones.entities.LogStudyType;
 import com.unimer.cotizaciones.entities.StudyType;
 import com.unimer.cotizaciones.repositories.LogStudyTypeJpaRepository;
 import com.unimer.cotizaciones.repositories.StudyTypeJpaRepository;
-import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.services.StudyTypeService;
 
 @Service("StudyTypeServiceImpl")
@@ -26,10 +25,6 @@ public class StudyTypeServiceImpl implements StudyTypeService{
 	@Autowired
 	@Qualifier("logStudyTypeJpaRepository")
 	private LogStudyTypeJpaRepository logStudyTypeJpaRepository;
-	
-	@Autowired
-	@Qualifier("traceResponseJpaRepository")
-	private TraceResponseJpaRepository traceResponseJpaRepository;
 	
 	private static final Log LOG = LogFactory.getLog(StudyTypeServiceImpl.class);
 	

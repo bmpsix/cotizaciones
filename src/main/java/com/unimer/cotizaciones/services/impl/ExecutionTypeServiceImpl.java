@@ -32,8 +32,6 @@ public class ExecutionTypeServiceImpl implements ExecutionTypeService {
 	
 	private static final Log LOG = LogFactory.getLog(ExecutionTypeServiceImpl.class);
 	
-	String ipCliente="";
-	
 	@Override
 	public void addExecutionType(ExecutionType executionType, int idUser) {
 	

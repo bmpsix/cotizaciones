@@ -12,7 +12,6 @@ import com.unimer.cotizaciones.entities.LogSaClient;
 import com.unimer.cotizaciones.entities.SaClient;
 import com.unimer.cotizaciones.repositories.LogSaClientJpaRepository;
 import com.unimer.cotizaciones.repositories.SaClientJpaRepository;
-import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.services.SaClientService;
 
 @Service("saClientServiceImpl")
@@ -28,10 +27,6 @@ public class SaClientServiceImpl implements SaClientService {
 	@Qualifier("logSaClientJpaRepository")
 	private LogSaClientJpaRepository logSaClientJpaRepository;
 
-	
-	@Autowired
-	@Qualifier("traceResponseJpaRepository")
-	private TraceResponseJpaRepository traceResponseJpaRepository;
 	
 	private static final Log LOG = LogFactory.getLog(SaClientServiceImpl.class);
 	

@@ -14,7 +14,6 @@ import com.unimer.cotizaciones.entities.LogProposalType;
 import com.unimer.cotizaciones.entities.ProposalType;
 import com.unimer.cotizaciones.repositories.LogProposalTypeJpaRepository;
 import com.unimer.cotizaciones.repositories.ProposalTypeJpaRepository;
-import com.unimer.cotizaciones.repositories.TraceResponseJpaRepository;
 import com.unimer.cotizaciones.services.ProposalTypeService;
 
 @Service("proposalTypeServiceImpl")
@@ -30,11 +29,6 @@ public class ProposalTypeServiceImpl implements ProposalTypeService {
 	@Qualifier("logProposalTypeJpaRepository")
 	private LogProposalTypeJpaRepository logProposalTypeJpaRepository;
 
-	
-	@Autowired
-	@Qualifier("traceResponseJpaRepository")
-	private TraceResponseJpaRepository traceResponseJpaRepository;
-	
 	
 	
 	private static final Log LOG = LogFactory.getLog(ProposalTypeServiceImpl.class);
