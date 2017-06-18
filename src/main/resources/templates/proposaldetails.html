@@ -30,7 +30,7 @@
       </div>
       
       <div class="ui-block-b" data-inline=true>
-         <label style=" width: 99%;" for="cotizacion"><h5>Nombre de Cotización:</h5> <input placeholder="Nombre para la cotización"  title="Debe ingresar un nombre para la propuesta" type="text" id="proposalName" name="proposalName" th:value="${proposal.proposalName}" required/></label>
+         <label style=" width: 99%;" for="cotizacion"><h5>Nombre de Cotización:</h5> <input placeholder="Nombre para la propuesta"  title="Debe ingresar un nombre para la propuesta" type="text" id="proposalName" name="proposalName" th:value="${proposal.proposalName}" required/></label>
     
       </div>
       <div class="ui-block-c">
@@ -402,92 +402,143 @@
      
 
 
- 	<div >
+ 	<div>
        <fieldset style="margin: 30px; width: 95%">
-       <h5>Partidas:</h5>
-	<form class="ui-filterable">
-		<input id="myFilter2" data-type="search" placeholder="Busca la partida">
-		<div class="ui-block-b">
-    <button class="ui-icon-delete ui-btn-icon-notext ui-btn-inline" data-mini="true">Eliminar Seleccion</button>
-	</div>
-	</form> 
-
-	<form action="#" method="POST" th:action="@{/admin/addproposaldetails}" th:object="${proposaldetails}" onSubmit="">
-	<table data-role="table" id="movie-table" data-filter="true" data-input="#myFilter2" class="ui-responsive">
-	<thead>
-    <tr>
-        <th data-priority="1">Opcion</th>
-        <th data-priority="persist">Codigo</th>
-        <th data-priority="4">Partida</th>
-        <th data-priority="3" >Precio</th>
-        <th data-priority="8">Numero</th>
-        <th data-priority="5">Dias/Veces</th>
-        <th data-priority="6">Total Presupuesto</th>
-        <th data-priority="7">Estado Partida</th>
-        <th data-priority="2"></th>
-    </tr>
-	</thead>
-	
-    <tbody>
-       <tr>
-       		 	<th>
-       		 	<p>Comisionable</p>
+       <br/>
+       
+       	<div class="ui-grid-a" id="detalleCoti" >
+       	
+       	 <hr>
+       	 <h3>Detalle</h3>
+       	 <div class="ui-block-a" >
+       		<form class="form-data-proposaldetails">
+				<fieldset class="form-data-proposaldetails" style="margin: 30px;">
+					  
+					<input type="hidden" name="idProposalDetails" th:value="${idProposalDetails}" readonly />
+					<label for="departure">Partida:</label>
+					<input data-type="search" id="searchForSelect" placeholder="Buscar partida /catálogo"/>
+    				<hr>
+					<select name="idDeparture" id="idDeparture" data-filter="true" data-input="#searchForSelect" required>
+						<option th:each="departure : ${departures}" th:value="${departure.idDeparture}">
+							<p th:text="${departure.detail}"></p>
+						</option>
+					</select>
+					
+					<label for="price">Precio:</label>
+					<input id="price"  title="Debe ingresar el precio"  maxlength="30" type="number" min="1" step="any" class="cal" name="cal" th:value="${price}" required/>
+					<label for="number">Número:</label>
+            		<input id="number" title="Debe ingresar la cantidad"  maxlength="30" type="number" min="1" name="cal" th:value="${number}"  class="cal" required/>
+            		<label for="daysTimes">Días/Veces:</label>
+            		<input id="daysTimes" title="Debe ingresar la cantidad de días o veces"  maxlength="30" type="number"  min="1"  name="cal" class="cal"  th:value="${daysTimes}" required/>
+            		<label>Comisionable:</label>
 					<select  name="commissionable" data-role="slider"  th:value="${commissionable}">
 							<option  value="0" >No </option>
 							<option  value="1" selected>Si</option>
 					</select>
+            		
+                   </fieldset>
+			</form>
+       
+         </div>
+          <div class="ui-block-b">
+          	<form class="form-data-proposaldetails">
+				<fieldset class="form-data-proposaldetails" style="margin: 30px;">
+					  
+					<br/>
 					
-       		 	</th>
-            	<td><input title="ID del detalle"  maxlength="30" type="hidden" name="idProposalDetails" th:value="${idProposalDetails}"  readonly/></td>
-            	<td>
-            		<select>
-						<option th:each="departure : ${departures}" th:value="${departure.idDeparture}">
-							<p name="departure.detail" th:text="${departure.detail}" th:value="${departure.detail}" ></p>
-						</option>
-					</select>
+            		<label for="detail">Detalle:</label>
+            		<textarea id="detail" title="Ingrese algún detalle"  maxlength="99" type="text"  th:value="${detail}" required></textarea>
+            		<label for="parameters">Parametros:</label>
+            		<textarea id="parameters" title="Ingrese algún parametro"  maxlength="99" type="text"  th:value="${parameters}" required></textarea>
+            		<label for="totalBudget">Total presupuesto:</label>
+            		<input id="totalBudget" style="background-color:#FFFAFA;" title="Total presupuesto" name="totalBudget" th:text="${totalBudget}" th:value="${totalBudget}" readonly	/>
+            		
+            		<br/>
+					<a href="#" th:href="@{/assessment}"><button  class="custom_text" data-icon="delete" >Cancelar</button></a>
+  					<input type="button" id="sendAssessment" class="custom_text" data-icon="plus" value="Guardar">
+                   </fieldset>
+			</form>
+          
+          
+          </div>
+       	</div>
+       <hr>
+       <h3>Detalles de propuesta</h3>
+		<form class="ui-filterable">
+			<input id="myFilter2" data-type="search" placeholder="Buscar detalle de propuesta">
+			<div class="ui-block-b">
+ 	  	 <!-- <button class="ui-icon-delete ui-btn-icon-notext ui-btn-inline" data-mini="true">Eliminar Seleccion</button> -->
+		</div>
+		</form> 
+
+		<form action="#" method="POST" th:action="@{/admin/addproposaldetails}" th:object="${proposaldetails}" onSubmit="">
+		<table data-role="table" id="movie-table" data-filter="true" data-input="#myFilter2" class="ui-responsive">
+		<thead>
+    	<tr>
+      	 <th data-priority="1">Opcion</th>
+       	 <th data-priority="persist">Codigo</th>
+       	 <th data-priority="4">Partida</th>
+       	 <th data-priority="3" >Precio</th>
+       	 <th data-priority="8">Numero</th>
+       	 <th data-priority="5">Dias/Veces</th>
+       	 <th data-priority="6">Total Presupuesto</th>
+       	 <th data-priority="7">Estado Partida</th>
+       	 <th data-priority="2"></th>
+   	 	</tr>
+		</thead>
+	
+    	<tbody>
+      	 <tr>
+       			 	<th>
+       			 
+					
+       			 	</th>
+            		<td><input title="ID del detalle"  maxlength="30" type="hidden" name="idProposalDetails" th:value="${idProposalDetails}"  readonly/></td>
+            		<td>
+            			<select>
+							<option th:each="departure : ${departures}" th:value="${departure.idDeparture}">
+								<p name="departure.detail" th:text="${departure.detail}" th:value="${departure.detail}" ></p>
+							</option>
+						</select>
 			
 
-            	</td>
-            	<td><input style="width: 100px" id="price"  title="Debe ingresar el precio"  maxlength="30" type="number" min="1" step="any" class="cal" name="cal" th:value="${price}" required/></td>
-            	<td><input id="number" title="Debe ingresar la cantidad"  maxlength="30" type="number" min="1" name="cal" th:value="${number}"  class="cal" required/></td>
-            	<td><input id="daysTimes" title="Debe ingresar la cantidad de días o veces"  maxlength="30" type="number"  min="1"  name="cal" class="cal"  th:value="${daysTimes}" required/></td>
-            	<td><p id="totalBudget" title="Total presupuesto" name="totalBudget" th:text="${totalBudget}" th:value="${totalBudget}" ></p></td>
-            	<td>(fact de 2.39), (Impre 10%)</td>
-            	<td data-priority="8">
-        			<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;">Plus</a>
-        		</td>
-        </tr>
+        	    	</td>
+           		 	<td>(fact de 2.39), (Impre 10%)</td>
+            		<td data-priority="8">
+        				<a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;">Plus</a>
+        			</td>
+       	 </tr>
           
-        <tr>
-            <th><input type="checkbox"/></th>
-            <td>74</td>
-            <td>Codificacion</td>
-            <td>300.00</td>
-            <td>300.00</td>
-            <td>1</td>
-            <td>90.000,00</td>
-            <td>(fact de 2.39), (Impre 10%)</td>
-            <td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" th:href="@{/admin/dialogoPartidas}" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
-        </tr>
-        <tr  style="color:white; background:#005d54;">
-            <th><input type="checkbox"/></th>
-            <td>74</td>
-            <td>Codificacion</td>
-            <td>300.00</td>
-            <td>300.00</td>
-            <td>1</td>
-            <td>90.000,00</td>
-            <td>(fact de 2.39), (Impre 10%)</td>
-            <td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" th:href="@{/admin/dialogoPartidas}" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
-        </tr>
+       	 <tr>
+        	 <th><input type="checkbox"/></th>
+           	 <td>74</td>
+           	 <td>Codificacion</td>
+           	 <td>300.00</td>
+           	 <td>300.00</td>
+           	 <td>1</td>
+           	 <td>90.000,00</td>
+           	 <td>(fact de 2.39), (Impre 10%)</td>
+           	 <td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" th:href="@{/admin/dialogoPartidas}" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
+       	 </tr>
+       	 <tr  style="color:white; background:#005d54;">
+        	    <th><input type="checkbox"/></th>
+            	<td>74</td>
+         	    <td>Codificacion</td>
+           		<td>300.00</td>
+            	<td>300.00</td>
+          	  	<td>1</td>
+          	  	<td>90.000,00</td>
+          	 	<td>(fact de 2.39), (Impre 10%)</td>
+           	 	<td><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" th:href="@{/admin/dialogoPartidas}" data-rel="dialog" data-transition="flip" style="background-color: #009082;"></a></td>
+        	</tr>
       
-    </tbody>     
-</table>
-</form> 
+    	</tbody>     
+	</table>
+	</form> 
        
        
-       </fieldset>
-      </div>
+    </fieldset>
+  </div>
 
 
     </div>

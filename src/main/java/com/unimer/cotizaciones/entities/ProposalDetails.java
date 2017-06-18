@@ -26,6 +26,11 @@ public class ProposalDetails {
 	@Column(nullable=false)
 	private double factor;
 
+	@Column(nullable=true, length=100)
+	private String detail;
+	
+	@Column(nullable=true, length=100)
+	private String parameters;
 
 	@Column(name="imprevisto", nullable=true)
 	private double imprevisto;
