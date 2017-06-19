@@ -46,7 +46,7 @@ public class SettingsServiceImpl implements SettingsService {
 	}
 
 	@Override
-	public List<Settings> findSettingByCountry(Country country) {
+	public Settings findSettingByCountry(Country country) {
 		return settingsJpaRepository.findSettingsByCountry(country);
 	}
 

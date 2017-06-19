@@ -9,7 +9,7 @@ public interface SettingsService {
 
 	public abstract void addSettings(Settings settings, int idUser);
 	
-	public abstract List<Settings> findSettingByCountry(Country country);
+	public abstract Settings findSettingByCountry(Country country);
 	
 	public abstract List<Settings> listAllSaClient();
 	

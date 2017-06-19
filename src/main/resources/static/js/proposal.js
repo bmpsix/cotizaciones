@@ -47,7 +47,7 @@ $( document ).ready(function() {
 	 $(".cal").change(function(){
 		 var total = 0;
 		 total=$("#price").val() * $("#number").val() * $("#daysTimes").val();
-		 $("#totalBudget").text(total);
+		 $("#totalBudget").val(total);
 		//alert(total);
 	 });
 	
@@ -93,6 +93,87 @@ $( document ).ready(function() {
 	 
 	 
 	 
+		$("#addProposalDetail").click(function(){
+			$(".form-proposaldetails").toggle("slow");
+		});
+		
+		$(".ui-filterable").focusin(function(){
+			$(".form-proposaldetails").hide("slow");
+		});
+		
+		
+		$(function () {
+		    var token = $("input[name='_csrf']").val();
+		    var header = "X-CSRF-TOKEN";
+		    $(document).ajaxSend(function(e, xhr, options) {
+		        xhr.setRequestHeader(header, token);
+		    });
+		});
+		
+		$("#sendProposalDetail").click(function(){
+			
+			
+			var idProposalDetails =$("#idProposalDetails").val();
+			var aporteFijo =$("#aporteFijo").val();
+			var factor = $("#factor").val();
+			var imprevisto = $("#imprevisto").val();
+			var departure = $("#departure").val();
+			var price = $("#price").val();
+			var commissionable = $("#commissionable").val();
+			var number = $("#number").val();
+			var daysTimes = $("#daysTimes").val();
+			var totalBudget = $("#totalBudget").val();
+			var detail = $("#detail").val();
+			var parameters = $("#parameters").val();
+			
+
+			var url = "/admin/addproposaldetails"; // El script a dónde se realizará la petición.
+			    $.ajax({
+			           type: "POST",
+			           cache: false,
+			           url: url,
+			           data: { 
+			        	  'idProposalDetails':idProposalDetails, 
+			   			 'aporteFijo': aporteFijo,
+			   			 'factor': factor,
+			   			 'imprevisto': imprevisto,
+			   			 'departure': departure,
+			   			 'price': price,
+			   			 'commissionable': commissionable,
+			   			 'number': number,
+			   			 'daysTimes': daysTimes,
+			   			 'totalBudget': totalBudget,
+			   			 'detail':detail,
+			   			 'parameters':parameters
+			          
+			        		 },  // Adjuntar los campos del formulario enviado.
+
+			           success: function(data)
+			           {
+			        	   if(data != null){
+			        		   location.reload();
+			        	   }else{
+			        		   alert("false");
+			        		   }
+			        	   }
+			         });
+		
+		});
 	 
+		$("#cancelProposalDetail").click(function(){
+			
+			
+			$("#idProposalDetails").val(0);
+			$("#price").val("");
+			$("#commissionable").val(1);
+			$("#number").val("");
+			$("#daysTimes").val("");
+			$("#totalBudget").val("");
+			$("#detail").val("");
+			$("#parameters").val("");
+			$(".form-proposaldetails").hide("slow");
+		});
+		
+		
 });
 

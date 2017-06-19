@@ -31,6 +31,7 @@ import com.unimer.cotizaciones.services.OperationService;
 import com.unimer.cotizaciones.services.ProposalDetailsService;
 import com.unimer.cotizaciones.services.ProposalService;
 import com.unimer.cotizaciones.services.ProposalTypeService;
+import com.unimer.cotizaciones.services.SettingsService;
 import com.unimer.cotizaciones.services.StatusService;
 import com.unimer.cotizaciones.services.StudyCategoryService;
 import com.unimer.cotizaciones.services.StudyTypeService;
@@ -131,6 +132,9 @@ public class ProposalDetailsController {
 	@Qualifier("currencyTypeServiceImpl")
 	private CurrencyTypeService currencyTypeService;
 	
+	@Autowired
+	@Qualifier("settingsServiceImpl")
+	private SettingsService settingsService;
 	
 	@GetMapping("/admin/proposaldetails")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -154,6 +158,8 @@ public class ProposalDetailsController {
 		modelAndView.addObject("proposalTypes", proposalTypeService.listAllProposalTypes());
 		modelAndView.addObject("proposal",proposal);
 		modelAndView.addObject("departures",departureService.listAllDeparture());
+		modelAndView.addObject("proposalDetails",proposalDetailsService.findByProposal(proposal));
+		modelAndView.addObject("settings",settingsService.findSettingByCountry(cntry));
 		modelAndView.setViewName("proposaldetails");
 		return modelAndView;
 		
