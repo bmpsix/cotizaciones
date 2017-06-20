@@ -66,13 +66,15 @@ $( document ).ready(function() {
 	 $("#proposalSubmit").click(function(){
 		var div = document.getElementById('msg');
 		var msg="";
-		var initialDate = $("#initialDate").val();
-		var endDate = $("#endDate").val();
+		var initialDate = $("#initialDate").val()
+		var endDate = $("#endDate").val()
 		var proposalName =$("#proposalName").val();
 		var targetText =$("#targetText").val();
 		var observations =$("#observations").val();
 		
-		if(initialDate!=null && endDate!=null && initialDate<endDate && proposalName!=null && targetText!=null && observations!=null && initialDate!="" && endDate!="" && proposalName!="" && targetText!="" && observations!="")
+		//alert(initialDate+" "+endDate);
+		
+		if(initialDate!=null && endDate!=null && (new Date(initialDate).getTime() <= new Date(endDate).getTime())&& proposalName!=null && targetText!=null && observations!=null && initialDate!="" && endDate!="" && proposalName!="" && targetText!="" && observations!="")
 		{
 			
 			msg = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
@@ -115,17 +117,20 @@ $( document ).ready(function() {
 			
 			var idProposalDetails =$("#idProposalDetails").val();
 			var aporteFijo =$("#aporteFijo").val();
-			var factor = $("#factor").val();
+			var factor1 = $("#factor1").val();
+			var factor2 = $("#factor2").val();
+			var detail = $("#detail").val();
+			var parameters = $("#parameters").val();
 			var imprevisto = $("#imprevisto").val();
-			var departure = $("#departure").val();
+			var idDeparture = $("#idDeparture").val();
 			var price = $("#price").val();
 			var commissionable = $("#commissionable").val();
 			var number = $("#number").val();
 			var daysTimes = $("#daysTimes").val();
 			var totalBudget = $("#totalBudget").val();
-			var detail = $("#detail").val();
-			var parameters = $("#parameters").val();
 			
+			if(idProposalDetails=="" || idProposalDetails==null) idProposalDetails=0;
+
 
 			var url = "/admin/addproposaldetails"; // El script a dónde se realizará la petición.
 			    $.ajax({
@@ -135,16 +140,18 @@ $( document ).ready(function() {
 			           data: { 
 			        	  'idProposalDetails':idProposalDetails, 
 			   			 'aporteFijo': aporteFijo,
-			   			 'factor': factor,
+			   			 'factor1': factor1,
+			   			'factor2': factor2,
+			   			 'detail':detail,
+			   			 'parameters':parameters,
 			   			 'imprevisto': imprevisto,
-			   			 'departure': departure,
+			   			 'idDeparture': idDeparture,
 			   			 'price': price,
 			   			 'commissionable': commissionable,
 			   			 'number': number,
 			   			 'daysTimes': daysTimes,
-			   			 'totalBudget': totalBudget,
-			   			 'detail':detail,
-			   			 'parameters':parameters
+			   			 'totalBudget': totalBudget
+			   			
 			          
 			        		 },  // Adjuntar los campos del formulario enviado.
 
@@ -175,5 +182,19 @@ $( document ).ready(function() {
 		});
 		
 		
+	$("#editProposalDetails").click(function(){
+			
+			/*var tdPrice = 1;
+			$("#price").val(tdPrice);
+			$(".form-proposaldetails").toggle("slow");
+			alert(tdPrice);*/
+			
+		 var x = document.getElementById("proposalDetailsTable").rows[1].cells[1].innerText;
+		 alert(x);
+		});
+		
+	
+	
+
 });
 

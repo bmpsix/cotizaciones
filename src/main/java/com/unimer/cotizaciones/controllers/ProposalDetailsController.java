@@ -6,15 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.Country;
+import com.unimer.cotizaciones.entities.Departure;
 import com.unimer.cotizaciones.entities.Proposal;
 import com.unimer.cotizaciones.entities.ProposalDetails;
 import com.unimer.cotizaciones.model.UserSession;
@@ -158,7 +159,7 @@ public class ProposalDetailsController {
 		modelAndView.addObject("proposalTypes", proposalTypeService.listAllProposalTypes());
 		modelAndView.addObject("proposal",proposal);
 		modelAndView.addObject("departures",departureService.listAllDeparture());
-		modelAndView.addObject("proposalDetails",proposalDetailsService.findByProposal(proposal));
+		modelAndView.addObject("proposaldetailss",proposalDetailsService.findByProposal(proposal));
 		modelAndView.addObject("settings",settingsService.findSettingByCountry(cntry));
 		modelAndView.setViewName("proposaldetails");
 		return modelAndView;
@@ -166,14 +167,36 @@ public class ProposalDetailsController {
 	}
 	
 	
-	@PostMapping("/admin/addproposalDetails")
-	public String addProposalDetails(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "proposalDetails") ProposalDetails proposalDetails, Model model) {
+	@PostMapping("/admin/addproposaldetails")
+	public String addProposalDetails(ModelMap modelSession,
+									@ModelAttribute("userSession") UserSession userSession,
+									@ModelAttribute("proposedHeader") Proposal proposal,
+									@RequestParam("idProposalDetails") int idProposalDetails,
+									@RequestParam("aporteFijo") double aporteFijo,
+									@RequestParam("factor1") double factor1,
+									@RequestParam("factor2") double factor2,
+									@RequestParam("detail") String detail,
+									@RequestParam("parameters") String parameters,
+									@RequestParam("imprevisto") double imprevisto,
+									@RequestParam("idDeparture") int idDeparture,
+									@RequestParam("price") double price,
+									@RequestParam("commissionable") byte commissionable,
+									@RequestParam("number") int number,
+									@RequestParam("daysTimes") int daysTimes,
+									@RequestParam("totalBudget") double totalBudget) {
+		
+		double factor=0;
+		if(commissionable==1) factor=factor1;
+		else factor=factor2;
+		Departure departure = departureService.findById(idDeparture);
+		ProposalDetails proposalDetails = new ProposalDetails(idProposalDetails,aporteFijo,factor,detail, parameters,imprevisto,departure,price,commissionable,number,daysTimes,totalBudget,proposal);
+		
 		LOG.info("METHOD: addProposalDetails in ProposalController -- PARAMS: " + proposalDetails.toString());
 		proposalDetailsService.addProposalDetails(proposalDetails, userSession.getId());
-		 return "redirect:/admin/proposal";
+		 return "redirect:/admin/proposaldetails";
 	}
 	
-	@GetMapping("/admin/addproposalDetails")
+	@GetMapping("/admin/addproposaldetails")
 	public ModelAndView getProposalDetails(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute("proposedHeader") Proposal proposal) {
 		return proposalDetails(modelSession, userSession, proposal );
 	}
