@@ -129,6 +129,7 @@ $( document ).ready(function() {
 			var number = $("#number").val();
 			var daysTimes = $("#daysTimes").val();
 			var totalBudget = $("#totalBudget").val();
+			var idPriceCurrencyType = $("#idPriceCurrencyType").val();
 			
 			if(idProposalDetails=="" || idProposalDetails==null) idProposalDetails=0;
 
@@ -151,8 +152,8 @@ $( document ).ready(function() {
 			   			 'commissionable': commissionable,
 			   			 'number': number,
 			   			 'daysTimes': daysTimes,
-			   			 'totalBudget': totalBudget
-			   			
+			   			 'totalBudget': totalBudget,
+			   			 'idPriceCurrencyType':idPriceCurrencyType
 			          
 			        		 },  // Adjuntar los campos del formulario enviado.
 
@@ -224,16 +225,27 @@ function totalcharge()
 	var currencyExchange =$("#currencyExchange").val();
 	var montoImprevisto =0;
 	var table = document.getElementById("proposalDetailsTable");
+	var idCurrencyTypeFavorite =$("#idCurrencyTypeFavorite").val();
 	
 	for(contador=1;contador<=table.rows.length-1;contador++)
 	{
 		var valor = table.rows[contador].cells[5].innerText;
 		var cms = table.rows[contador].cells[8].innerText;
-		valor = (valor.split(table.rows[1].cells[5].children[0].innerText).toString()).substring(1);
-		if(cms==1)sub1=sub1+parseInt(valor);
-		else sub4=sub4+parseInt(valor);
+		var crrtype = table.rows[contador].cells[9].innerText;
+		valor = valor.split(" ");
+		valor = valor[valor.length-1];
+		if(cms==1)
+		{
+			if(idCurrencyTypeFavorite==crrtype) valor=valor/currencyExchange;
+			sub1=sub1+parseInt(valor);
+		}
+		else 
+		{
+			if(idCurrencyTypeFavorite==crrtype) valor=valor/currencyExchange;
+			
+			sub4=sub4+parseInt(valor);
+		}
 	}
-	sub1=sub1/currencyExchange;
 	totalImprevisto=sub1*(imprevisto/100);
 	sub2 = sub1+totalImprevisto;
 	sub3 = sub2*factor1;
@@ -244,16 +256,16 @@ function totalcharge()
 	nacional1= total1 + total2;
 	nacional2 = nacional1*currencyExchange;
 	
-	$("#sub1").val(sub1);
-	$("#totalImprevisto").val(totalImprevisto);
-	$("#sub2").val(sub2);
-	$("#sub3").val(sub3);
-	$("#total1").val(total1);
-	$("#sub4").val(sub4);
-	$("#sub5").val(sub5);
-	$("#total2").val(total2);
-	$("#nacional1").val(nacional1);
-	$("#nacional2").val(nacional2);
+	$("#sub1").val( parseFloat(sub1).toFixed(2));
+	$("#totalImprevisto").val(parseFloat(totalImprevisto).toFixed(2));
+	$("#sub2").val(parseFloat(sub2).toFixed(2));
+	$("#sub3").val(parseFloat(sub3).toFixed(2));
+	$("#total1").val(parseFloat(total1).toFixed(2));
+	$("#sub4").val(parseFloat(sub4).toFixed(2));
+	$("#sub5").val(parseFloat(sub5).toFixed(2));
+	$("#total2").val(parseFloat(total2).toFixed(2));
+	$("#nacional1").val(parseFloat(nacional1).toFixed(2));
+	$("#nacional2").val(parseFloat(nacional2).toFixed(2));
 	
 	
 	
@@ -263,20 +275,39 @@ function totalcharge()
 // obtener valores de la fila para actualizar
 function myFunction(x) {
 	
-		$(".form-proposaldetails").hide("slow");
+		
 	    var table = document.getElementById("proposalDetailsTable");
 	    var idDeparture = document.getElementById("idDeparture");
 	    var partida = (table.rows[x.rowIndex].cells[1].innerText).toString();
-		$("#idProposalDetails").val(table.rows[x.rowIndex].cells[0].innerText);
-		//$("#idDeparture option").val(table.rows[x.rowIndex].cells[0].innerText).change();
+		var price =table.rows[x.rowIndex].cells[2].innerText;
+		var valor = table.rows[x.rowIndex].cells[5].innerText;
+		var comm = table.rows[x.rowIndex].cells[8].innerText;
+		var idCurrencyTypeFavorite =$("#idCurrencyTypeFavorite").val();
+		var idPriceCurrencyType = table.rows[x.rowIndex].cells[9].innerText;
+		var idDeparture = table.rows[x.rowIndex].cells[10].innerText;
+		
+		
+		price = price.split(" ");
+		price = price[price.length-1];
+		
+		valor = valor.split(" ");
+		valor = valor[valor.length-1];
+		
+		
+			
+		
+		$("#idDeparture").val(parseInt(idDeparture)).change();
 		//alert(table.rows[x.rowIndex].cells[0].innerText);
-		$("#price").val(table.rows[x.rowIndex].cells[2].innerText);
+		$(".form-proposaldetails").hide("slow");
+		$("#idProposalDetails").val(table.rows[x.rowIndex].cells[0].innerText);
+		$("#price").val(price);
 		$("#number").val(table.rows[x.rowIndex].cells[3].innerText);
 		$("#daysTimes").val(table.rows[x.rowIndex].cells[4].innerText);
-		$("#totalBudget").val(table.rows[x.rowIndex].cells[5].innerText);
+		$("#totalBudget").val(valor);
 		$("#detail").val(table.rows[x.rowIndex].cells[6].innerText);
 		$("#parameters").val(table.rows[x.rowIndex].cells[7].innerText);
-		$("#commissionable").val(table.rows[x.rowIndex].cells[8].innerText).change();
+		$("#commissionable").val(parseInt(comm)).change();
+		$("#idPriceCurrencyType").val(parseInt(idPriceCurrencyType)).change();
 		$(".form-proposaldetails").toggle("slow");
 		
 		

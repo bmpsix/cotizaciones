@@ -99,12 +99,6 @@
 				</option>
 			</select>
 			
-			<label for="metodo"><h5>Metodo de recoleccion de datos:</h5></label>
-        	<select name="idCollectMethod">
-				<option name="collectMethod.idCollectMethod" th:each="collectMethod : ${collectmethods}" th:value="${collectMethod.idCollectMethod}">
-					<p name="collectMethod.detail" th:text="${collectMethod.detail}" th:value="${collectMethod.detail}" ></p>
-				</option>
-			</select>
 			</div>
 			
 			<div class="paso2">
@@ -131,6 +125,12 @@
        
        		<div class="paso1">
        		<legend><h1><br/></h1></legend>
+       		<label for="metodo"><h5>Metodo de recoleccion de datos:</h5></label>
+        	<select name="idCollectMethod">
+				<option name="collectMethod.idCollectMethod" th:each="collectMethod : ${collectmethods}" th:value="${collectMethod.idCollectMethod}">
+					<p name="collectMethod.detail" th:text="${collectMethod.detail}" th:value="${collectMethod.detail}" ></p>
+				</option>
+			</select>
        		<label for="industry"><h5>Sector o industria:</h5></label>
         	<select name="idIndustrySector">
 				<option th:each="industrySector : ${industrysectors}" th:value="${industrySector.idIndustrySector}">
@@ -158,13 +158,8 @@
   				<option value="No aplica">No Aplica</option>
 			</select>
 			
-			<label for="currencyType"><h5>Tipo de moneda:</h5></label>
-        	<select name="idCurrencyType" >
-				<option th:each="currencyType : ${countryByCurrencyType}" th:value="${currencyType.idCurrencyType}">
-					<p name="currencyType.detail" th:text="${currencyType.detail}"></p>
-				</option>
-			</select>
-			
+			<input type="hidden" name="idCurrencyType" id="idCurrencyType" th:value="${settings.CurrencyTypeFavorite.idCurrencyType}"/>
+		
 			
        		</div>
        		
@@ -196,10 +191,6 @@
       				    <input type="hidden" id="idTechnique" name="idTechnique" th:value="${technique.idTechnique}" ></input>
       			</li>
     		</ul> -->
-    		<br/>
-    		<button  onclick="return window.location.href='/admin/technique'" class="ui-btn">Agregar-Tecnica/Modelos</button>
-    		
-    		
     		
        		</div>
        

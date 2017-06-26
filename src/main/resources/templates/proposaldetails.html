@@ -101,16 +101,6 @@
 					<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
 				</option>
 			</select>
-			
-			<label for="metodo"><h5>Metodo de recoleccion de datos:</h5></label>
-        	<select name="idCollectMethod">
-				<option th:each="collectMethod : ${collectmethods}"  th:value="${collectMethod.idCollectMethod}" th:if="${proposal.CollectMethod.detail == collectMethod.detail}" selected>
-					<p name="collectMethod.detail" th:text="${collectMethod.detail}" th:value="${collectMethod.detail}" ></p>
-				</option>
-				<option th:each="collectMethod : ${collectmethods}" th:value="${collectMethod.idCollectMethod}" th:if="${proposal.CollectMethod.detail != collectMethod.detail}" >
-					<p name="collectMethod.detail" th:text="${collectMethod.detail}" th:value="${collectMethod.detail}" ></p>
-				</option>
-			</select>
 			</div>
 			
 			<div class="paso2">
@@ -138,6 +128,15 @@
        
        		<div class="paso1">
        		<legend><h1><br/></h1></legend>
+       		<label for="metodo"><h5>Metodo de recoleccion de datos:</h5></label>
+        	<select name="idCollectMethod">
+				<option th:each="collectMethod : ${collectmethods}"  th:value="${collectMethod.idCollectMethod}" th:if="${proposal.CollectMethod.detail == collectMethod.detail}" selected>
+					<p name="collectMethod.detail" th:text="${collectMethod.detail}" th:value="${collectMethod.detail}" ></p>
+				</option>
+				<option th:each="collectMethod : ${collectmethods}" th:value="${collectMethod.idCollectMethod}" th:if="${proposal.CollectMethod.detail != collectMethod.detail}" >
+					<p name="collectMethod.detail" th:text="${collectMethod.detail}" th:value="${collectMethod.detail}" ></p>
+				</option>
+			</select>
        		<label for="industry"><h5>Sector o industria:</h5></label>
         	<select name="idIndustrySector">
 				<option th:each="industrySector : ${industrysectors}" th:value="${industrySector.idIndustrySector}" th:if="${proposal.IndustrySector.detail == industrySector.detail}" selected>
@@ -176,15 +175,7 @@
   				<option value="No aplica" th:if="${proposal.tracker !='No Aplica'}">No Aplica</option>
 			</select>
 			
-			<label for="currencyType"><h5>Tipo de moneda:</h5></label>
-        	<select name="idCurrencyType" >
-				<option th:each="currencyType : ${countryByCurrencyType}" th:value="${currencyType.idCurrencyType}" th:if="${proposal.CurrencyType.detail == currencyType.detail}" selected>
-					<p name="currencyType.detail" th:text="${currencyType.detail}"></p>
-				</option>
-				<option th:each="currencyType : ${countryByCurrencyType}" th:value="${currencyType.idCurrencyType}" th:if="${proposal.CurrencyType.detail != currencyType.detail}">
-					<p name="currencyType.detail" th:text="${currencyType.detail}"></p>
-				</option>
-			</select>
+			<input type="hidden" name="idCurrencyType" id="idCurrencyType" th:value="${settings.CurrencyTypeFavorite.idCurrencyType}"/>
 			
 			
        		</div>
@@ -221,10 +212,6 @@
       				    <input type="hidden" id="idTechnique" name="idTechnique" th:value="${technique.idTechnique}" ></input>
       			</li>
     		</ul> -->
-    		<br/>
-    		<button  onclick="return window.location.href='/admin/technique'" class="ui-btn">Agregar-Tecnica/Modelos</button>
-    		
-    		
     		
        		</div>
        
@@ -328,7 +315,7 @@
         		<h3>Comisionable</h3>
       		<table style="width:99%";>
       			<tr>
-      				<th ><p th:text="'Sub Total 1 '+${proposal.CurrencyType.symbol}+' :'"></p></th>
+      				<th ><p th:text="'Sub Total 1 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
       				<td><input id="sub1" style="background-color:#FFFAFA;" type="text" readonly/></td>
       				<th>Factor 1:</th>
       				<td><input id="factor1" type="number" min="0" step="any" th:value="${settings.factor1}" readonly/></td>
@@ -336,32 +323,36 @@
       			<tr>
       				<th>Imprevisto %:</th>
       				<td><input id="imprevisto"  type="number" min="0" step="any" th:value="${settings.imprevisto}" readonly/></td>
-      				<th><p th:text="'Sub Total 3 '+${proposal.CurrencyType.symbol}+' :'"></p></th>
+      				<th><p th:text="'Sub Total 3 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
       				<td ><input id="sub3" style="background-color:#FFFAFA;" type="text"  readonly/></td>
       			</tr>
       			<tr>
-      				<th><p th:text="'Total Imprevisto '+${proposal.CurrencyType.symbol}+' :'"></p></th>
+      				<th><p th:text="'Total Imprevisto '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
       				<td><input id="totalImprevisto" style="background-color:#FFFAFA;"  type="text" readonly/></td>
-      				<th><p th:text="'Aporte Fijo '+${proposal.CurrencyType.symbol}+' :'"></p></th>
+      				<th><p th:text="'Aporte Fijo:'"></p></th>
       				<td><input id="aporteFijo" type="number"  min="0" step="any" th:value="${settings.aporteFijo}" readonly/></td>
       			</tr>
       			<tr>
-      				<th><p th:text="'Sub Total 2 '+${proposal.CurrencyType.symbol}+' :'"></p></th>
+      				<th><p th:text="'Sub Total 2 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
       				<td><input id="sub2" style="background-color:#FFFAFA;" type="text" readonly/></td>
-      				<th><p th:text="'Tipo de cambio '+${proposal.CurrencyType.symbol}+' :'"></p></th>
-      				<td><input id="currencyExchange" style="background-color:#FFFAFA;" type="number"  th:value="${proposal.currencyExchange}" readonly/></td>
+      				<th><p th:text="'Tipo de cambio '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td th:object="${exchangeRate}"><input id="currencyExchange" style="background-color:#FFFAFA;" type="number"  th:value="${exchangeRate.sell}" readonly/></td>
       			</tr>
       			<tr>
-      				<th><p th:text="'Total 1 '+${proposal.CurrencyType.symbol}+' :'"></p></th>
+      				<th><p th:text="'Total 1 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
       				<td colspan="3"><input id="total1" style="background-color:#FFFAFA;" type="text" readonly/></td>
       				
       			</tr>
       		</table>
         
       		<h3>Precios nacionales</h3>
+      		
+      		<input id="idCurrencyTypeFavorite" type="hidden" th:value="${settings.CurrencyTypeFavorite.idCurrencyType}"/>
+      		
+      		
       		<table style="width:99%">
       			<tr>
-      				<th><p th:text="'Precio nacional '+${proposal.CurrencyType.symbol}+' :'"></p></th>
+      				<th><p th:text="'Precio nacional '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
       				<td><input id="nacional1" style="background-color:#FFFAFA;" type="text" readonly/></td>
       				
       			</tr>
@@ -379,7 +370,7 @@
          <h3>No Comisionable</h3>
       		<table style="width:99%">
       			<tr>
-      				<th><p th:text="'Sub Total 4 '+${proposal.CurrencyType.symbol}+' :'"></p></th>
+      				<th><p th:text="'Sub Total 4 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
       				<td><input id="sub4" style="background-color:#FFFAFA;" type="text" readonly/></td>
       			</tr>
       			<tr>
@@ -387,11 +378,11 @@
       				<td><input id="factor2" type="number"  min="0" step="any" th:value="${settings.factor2}" readonly/></td>
       			</tr>
       			<tr>
-      				<th><p th:text="'Sub Total 5 '+${proposal.CurrencyType.symbol}+' :'"></p></th>
+      				<th><p th:text="'Sub Total 5 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
       				<td><input id="sub5" style="background-color:#FFFAFA;" type="text" readonly/></td>
       			</tr>
       			<tr>
-      				<th><p th:text="'Total 2 '+${proposal.CurrencyType.symbol}+' :'"></p></th>
+      				<th><p th:text="'Total 2 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
       				<td><input id="total2" style="background-color:#FFFAFA;" type="text" readonly /></td>
       			</tr>
       		</table>
@@ -409,6 +400,7 @@
        	<div class="ui-grid-a" id="detalleCoti" >
        	
        	 <hr class="form-proposaldetails" style="margin: 30px; display:none;">
+       	 <h3  class="form-proposaldetails" style="margin: 30px; display:none;">Detalle de propuesta</h3>
        	 <h3 class="form-data-proposaldetails" style="margin: 30px; display:none;">Detalle</h3>
        	 <div class="ui-block-a" >
        		<form class="form-data-proposaldetails">
@@ -431,8 +423,15 @@
 						</option>
 					</select>
 					</div>
+					
+					<label for="price">Tipo de moneda:</label>
+					<select name="idPriceCurrencyType" id="idPriceCurrencyType" required>
+						<option  th:each="priceCurrencyType : ${currencyType}" th:value="${priceCurrencyType.idCurrencyType}">
+							<p th:text="${priceCurrencyType.detail +' '+priceCurrencyType.symbol}"></p>
+						</option>
+					</select>
 					<label for="price">Precio:</label>
-					<input id="price"  title="Debe ingresar el precio"  maxlength="30" type="number" min="1" step="any" class="cal" name="cal" th:value="${price}" required/>
+					 <input id="price"  title="Debe ingresar el precio"  maxlength="30" type="number" min="1" step="any" class="cal" name="cal" th:value="${price}" required/>
 					<label for="number">Número:</label>
             		<input id="number" title="Debe ingresar la cantidad"  maxlength="30" type="number" min="1" name="cal" th:value="${number}"  class="cal" required/>
             		<label for="daysTimes">Días/Veces:</label>
@@ -491,7 +490,7 @@
        	<!--  <th data-priority="7">Estado Partida</th> -->
        	 <th data-priority="7">Detalle</th>
        	 <th data-priority="7">Parametros</th>
-       	 <th style="padding-right: 15px;">
+       	 <th>
 		    <a id="addProposalDetail" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
 		 </th>
    	 	</tr>
@@ -502,29 +501,35 @@
        	 <tr ondblclick="myFunction(this)" th:each="proposaldetail : ${proposaldetailss}" th:if="${proposaldetail.commissionable==1}" style="background-color: #009082; color: white;cursor: pointer;">
            	 <td th:text="${proposaldetail.idProposalDetails}"></td>
            	 <td th:text="${proposaldetail.Departure.detail}"></td>
-           	 <td th:text="${proposaldetail.price}"></td>
+           	 <td th:text="${proposaldetail.CurrencyType.symbol+' '+proposaldetail.price}"></td>
            	 <td th:text="${proposaldetail.number}"></td>
            	 <td th:text="${proposaldetail.daysTimes}"></td>
-           	 <td th:text="${proposaldetail.totalBudget}"></td>
+           	 <td th:text="${proposaldetail.CurrencyType.symbol+' '+proposaldetail.totalBudget}"></td>
            	<!-- <td th:if="${proposaldetail.commissionable==1}" th:text="${'(Fact de '+proposaldetail.factor+') (Impre '+proposaldetail.imprevisto+' %)'}"></td>
            	 <td th:if="${proposaldetail.commissionable==0}" th:text="${'(Fact de '+proposaldetail.factor+')'}"></td> -->
            	 <td th:text="${proposaldetail.detail}"></td>
            	 <td th:text="${proposaldetail.parameters}"></td>
-           	 <td th:text="${proposaldetail.commissionable}" style="opacity: 0"></td>
+           	 <td th:text="${proposaldetail.commissionable}" style="display:none;"></td>
+           	 <td th:text="${proposaldetail.CurrencyType.idCurrencyType}" style="display:none;"></td>
+           	 <td th:text="${proposaldetail.Departure.idDeparture}"style="display:none;" ></td>
+           	 <td></td>
        	 </tr>
        	 <tr ondblclick="myFunction(this)" th:each="proposaldetail : ${proposaldetailss}" th:if="${proposaldetail.commissionable==0}"  style="background-color: #ECF0F1;cursor: pointer;">
            	
            	 <td th:text="${proposaldetail.idProposalDetails}"></td>
            	 <td th:text="${proposaldetail.Departure.detail}"></td>
-           	 <td th:text="${proposaldetail.price}"></td>
+           	 <td th:text="${proposaldetail.CurrencyType.symbol+' '+proposaldetail.price}"></td>
            	 <td th:text="${proposaldetail.number}"></td>
            	 <td th:text="${proposaldetail.daysTimes}"></td>
-           	 <td th:text="${proposaldetail.totalBudget}"></td>
+           	 <td th:text="${proposaldetail.CurrencyType.symbol+' '+proposaldetail.totalBudget}"></td>
            <!--<td th:if="${proposaldetail.commissionable==1}" th:text="${'(Fact de '+proposaldetail.factor+') (Impre '+proposaldetail.imprevisto+' %)'}"></td>
            	 <td th:if="${proposaldetail.commissionable==0}" th:text="${'(Fact de '+proposaldetail.factor+')'}"></td> -->
            	 <td th:text="${proposaldetail.detail}"></td>
            	 <td th:text="${proposaldetail.parameters}"></td>
-      		 <td th:text="${proposaldetail.commissionable}" style="opacity: 0"></td>
+      		 <td th:text="${proposaldetail.commissionable}" style="display:none;"></td>
+      		 <td th:text="${proposaldetail.CurrencyType.idCurrencyType}" style="display:none;"></td>
+      		 <td th:text="${proposaldetail.Departure.idDeparture}"style="display:none;" ></td>
+      		 <td></td>
        	 </tr>
     	</tbody>     
 	</table>

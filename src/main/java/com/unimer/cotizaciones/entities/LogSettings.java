@@ -9,6 +9,42 @@ import javax.persistence.*;
 public class LogSettings implements Serializable{
 
 	
+	@Override
+	public String toString() {
+		return "LogSettings [dateRecord=" + dateRecord + ", actionDetail=" + actionDetail + ", actionUser=" + actionUser
+				+ ", idSettings=" + idSettings + ", aporteFijo=" + aporteFijo + ", factor1=" + factor1 + ", factor2="
+				+ factor2 + ", imprevisto=" + imprevisto + ", idCountry=" + idCountry + ", idCurrencyTypeFavorite="
+				+ idCurrencyTypeFavorite + ", idCurrencyTypeInternational=" + idCurrencyTypeInternational + "]";
+	}
+
+
+
+
+	public int getIdCurrencyTypeFavorite() {
+		return idCurrencyTypeFavorite;
+	}
+
+
+
+
+	public void setIdCurrencyTypeFavorite(int idCurrencyTypeFavorite) {
+		this.idCurrencyTypeFavorite = idCurrencyTypeFavorite;
+	}
+
+
+
+
+	public int getIdCurrencyTypeInternational() {
+		return idCurrencyTypeInternational;
+	}
+
+
+
+
+	public void setIdCurrencyTypeInternational(int idCurrencyTypeInternational) {
+		this.idCurrencyTypeInternational = idCurrencyTypeInternational;
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -40,36 +76,20 @@ public class LogSettings implements Serializable{
 	@Column(name="id_country", nullable=false)
 	private int idCountry;
 	
-	@Column(name="id_currency_type", nullable=false)
-	private int idCurrencyType;
+	@Column(name="id_currency_type_Fa", nullable=false)
+	private int idCurrencyTypeFavorite;
+	
+	@Column(name="id_currency_type_In", nullable=false)
+	private int idCurrencyTypeInternational;
 
-	public LogSettings(Date dateRecord, String actionDetail, int actionUser, int idSettings, double aporteFijo,
-			double factor1, double factor2, double imprevisto, int idCountry, int idCurrencyType) {
-		super();
-		this.dateRecord = dateRecord;
-		this.actionDetail = actionDetail;
-		this.actionUser = actionUser;
-		this.idSettings = idSettings;
-		this.aporteFijo = aporteFijo;
-		this.factor1 = factor1;
-		this.factor2 = factor2;
-		this.imprevisto = imprevisto;
-		this.idCountry = idCountry;
-		this.idCurrencyType = idCurrencyType;
-	}
+	
 
 	public LogSettings() {
 		super();
 	}
 
 	
-	@Override
-	public String toString() {
-		return "LogSettings [dateRecord=" + dateRecord + ", actionDetail=" + actionDetail + ", actionUser=" + actionUser
-				+ ", idSettings=" + idSettings + ", aporteFijo=" + aporteFijo + ", factor1=" + factor1 + ", factor2="
-				+ factor2 + ", imprevisto=" + imprevisto + ", idCountry=" + idCountry + ", idCurrencyType="
-				+ idCurrencyType + "]";
-	}
+
 
 	public Date getDateRecord() {
 		return dateRecord;
@@ -143,15 +163,26 @@ public class LogSettings implements Serializable{
 		this.idCountry = idCountry;
 	}
 
-	public int getIdCurrencyType() {
-		return idCurrencyType;
+
+
+
+	public LogSettings(Date dateRecord, String actionDetail, int actionUser, int idSettings, double aporteFijo,
+			double factor1, double factor2, double imprevisto, int idCountry, int idCurrencyTypeFavorite,
+			int idCurrencyTypeInternational) {
+		super();
+		this.dateRecord = dateRecord;
+		this.actionDetail = actionDetail;
+		this.actionUser = actionUser;
+		this.idSettings = idSettings;
+		this.aporteFijo = aporteFijo;
+		this.factor1 = factor1;
+		this.factor2 = factor2;
+		this.imprevisto = imprevisto;
+		this.idCountry = idCountry;
+		this.idCurrencyTypeFavorite = idCurrencyTypeFavorite;
+		this.idCurrencyTypeInternational = idCurrencyTypeInternational;
 	}
 
-	public void setIdCurrencyType(int idCurrencyType) {
-		this.idCurrencyType = idCurrencyType;
-	}
-
-	
 	
 
 }

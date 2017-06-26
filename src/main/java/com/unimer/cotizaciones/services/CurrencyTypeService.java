@@ -13,4 +13,6 @@ public interface CurrencyTypeService {
 	
 	public abstract CurrencyType getCurrencyType(int idCurrencyType);
 	
+	public abstract CurrencyType findByDetail(String detail);
+	
 }

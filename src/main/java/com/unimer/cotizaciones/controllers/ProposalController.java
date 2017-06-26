@@ -26,6 +26,7 @@ import com.unimer.cotizaciones.entities.IndustrySector;
 import com.unimer.cotizaciones.entities.Operation;
 import com.unimer.cotizaciones.entities.Proposal;
 import com.unimer.cotizaciones.entities.ProposalType;
+import com.unimer.cotizaciones.entities.Settings;
 import com.unimer.cotizaciones.entities.Status;
 import com.unimer.cotizaciones.entities.StudyCategory;
 import com.unimer.cotizaciones.entities.StudyType;
@@ -34,7 +35,6 @@ import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.AssessmentService;
 import com.unimer.cotizaciones.services.CollectMethodService;
-import com.unimer.cotizaciones.services.CountryByCurrencyTypeService;
 import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.CurrencyExchangeService;
 import com.unimer.cotizaciones.services.CurrencyTypeService;
@@ -43,6 +43,7 @@ import com.unimer.cotizaciones.services.IndustrySectorService;
 import com.unimer.cotizaciones.services.OperationService;
 import com.unimer.cotizaciones.services.ProposalService;
 import com.unimer.cotizaciones.services.ProposalTypeService;
+import com.unimer.cotizaciones.services.SettingsService;
 import com.unimer.cotizaciones.services.StatusService;
 import com.unimer.cotizaciones.services.StudyCategoryService;
 import com.unimer.cotizaciones.services.StudyTypeService;
@@ -84,10 +85,6 @@ public class ProposalController {
 	@Autowired
 	@Qualifier("TechniqueServiceImpl")
 	private TechniqueService techniqueService;
-	
-	@Autowired
-	@Qualifier("countryByCurrencyTypeServiceImpl")
-	private CountryByCurrencyTypeService countryByCurrencyTypeService;
 	
 	@Autowired
 	@Qualifier("assessmentServiceImpl")
@@ -135,11 +132,15 @@ public class ProposalController {
 	@Qualifier("currencyTypeServiceImpl")
 	private CurrencyTypeService currencyTypeService;
 	
-
+	@Autowired
+	@Qualifier("settingsServiceImpl")
+	private SettingsService settingsService;
+	
 	@GetMapping("/admin/proposal")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView proposal(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession){
 		Country cntry = countryService.findById(userSession.getIdCountry());
+		Settings sttings = settingsService.findSettingByCountry(cntry);
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("countries",countryService.listAllCountries());
 		modelAndView.addObject("collectmethods", collectMethodService.listAllCollectMethod());
@@ -147,7 +148,6 @@ public class ProposalController {
 		modelAndView.addObject("studytypes", studyTypeService.listAllStudyTypes());
 		modelAndView.addObject("industrysectors", industrySectorService.listAllIndustrySectors());
 		modelAndView.addObject("techniques", techniqueService.orderlistAllTechniques());
-		modelAndView.addObject("countryByCurrencyType", cntry.getCurrencyType());
 		modelAndView.addObject("targets", targetService.listAllTargets());
 		modelAndView.addObject("assessments", assessmentService.listAllAssessment());
 		modelAndView.addObject("clientContacts", clientContactService.findByCountry(cntry));
@@ -155,6 +155,7 @@ public class ProposalController {
 		modelAndView.addObject("autoIncrement", proposalService.autoIncrement());
 		modelAndView.addObject("operations", operationService.listAllOperation());
 		modelAndView.addObject("statuss", statusService.listAllStatus());
+		modelAndView.addObject("settings",sttings);
 		modelAndView.addObject("proposalTypes", proposalTypeService.listAllProposalTypes());
 		modelAndView.setViewName("proposal");
 		return modelAndView;

@@ -19,8 +19,14 @@
 					<form method="post" action="#" th:action="@{/admin/addsettings}" th:object="${updateSettings}">
 						<div th:if="${updateSettings==null}">
 							<label for="currencyType">Tipo de modena favorita</label> 
-							<select name="currencyType.idCurrencyType">
-								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}">
+							<select name="currencyTypeFavorite.idCurrencyType">
+								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}" th:if="${type.favorite==0}">
+									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
+								</option>
+							</select>
+							<label for="currencyType">Tipo de principal internacional</label> 
+							<select name="currencyTypeInternational.idCurrencyType">
+								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}" th:if="${type.favorite==1}">
 									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
 								</option>
 							</select>
@@ -39,11 +45,20 @@
 						<div th:if="${updateSettings!=null}">
 							<input type="hidden" name="idSettings" th:value="${updateSettings.idSettings}" readonly />
 							<label for="currencyType">Tipo de moneda favorita:</label>
-							<select name="currencyType.idCurrencyType">
-								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}" th:if="${updateSettings.CurrencyType.detail == type.detail}" selected >
+							<select name="currencyTypeFavorite.idCurrencyType">
+								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}" th:if="${updateSettings.CurrencyTypeFavorite.detail == type.detail AND type.favorite==0}" selected >
 									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
 								</option>
-								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}" th:if="${updateSettings.CurrencyType.detail != type.detail}">
+								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}" th:if="${updateSettings.CurrencyTypeFavorite.detail != type.detail AND type.favorite==0}">
+									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
+								</option>
+							</select>
+							<label for="currencyType">Tipo de moneda principal internacional:</label>
+							<select name="currencyTypeInternational.idCurrencyType">
+								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}" th:if="${updateSettings.CurrencyTypeInternational.detail == type.detail AND type.favorite==1}" selected >
+									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
+								</option>
+								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}" th:if="${updateSettings.CurrencyTypeInternational.detail != type.detail AND type.favorite==1}">
 									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
 								</option>
 							</select>
@@ -77,7 +92,8 @@
            				<tr>
            				<th  style="padding-right: 15px;">ID</th>
            				<th  style="padding-right: 15px;">País</th>
-           				<th  style="padding-right: 15px;">Tipo de moneda favorita</th>
+           				<th  style="padding-right: 15px;">Favorita</th>
+           				<th  style="padding-right: 15px;">Principal internacional</th>
            				<th  style="padding-right: 15px;">Imprevisto</th>
            				<th  style="padding-right: 15px;">Factor 1</th>
            				<th  style="padding-right: 15px;">Aporte fijo</th>
@@ -89,7 +105,8 @@
 	           			<tr th:each="countrySetting : ${countrySettings}">
 							<td style="padding-right: 15px;" th:text="${countrySetting.idSettings}"></td>
 							<td style="padding-right: 15px;" th:text="${countrySetting.Country.detail}"></td>
-							<td style="padding-right: 15px;" th:text="${countrySetting.CurrencyType.detail}"></td>
+							<td style="padding-right: 15px;" th:text="${countrySetting.CurrencyTypeFavorite.detail}"></td>
+							<td style="padding-right: 15px;" th:text="${countrySetting.CurrencyTypeInternational.detail}"></td>
 							<td style="padding-right: 15px;" th:text="${countrySetting.imprevisto}+'%'"></td>
 							<td style="padding-right: 15px;" th:text="${countrySetting.factor1}"></td>
 							<td style="padding-right: 15px;" th:text="${countrySetting.aporteFijo}"></td>

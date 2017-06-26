@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.Country;
+import com.unimer.cotizaciones.entities.CurrencyExchange;
+import com.unimer.cotizaciones.entities.CurrencyType;
 import com.unimer.cotizaciones.entities.Departure;
 import com.unimer.cotizaciones.entities.Proposal;
 import com.unimer.cotizaciones.entities.ProposalDetails;
+import com.unimer.cotizaciones.entities.Settings;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.AssessmentService;
 import com.unimer.cotizaciones.services.CollectMethodService;
@@ -142,6 +145,8 @@ public class ProposalDetailsController {
 	public ModelAndView proposalDetails(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute("proposedHeader") Proposal proposal){
 		ModelAndView modelAndView = new ModelAndView();
 		Country cntry = countryService.findById(userSession.getIdCountry());
+		Settings sttings = settingsService.findSettingByCountry(cntry);
+		CurrencyExchange crrencyExchange = currencyExchangeService.findByCountryAndCurrencyType(cntry, sttings.getCurrencyTypeInternational());
 		modelAndView.addObject("countries",countryService.listAllCountries());
 		modelAndView.addObject("collectmethods", collectMethodService.listAllCollectMethod());
 		modelAndView.addObject("studyCategories", studyCategoryService.listAllStudyCategories());
@@ -160,7 +165,9 @@ public class ProposalDetailsController {
 		modelAndView.addObject("proposal",proposal);
 		modelAndView.addObject("departures",departureService.listAllDeparture());
 		modelAndView.addObject("proposaldetailss",proposalDetailsService.findByProposal(proposal));
-		modelAndView.addObject("settings",settingsService.findSettingByCountry(cntry));
+		modelAndView.addObject("settings",sttings);
+		modelAndView.addObject("currencyType",cntry.getCurrencyType());
+		modelAndView.addObject("exchangeRate",crrencyExchange);
 		modelAndView.setViewName("proposaldetails");
 		return modelAndView;
 		
@@ -183,13 +190,15 @@ public class ProposalDetailsController {
 									@RequestParam("commissionable") byte commissionable,
 									@RequestParam("number") int number,
 									@RequestParam("daysTimes") int daysTimes,
-									@RequestParam("totalBudget") double totalBudget) {
+									@RequestParam("totalBudget") double totalBudget,
+									@RequestParam("idPriceCurrencyType") int idPriceCurrencyType) {
 		
 		double factor=0;
 		if(commissionable==1) factor=factor1;
 		else factor=factor2;
 		Departure departure = departureService.findById(idDeparture);
-		ProposalDetails proposalDetails = new ProposalDetails(idProposalDetails,aporteFijo,factor,detail, parameters,imprevisto,departure,price,commissionable,number,daysTimes,totalBudget,proposal);
+		CurrencyType currencyType = currencyTypeService.getCurrencyType(idPriceCurrencyType);
+		ProposalDetails proposalDetails = new ProposalDetails(idProposalDetails,aporteFijo,factor,detail, parameters,imprevisto,departure,price,commissionable,number,daysTimes,totalBudget,proposal,currencyType);
 		
 		LOG.info("METHOD: addProposalDetails in ProposalController -- PARAMS: " + proposalDetails.toString());
 		proposalDetailsService.addProposalDetails(proposalDetails, userSession.getId());

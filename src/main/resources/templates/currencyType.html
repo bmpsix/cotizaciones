@@ -19,12 +19,12 @@
 					<div th:if="${updateCurrencyType==null}">			
 						<label for="detail">Detalle:</label>
 						<input type="text" name="detail" required/>			
-						<label for="favorite"  title="Indica si es el favorito o no ">Favorito:</label>
+						<label for="favorite"  title="Indica si es el tipo de moneda principal internacional">Tipo de moneda principal internacional:</label>
 						<select  name="favorite" data-role="slider">
-								<option value="0" selected>Inactivo</option>
-								<option value="1">Activo</option>
+								<option value="0" selected>No</option>
+								<option value="1">Si</option>
 						</select>
-						<label for="symbol">Symbolo:</label>
+						<label for="symbol">Símbolo:</label>
 						<input type="text" name="symbol" min="1" maxlength="2" required/>
 						<label for="status"  title="Indica si esta vigente si o no ">Estado:</label>
 						<select  name="status" data-role="slider">
@@ -40,21 +40,21 @@
 						<label for="detail">Detalle:</label>
 						<input type="text" name="detail" th:value="${updateCurrencyType.detail}"required/>
 						
-						<label for="favorite"  title="Indica si es el favorito o no ">Favorito:</label>
+						<label for="favorite"  title="Indica si es el tipo de moneda principal internacional">Tipo de moneda principal internacional:</label>
 						<div th:if="${updateCurrencyType.favorite == 0}">
 							<select  name="favorite" data-role="slider" th:value="${updateCurrencyType.favorite}">
-								<option value="0" selected>Inactivo</option>
-								<option value="1">Activo</option>
+								<option value="0" selected>No</option>
+								<option value="1">Si</option>
 							</select>
 						</div>
 						
 						<div th:if="${updateCurrencyType.favorite == 1}">
 							<select  name="favorite" data-role="slider" th:value="${updateCurrencyType.favorite}">
-								<option value="0">Inactivo</option>
-								<option value="1" selected>Activo</option>
+								<option value="0">No</option>
+								<option value="1" selected>Si</option>
 							</select>
 						</div>			
-						<label for="symbol">Symbolo:</label>
+						<label for="symbol">Símbolo:</label>
 						<input type="text" name="symbol" th:value="${updateCurrencyType.symbol}"required/>
 						
 						<label for="status"  title="Indica si esta vigente si o no ">Estado:</label>
@@ -84,7 +84,7 @@
            				<tr>
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">ID</th>
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Detalle</th>
-           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Favorita</th>
+           				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Principal internacional</th>
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Estado</th>
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Símbolo</th>
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Opción</th>
@@ -95,10 +95,10 @@
 							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${currencytype.idCurrencyType}"></td>
 							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${currencytype.detail}"></td>
 							<div th:if="${currencytype.favorite == 1}">
-								<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="Activo"></td>
+								<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="Si"></td>
 							</div>
 							<div th:if="${currencytype.favorite == 0}">
-								<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="Inactivo"></td>
+								<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="No"></td>
 							</div>
 
 							<div th:if="${currencytype.status == 1}">

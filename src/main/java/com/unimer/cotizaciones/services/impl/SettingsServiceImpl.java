@@ -64,7 +64,7 @@ public class SettingsServiceImpl implements SettingsService {
 		java.util.Date date = new Date();
 		Settings settingsToUpdate = settingsJpaRepository.findByIdSettings(settings.getIdSettings());
 		if (settingsToUpdate != null) {
-			LogSettings logSettings = new LogSettings(date, "Settings  modified", idUser,settingsToUpdate.getIdSettings(),settingsToUpdate.getAporteFijo(),settingsToUpdate.getFactor1(),settingsToUpdate.getFactor2(),settingsToUpdate.getImprevisto(),settingsToUpdate.getCountry().getIdCountry(),settingsToUpdate.getCurrencyType().getIdCurrencyType());
+			LogSettings logSettings = new LogSettings(date, "Settings  modified", idUser,settingsToUpdate.getIdSettings(),settingsToUpdate.getAporteFijo(),settingsToUpdate.getFactor1(),settingsToUpdate.getFactor2(),settingsToUpdate.getImprevisto(),settingsToUpdate.getCountry().getIdCountry(),settingsToUpdate.getCurrencyTypeFavorite().getIdCurrencyType(),settingsToUpdate.getCurrencyTypeInternational().getIdCurrencyType());
 			settingsJpaRepository.save(settings);
 			logSettingsJpaRepository.save(logSettings);
 		

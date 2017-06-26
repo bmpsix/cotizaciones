@@ -66,6 +66,11 @@ public class CurrencyTypeServiceImpl implements CurrencyTypeService{
 	public CurrencyType getCurrencyType(int idCurrencyType) {
 		return currencyTypeJpaRepository.findByIdCurrencyType(idCurrencyType);
 	}
+
+	@Override
+	public CurrencyType findByDetail(String detail) {
+		return currencyTypeJpaRepository.findByDetail(detail);
+	}
 	
 
 }

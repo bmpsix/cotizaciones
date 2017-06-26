@@ -9,4 +9,5 @@ import com.unimer.cotizaciones.entities.CurrencyType;
 @Repository("currencyTypeJpaRepository")
 public interface CurrencyTypeJpaRepository extends JpaRepository<CurrencyType, Serializable>{
 	public abstract CurrencyType findByIdCurrencyType(int idCurrencyType);
+	public abstract CurrencyType findByDetail(String detail);
 }

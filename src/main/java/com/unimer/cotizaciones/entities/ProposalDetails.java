@@ -1,5 +1,7 @@
 package com.unimer.cotizaciones.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,9 +14,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="proposal_details")
-public class ProposalDetails {
+public class ProposalDetails  implements Serializable {
 
-
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -64,13 +66,16 @@ public class ProposalDetails {
 	private Proposal proposal;
 
 	
-	
+	//bi-directional many-to-one association to CurrencyType
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_currency_type", nullable=false)
+	private CurrencyType currencyType;
 	
 	
 
 	public ProposalDetails(int idProposalDetails, double aporteFijo, double factor, String detail, String parameters,
 			double imprevisto, Departure departure, double price, byte commissionable, int number, int daysTimes,
-			double totalBudget, Proposal proposal) {
+			double totalBudget, Proposal proposal, CurrencyType currencyType) {
 		super();
 		this.idProposalDetails = idProposalDetails;
 		this.aporteFijo = aporteFijo;
@@ -85,12 +90,14 @@ public class ProposalDetails {
 		this.daysTimes = daysTimes;
 		this.totalBudget = totalBudget;
 		this.proposal = proposal;
+		this.currencyType = currencyType;
 	}
 
 	public ProposalDetails() {
 		super();
 		this.departure = new Departure();
 		this.proposal = new Proposal();
+		this.currencyType = new CurrencyType();
 	}
 	
 	public int getIdProposalDetails() {
@@ -197,6 +204,23 @@ public class ProposalDetails {
 		this.proposal = proposal;
 	}
 
-	
+
+
+	@Override
+	public String toString() {
+		return "ProposalDetails [idProposalDetails=" + idProposalDetails + ", aporteFijo=" + aporteFijo + ", factor="
+				+ factor + ", detail=" + detail + ", parameters=" + parameters + ", imprevisto=" + imprevisto
+				+ ", departure=" + departure + ", price=" + price + ", commissionable=" + commissionable + ", number="
+				+ number + ", daysTimes=" + daysTimes + ", totalBudget=" + totalBudget + ", proposal=" + proposal
+				+ ", currencyType=" + currencyType + "]";
+	}
+
+	public CurrencyType getCurrencyType() {
+		return currencyType;
+	}
+
+	public void setCurrencyType(CurrencyType currencyType) {
+		this.currencyType = currencyType;
+	}
 	
 }

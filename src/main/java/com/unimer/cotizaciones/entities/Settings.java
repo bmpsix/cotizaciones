@@ -20,6 +20,7 @@ import javax.persistence.Table;
 @Table(name="settings")
 public class Settings  implements Serializable{
 	
+
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -46,10 +47,13 @@ public class Settings  implements Serializable{
 	
 	//bi-directional many-to-one association to CurrencyType
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_currency_type", nullable=false)
-	private CurrencyType currencyType;
+	@JoinColumn(name="id_currency_type_Fa", nullable=false)
+	private CurrencyType currencyTypeFavorite;
 
-
+	//bi-directional many-to-one association to CurrencyType
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_currency_type_In", nullable=false)
+	private CurrencyType currencyTypeInternational;
 
 	public int getIdSettings() {
 		return idSettings;
@@ -99,16 +103,25 @@ public class Settings  implements Serializable{
 		this.country = country;
 	}
 
-	public CurrencyType getCurrencyType() {
-		return currencyType;
+	public CurrencyType getCurrencyTypeFavorite() {
+		return currencyTypeFavorite;
 	}
 
-	public void setCurrencyType(CurrencyType currencyType) {
-		this.currencyType = currencyType;
+	public void setCurrencyTypeFavorite(CurrencyType currencyTypeFavorite) {
+		this.currencyTypeFavorite = currencyTypeFavorite;
+	}
+
+	public CurrencyType getCurrencyTypeInternational() {
+		return currencyTypeInternational;
+	}
+
+	public void setCurrencyTypeInternational(CurrencyType currencyTypeInternational) {
+		this.currencyTypeInternational = currencyTypeInternational;
 	}
 	
+
 	public Settings(int idSettings, double aporteFijo, double factor1, double factor2, double imprevisto,
-			Country country, CurrencyType currencyType) {
+			Country country, CurrencyType currencyTypeFavorite, CurrencyType currencyTypeInternational) {
 		super();
 		this.idSettings = idSettings;
 		this.aporteFijo = aporteFijo;
@@ -116,20 +129,21 @@ public class Settings  implements Serializable{
 		this.factor2 = factor2;
 		this.imprevisto = imprevisto;
 		this.country = country;
-		this.currencyType = currencyType;
+		this.currencyTypeFavorite = currencyTypeFavorite;
+		this.currencyTypeInternational = currencyTypeInternational;
 	}
 
 	public Settings() {
 		super();
 	}
 	
-	
 	@Override
 	public String toString() {
 		return "Settings [idSettings=" + idSettings + ", aporteFijo=" + aporteFijo + ", factor1=" + factor1
-				+ ", factor2=" + factor2 + ", imprevisto=" + imprevisto + ", country=" + country + ", currencyType="
-				+ currencyType + "]";
+				+ ", factor2=" + factor2 + ", imprevisto=" + imprevisto + ", country=" + country
+				+ ", currencyTypeFavorite=" + currencyTypeFavorite + ", currencyTypeInternational="
+				+ currencyTypeInternational + "]";
 	}
-	
+
 }
 
