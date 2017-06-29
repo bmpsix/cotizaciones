@@ -1,19 +1,23 @@
 package com.unimer.cotizaciones.controllers;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.entities.CurrencyExchange;
 import com.unimer.cotizaciones.entities.CurrencyType;
@@ -163,7 +167,7 @@ public class ProposalDetailsController {
 		modelAndView.addObject("statuss", statusService.listAllStatus());
 		modelAndView.addObject("proposalTypes", proposalTypeService.listAllProposalTypes());
 		modelAndView.addObject("proposal",proposal);
-		modelAndView.addObject("departures",departureService.listAllDeparture());
+		modelAndView.addObject("departures",departureService.findDepartureByCountryAndStatus(cntry,(byte) 1));
 		modelAndView.addObject("proposaldetailss",proposalDetailsService.findByProposal(proposal));
 		modelAndView.addObject("settings",sttings);
 		modelAndView.addObject("currencyType",cntry.getCurrencyType());
@@ -174,7 +178,7 @@ public class ProposalDetailsController {
 	}
 	
 	
-	@PostMapping("/admin/addproposaldetails")
+	@RequestMapping(value = "/admin/addproposaldetails", method = RequestMethod.POST)
 	public String addProposalDetails(ModelMap modelSession,
 									@ModelAttribute("userSession") UserSession userSession,
 									@ModelAttribute("proposedHeader") Proposal proposal,
@@ -191,7 +195,8 @@ public class ProposalDetailsController {
 									@RequestParam("number") int number,
 									@RequestParam("daysTimes") int daysTimes,
 									@RequestParam("totalBudget") double totalBudget,
-									@RequestParam("idPriceCurrencyType") int idPriceCurrencyType) {
+									@RequestParam("idPriceCurrencyType") int idPriceCurrencyType,
+									Model model) {
 		
 		double factor=0;
 		if(commissionable==1) factor=factor1;
@@ -202,7 +207,11 @@ public class ProposalDetailsController {
 		
 		LOG.info("METHOD: addProposalDetails in ProposalController -- PARAMS: " + proposalDetails.toString());
 		proposalDetailsService.addProposalDetails(proposalDetails, userSession.getId());
-		 return "redirect:/admin/proposaldetails";
+		
+		List<ProposalDetails> proposaldetailss = proposalDetailsService.findByProposal(proposal);
+		 model.addAttribute("proposaldetailss", proposaldetailss);
+		
+		 return "proposaldetails :: #proposalDetailRow";
 	}
 	
 	@GetMapping("/admin/addproposaldetails")
@@ -210,5 +219,5 @@ public class ProposalDetailsController {
 		return proposalDetails(modelSession, userSession, proposal );
 	}
 
-	
+
 }

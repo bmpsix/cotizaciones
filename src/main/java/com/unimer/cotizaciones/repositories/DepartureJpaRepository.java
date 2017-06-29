@@ -18,4 +18,6 @@ public interface DepartureJpaRepository extends JpaRepository<Departure, Seriali
 	
 	public abstract List<Departure> findDepartureByCountry(Country country);
 	
+	public abstract List<Departure> findDepartureByCountryAndStatus(Country country, byte status);
+	
 }

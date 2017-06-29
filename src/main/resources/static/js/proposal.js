@@ -3,16 +3,20 @@
  */
 
 
+
+//FUNCIONES POR ID DE ELEMENTO DE HTML
 $( document ).ready(function() {
 
 	//Manejo de los div de proposal y proposaldetails
 	$("#generalInfo").show();
-	$("#generalInfo2").show();
+	//$("#generalInfo2").show();
 	$("#aPaso1").show();
 	$("#aPaso2").show();
 	$(".paso1").show();
 	$(".paso2").hide();
 	$(".paso3").hide();
+	
+	
 	
 	$(".first").click(function(){
 	        $("#generalInfo").show();
@@ -31,6 +35,8 @@ $( document ).ready(function() {
         $("#aPaso1").hide();
     	$("#aPaso2").hide();
 	});
+	
+	
 	
 	$(".third").click(function(){
         $("#facturaEscena").show();  
@@ -130,6 +136,9 @@ $( document ).ready(function() {
 			var daysTimes = $("#daysTimes").val();
 			var totalBudget = $("#totalBudget").val();
 			var idPriceCurrencyType = $("#idPriceCurrencyType").val();
+			var div = document.getElementById('infoDetail');
+			var tbody = document.getElementById('tableBodyProposalDetail');
+			var msg="";
 			
 			if(idProposalDetails=="" || idProposalDetails==null) idProposalDetails=0;
 
@@ -160,9 +169,16 @@ $( document ).ready(function() {
 			           success: function(data)
 			           {
 			        	   if(data != null){
+			        		   msg+=
+			        		  
+			        		   tbody.innerHTML = data;
+			        		   if($("#idProposalDetails").val()==0) msg = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
+			        		   else  if($("#idProposalDetails").val()!=0) msg = "<p style='color: hsl(153,80%,40%)'>Se actualizó la información correctamente <p>";
 			        		   $("#idProposalDetails").val(0);
 			        		   totalcharge();
-			        		   location.reload();
+			        		   //location.reload();
+			        		   $(".form-proposaldetails").hide("slow");
+			        		   div.innerHTML = msg;
 			        	   }else{
 			        		   alert("false");
 			        		   }
@@ -185,25 +201,55 @@ $( document ).ready(function() {
 			$(".form-proposaldetails").hide("slow");
 		});
 		
+		
+		//obtener valores de la tabla de partidas para obtener el precio sugerido y el tipo de moneda
 		$("#idDeparture").change(function()
 		{
 			
-			$("#searchForSelect2").val($("#idDeparture").val()).change();
-			/*$("#listDeparture option").each(function(){
-			   alert('opcion '+$(this).text()+' valor '+ $(this).attr('value'))
-			});*/
-			
-			
+			var table = document.getElementById("departureTable");
+			var idDeparture = $("#idDeparture").val();
+			var price=0;
+			var idPriceCurrencyType=0;
+			    
+			for(contador=0;contador<=table.rows.length-1;contador++)
+			{
+				if(table.rows[contador].cells[0].innerText==idDeparture)
+				{
+			    	idPriceCurrencyType=table.rows[contador].cells[1].innerText;
+			    	price=table.rows[contador].cells[2].innerText;
+			    	break;
+			    }
+			}
+			$("#price").val(price);
+			$("#idPriceCurrencyType").val(parseInt(idPriceCurrencyType)).change();
 			
 		});
 		
-		
-		
-		//METODO PARA SUBTOTALES Y TOTALES
-		
-		
+		 
+	
 		
 });
+
+
+
+
+
+
+
+//FUNCIONES UTILIZADAS EN LOS EVENTOS DE LOS ELEMENTOS DEL HTML
+
+
+//Cargar la pantalla de detalles al ingresar a proposaldetails
+function proposalDetailsLoad(){  
+    $("#detalleCoti").show();
+    $("#generalInfo").hide();
+    $("#generalInfo2").hide();
+    $("#facturaEscena").hide();
+    $("#aPaso1").hide();
+	$("#aPaso2").hide();
+};
+
+
 
 // Calculo de totales
 function totalcharge()
@@ -226,8 +272,10 @@ function totalcharge()
 	var montoImprevisto =0;
 	var table = document.getElementById("proposalDetailsTable");
 	var idCurrencyTypeFavorite =$("#idCurrencyTypeFavorite").val();
+	var totalSumBudget =0;
 	
-	for(contador=1;contador<=table.rows.length-1;contador++)
+	// -2 debido a que la ultima fila es la del total de presupuesto
+	for(contador=1;contador<=table.rows.length-2;contador++)
 	{
 		var valor = table.rows[contador].cells[5].innerText;
 		var cms = table.rows[contador].cells[8].innerText;
@@ -255,7 +303,7 @@ function totalcharge()
 	total2=sub5;
 	nacional1= total1 + total2;
 	nacional2 = nacional1*currencyExchange;
-	
+	totalSumBudget = (sub1+sub4)*currencyExchange;
 	$("#sub1").val( parseFloat(sub1).toFixed(2));
 	$("#totalImprevisto").val(parseFloat(totalImprevisto).toFixed(2));
 	$("#sub2").val(parseFloat(sub2).toFixed(2));
@@ -266,14 +314,14 @@ function totalcharge()
 	$("#total2").val(parseFloat(total2).toFixed(2));
 	$("#nacional1").val(parseFloat(nacional1).toFixed(2));
 	$("#nacional2").val(parseFloat(nacional2).toFixed(2));
+	$("#totalSumBudget").val(parseFloat(totalSumBudget).toFixed(2));
+
 	
 	
-	
-	
-}
+};
 
 // obtener valores de la fila para actualizar
-function myFunction(x) {
+function chargeTheDetailForUpdate(x) {
 	
 		
 	    var table = document.getElementById("proposalDetailsTable");
@@ -292,10 +340,7 @@ function myFunction(x) {
 		
 		valor = valor.split(" ");
 		valor = valor[valor.length-1];
-		
-		
-			
-		
+
 		$("#idDeparture").val(parseInt(idDeparture)).change();
 		//alert(table.rows[x.rowIndex].cells[0].innerText);
 		$(".form-proposaldetails").hide("slow");
@@ -311,4 +356,8 @@ function myFunction(x) {
 		$(".form-proposaldetails").toggle("slow");
 		
 		
-	}
+};
+
+
+
+

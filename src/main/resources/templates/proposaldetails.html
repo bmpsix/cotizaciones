@@ -3,7 +3,7 @@
 <head th:replace="fragments/header">
 <meta charset="UTF-8"/>
 </head>
-<body  th:object="${proposal}" onload="totalcharge()">
+<body  th:object="${proposal}" onload="totalcharge(); proposalDetailsLoad();">
 	<div data-role="page" data-theme="a" data-dom-cache="false" >
 	
 	
@@ -56,9 +56,9 @@
 	
 	<div data-role="navbar">
 			<ul>
-				<li class="first"><a href="#">Informacion General</a></li>
+				<li title="Puede modificar la información general de la propuesta desde este apartado." class="first"><a href="#">Informacion General</a></li>
 				<li class="second"><a href="#">Detalle de la Cotizacion</a></li>
-				<li><a href="#" >Escenarios de Facturacion</a></li>
+				<li title="Proceso de facturación y finalización de la propuesta." ><a href="#" >Escenarios de Facturacion</a></li>
 			</ul>
 	</div>
 	
@@ -470,6 +470,27 @@
        	</div>
        <hr class="form-proposaldetails" style="margin: 30px; display:none;">
        <h3>Detalles de propuesta</h3>
+         	<div class="ui-grid-a">
+         	
+         	 <div class="ui-block-a">
+         	 	 <div id="infoDetail" style="text-align:left;"></div>
+         	 </div>
+         	  <div class="ui-block-b">
+         	   	<div style="text-align:right;">
+         	   		<div class="ui-grid-a">
+         	   			 <div class="ui-block-a">
+         	   				<p><canvas width="20" height="20" style="background-color: #009082;"></canvas> Comisionables</p>
+         	   			 </div>
+         	   			 <div class="ui-block-b">
+         	   				<p><canvas width="20" height="20" style="background-color: #ECF0F1;"></canvas> No comisionables</p>
+         	   			 </div>
+         	   		</div>
+         	   	</div>
+         	  </div>
+         	</div>
+       
+       
+      
 		<form class="ui-filterable">
 			<input id="myFilter2" data-type="search" placeholder="Buscar detalle de propuesta">
 			<div class="ui-block-b">
@@ -496,9 +517,10 @@
    	 	</tr>
 		</thead>
 	
-    	<tbody>
+	
+    	<tbody id="tableBodyProposalDetail">
       
-       	 <tr ondblclick="myFunction(this)" th:each="proposaldetail : ${proposaldetailss}" th:if="${proposaldetail.commissionable==1}" style="background-color: #009082; color: white;cursor: pointer;">
+       	 <tr id="proposalDetailRow" ondblclick="chargeTheDetailForUpdate(this)" th:each="proposaldetail : ${proposaldetailss}" th:if="${proposaldetail.commissionable==1}" style="background-color: #009082; color: white;cursor: pointer;">
            	 <td th:text="${proposaldetail.idProposalDetails}"></td>
            	 <td th:text="${proposaldetail.Departure.detail}"></td>
            	 <td th:text="${proposaldetail.CurrencyType.symbol+' '+proposaldetail.price}"></td>
@@ -514,7 +536,7 @@
            	 <td th:text="${proposaldetail.Departure.idDeparture}"style="display:none;" ></td>
            	 <td></td>
        	 </tr>
-       	 <tr ondblclick="myFunction(this)" th:each="proposaldetail : ${proposaldetailss}" th:if="${proposaldetail.commissionable==0}"  style="background-color: #ECF0F1;cursor: pointer;">
+       	 <tr id="proposalDetailRow" ondblclick="chargeTheDetailForUpdate(this)" th:each="proposaldetail : ${proposaldetailss}" th:if="${proposaldetail.commissionable==0}"  style="background-color: #ECF0F1;cursor: pointer;">
            	
            	 <td th:text="${proposaldetail.idProposalDetails}"></td>
            	 <td th:text="${proposaldetail.Departure.detail}"></td>
@@ -531,14 +553,30 @@
       		 <td th:text="${proposaldetail.Departure.idDeparture}"style="display:none;" ></td>
       		 <td></td>
        	 </tr>
+       <!--  	 <tr style="background-color: #B2BABB;">
+       	 	<td colspan="5" style="text-align: right; font-weight: bold;"><p th:text="'Total de presupuesto '+${settings.CurrencyTypeFavorite.symbol}+' :'"></p> </td>
+       	 	<td > <input id="totalSumBudget" style="background-color:  #ECF0F1;" type="text" readonly/></td>
+       	 	<td colspan="3"></td>
+       	 </tr>-->
+       	
     	</tbody>     
+    	
+    	
 	</table>
-	
-       
        
     </fieldset>
   </div>
 
+
+	<div style="display: none;">
+		<table id="departureTable">
+	 		<tr th:each="departure : ${departures}">
+           	 	<td th:text="${departure.idDeparture}"></td>
+           	 	<td th:text="${departure.CurrencyType.idCurrencyType}"></td>
+           	 	<td th:text="${departure.price}"></td>
+       	 	</tr>
+       	 </table>
+	</div>
 
     </div>
 	<div class="ui-grid-b" id="facturaEscena" style="display: none;">
@@ -559,8 +597,6 @@
 		</div>
 	</div>
 </body>
-<script>
-	  
-	   </script>
+
 
 </html>

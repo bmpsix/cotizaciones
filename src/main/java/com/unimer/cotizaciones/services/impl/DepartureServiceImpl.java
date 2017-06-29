@@ -74,5 +74,10 @@ public class DepartureServiceImpl implements DepartureService{
 	public List<Departure> findDepartureByCountry(Country country) {
 		return departureJpaRepository.findDepartureByCountry(country);
 	}
+
+	@Override
+	public List<Departure> findDepartureByCountryAndStatus(Country country, byte status) {
+		return departureJpaRepository.findDepartureByCountryAndStatus(country, status);
+	}
 	
 }

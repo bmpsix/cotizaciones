@@ -16,5 +16,7 @@ public abstract void addDeparture(Departure departure, int idUser);
 	public abstract Departure findByDetail(String detail);
 	
 	public abstract List<Departure> findDepartureByCountry(Country country);
+	
+	public abstract List<Departure> findDepartureByCountryAndStatus(Country country,byte status);
 
 }

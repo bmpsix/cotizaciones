@@ -42,7 +42,7 @@ public class Settings  implements Serializable{
 
 	//bi-directional many-to-one association to Country
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_country", nullable=false)
+	@JoinColumn(name="id_country", nullable=false,unique=true)
 	private Country country;
 	
 	//bi-directional many-to-one association to CurrencyType
