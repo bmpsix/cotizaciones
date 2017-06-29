@@ -273,7 +273,7 @@ function totalcharge()
 	var nacional1=0;
 	var nacional2=0;
 	var currencyExchange =$("#currencyExchange").val();
-	var montoImprevisto =0;
+	var montoAporteFijo =0;
 	var table = document.getElementById("proposalDetailsTable");
 	var idCurrencyTypeFavorite =$("#idCurrencyTypeFavorite").val();
 	var totalSumBudget =0;
@@ -289,25 +289,27 @@ function totalcharge()
 		if(cms==1)
 		{
 			if(idCurrencyTypeFavorite==crrtype) valor=valor/currencyExchange;
-			sub1=sub1+parseInt(valor);
+			sub1=sub1+parseFloat(valor);
 		}
 		else 
 		{
 			if(idCurrencyTypeFavorite==crrtype) valor=valor/currencyExchange;
 			
-			sub4=sub4+parseInt(valor);
+			sub4=sub4+parseFloat(valor);
 		}
 	}
 	totalImprevisto=sub1*(imprevisto/100);
 	sub2 = sub1+totalImprevisto;
 	sub3 = sub2*factor1;
-	montoImprevisto =  sub3*aporteFijo;
-	total1 = sub3 + montoImprevisto;
+	montoAporteFijo =  sub3*(aporteFijo/100);
+	total1 = sub3 + montoAporteFijo;
 	sub5=sub4*factor2;
 	total2=sub5;
 	nacional1= total1 + total2;
 	nacional2 = nacional1*currencyExchange;
 	totalSumBudget = (sub1+sub4)*currencyExchange;
+	
+	
 	$("#sub1").val( parseFloat(sub1).toFixed(2));
 	$("#totalImprevisto").val(parseFloat(totalImprevisto).toFixed(2));
 	$("#sub2").val(parseFloat(sub2).toFixed(2));
