@@ -169,12 +169,11 @@ $( document ).ready(function() {
 			           success: function(data)
 			           {
 			        	   if(data != null){
-			        		   msg+=
-			        		  
 			        		   tbody.innerHTML = data;
 			        		   if($("#idProposalDetails").val()==0) msg = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
 			        		   else  if($("#idProposalDetails").val()!=0) msg = "<p style='color: hsl(153,80%,40%)'>Se actualizó la información correctamente <p>";
-			        		   $("#idProposalDetails").val(0);
+			        		   ClearForm();
+			        		   
 			        		   totalcharge();
 			        		   //location.reload();
 			        		   $(".form-proposaldetails").hide("slow");
@@ -184,21 +183,12 @@ $( document ).ready(function() {
 			        		   }
 			        	   }
 			         });
-		
 		});
 	 
 		$("#cancelProposalDetail").click(function(){
 			
-			
-			$("#idProposalDetails").val(0);
-			$("#price").val("");
-			$("#commissionable").val(1);
-			$("#number").val("");
-			$("#daysTimes").val("");
-			$("#totalBudget").val("");
-			$("#detail").val("");
-			$("#parameters").val("");
-			$(".form-proposaldetails").hide("slow");
+			ClearForm();
+		
 		});
 		
 		
@@ -238,6 +228,20 @@ $( document ).ready(function() {
 
 //FUNCIONES UTILIZADAS EN LOS EVENTOS DE LOS ELEMENTOS DEL HTML
 
+
+
+function ClearForm()
+{
+	$("#idProposalDetails").val(0);
+	$("#price").val("");
+	$("#commissionable").val(1);
+	$("#number").val("");
+	$("#daysTimes").val("");
+	$("#totalBudget").val("");
+	$("#detail").val("");
+	$("#parameters").val("");
+	$(".form-proposaldetails").hide("slow");
+};
 
 //Cargar la pantalla de detalles al ingresar a proposaldetails
 function proposalDetailsLoad(){  
@@ -334,7 +338,6 @@ function chargeTheDetailForUpdate(x) {
 		var idPriceCurrencyType = table.rows[x.rowIndex].cells[9].innerText;
 		var idDeparture = table.rows[x.rowIndex].cells[10].innerText;
 		
-		
 		price = price.split(" ");
 		price = price[price.length-1];
 		
@@ -342,7 +345,6 @@ function chargeTheDetailForUpdate(x) {
 		valor = valor[valor.length-1];
 
 		$("#idDeparture").val(parseInt(idDeparture)).change();
-		//alert(table.rows[x.rowIndex].cells[0].innerText);
 		$(".form-proposaldetails").hide("slow");
 		$("#idProposalDetails").val(table.rows[x.rowIndex].cells[0].innerText);
 		$("#price").val(price);
@@ -354,8 +356,6 @@ function chargeTheDetailForUpdate(x) {
 		$("#commissionable").val(parseInt(comm)).change();
 		$("#idPriceCurrencyType").val(parseInt(idPriceCurrencyType)).change();
 		$(".form-proposaldetails").toggle("slow");
-		
-		
 };
 
 
