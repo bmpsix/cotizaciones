@@ -82,7 +82,8 @@ public class AssessmentController {
 	
 	@RequestMapping(value="/admin/addassessment", method=  RequestMethod.POST)
 	@ResponseBody
-	public String addAssessment(@RequestParam("creationDate") Date creationDate,
+	public String addAssessment(@RequestParam("idAssessment") int idAssessment,
+			@RequestParam("creationDate") Date creationDate,
 			@RequestParam("detail") String detail,
 			@RequestParam("idCurrencyExchange") int idCurrencyExchange,
 			@RequestParam("idSaClient") int idSaClient,
@@ -91,7 +92,7 @@ public class AssessmentController {
 		
 		try{
 			Assessment assessment = new Assessment();
-			assessment.setIdAssessment(0);
+			assessment.setIdAssessment(idAssessment);
 			assessment.setCreationDate(creationDate);
 			assessment.setCurrencyExchange(currencyExchangeService.getCurrencyExchange(idCurrencyExchange));
 			assessment.setDetail(detail);
