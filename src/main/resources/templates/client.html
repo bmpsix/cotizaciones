@@ -15,98 +15,43 @@
 		<h3>Control de clientes</h3>
 			<div data-role="fieldcontain">
 					
-					<form method="post" id="formClient" action="javascript:sendformClient();"  th:object="${updateClient}" >
+					<form method="post" id="formClient" action="javascript:sendformClient();">
 					
-						<div th:if="${updateClient==null}">
-						<input type="hidden" name="idClient" id="idClient" th:value="${updateClient.idClient}" readonly />
-						<input type="hidden" name="idClient" id="idClient" th:value="" readonly />
+
+						<input type="hidden" name="idClient" id="idClient" th:value="0" readonly />
 							<label for="saClient">Cliente SA:</label>
-							<select name="saClient.idSaClient">
+							<select name="saClient.idSaClient" id="saClient">
 								<option th:each="saClient : ${saClients}" th:value="${saClient.idSaClient}">
 									<p name="saClient.detail" th:text="${saClient.detail}" th:value="${saClient.detail}" ></p>
-								</option>
-								
+								</option>	
 							</select>
 							<label for="country">País:</label>
-							<select name="country.idCountry">
+							<select name="country.idCountry" id="country">
 								<option th:each="country : ${countries}" th:value="${country.idCountry}">
 									<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
 								</option>
 							</select>
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre del cliente" maxlength="100" type="text" name="detail" th:value="${detail}" required/>
+							<input title="Debe ingresar el nombre del cliente" maxlength="100" type="text" name="detail" id="detail" th:value="${detail}" required/>
 							<label for="email">Correo:</label>
-							<input title="Debe ingresar el correo del cliente" maxlength="49" type="email" name="email" th:value="${email}" required/>
+							<input title="Debe ingresar el correo del cliente" maxlength="49" type="email" name="email"  id="email" th:value="${email}" required/>
 							<label for="phone">Teléfono:</label>
-							<input title="Debe ingresar el número telefónico del cliente"  maxlength="15" type="number" name="phone" th:value="${phone}" required/>
+							<input title="Debe ingresar el número telefónico del cliente"  maxlength="15" type="number" name="phone" id="phone" th:value="${phone}" required/>
 							<label for="fax">Fax:</label>
-							<input title="Debe ingresar el fax del cliente"  maxlength="30" type="text" name="fax" th:value="${fax}" required/>
+							<input title="Debe ingresar el fax del cliente"  maxlength="30" type="text" name="fax" id="fax" th:value="${fax}" required/>
 							<label for="clientType">Tipo de cliente</label>
-							<select name="clientType.idClientType">
+							<select name="clientType.idClientType" id="clientType">
 								<option th:each="clientType : ${clientTypes}" th:value="${clientType.idClientType}">
 									<p name="clientType.detail" th:text="${clientType.detail}" th:value="${clientType.detail}" ></p>
 								</option>
 							</select>
 							<label for="status"  title="Indica si el rol esta activo o inactivo">Estado</label>
-							<select  name="status" data-role="slider"  th:value="${status}">
+							<select  name="status" data-role="slider" id="status" th:value="${status}">
 								<option value="0">Inactivo</option>
 								<option value="1">Activo</option>
 							</select>
-						</div>
+
 						
-						<div th:if="${updateClient!=null}">
-							<input type="hidden" name="idClient" id="idClient" th:value="${updateClient.idClient}" readonly />
-							<label for="saClient">Cliente SA:</label>
-							<select name="saClient.idSaClient">
-								<option th:each="saClient : ${saClients}" th:value="${saClient.idSaClient}" th:if="${updateClient.SaClient.detail == saClient.detail}"  selected readonly>
-									<p name="saClient.detail" th:text="${saClient.detail}" th:value="${saClient.detail}" ></p>
-								</option>
-								<option th:each="saClient : ${saClients}" th:value="${saClient.idSaClient}" th:if="${updateClient.SaClient.detail != saClient.detail}"   readonly>
-									<p name="saClient.detail" th:text="${saClient.detail}" th:value="${saClient.detail}" ></p>
-								</option>
-							</select>
-							<label for="country">País:</label>
-							<select name="country.idCountry">
-								<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${updateClient.Country.detail == country.detail}" selected readonly>
-									<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
-								</option>
-								<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${updateClient.Country.detail != country.detail}" readonly>
-									<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
-								</option>
-							</select>
-							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre del cliente" type="text" name="detail" th:value="${updateClient.detail}" required/>
-							<label for="email">Correo:</label>
-							<input title="Debe ingresar el correo del cliente" maxlength="49" type="email" name="email" th:value="${updateClient.email}" required/>
-							<label for="phone">Teléfono:</label>
-							<input title="Debe ingresar el número telefónico del cliente"  maxlength="15" type="number" name="phone" th:value="${updateClient.phone}" required/>
-							<label for="fax">Fax:</label>
-							<input title="Debe ingresar el fax del cliente"  maxlength="30" type="text" name="fax" th:value="${updateClient.fax}" required/>
-							<label for="clientType">Tipo de cliente</label>
-							<select name="clientType.idClientType">
-								<option th:each="clientType : ${clientTypes}" th:value="${clientType.idClientType}" th:if="${updateClient.ClientType.detail == clientType.detail}"  selected readonly>
-									<p name="clientType.detail" th:text="${clientType.detail}" th:value="${clientType.detail}" ></p>
-								</option>
-								<option th:each="clientType : ${clientTypes}" th:value="${clientType.idClientType}" th:if="${updateClient.ClientType.detail != clientType.detail}"   readonly>
-									<p name="clientType.detail" th:text="${clientType.detail}" th:value="${clientType.detail}" ></p>
-								</option>
-							</select>
-							<label for="status"  title="Indica si el rol esta activo o inactivo">Estado</label>
-							<div  th:if="${updateClient.status==0}">
-								<select  name="status" data-role="slider"  th:value="${status}">
-									<option  value="0" selected>Inactivo </option>
-									<option  value="1">Activo</option>
-								</select>
-							</div>
-							<div  th:if="${updateClient.status==1}">
-								<select  name="status" data-role="slider"  th:value="${status}">
-									<option  value="0" >Inactivo </option>
-									<option  value="1" selected>Activo</option>
-								</select>
-							</div>
-							<a href="#" th:href="@{/admin/client}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
-							
-						</div>
 					<div id="msg">
 						
 					</div>
@@ -136,17 +81,26 @@
            				</thead>
            				<tbody id="tbodyClient">
 	           			<tr id="clientRow" th:each="client1 : ${clients}">
+	           			
 							<td style="padding-right: 15px;" id="idClient"><span th:text="${client1.idClient}"></span></td>
-							<td style="padding-right: 15px;" id="SaClient"><span th:text="${client1.SaClient.detail}"></span> th:text="${client1.}"></td>
-							<td style="padding-right: 15px;" id="Country"><span th:text="${client1.Country.detail}"></span> th:text="${client1.}"></td>
-							<td style="padding-right: 15px;" id="detail"><span th:text="${client1.detail}"></span>  th:text="${client1.}"></td>
-							<td style="padding-right: 15px;" id=""><span th:text="${client1.email}"></span> th:text="${client1.}"></td>
-							<td style="padding-right: 15px;" id="idClient"><span th:text="${client1.phone}"></span> th:text="${client1.}"></td>
-							<td style="padding-right: 15px;" id="idClient"><span th:text="${client1.fax}"></span> th:text="${client1.}"></td>
-							<td style="padding-right: 15px;" id="idClient"><span th:text="${client1.ClientType.detail}"></span> th:text="${client1.}"></td>
-							<td style="padding-right: 15px;" id="idClient"><span th:text="${client1.idClient}"></span> th:if="${client1.status==1}">Activo</td>
-							<td style="padding-right: 15px;" id="idClient"><span th:text="${client1.idClient}"></span> th:if="${client1.status==0}">Inactivo</td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updateclient?idClient=__${client1.idClient}__}"  >Editar</a></td>
+							<td style="padding-right: 15px;"><span th:text="${client1.SaClient.detail}"></span></td>
+							<td style="padding-right: 15px;"><span th:text="${client1.Country.detail}"></span></td>
+							<td style="padding-right: 15px;" id="detail"><span th:text="${client1.detail}"></span></td>
+							<td style="padding-right: 15px;" id="email"><span th:text="${client1.email}"></span></td>
+							<td style="padding-right: 15px;" id="phone"><span th:text="${client1.phone}"></span></td>
+							<td style="padding-right: 15px;" id="fax"><span th:text="${client1.fax}"></span></td>
+							<td style="padding-right: 15px;"><span th:text="${client1.ClientType.detail}"></span></td>
+							<td style="padding-right: 15px;" id="status" th:if="${client1.status==1}"><span th:text="Activo"></span></td>
+							<td style="padding-right: 15px;" id="status" th:if="${client1.status==0}"><span th:text="Inactivo"></span></td>
+	           				<td style="padding-right: 15px;"><a href="#" class="edit">Editar</a></td>
+	           				
+	           				<!-- display;none tds -->
+	           				
+	           				<td style="padding-right: 15px;display:none;" id="SaClient"><span th:text="${client1.SaClient.idSaClient}"></span></td>
+							<td style="padding-right: 15px;display:none;" id="Country"><span th:text="${client1.Country.idCountry}"></span></td>
+							<td style="padding-right: 15px;display:none;" id="ClientTypeDetail"><span th:text="${client1.ClientType.idClientType}"></span></td>
+	           				
+	           				
 	           				
            				</tr>
            				

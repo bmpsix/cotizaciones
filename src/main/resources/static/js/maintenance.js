@@ -59,7 +59,7 @@ function sendformClient()
 		           success: function(data)
 		           {
 		        	   if(data != null){
-		        		  
+		        		  alert(data);
 		        		  tbodyClient.innerHTML = data;
 		        		  data=null;
 		        		   msg = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
@@ -76,21 +76,32 @@ function sendformClient()
 $( document ).ready(function() {
 	$(".edit").click(function(){
 	
-	var id = $(this).parents("tr").find("#idAssessment span").eq(0).html();
-	var creationDate = $(this).parents("tr").find("#creationDate span").eq(0).html();
+	var idClient = $(this).parents("tr").find("#idClient span").eq(0).html();
+	var SaClient = $(this).parents("tr").find("#SaClient span").eq(0).html();
+	var Country = $(this).parents("tr").find("#Country span").eq(0).html();
 	var detail = $(this).parents("tr").find("#detail span").eq(0).html();
-	var currencyExchange = $(this).parents("tr").find("#idCurrencyExchange span").eq(0).html();
-	var saClient = $(this).parents("tr").find("#idSaClient span").eq(0).html();
-	var name = $(this).parents("tr").find("#name span").eq(0).html();
-	var status = $(this).parents("tr").find("#idStatus span").eq(0).html();
+	var email = $(this).parents("tr").find("#email span").eq(0).html();
+	var phone = $(this).parents("tr").find("#phone span").eq(0).html();
+	var fax = $(this).parents("tr").find("#fax span").eq(0).html();
+	var ClientTypeDetail = $(this).parents("tr").find("#ClientTypeDetail span").eq(0).html();
+	var status = $(this).parents("tr").find("#status span").eq(0).html();
 	
-	$("#idAssessment").val(id);
-	$("#creationDate").val(creationDate);
+	/*alert(idClient+SaClient+Country+detail+email+phone+fax+ClientTypeDetail+status);*/
+	
+	$("#idClient").val(idClient);
+	$("#saClient").val(SaClient).change();
+	$("#country").val(Country).change();
 	$("#detail").val(detail);
-	$("#idCurrencyExchange").val(currencyExchange).change();
-	$("#idSaClient").val(saClient).change();
-	$("#idStatus").val(status).change();
-
+	$("#email").val(email);
+	$("#phone").val(phone);
+	$("#fax").val(fax);
+	$("#clientType").val(ClientTypeDetail).change();
+	
+	if(status == "Activo"){
+		$("#status").val("1").change();
+	}else{
+		$("#status").val("0").change();
+	}
 	});
 
 

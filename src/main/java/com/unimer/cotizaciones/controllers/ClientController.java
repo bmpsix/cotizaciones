@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.Client;
+import com.unimer.cotizaciones.entities.ClientType;
+import com.unimer.cotizaciones.entities.Country;
+import com.unimer.cotizaciones.entities.SaClient;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.ClientService;
 import com.unimer.cotizaciones.services.ClientTypeService;
@@ -59,11 +62,18 @@ public class ClientController {
 	@PostMapping("/admin/addclient")
 	public String addClient(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "clientT") Client client, Model model){
 		LOG.info("METHOD: addClient in ClientController -- PARAMS: " + client.toString());
+		SaClient saclient = saClientService.findById(client.getSaClient().getIdSaClient());
+		client.setSaClient(saclient);
+		Country country =  countryService.findById(client.getCountry().getIdCountry());
+		client.setCountry(country);
+		ClientType clientType = clientTypeService.findById(client.getClientType().getIdClientType());
+		client.setClientType(clientType);
 		clientService.addClient(client,userSession.getId());
 		List<Client> clients = clientService.listAllClient();
 		model.addAttribute("clients",clients);
 		
-		LOG.info("ESTOY A PUNTO DE RETORNAR");
+		LOG.info("ESTOY A PUNTO DE RETORNAR......."+clients);
+		
 		return"client :: #clientRow";
 	}
 	
