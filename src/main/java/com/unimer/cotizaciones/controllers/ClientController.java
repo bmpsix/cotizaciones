@@ -1,4 +1,5 @@
 package com.unimer.cotizaciones.controllers;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.unimer.cotizaciones.entities.Client;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.ClientService;
@@ -57,10 +57,14 @@ public class ClientController {
 	}
 	
 	@PostMapping("/admin/addclient")
-	public String addClient(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "client") Client client, Model model){
+	public String addClient(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "clientT") Client client, Model model){
 		LOG.info("METHOD: addClient in ClientController -- PARAMS: " + client.toString());
 		clientService.addClient(client,userSession.getId());
-			return"redirect:/admin/client";
+		List<Client> clients = clientService.listAllClient();
+		model.addAttribute("clients",clients);
+		
+		LOG.info("ESTOY A PUNTO DE RETORNAR");
+		return"client :: #clientRow";
 	}
 	
 	@GetMapping("/admin/addclient")

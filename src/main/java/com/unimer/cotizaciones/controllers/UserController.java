@@ -79,13 +79,11 @@ public class UserController {
 		return "changePassword";
 	}
 	
-	@PostMapping("/admin/user/changePassword")
-	public ModelAndView updatePassword(
+	@PostMapping("/admin/changepassword")
+	public String updatePassword(
 			@RequestParam(name="currentPassword") String currentPassword,
 			@RequestParam(name="newPassword") String newPassword){
 		
-		ModelAndView mvn = new ModelAndView();
-		mvn.setViewName("changePassword");
 		
 		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
@@ -95,15 +93,12 @@ public class UserController {
 		  userData.setPassword(newPassword);
 		  userService.addUser(userData, userData.getIdUser());
 		  LOG.info("se ha cambiado la contrasena");
-		  mvn.addObject("success","Se ha cambio la contrasena correctamente");
 		  
 		}else{
 			
 		  LOG.info("hubo un error");
-		  mvn.addObject("error","Ha ocurrido un error");
 		}
-		
-		return mvn;
+		return "changepassword";
 	}
 	
 	

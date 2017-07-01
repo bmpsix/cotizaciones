@@ -1,13 +1,14 @@
 /**
- * Justin Zuniga Torres
+ * Justin Zúñiga Torres
+ * Marcos Zúñiga Vega
  */
 
 
 
-//FUNCIONES POR ID DE ELEMENTO DE HTML
+//----------------------------------------FUNCIONES POR ID DE ELEMENTO DE HTML--------------------------------------------------------------------
 $( document ).ready(function() {
 
-	//Manejo de los div de proposal y proposaldetails
+//------------------------------------------------Manejo del diseño de proposal y proposaldetails------------------------------------------------
 	$("#generalInfo").show();
 	//$("#generalInfo2").show();
 	$("#aPaso1").show();
@@ -46,21 +47,7 @@ $( document ).ready(function() {
         $("#aPaso1").hide();
     	$("#aPaso2").hide();
 	});
-  
-	 $('#getId a').click(function(){
-		   var a = $(this);
-		  $("#idTechnique").val(a.attr("value"));
-		 });
-	 
-	 //Calcular el total de presupuesto de cada detalle
-	 $(".cal").change(function(){
-		 var total = 0;
-		 total=$("#price").val() * $("#number").val() * $("#daysTimes").val();
-		 $("#totalBudget").val(total);
-		//alert(total);
-	 });
 	
-	 
 	 $("#aPaso1").click(function(){
 			$(".paso1").show();
 			$(".paso2").hide();
@@ -73,7 +60,31 @@ $( document ).ready(function() {
 			$(".paso3").hide();
 	 });
 	 
-	 //Validar los datos antes del submit
+  
+	$("#addProposalDetail").click(function(){
+		$(".form-proposaldetails").toggle("slow");
+	});
+		
+	$(".ui-filterable").focusin(function(){
+		$(".form-proposaldetails").hide("slow");
+	});
+		
+	 
+//------------------------------------------------------------------------------------------------------------------------------------------------
+	 
+	
+//------------------------------------------------Calcular el total de presupuesto de cada detalle------------------------------------------------
+	 $(".cal").change(function(){
+		 var total = 0;
+		 total=$("#price").val() * $("#number").val() * $("#daysTimes").val();
+		 $("#totalBudget").val(total);
+		//alert(total);
+	 });
+	
+//------------------------------------------------------------------------------------------------------------------------------------------------
+	 
+
+//----------------------------------------Validar los datos de proposal: informacion general antes del submit----------------------------------------------------------------------
 	 $("#proposalSubmit").click(function(){
 		var div = document.getElementById('msg');
 		var msg="";
@@ -102,15 +113,9 @@ $( document ).ready(function() {
 		div.innerHTML = msg;
 	 });
 	 
-		$("#addProposalDetail").click(function(){
-			$(".form-proposaldetails").toggle("slow");
-		});
-		
-		$(".ui-filterable").focusin(function(){
-			$(".form-proposaldetails").hide("slow");
-		});
-		
-		
+//------------------------------------------------------------------------------------------------------------------------------------------------
+	
+//------------------------------Token para el submit de formularios-------------------------------------------------------------------------------	
 		$(function () {
 		    var token = $("input[name='_csrf']").val();
 		    var header = "X-CSRF-TOKEN";
@@ -118,6 +123,10 @@ $( document ).ready(function() {
 		        xhr.setRequestHeader(header, token);
 		    });
 		});
+//------------------------------------------------------------------------------------------------------------------------------------------------	
+		
+
+//----------------------Enviar formulario de proposaldetails con ajax--------------------------------------------------------------------------------------
 		
 		$("#sendProposalDetail").click(function(){
 			
@@ -137,12 +146,15 @@ $( document ).ready(function() {
 			var totalBudget = $("#totalBudget").val();
 			var idPriceCurrencyType = $("#idPriceCurrencyType").val();
 			var div = document.getElementById('infoDetail');
+			var validateForm = document.getElementById('validateForm');
 			var tbody = document.getElementById('tableBodyProposalDetail');
 			var msg="";
 			
 			if(idProposalDetails=="" || idProposalDetails==null) idProposalDetails=0;
 
-
+			if(detail!=null && detail!="" && parameters!=null && parameters!="" && price!=null && price!="" && number!=null && number!="" && daysTimes!=null && daysTimes!="" && totalBudget!=null && totalBudget!="")
+				{
+			
 			var url = "/admin/addproposaldetails"; // El script a dónde se realizará la petición.
 			    $.ajax({
 			           type: "POST",
@@ -178,21 +190,31 @@ $( document ).ready(function() {
 			        		   //location.reload();
 			        		   $(".form-proposaldetails").hide("slow");
 			        		   div.innerHTML = msg;
+			        		   validateForm.innerHTML = "";
 			        	   }else{
 			        		   alert("false");
 			        		   }
 			        	   }
 			         });
+				}
+				else
+					{
+					 	msg = "<p style='color:#800000; text-align:center;'>Debe completar la totalidad del formulario para continuar<p>";
+					 	validateForm.innerHTML = msg;
+					}
 		});
-	 
+//------------------------------------------------------------------------------------------------------------------------------------------------	 
+		
+		
+//--------------------------------Cierra el formulario y limpia los valores-----------------------------------------------------------------------
 		$("#cancelProposalDetail").click(function(){
 			
 			ClearForm();
 		
 		});
+//------------------------------------------------------------------------------------------------------------------------------------------------		
 		
-		
-		//obtener valores de la tabla de partidas para obtener el precio sugerido y el tipo de moneda
+//-----------------------------------Obtener valores de la tabla de partidas para saber el precio sugerido y el tipo de moneda------------------
 		$("#idDeparture").change(function()
 		{
 			
@@ -215,23 +237,24 @@ $( document ).ready(function() {
 			
 		});
 		
-		 
-	
+//------------------------------------------------------------------------------------------------------------------------------------------------		 
 		
 });
 
+//------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
 
 
-
-//FUNCIONES UTILIZADAS EN LOS EVENTOS DE LOS ELEMENTOS DEL HTML
-
+//-----------------------------------FUNCIONES UTILIZADAS EN LOS EVENTOS DE LOS ELEMENTOS DEL HTML------------------------------------------------
 
 
+//-----------------------------------Limpiar formulario-------------------------------------------------------------------------------------------
 function ClearForm()
 {
+	var div = document.getElementById('infoDetail');
+	var validateForm = document.getElementById('validateForm');
 	$("#idProposalDetails").val(0);
 	$("#price").val("");
 	$("#commissionable").val(1);
@@ -241,9 +264,13 @@ function ClearForm()
 	$("#detail").val("");
 	$("#parameters").val("");
 	$(".form-proposaldetails").hide("slow");
+	div.innerHTML = "";
+	validateForm.innerHTML = "";
 };
+//-------------------------------------------------------------------------------------------------------------------------------------------------
 
-//Cargar la pantalla de detalles al ingresar a proposaldetails
+
+//-----------------------------------Cargar la pantalla de detalles al ingresar a proposaldetails--------------------------------------------------
 function proposalDetailsLoad(){  
     $("#detalleCoti").show();
     $("#generalInfo").hide();
@@ -253,9 +280,10 @@ function proposalDetailsLoad(){
 	$("#aPaso2").hide();
 };
 
+//--------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-// Calculo de totales
+//---------------------------------------Calculo de totales-----------------------------------------------------------------------------------------
 function totalcharge()
 {
 	var sub1 =0;
@@ -325,8 +353,9 @@ function totalcharge()
 	
 	
 };
+//--------------------------------------------------------------------------------------------------------------------------------------------------
 
-// obtener valores de la fila para actualizar
+//----------------------------------------Obtener valores de la fila para actualizar----------------------------------------------------------------
 function chargeTheDetailForUpdate(x) {
 	
 		
@@ -360,6 +389,6 @@ function chargeTheDetailForUpdate(x) {
 		$(".form-proposaldetails").toggle("slow");
 };
 
+//--------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-
+//--------------------------------------------------------------------------------------------------------------------------------------------------

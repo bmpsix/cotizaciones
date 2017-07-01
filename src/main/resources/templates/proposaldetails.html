@@ -401,7 +401,6 @@
        	
        	 <hr class="form-proposaldetails" style="margin: 30px; display:none;">
        	 <h3  class="form-proposaldetails" style="margin: 30px; display:none;">Detalle de propuesta</h3>
-       	 <h3 class="form-data-proposaldetails" style="margin: 30px; display:none;">Detalle</h3>
        	 <div class="ui-block-a" >
        		<form class="form-data-proposaldetails">
 				<fieldset class="form-proposaldetails" style="margin: 30px; display:none;">
@@ -457,14 +456,15 @@
             		<label for="parameters">Parametros:</label>
             		<textarea id="parameters" title="Ingrese algún parametro"  maxlength="99" type="text"  th:value="${parameters}" required></textarea>
             		<label for="totalBudget">Total presupuesto:</label>
-            		<input id="totalBudget" style="background-color:#FFFAFA;" title="Total presupuesto" name="totalBudget" th:text="${totalBudget}" th:value="${totalBudget}" readonly	/>
+            		<input id="totalBudget" style="background-color:#FFFAFA;" title="Total presupuesto" name="totalBudget" th:text="${totalBudget}" th:value="${totalBudget}" readonly	required/>
             		
             		<br/>
 					<input id="cancelProposalDetail" type="button" class="custom_text" data-icon="delete" value="Cancelar">
   					<input type="button" id="sendProposalDetail" class="custom_text" data-icon="plus" value="Guardar">
                    </fieldset>
 			</form>
-          
+           <div id="validateForm">
+       	 </div>
           
           </div>
        	</div>

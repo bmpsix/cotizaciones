@@ -40,17 +40,17 @@ public class Client implements Serializable {
 	private String phone;
 
 	//bi-directional many-to-one association to Country
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_country", nullable=false)
 	private Country country;
 
 	//bi-directional many-to-one association to SaClient
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_sa_client", nullable=false)
 	private SaClient saClient;
 
 	//bi-directional many-to-one association to ClientType
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_client_type", nullable=false)
 	private ClientType clientType;
 	
