@@ -56,6 +56,7 @@
 						
 					</div>
                     	<hr>
+                    <input id="clientCancel" type="button" data-icon="delete" value="Cancel" onclick="clearClient();">
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
                    
 				</form>
@@ -64,7 +65,7 @@
            	
            	<fieldset data-role="controlgroup"  data-type="horizontal">
            	<legend><h3>Clientes en el sistema</h3></legend>
-           		<table style="text-align:justify;">
+           		<table style="text-align:justify;" class="ui-responsive">
            				<thead>
            				<tr>
            				<th  style="padding-right: 15px;">ID</th>
@@ -92,7 +93,7 @@
 							<td style="padding-right: 15px;"><span th:text="${client1.ClientType.detail}"></span></td>
 							<td style="padding-right: 15px;" id="status" th:if="${client1.status==1}"><span th:text="Activo"></span></td>
 							<td style="padding-right: 15px;" id="status" th:if="${client1.status==0}"><span th:text="Inactivo"></span></td>
-	           				<td style="padding-right: 15px;"><a href="#" class="edit">Editar</a></td>
+	           				<td style="padding-right: 15px;"><a href="#" onclick="editClient(this);">Editar</a></td>
 	           				
 	           				<!-- display;none tds -->
 	           				

@@ -520,38 +520,34 @@
 	
     	<tbody id="tableBodyProposalDetail">
       
-       	 <tr id="proposalDetailRow" ondblclick="chargeTheDetailForUpdate(this)" th:each="proposaldetail : ${proposaldetailss}" th:if="${proposaldetail.commissionable==1}" style="background-color: #009082; color: white;cursor: pointer;">
-           	 <td th:text="${proposaldetail.idProposalDetails}"></td>
-           	 <td th:text="${proposaldetail.Departure.detail}"></td>
-           	 <td th:text="${proposaldetail.CurrencyType.symbol+' '+proposaldetail.price}"></td>
-           	 <td th:text="${proposaldetail.number}"></td>
-           	 <td th:text="${proposaldetail.daysTimes}"></td>
-           	 <td th:text="${proposaldetail.CurrencyType.symbol+' '+proposaldetail.totalBudget}"></td>
-           	<!-- <td th:if="${proposaldetail.commissionable==1}" th:text="${'(Fact de '+proposaldetail.factor+') (Impre '+proposaldetail.imprevisto+' %)'}"></td>
-           	 <td th:if="${proposaldetail.commissionable==0}" th:text="${'(Fact de '+proposaldetail.factor+')'}"></td> -->
-           	 <td th:text="${proposaldetail.detail}"></td>
-           	 <td th:text="${proposaldetail.parameters}"></td>
-           	 <td th:text="${proposaldetail.commissionable}" style="display:none;"></td>
-           	 <td th:text="${proposaldetail.CurrencyType.idCurrencyType}" style="display:none;"></td>
-           	 <td th:text="${proposaldetail.Departure.idDeparture}"style="display:none;" ></td>
-           	 <td></td>
+       	 <tr id="proposalDetailRow" th:each="proposaldetail : ${proposaldetailss}" th:if="${proposaldetail.commissionable==1}" style="background-color: #009082; color: white;">
+           	 <td id="idProposalDetailsTable" ><span th:text="${proposaldetail.idProposalDetails}"></span></td>
+           	 <td id="departureDetailTable" ><span  th:text="${proposaldetail.Departure.detail}"></span></td>
+           	 <td id="priceTable" ><span  th:text="${proposaldetail.CurrencyType.symbol+' '+proposaldetail.price}"></span></td>
+           	 <td id="numberTable" ><span  th:text="${proposaldetail.number}"></span></td>
+           	 <td id="daysTimesTable" ><span  th:text="${proposaldetail.daysTimes}"></span></td>
+           	 <td id="totalBudgetTable" ><span  th:text="${proposaldetail.CurrencyType.symbol+' '+proposaldetail.totalBudget}"></span></td>
+           	 <td id="detailTable" ><span  th:text="${proposaldetail.detail}"></span></td>
+           	 <td id="parametersTable" ><span  th:text="${proposaldetail.parameters}"></span></td>
+           	 <td id="commissionableTable" style="display:none;"><span  th:text="${proposaldetail.commissionable}" ></span></td>
+           	 <td id="idCurrencyTypeTable"  style="display:none;"><span  th:text="${proposaldetail.CurrencyType.idCurrencyType}"></span></td>
+           	 <td id="idDepartureTable" style="display:none;" ><span  th:text="${proposaldetail.Departure.idDeparture}" ></span></td>
+           	 <td style="padding-right: 15px;"><a href="#" onclick="chargeTheDetailForUpdate(this);" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;"></a></td>
        	 </tr>
-       	 <tr id="proposalDetailRow" ondblclick="chargeTheDetailForUpdate(this)" th:each="proposaldetail : ${proposaldetailss}" th:if="${proposaldetail.commissionable==0}"  style="background-color: #ECF0F1;cursor: pointer;">
-           	
-           	 <td th:text="${proposaldetail.idProposalDetails}"></td>
-           	 <td th:text="${proposaldetail.Departure.detail}"></td>
-           	 <td th:text="${proposaldetail.CurrencyType.symbol+' '+proposaldetail.price}"></td>
-           	 <td th:text="${proposaldetail.number}"></td>
-           	 <td th:text="${proposaldetail.daysTimes}"></td>
-           	 <td th:text="${proposaldetail.CurrencyType.symbol+' '+proposaldetail.totalBudget}"></td>
-           <!--<td th:if="${proposaldetail.commissionable==1}" th:text="${'(Fact de '+proposaldetail.factor+') (Impre '+proposaldetail.imprevisto+' %)'}"></td>
-           	 <td th:if="${proposaldetail.commissionable==0}" th:text="${'(Fact de '+proposaldetail.factor+')'}"></td> -->
-           	 <td th:text="${proposaldetail.detail}"></td>
-           	 <td th:text="${proposaldetail.parameters}"></td>
-      		 <td th:text="${proposaldetail.commissionable}" style="display:none;"></td>
-      		 <td th:text="${proposaldetail.CurrencyType.idCurrencyType}" style="display:none;"></td>
-      		 <td th:text="${proposaldetail.Departure.idDeparture}"style="display:none;" ></td>
-      		 <td></td>
+       	 
+       	 <tr id="proposalDetailRow" th:each="proposaldetail : ${proposaldetailss}" th:if="${proposaldetail.commissionable==0}"  style="background-color: #ECF0F1;">  	
+           	 <td id="idProposalDetailsTable" ><span  th:text="${proposaldetail.idProposalDetails}"></span></td>
+           	 <td id="departureDetailTable" ><span  th:text="${proposaldetail.Departure.detail}"></span></td>
+           	 <td id="priceTable" ><span  th:text="${proposaldetail.CurrencyType.symbol+' '+proposaldetail.price}"></span></td>
+           	 <td id="numberTable" ><span  th:text="${proposaldetail.number}"></span></td>
+           	 <td id="daysTimesTable" ><span  th:text="${proposaldetail.daysTimes}"></span></td>
+           	 <td id="totalBudgetTable" ><span  th:text="${proposaldetail.CurrencyType.symbol+' '+proposaldetail.totalBudget}"></span></td>
+           	 <td id="detailTable" ><span  th:text="${proposaldetail.detail}"></span></td>
+           	 <td id="parametersTable" ><span  th:text="${proposaldetail.parameters}"></span></td>
+      		 <td id="commissionableTable" style="display:none;"><span  th:text="${proposaldetail.commissionable}" ></span></td>
+      		 <td id="idCurrencyTypeTable"  style="display:none;" ><span  th:text="${proposaldetail.CurrencyType.idCurrencyType}"></span></td>
+      		 <td id="idDepartureTable" style="display:none;"><span  th:text="${proposaldetail.Departure.idDeparture}" ></span></td>
+      		 <td style="padding-right: 15px;"><a  href="#" onclick="chargeTheDetailForUpdate(this);" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;"></a></td>
        	 </tr>
         
     	</tbody>     

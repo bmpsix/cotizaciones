@@ -1,6 +1,8 @@
 /**
+ * Justin Zúñiga Torres
  * Marcos Zúñiga Vega
  */
+
 
 //----------------------------changePassword--------------------------------------------------------------------------------------------------------------
 
@@ -59,34 +61,40 @@ function sendformClient()
 		           success: function(data)
 		           {
 		        	   if(data != null){
-		        		  alert(data);
 		        		  tbodyClient.innerHTML = data;
-		        		  data=null;
-		        		   msg = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
-		        		   div.innerHTML = msg;
+		        		  if($("#idClient").val()==0) msg = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
+		        		  else  if($("#idClient").val()!=0) msg = "<p style='color: hsl(153,80%,40%)'>Se actualizó la información correctamente <p>";
+		        		  clearClient(); 
+		        		  div.innerHTML = msg;
 		        	   }else{
-		        		   alert("false");
+		        		   msg = "<p style='color:#800000'>Ha ocurrido un error inesperado!<p>";
+		        		   div.innerHTML = msg;
 		        		   }
-		        	   }
+		           }
+		    	
 		         });
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-$( document ).ready(function() {
-	$(".edit").click(function(){
+//----------------------------editClient--------------------------------------------------------------------------------------------------------------------
+
+function editClient(row){
 	
-	var idClient = $(this).parents("tr").find("#idClient span").eq(0).html();
-	var SaClient = $(this).parents("tr").find("#SaClient span").eq(0).html();
-	var Country = $(this).parents("tr").find("#Country span").eq(0).html();
-	var detail = $(this).parents("tr").find("#detail span").eq(0).html();
-	var email = $(this).parents("tr").find("#email span").eq(0).html();
-	var phone = $(this).parents("tr").find("#phone span").eq(0).html();
-	var fax = $(this).parents("tr").find("#fax span").eq(0).html();
-	var ClientTypeDetail = $(this).parents("tr").find("#ClientTypeDetail span").eq(0).html();
-	var status = $(this).parents("tr").find("#status span").eq(0).html();
 	
-	/*alert(idClient+SaClient+Country+detail+email+phone+fax+ClientTypeDetail+status);*/
+	var idClient = $(row).parents("tr").find("#idClient span").eq(0).html();
+	var SaClient = $(row).parents("tr").find("#SaClient span").eq(0).html();
+	var Country = $(row).parents("tr").find("#Country span").eq(0).html();
+	var detail = $(row).parents("tr").find("#detail span").eq(0).html();
+	var email = $(row).parents("tr").find("#email span").eq(0).html();
+	var phone = $(row).parents("tr").find("#phone span").eq(0).html();
+	var fax = $(row).parents("tr").find("#fax span").eq(0).html();
+	var ClientTypeDetail = $(row).parents("tr").find("#ClientTypeDetail span").eq(0).html();
+	var status = $(row).parents("tr").find("#status span").eq(0).html();
+	var div = document.getElementById('msg');
+	var msg="";
+	div.innerHTML = msg;
+	//$("#clientCancel").hide();
 	
 	$("#idClient").val(idClient);
 	$("#saClient").val(SaClient).change();
@@ -102,8 +110,27 @@ $( document ).ready(function() {
 	}else{
 		$("#status").val("0").change();
 	}
-	});
+};
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------clearClient--------------------------------------------------------------------------------------------------------------------
 
-});
+function clearClient(){
+	
+	$("#idClient").val(0);
+	$("#saClient").val(1).change();
+	$("#country").val(1).change();
+	$("#detail").val("");
+	$("#email").val("");
+	$("#phone").val("");
+	$("#fax").val("");
+	$("#clientType").val(1).change();
+	$("#status").val(1).change();
+	var div = document.getElementById('msg');
+	var msg="";
+	div.innerHTML = msg;
+};
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
