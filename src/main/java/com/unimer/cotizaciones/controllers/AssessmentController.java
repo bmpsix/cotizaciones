@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.Assessment;
+import com.unimer.cotizaciones.entities.AssessmentShared;
 import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.AssessmentService;
+import com.unimer.cotizaciones.services.AssessmentSharedService;
 import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.CurrencyExchangeService;
 import com.unimer.cotizaciones.services.CurrencyTypeService;
@@ -35,6 +37,10 @@ public class AssessmentController {
 	@Autowired
 	@Qualifier("assessmentServiceImpl")
 	private AssessmentService assessmentService;
+	
+	@Autowired
+	@Qualifier("assessmentSharedServiceImpl")
+	private AssessmentSharedService assessmentSharedService;
 	
 	@Autowired
 	@Qualifier("statusServiceImpl")
@@ -79,6 +85,41 @@ public class AssessmentController {
 		return modelAndView;
 		
 	}
+	
+	@RequestMapping(value="/admin/addassessmentshared", method=  RequestMethod.POST)
+	@ResponseBody
+	public String addAssessmentShared(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute("assessmentShared") AssessmentShared assessmentShared) {
+		
+		try{
+			LOG.info(assessmentShared.toString());
+			assessmentSharedService.addAssessmentShared(assessmentShared, userSession.getId());
+			return "true";
+			
+		}catch(Exception ex){
+			return null;
+			
+		}
+		
+	}
+	
+	
+	@RequestMapping(value="/admin/deleteassessmentshared", method=  RequestMethod.POST)
+	@ResponseBody
+	public String deleteAssessmentShared(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute("assessmentShared") AssessmentShared assessmentShared) {
+		
+		try{
+			LOG.info(assessmentShared.toString());
+			assessmentSharedService.delete(assessmentShared);
+			return "true";
+			
+		}catch(Exception ex){
+			return null;
+			
+		}
+		
+	}
+	
+	
 	
 	@RequestMapping(value="/admin/addassessment", method=  RequestMethod.POST)
 	@ResponseBody

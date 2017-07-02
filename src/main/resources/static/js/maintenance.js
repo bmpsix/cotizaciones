@@ -81,7 +81,6 @@ function sendformClient()
 
 function editClient(row){
 	
-	
 	var idClient = $(row).parents("tr").find("#idClient span").eq(0).html();
 	var SaClient = $(row).parents("tr").find("#SaClient span").eq(0).html();
 	var Country = $(row).parents("tr").find("#Country span").eq(0).html();
@@ -94,7 +93,7 @@ function editClient(row){
 	var div = document.getElementById('msg');
 	var msg="";
 	div.innerHTML = msg;
-	//$("#clientCancel").hide();
+	$("#clientCancel").show();
 	
 	$("#idClient").val(idClient);
 	$("#saClient").val(SaClient).change();
@@ -116,7 +115,7 @@ function editClient(row){
 //----------------------------clearClient--------------------------------------------------------------------------------------------------------------------
 
 function clearClient(){
-	
+	$("#clientCancel").hide();
 	$("#idClient").val(0);
 	$("#saClient").val(1).change();
 	$("#country").val(1).change();

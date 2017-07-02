@@ -54,6 +54,11 @@ public class Assessment implements Serializable {
 	
 	//bi-directional many-to-one association to TblUser
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_user_assigned", nullable=false)
+	private User userAssigned;
+	
+	//bi-directional many-to-one association to TblUser
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_status", nullable=false)
 	private Status status;
 	
@@ -114,8 +119,17 @@ public class Assessment implements Serializable {
 		this.status = status;
 	}
 
+	public User getUserAssigned() {
+		return userAssigned;
+	}
+
+	public void setUserAssigned(User userAssigned) {
+		this.userAssigned = userAssigned;
+	}
+
+
 	public Assessment(int idAssessment, Date creationDate, String detail, CurrencyExchange currencyExchange,
-			SaClient saClient, User user, Status status) {
+			SaClient saClient, User user, User userAssigned, Status status) {
 		super();
 		this.idAssessment = idAssessment;
 		this.creationDate = creationDate;
@@ -123,10 +137,9 @@ public class Assessment implements Serializable {
 		this.currencyExchange = currencyExchange;
 		this.saClient = saClient;
 		this.user = user;
+		this.userAssigned = userAssigned;
 		this.status = status;
 	}
-	
-	
 
 	public Assessment() {
 		super();
@@ -135,9 +148,13 @@ public class Assessment implements Serializable {
 	@Override
 	public String toString() {
 		return "Assessment [idAssessment=" + idAssessment + ", creationDate=" + creationDate + ", detail=" + detail
-				+ ", currencyExchange=" + currencyExchange + ", saClient=" + saClient + ", user=" + user + ", status="
-				+ status + "]";
+				+ ", currencyExchange=" + currencyExchange + ", saClient=" + saClient + ", user=" + user
+				+ ", userAssigned=" + userAssigned + ", status=" + status + "]";
 	}
+	
+	
+
+
 	
 	
 	
