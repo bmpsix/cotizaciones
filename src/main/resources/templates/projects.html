@@ -127,7 +127,11 @@
 							<td style="padding-right: 15px;display:none;" id="idCurrencyExchange" ><span th:text="${project.currencyExchange.idCurrencyExchange}"></span></td>
 							<td style="padding-right: 15px;display:none;" id="idStatus" ><Span th:text="${project.status.idStatus}"></Span></td>
 							<div th:object="${user}" th:if="${user.rol.detail == 'CONTRIBUTOR'}">
-	           				<td class="edit"><a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;"></a></td>
+	           				<td class="edit">
+	           				<a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;" title="Editar"></a>
+	           				<a class="ui-link ui-btn ui-btn-b ui-icon-action ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;" title="Compartir"></a>
+	           				<a class="ui-link ui-btn ui-btn-b ui-icon-forward ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;" title="Asignar"></a>
+	           				</td>
 	           				</div>
            				</tr>
           			    </tbody>
