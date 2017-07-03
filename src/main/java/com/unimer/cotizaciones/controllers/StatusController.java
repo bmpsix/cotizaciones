@@ -40,22 +40,12 @@ public class StatusController {
 	public String addStatus(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "status") Status status,Model model){
 		LOG.info("METHOD: addStatus in StatusController -- PARAMS: " + status.toString());
 		statusService.addStatus(status,userSession.getId());
-		return "redirect:/admin/status";
+		model.addAttribute("allStatus", statusService.listAllStatus());
+		return "status :: #statusRow";
 	}
 
 	@GetMapping("/admin/addstatus")
 	public String getStatus() {
 		return "redirect:/admin/status";
 	}
-
-	@GetMapping("/admin/updatestatus")
-	public ModelAndView updateStatus(int idStatus, Model model) {
-
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("status");
-		modelAndView.addObject("allStatus", statusService.listAllStatus());
-		modelAndView.addObject("updateStatus", statusService.findById(idStatus));
-		return modelAndView;
-	}
-
 }

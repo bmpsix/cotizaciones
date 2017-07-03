@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.Country;
+import com.unimer.cotizaciones.entities.CurrencyType;
 import com.unimer.cotizaciones.entities.Settings;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.CountryService;
@@ -53,30 +54,19 @@ public class SettingsController {
 	@PostMapping("/admin/addsettings")
 	public String addSettings(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "settings") Settings settings, Model model) {
 		LOG.info("METHOD: addSettings in SettingsController -- PARAMS: " + settings.toString());
+		CurrencyType favorite = currencyTypeService.getCurrencyType(settings.getCurrencyTypeFavorite().getIdCurrencyType());
+		CurrencyType international = currencyTypeService.getCurrencyType(settings.getCurrencyTypeInternational().getIdCurrencyType());
 		Country cntry = countryService.findById(userSession.getIdCountry());
 		settings.setCountry(cntry);
+		settings.setCurrencyTypeFavorite(favorite);
+		settings.setCurrencyTypeInternational(international);
 		settingsService.addSettings(settings,userSession.getId());
-		 return "redirect:/admin/settings";
+		model.addAttribute("countrySettings", settingsService.findSettingByCountry(cntry));
+		 return "settings :: #settingsRow";
 	}
 	
 	@GetMapping("/admin/addsettings")
 	public String getCountry() {
 		return "redirect:/admin/settings";
 	}
-	
-	@GetMapping("/admin/updatesettings")
-	public ModelAndView updateSettings(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,int idSettings, Model model) {
-		Country cntry = countryService.findById(userSession.getIdCountry());
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("settings");
-		modelAndView.addObject("countrySettings", settingsService.findSettingByCountry(cntry));
-		modelAndView.addObject("updateSettings",settingsService.findById(idSettings));
-		modelAndView.addObject("currencyTypes", cntry.getCurrencyType());
-		return modelAndView;
-	}
-	
-	
-
-	
-	
 }

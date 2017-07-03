@@ -14,65 +14,30 @@
 		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
 		<h3>Tipos de moneda</h3>
 			<div data-role="fieldcontain">
-				<form method="post" action="#" th:action="@{/admin/addcurrencytype}" th:object="${updateCurrencyType}">
+				<form id="formCurrencyType" method="POST" action="javascript:sendFormCurrencyType();">
+					<input id="idCurrencyType" type="hidden"  name="idCurrencyType" th:value="0" readonly/>
+							
+						<label for="detail">Detalle:</label>
+						<input id="detail" type="text" name="detail" required/>			
+						<label for="favorite"  title="Indica si es el tipo de moneda principal internacional">Tipo de moneda principal internacional:</label>
+						<select id="favorite"  name="favorite" data-role="slider">
+								<option value="0" selected>No</option>
+								<option value="1">Si</option>
+						</select>
+						<label for="symbol">Símbolo:</label>
+						<input id="symbol" type="text" name="symbol" min="1" maxlength="3" required/>
+						<label for="status"  title="Indica si esta vigente si o no ">Estado:</label>
+						<select id="status" name="status" data-role="slider">
+								<option value="0" selected>Inactivo</option>
+								<option value="1">Activo</option>
+						</select>
 				
-					<div th:if="${updateCurrencyType==null}">			
-						<label for="detail">Detalle:</label>
-						<input type="text" name="detail" required/>			
-						<label for="favorite"  title="Indica si es el tipo de moneda principal internacional">Tipo de moneda principal internacional:</label>
-						<select  name="favorite" data-role="slider">
-								<option value="0" selected>No</option>
-								<option value="1">Si</option>
-						</select>
-						<label for="symbol">Símbolo:</label>
-						<input type="text" name="symbol" min="1" maxlength="2" required/>
-						<label for="status"  title="Indica si esta vigente si o no ">Estado:</label>
-						<select  name="status" data-role="slider">
-								<option value="0" selected>Inactivo</option>
-								<option value="1">Activo</option>
-						</select>
+					
+					<div id="msg">
+						
 					</div>
-					
-					<div th:if="${updateCurrencyType !=null}">
-					
-						<input type="hidden"  name="idCurrencyType" th:value="${updateCurrencyType.idCurrencyType}" readonly/>
-						
-						<label for="detail">Detalle:</label>
-						<input type="text" name="detail" th:value="${updateCurrencyType.detail}"required/>
-						
-						<label for="favorite"  title="Indica si es el tipo de moneda principal internacional">Tipo de moneda principal internacional:</label>
-						<div th:if="${updateCurrencyType.favorite == 0}">
-							<select  name="favorite" data-role="slider" th:value="${updateCurrencyType.favorite}">
-								<option value="0" selected>No</option>
-								<option value="1">Si</option>
-							</select>
-						</div>
-						
-						<div th:if="${updateCurrencyType.favorite == 1}">
-							<select  name="favorite" data-role="slider" th:value="${updateCurrencyType.favorite}">
-								<option value="0">No</option>
-								<option value="1" selected>Si</option>
-							</select>
-						</div>			
-						<label for="symbol">Símbolo:</label>
-						<input type="text" name="symbol" th:value="${updateCurrencyType.symbol}"required/>
-						
-						<label for="status"  title="Indica si esta vigente si o no ">Estado:</label>
-						<div th:if="${updateCurrencyType.status == 1}">
-							<select  name="status" data-role="slider" th:value="${updateCurrencyType.status}">
-								<option value="0">Inactivo</option>
-								<option value="1" selected>Activo</option>
-							</select>
-						</div>
-						<div th:if="${updateCurrencyType.status == 0}">
-							<select  name="status" data-role="slider" th:value="${updateCurrencyType.status}">
-								<option value="0" selected>Inactivo</option>
-								<option value="1">Activo</option>
-							</select>
-						</div>
-						<a href="#" th:href="@{/admin/addcurrencytype}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
-					</div>	
-                    <hr>
+                    	<hr>
+                    <a id="currencyTypeCancel" type="button"  style="display:none;" data-icon="delete" onclick="clearCurrencyType();"><input data-icon="delete" type="button" value="Cancelar"/></a>
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar ">
 				</form>
 			</div>
@@ -90,27 +55,16 @@
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Opción</th>
            				</tr>
            				</thead>
-           				<tbody>
-	           			<tr th:each="currencytype : ${currencytypes}">
-							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${currencytype.idCurrencyType}"></td>
-							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${currencytype.detail}"></td>
-							<div th:if="${currencytype.favorite == 1}">
-								<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="Si"></td>
-							</div>
-							<div th:if="${currencytype.favorite == 0}">
-								<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="No"></td>
-							</div>
-
-							<div th:if="${currencytype.status == 1}">
-								<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="Activo"></td>
-							</div>
-							
-							<div th:if="${currencytype.status == 0}">
-								<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="Inactivo"></td>
-							</div>
-							
-							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;" th:text="${currencytype.symbol}"></td>
-	           				<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;"><a href="#" th:href="@{/admin/chargecurrencytype?idCurrencyType=__${currencytype.idCurrencyType}__}">Editar</a></td>
+           				<tbody id="tbodyCurrencyType">
+	           			<tr id="currencyTypeRow" th:each="currencytype : ${currencytypes}">
+							<td style="padding-right: 15px;" id="idCurrencyType"><span th:text="${currencytype.idCurrencyType}"></span></td>
+							<td style="padding-right: 15px;" id="detail"><span th:text="${currencytype.detail}"></span></td>
+							<td style="padding-right: 15px;" id="favorite" th:if="${currencytype.favorite==1}"><span th:text="Activo"></span></td>
+							<td style="padding-right: 15px;" id="favorite" th:if="${currencytype.favorite==0}"><span th:text="Inactivo"></span></td>
+							<td style="padding-right: 15px;" id="status" th:if="${currencytype.status==1}"><span th:text="Activo"></span></td>
+							<td style="padding-right: 15px;" id="status" th:if="${currencytype.status==0}"><span th:text="Inactivo"></span></td>
+							<td style="padding-right: 15px;" id="symbol"><span th:text="${currencytype.symbol}"></span></td>
+	           				<td style="padding-right: 15px;"><a href="#" onclick="editCurrencyType(this);">Editar</a></td>
            				</tr>
           			</tbody>
            			</table>

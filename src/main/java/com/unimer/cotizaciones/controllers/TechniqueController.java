@@ -31,7 +31,7 @@ public class TechniqueController {
 	public ModelAndView Technique(){
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("Technique");
+		modelAndView.setViewName("technique");
 		modelAndView.addObject("Techniques", TechniqueService.listAllTechniques());
 		return modelAndView;
 	}
@@ -40,26 +40,14 @@ public class TechniqueController {
 	public String addTechnique(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "Technique") Technique Technique, Model model) {
 		LOG.info("METHOD: addTechnique in TechniqueController -- PARAMS: " + Technique.toString());
 		TechniqueService.addTechnique(Technique,userSession.getId());
-		 return "redirect:/admin/technique";
+		model.addAttribute("Techniques", TechniqueService.listAllTechniques());
+		 return "technique :: #techniqueRow";
 	}
 	
 	@GetMapping("/admin/addtechnique")
 	public String getTechnique(){
 		return "redirect:/admin/technique";
 	}
-	
-	@GetMapping("/admin/chargetechnique")
-	public ModelAndView chargeTechnique(int idTechnique, Model model) {
-		
-			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("Technique");
-			modelAndView.addObject("Techniques", TechniqueService.listAllTechniques());
-			modelAndView.addObject("updateTechnique",TechniqueService.findById(idTechnique));
-
-		return modelAndView;
-	}
-	
-	
 }
 
 

@@ -15,38 +15,21 @@
 		<h3>Control de tipo de clientes</h3>
 			<div data-role="fieldcontain">
 				
-					<form method="post" action="#" th:action="@{/admin/addclienttype}" th:object="${updateClientType}" >
-					
-						<div th:if="${updateClientType==null}">
+					<form id="formClientType" method="POST" action="javascript:sendFormClientType();" >
+						<input type="hidden" name="idClientType" id="idClientType" th:value="0" readonly />
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el tipo de cliente" type="text" name="detail" th:value="${detail}" required/>
+							<input id="detail" title="Debe ingresar el tipo de cliente" type="text" name="detail" th:value="${detail}" required/>
 							<label for="status"  title="Indica si el tipo de cliente esta activo o inactivo">Estado</label>
-							<select  name="status" data-role="slider"  th:value="${status}">
+							<select id="status" name="status" data-role="slider"  th:value="${status}">
 								<option value="0">Inactivo</option>
 								<option value="1">Activo</option>
 							</select>
-						</div>
 						
-						<div th:if="${updateClientType!=null}">
-							<input type="hidden" name="idClientType" th:value="${updateClientType.idClientType}" readonly />
-							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el tipo de cliente" type="text" name="detail" th:value="${updateClientType.detail}" required/>
-							<label for="status"  title="Indica si el tipo de cliente esta activo o inactivo">Estado</label>
-							<div  th:if="${updateClientType.status==0}">
-								<select  name="status" data-role="slider"  th:value="${status}">
-									<option  value="0" selected>Inactivo </option>
-									<option  value="1">Activo</option>
-								</select>
-							</div>
-							<div  th:if="${updateClientType.status==1}">
-								<select  name="status" data-role="slider"  th:value="${status}">
-									<option  value="0" >Inactivo </option>
-									<option  value="1" selected>Activo</option>
-								</select>
-							</div>
-							<a href="#" th:href="@{/admin/addclienttype}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
-						</div>
+                    	<div id="msg">
+						
+					</div>
                     	<hr>
+                    <a id="clientTypeCancel" type="button"  style="display:none;" data-icon="delete" onclick="clearClientType();"><input data-icon="delete" type="button" value="Cancelar"/></a>
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
 				</form>
 			</div>
@@ -63,13 +46,13 @@
            				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
            				</thead>
-           				<tbody>
-	           			<tr th:each="clienttype : ${clienttypes}">
-							<td style="padding-right: 15px;" th:text="${clienttype.idClientType}"></td>
-							<td style="padding-right: 15px;" th:text="${clienttype.detail}"></td>
-							<td style="padding-right: 15px;" th:if="${clienttype.status==1}">Activo</td>
-							<td style="padding-right: 15px;" th:if="${clienttype.status==0}">Inactivo</td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updateclienttype?idClientType=__${clienttype.idClientType}__}"  >Editar</a></td>
+           				<tbody id="tbodyClientType">
+	           			<tr id="clientTypeRow" th:each="clienttype : ${clienttypes}">
+							<td id="idClientType" style="padding-right: 15px;"><span th:text="${clienttype.idClientType}"></span></td>
+							<td id="detail" style="padding-right: 15px;"><span th:text="${clienttype.detail}"></span></td>
+							<td id="status" style="padding-right: 15px;" th:if="${clienttype.status==1}"><span>Activo</span></td>
+							<td id="status" style="padding-right: 15px;" th:if="${clienttype.status==0}"><span>Inactivo</span></td>
+	           				<td style="padding-right: 15px;"><a href="#" onclick="editClientType(this);">Editar</a></td>
 	           				
            				</tr>
            				

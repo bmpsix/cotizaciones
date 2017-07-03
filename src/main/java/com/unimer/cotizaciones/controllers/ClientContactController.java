@@ -1,5 +1,7 @@
 package com.unimer.cotizaciones.controllers;
 
+
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.unimer.cotizaciones.entities.Client;
 import com.unimer.cotizaciones.entities.ClientContact;
+import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.ClientContactService;
 import com.unimer.cotizaciones.services.ClientService;
@@ -52,8 +57,14 @@ public class ClientContactController {
 	@PostMapping("/admin/addclientcontact")
 	public String addClientContact(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "clientContact") ClientContact clientContact, Model model) {
 		LOG.info("METHOD: addClientContact in ClientContactController -- PARAMS: " + clientContact.toString());
+		Country country = countryService.findById(clientContact.getCountry().getIdCountry());
+		Client client = clientService.findById(clientContact.getClient().getIdClient());
+		clientContact.setClient(client);
+		clientContact.setCountry(country);
 		clientContactService.addClientContact(clientContact,userSession.getId());
-			return "redirect:/admin/clientcontact";
+		model.addAttribute("clientContacts",clientContactService.listAllClientContact());
+		
+		return "clientcontact :: #clientContactRow";
 	}
 	
 	@GetMapping("/admin/addclientcontact")
@@ -61,16 +72,4 @@ public class ClientContactController {
 		return "redirect:/admin/clientcontact";
 	}
 	
-	@GetMapping("/admin/updateclientcontact")
-	public ModelAndView updateClientContact(int idClientContact, Model model) {
-		
-			ModelAndView modelAndView = new ModelAndView();
-			 modelAndView.setViewName("clientcontact");
-				modelAndView.addObject("countries", countryService.listAllCountries());
-				modelAndView.addObject("clients", clientService.findByActiveStatus());
-				modelAndView.addObject("clientContacts", clientContactService.listAllClientContact());
-			modelAndView.addObject("updateClientContact",clientContactService.findById(idClientContact));
-
-		return modelAndView;
-	}
 }

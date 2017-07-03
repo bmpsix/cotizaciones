@@ -27,7 +27,7 @@ public class ClientContact implements Serializable {
 	@Column(name="id_client_contact", unique=true, nullable=false)
 	private int idClientContact;
 
-	@Column(nullable=false, length=50)
+	@Column(nullable=false, length=100)
 	private String email;
 
 	@Column(nullable=false, length=50)

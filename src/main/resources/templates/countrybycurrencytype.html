@@ -15,19 +15,20 @@
 		<h3>Control de tipos de moneda por país</h3>
 			<div data-role="fieldcontain">
 					
-					<form method="post" action="#" th:action="@{/admin/addcountrybycurrencytype}" >
+					<form id="formCountryByCurrencyType" method="POST" action="javascript:sendFormCountryByCurrencyType();">
 					
 							<label for="country">País:</label>
-							<select name="idCountry">
+							<select id="country" name="idCountry">
 								<option th:each="country : ${countries}" th:value="${country.idCountry}"><p th:text="${country.detail}"></p></option>
 							</select>
 							<label for="currencyType">Tipo de moneda</label>
-							<select name="idCurrencyType">
+							<select id="currencyType" name="idCurrencyType">
 								<option th:each="currencyType : ${currencyTypes}" th:value="${currencyType.idCurrencyType}"><p th:text="${currencyType.detail}"></p></option>
 							</select>
+                    <div id="msg">
+					</div>
                     	<hr>
-                   
-  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
+                   <input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
                    
 				</form>
 			</div>
@@ -35,28 +36,6 @@
            	
            	<fieldset data-role="controlgroup"  data-type="horizontal">
            	<legend><h3>Tipos de moneda por país</h3></legend>
-           	<!-- Utilizando iteraciones 	<table style="text-align:justify;">
-           				<thead>
-           				<tr>
-           				<th  style="padding-right: 15px;">País</th>
-           				<th  style="padding-right: 15px;">Moneda</th>
-           				</tr>
-           				</thead>
-           				<tbody>
-	           			<tr th:each="countryByCurrencyTypes : ${countryByCurrencyTypes}">
-							<td style="padding-right: 15px;" th:text="${countryByCurrencyTypes.detail}"></td>
-							<td>
-								 <span th:each="currencyType,iterStat : ${countryByCurrencyTypes.getCurrencyType()}">
-        						<span th:text="${currencyType.detail}"/><th:block th:if="${!iterStat.last}">,</th:block>
-							
-							</td>
-							
-           				</tr>
-           				
-          			</tbody>
-           			</table> -->
-           			
-           			
            			<table style="text-align:justify;">
            				<thead>
            				<tr>
@@ -65,11 +44,16 @@
            				<th  style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;">Opción</th>
            				</tr>
            				</thead>
-           				<tbody th:each="countryByCurrencyTypes : ${countryByCurrencyTypes}">
+           				<tbody id="countryByCurrencyTypeTbody" th:each="countryByCurrencyTypes : ${countryByCurrencyTypes}">
 	           			<tr th:each="currencyType: ${countryByCurrencyTypes.getCurrencyType()}">
 							<td style="padding-right: 15px;" th:text="${countryByCurrencyTypes.detail}"></td>
 							<td style="padding-right: 15px;" th:text="${currencyType.detail}"></td>
-							<td style="padding-right: 15px;border-bottom: 1px solid #c5c7cc;"><a href="#" th:href="@{/admin/deletecountrybycurrencytype?idCountry=__${countryByCurrencyTypes.idCountry}__&idCurrencyType=__${currencyType.idCurrencyType}__}">Eliminar</a></td>
+							<td style="padding-right: 15px;"><a href="#" onclick="deleteCountryByCurrencyType(this);">Eliminar</a></td>
+           				<!-- display;none tds -->
+	           				
+	           				<td style="padding-right: 15px;display:none;" id="idCountry"><span th:text="${countryByCurrencyTypes.idCountry}"></span></td>
+							<td style="padding-right: 15px;display:none;" id="idCurrencyType"><span th:text="${currencyType.idCurrencyType}"></span></td>
+           				
            				</tr>
            				
           			</tbody>

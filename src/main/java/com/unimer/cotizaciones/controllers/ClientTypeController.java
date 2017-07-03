@@ -40,29 +40,16 @@ public class ClientTypeController {
 	
 	@PostMapping("/admin/addclienttype")
 	public String addClientType(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "clienttype") ClientType clientType, Model model){
-		LOG.info("METHOD: addClientType in ClientTypeController -- PARAMS: " + clientType.toString());
-		clientTypeService.addClientType(clientType,userSession.getId());
-		 return "redirect:/admin/clienttype";
+		 LOG.info("METHOD: addClientType in ClientTypeController -- PARAMS: " + clientType.toString());
+		 clientTypeService.addClientType(clientType,userSession.getId());
+		 model.addAttribute("clienttypes",clientTypeService.listAllClientType());
+		 return "clienttype :: #clientTypeRow";
 	}
 	
 	@GetMapping("/admin/addclienttype")
 	public String getClientType(){
 		return "redirect:/admin/clienttype";
 	}
-	
-	@GetMapping("/admin/updateclienttype")
-	public ModelAndView updateRole(int idClientType, Model model) {
-		
-			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("clienttype");
-			modelAndView.addObject("clienttypes", clientTypeService.listAllClientType());
-			modelAndView.addObject("updateClientType",clientTypeService.findById(idClientType));
-
-		return modelAndView;
-	}
-	
-	
-
 	
 	
 }

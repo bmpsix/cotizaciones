@@ -15,84 +15,39 @@
 		<h3>Control de contacto de clientes</h3>
 			<div data-role="fieldcontain">
 					
-					<form method="post" action="#" th:action="@{/admin/addclientcontact}" th:object="${updateClientContact}"  >
-					
-					
-						<div th:if="${updateClientContact==null}">
-							
+				<form id="formClientContact" method="post" action="javascript:sendformClientContact();" >
+						<input type="hidden" name="idClientContact" id="idClientContact" th:value="0" readonly />
 							<label for="client">Cliente:</label>
-							<select name="client.idClient">
+							<select id="client" name="client.idClient">
 								<option th:each="client : ${clients}" th:value="${client.idClient}">
 									<p name="client.detail" th:text="${client.detail}" th:value="${client.detail}" ></p>
 								</option>
 							</select>
 							<label for="country">País:</label>
-							<select name="country.idCountry">
+							<select id="country" name="country.idCountry">
 								<option th:each="country : ${countries}" th:value="${country.idCountry}">
 									<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
 								</option>
 							</select>
 							<label for="name">Nombre:</label>
-							<input title="Debe ingresar el nombre del contacto" maxlength="100" type="text" name="name" th:value="${name}" required/>
+							<input id="name" title="Debe ingresar el nombre del contacto" maxlength="100" type="text" name="name" th:value="${name}" required/>
 							<label for="phone">Teléfono:</label>
-							<input title="Debe ingresar el número telefónico del contacto"  maxlength="15" type="number" name="phone" th:value="${phone}" required/>
+							<input id="phone" title="Debe ingresar el número telefónico del contacto"  maxlength="15" type="number" name="phone" th:value="${phone}" required/>
 							<label for="ext">Ext:</label>
-							<input title="Debe ingresar ext del contacto"  maxlength="15" type="text" name="ext" th:value="${ext}" required/>
+							<input id="ext" title="Debe ingresar ext del contacto"  maxlength="15" type="number" name="ext" th:value="${ext}" required/>
 							<label for="email">Correo:</label>
-							<input title="Debe ingresar el correo del cliente" maxlength="50" type="email" name="email" th:value="${email}" required/>
+							<input id="email" title="Debe ingresar el correo del cliente" maxlength="100" type="email" name="email" th:value="${email}" required/>
 						
 							<label for="status"  title="Indica si el rol esta activo o inactivo">Estado</label>
-							<select  name="status" data-role="slider"  th:value="${status}">
+							<select id="status"  name="status" data-role="slider"  th:value="${status}">
 								<option value="0">Inactivo</option>
 								<option value="1">Activo</option>
 							</select>
-						</div>
-						
-						<div th:if="${updateClientContact!=null}">
-							<input type="hidden" name="idClientContact" th:value="${updateClientContact.idClientContact}" readonly />
-							<label for="client">Cliente:</label>
-							<select name="client.idClient">
-								<option th:each="client : ${clients}" th:value="${client.idClient}" th:if="${updateClientContact.Client.detail == client.detail}"  selected readonly>
-									<p name="client.detail" th:text="${client.detail}" th:value="${client.detail}" ></p>
-								</option>
-								<option th:each="client : ${clients}" th:value="${client.idClient}" th:if="${updateClientContact.Client.detail != client.detail}"   readonly>
-									<p name="client.detail" th:text="${client.detail}" th:value="${client.detail}" ></p>
-								</option>
-							</select>
-							<label for="country">País:</label>
-							<select name="country.idCountry">
-								<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${updateClientContact.Country.detail == country.detail}" selected readonly>
-									<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
-								</option>
-								<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${updateClientContact.Country.detail != country.detail}" readonly>
-									<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
-								</option>
-							</select>
-							<label for="name">Nombre:</label>
-							<input title="Debe ingresar el nombre del contacto" maxlength="100" type="text" name="name" th:value="${updateClientContact.name}" required/>
-							<label for="phone">Teléfono:</label>
-							<input title="Debe ingresar el número telefónico del contacto"  maxlength="15" type="number" name="phone" th:value="${updateClientContact.phone}" required/>
-							<label for="ext">Ext:</label>
-							<input title="Debe ingresar ext del contacto"  maxlength="15" type="text" name="ext" th:value="${updateClientContact.ext}" required/>
-							<label for="email">Correo:</label>
-							<input title="Debe ingresar el correo del cliente" maxlength="50" type="email" name="email" th:value="${updateClientContact.email}" required/>
-							<label for="status"  title="Indica si el rol esta activo o inactivo">Estado</label>
-							<div  th:if="${updateClientContact.status==0}">
-								<select  name="status" data-role="slider"  th:value="${status}">
-									<option  value="0" selected>Inactivo </option>
-									<option  value="1">Activo</option>
-								</select>
-							</div>
-							<div  th:if="${updateClientContact.status==1}">
-								<select  name="status" data-role="slider"  th:value="${status}">
-									<option  value="0" >Inactivo </option>
-									<option  value="1" selected>Activo</option>
-								</select>
-							</div>
-							<a href="#" th:href="@{/admin/addclientcontact}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
-							
-						</div>
                     	<hr>
+                    <div id="msg">
+						
+					</div>
+                    <a id="clientContactCancel" type="button"  style="display:none;" data-icon="delete" onclick="clearClientContact();"><input data-icon="delete" type="button" value="Cancelar"/></a>	
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
                    
 				</form>
@@ -115,18 +70,23 @@
            				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
            				</thead>
-           				<tbody>
-	           			<tr th:each="clientContact : ${clientContacts}">
-							<td style="padding-right: 15px;" th:text="${clientContact.idClientContact}"></td>
-							<td style="padding-right: 15px;" th:text="${clientContact.Client.detail}"></td>
-							<td style="padding-right: 15px;" th:text="${clientContact.Country.detail}"></td>
-							<td style="padding-right: 15px;" th:text="${clientContact.name}"></td>
-							<td style="padding-right: 15px;" th:text="${clientContact.phone}"></td>
-							<td style="padding-right: 15px;" th:text="${clientContact.ext}"></td>
-							<td style="padding-right: 15px;" th:text="${clientContact.email}"></td>
-							<td style="padding-right: 15px;" th:if="${clientContact.status==1}">Activo</td>
-							<td style="padding-right: 15px;" th:if="${clientContact.status==0}">Inactivo</td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updateclientcontact?idClientContact=__${clientContact.idClientContact}__}"  >Editar</a></td>
+           				<tbody  id="tbodyClientContact">
+	           			<tr id="clientContactRow" th:each="clientContact : ${clientContacts}">
+							<td id="idClientContact" style="padding-right: 15px;"><span th:text="${clientContact.idClientContact}"></span></td>
+							<td style="padding-right: 15px;"><span th:text="${clientContact.Client.detail}"></span></td>
+							<td style="padding-right: 15px;"><span th:text="${clientContact.Country.detail}"></span></td>
+							<td id="name" style="padding-right: 15px;"><span th:text="${clientContact.name}"></span></td>
+							<td id="phone" style="padding-right: 15px;"><span th:text="${clientContact.phone}"></span></td>
+							<td id="ext" style="padding-right: 15px;"><span th:text="${clientContact.ext}"></span></td>
+							<td id="email" style="padding-right: 15px;"><span th:text="${clientContact.email}"></span></td>
+							<td id="status" style="padding-right: 15px;" th:if="${clientContact.status==1}"><span>Activo</span></td>
+							<td id="status" style="padding-right: 15px;" th:if="${clientContact.status==0}"><span>Inactivo</span></td>
+	           				<td style="padding-right: 15px;"><a href="#" onclick="editClientContact(this);">Editar</a></td>
+	           				
+	           					<!-- display;none tds -->
+	           				
+	           				<td id="idClient" style="padding-right: 15px;display:none;" ><span th:text="${clientContact.Client.idClient}"></span></td>
+							<td id="idCountry" style="padding-right: 15px;display:none;" ><span th:text="${clientContact.Country.idCountry}"></span></td>
 	           				
            				</tr>
            				

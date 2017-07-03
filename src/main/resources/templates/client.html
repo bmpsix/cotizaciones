@@ -16,8 +16,6 @@
 			<div data-role="fieldcontain">
 					
 					<form method="post" id="formClient" action="javascript:sendformClient();">
-					
-
 						<input type="hidden" name="idClient" id="idClient" th:value="0" readonly />
 							<label for="saClient">Cliente SA:</label>
 							<select name="saClient.idSaClient" id="saClient">
@@ -34,7 +32,7 @@
 							<label for="detail">Detalle:</label>
 							<input title="Debe ingresar el nombre del cliente" maxlength="100" type="text" name="detail" id="detail" th:value="${detail}" required/>
 							<label for="email">Correo:</label>
-							<input title="Debe ingresar el correo del cliente" maxlength="49" type="email" name="email"  id="email" th:value="${email}" required/>
+							<input title="Debe ingresar el correo del cliente" maxlength="100" type="email" name="email"  id="email" th:value="${email}" required/>
 							<label for="phone">Teléfono:</label>
 							<input title="Debe ingresar el número telefónico del cliente"  maxlength="15" type="number" name="phone" id="phone" th:value="${phone}" required/>
 							<label for="fax">Fax:</label>
@@ -52,10 +50,8 @@
 							</select>
 
 						
-					<div id="msg">
-						
-					</div>
-                    	<hr>
+					<div id="msg"></div>
+                    <hr>
                     <a id="clientCancel" type="button"  style="display:none;" data-icon="delete" onclick="clearClient();"><input data-icon="delete" type="button" value="Cancelar"/></a>
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
                    

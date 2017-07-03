@@ -15,20 +15,14 @@
 		<h3>Control de las técnicas</h3>
 			<div data-role="fieldcontain">
 			
-					<form method="post" action="#" th:action="@{/admin/addtechnique}" th:object="${updateTechnique}" >
-						<div th:if="${updateTechnique==null}">
-							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre de la técnica" type="text" name="detail" th:value="${detail}" required/>
-										
-						</div>
+				<form id="formTechnique" method="post" action="javascript: sendFormTechnique();">
+					<input id="idTechnique" type="hidden" name="idTechnique" th:value="0" readonly />
 						
-						<div th:if="${updateTechnique!=null}">
-							<input type="hidden" name="idTechnique" th:value="${updateTechnique.idTechnique}" readonly />
-							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre de la técnica" type="text" name="detail" th:value="${updateTechnique.detail}" required/>
-							<a href="#" th:href="@{/admin/addtechnique}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>					
-						</div>
-                    	<hr>
+					<label for="detail">Detalle:</label>
+					<input id="detail" title="Debe ingresar el nombre de la técnica" type="text" name="detail" th:value="${detail}" required/>
+					<div id="msg"></div>
+                    <hr>
+                    <a id="techniqueCancel" type="button"  style="display:none;" data-icon="delete" onclick="clearTechnique();"><input data-icon="delete" type="button" value="Cancelar"/></a>	
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
 				</form>
 			</div>
@@ -44,13 +38,11 @@
            				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
            				</thead>
-           				<tbody>
-	           			<tr th:each="Technique: ${Techniques}">
-							<td style="padding-right: 15px;" th:text="${Technique.idTechnique}"></td>
-							<td style="padding-right: 15px;" th:text="${Technique.detail}"></td>
-							
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargetechnique?idTechnique=__${Technique.idTechnique}__}"  >Editar</a></td>
-	           				
+           				<tbody id="tbodyTechnique">
+	           			<tr id="techniqueRow" th:each="Technique: ${Techniques}">
+							<td id="idTechnique" style="padding-right: 15px;"><span th:text="${Technique.idTechnique}"></span></td>
+							<td id="detail" style="padding-right: 15px;"><span th:text="${Technique.detail}"></span></td>
+	           				<td style="padding-right: 15px;"><a href="#" onclick="editTechnique(this);">Editar</a></td>
            				</tr>
            				
           			</tbody>

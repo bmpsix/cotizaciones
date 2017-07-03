@@ -38,24 +38,15 @@ public class StudyTypeController {
 	
 	@PostMapping("/admin/addstudytype")
 	public String addStudyType(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "StudyType") StudyType StudyType, Model model){
+		
 		LOG.info("METHOD: addStudyType in StudyTypeController -- PARAMS: " + StudyType.toString());
 		StudyTypeService.addStudyType(StudyType,userSession.getId());
-		 return "redirect:/admin/studytype";
+		model.addAttribute("StudyTypes", StudyTypeService.listAllStudyTypes());
+		 return "StudyType :: #studyTypeRow";
 	}
 	
 	@GetMapping("/admin/addstudytype")
 	public String getStudyType(){
 		return "redirect:/admin/studytype";
-	}
-	
-	@GetMapping("/admin/chargestudytype")
-	public ModelAndView chargeStudyType(int idStudyType, Model model) {
-		
-			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("StudyType");
-			modelAndView.addObject("StudyTypes", StudyTypeService.listAllStudyTypes());
-			modelAndView.addObject("updateStudyType",StudyTypeService.findById(idStudyType));
-
-		return modelAndView;
 	}
 }

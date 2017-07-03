@@ -16,19 +16,16 @@
 		<h3>Control de los sectores de industria</h3>
 			<div data-role="fieldcontain">
 			
-					<form method="post" action="#" th:action="@{/admin/addindustrysector}" th:object="${updateIndustrySector}" >
+					<form id="formIndustrySector" method="POST" action="javascript:sendFormIndustrySector();" >
 						<div th:if="${updateIndustrySector==null}">
+						    <input id="idIndustrySector" type="hidden" name="idIndustrySector" th:value="0" readonly />
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre del Sector industrial" type="text" name="detail" th:value="${detail}" required/>	
+							<input id="detail" title="Debe ingresar el nombre del Sector industrial" type="text" name="detail" th:value="${detail}" required/>	
 						</div>
 						
-						<div th:if="${updateIndustrySector!=null}">
-							<input type="hidden" name="idIndustrySector" th:value="${updateIndustrySector.idIndustrySector}" readonly />
-							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre del Sector industrial" type="text" name="detail" th:value="${updateIndustrySector.detail}" required/>
-							<a href="#" th:href="@{/admin/addindustrysector}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
-						</div>
-                    	<hr>
+					<div id="msg"></div>
+                    <hr>
+                    <a id="industrySectorCancel" type="button"  style="display:none;" data-icon="delete" onclick="clearIndustrySector();"><input data-icon="delete" type="button" value="Cancelar"/></a>
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
                    
 				</form>
@@ -45,13 +42,11 @@
            				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
            				</thead>
-           				<tbody>
-	           			<tr th:each="industrysector: ${industrysectors}">
-							<td style="padding-right: 15px;" th:text="${industrysector.idIndustrySector}"></td>
-							<td style="padding-right: 15px;" th:text="${industrysector.detail}"></td>
-							
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargeindustrysector?idIndustrySector=__${industrysector.idIndustrySector}__}"  >Editar</a></td>
-	           				
+           				<tbody id="tbodyInsdustrySector">
+	           			<tr id="industrySectorRow" th:each="industrysector: ${industrysectors}">
+							<td id="idIndustrySector" style="padding-right: 15px;"><span th:text="${industrysector.idIndustrySector}"></span></td>
+							<td id="detail" style="padding-right: 15px;"><span th:text="${industrysector.detail}"></span></td>
+							<td style="padding-right: 15px;"><a href="#" onclick="editIndustrySector(this);">Editar</a></td>
            				</tr>
            				
           			</tbody>

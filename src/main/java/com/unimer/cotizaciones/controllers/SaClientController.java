@@ -39,25 +39,12 @@ public class SaClientController {
 	public String addSaClient(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "saClient") SaClient saClient, Model model) {
 		LOG.info("METHOD: addRol in RolController -- PARAMS: " + saClient.toString());
 		saClientService.addSaClient(saClient,userSession.getId());
-		 return "redirect:/admin/saclient";
+		model.addAttribute("saClients", saClientService.listAllSaClient());
+		 return "saclient :: #saClientRow";
 	}
 	
 	@GetMapping("/admin/addsaclient")
 	public String getRol(){
 		return "redirect:/admin/saclient";
 	}
-	
-	@GetMapping("/admin/updatesaclient")
-	public ModelAndView updateSaClient(int idSaClient, Model model) {
-		
-			ModelAndView modelAndView = new ModelAndView();
-			 modelAndView.setViewName("saclient");
-				modelAndView.addObject("saClients", saClientService.listAllSaClient());
-			modelAndView.addObject("updateSaClient",saClientService.findById(idSaClient));
-
-		return modelAndView;
-	}
-	
-	
-
 }

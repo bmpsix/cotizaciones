@@ -15,37 +15,19 @@
 		<h3>Control de clientes SA</h3>
 			<div data-role="fieldcontain">
 					
-					<form method="post" action="#" th:action="@{/admin/addsaclient}" th:object="${updateSaClient}" >
-						<div th:if="${updateSaClient==null}">
+					<form id="formSaClient" method="POST" action="javascript:sendFormSaClient();" >
+						
+							<input id="idSaClient" type="hidden" name="idSaClient" th:value="0" readonly />
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre del cliente SA" type="text" name="detail" th:value="${detail}" required/>
+							<input id="detail" title="Debe ingresar el nombre del cliente SA" type="text" name="detail" th:value="${detail}" required/>
 							<label for="status"  title="Indica si el cliente SA esta activo o inactivo">Estado</label>
-							<select  name="status" data-role="slider"  th:value="${status}">
+							<select id="status" name="status" data-role="slider"  th:value="${status}">
 								<option value="0">Inactivo</option>
 								<option value="1">Activo</option>
 							</select>
-						</div>
-						
-						<div th:if="${updateSaClient!=null}">
-							<input type="hidden" name="idSaClient" th:value="${updateSaClient.idSaClient}" readonly />
-							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre del cliente SA" type="text" name="detail" th:value="${updateSaClient.detail}" required/>
-							<label for="status"  title="Indica si el cliente SA esta activo o inactivo">Estado</label>
-							<div  th:if="${updateSaClient.status==0}">
-								<select  name="status" data-role="slider"  th:value="${status}">
-									<option  value="0" selected>Inactivo </option>
-									<option  value="1">Activo</option>
-								</select>
-							</div>
-							<div  th:if="${updateSaClient.status==1}">
-								<select  name="status" data-role="slider"  th:value="${status}">
-									<option  value="0" >Inactivo </option>
-									<option  value="1" selected>Activo</option>
-								</select>
-							</div>
-							<a href="#" th:href="@{/admin/addsaclient}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
-						</div>
-                    	<hr>
+					<div id="msg"></div>
+                    <hr>
+                    <a id="saClientCancel" type="button"  style="display:none;" data-icon="delete" onclick="clearSaClient();"><input data-icon="delete" type="button" value="Cancelar"/></a>
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
 				</form>
 			</div>
@@ -62,13 +44,13 @@
            				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
            				</thead>
-           				<tbody>
-	           			<tr th:each="saClient : ${saClients}">
-							<td style="padding-right: 15px;" th:text="${saClient.idSaClient}"></td>
-							<td style="padding-right: 15px;" th:text="${saClient.detail}"></td>
-							<td style="padding-right: 15px;" th:if="${saClient.status==1}">Activo</td>
-							<td style="padding-right: 15px;" th:if="${saClient.status==0}">Inactivo</td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updatesaclient?idSaClient=__${saClient.idSaClient}__}"  >Editar</a></td>
+           				<tbody id="tbodySaClient">
+	           			<tr id="saClientRow" th:each="saClient : ${saClients}">
+							<td id="idSaClient" style="padding-right: 15px;"><span th:text="${saClient.idSaClient}"></span></td>
+							<td id="detail" style="padding-right: 15px;"><span th:text="${saClient.detail}"></span></td>
+							<td id="status" style="padding-right: 15px;" th:if="${saClient.status==1}"><span>Activo</span></td>
+							<td id="status" style="padding-right: 15px;" th:if="${saClient.status==0}"><span>Inactivo</span></td>
+	           				<td style="padding-right: 15px;"><a href="#" onclick="editSaClient(this);">Editar</a></td>
 	           				
            				</tr>
            				

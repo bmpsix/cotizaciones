@@ -39,24 +39,12 @@ public class ProposalTypeController {
 	public String addProposalType(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "proposalType") ProposalType proposalType, Model model) {
 		LOG.info("METHOD: addProposalType in ProposalTypeController -- PARAMS: " + proposalType.toString());
 		proposalTypeService.addProposalType(proposalType,userSession.getId());
-		 return "redirect:/admin/proposaltype";
+		model.addAttribute("proposalTypes", proposalTypeService.listAllProposalTypes());
+		return "proposaltype :: #proposalTypeRow";
 	}
 	
 	@GetMapping("/admin/addproposaltype")
 	public String getProposalType(){
 		return "redirect:/admin/proposaltype";
 	}
-	
-	@GetMapping("/admin/chargeproposaltype")
-	public ModelAndView chargeproposalType(int idProposalType, Model model) {
-		
-			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("proposalType");
-			modelAndView.addObject("proposalTypes", proposalTypeService.listAllProposalTypes());
-			modelAndView.addObject("updateProposalType",proposalTypeService.findById(idProposalType));
-
-		return modelAndView;
-	}	
-	
-
 }

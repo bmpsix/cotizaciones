@@ -42,7 +42,8 @@ public class CurrencyTypeController {
 	public String addCurrencyType(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "currencytype") CurrencyType currencyType, Model model) {
 		LOG.info("METHOD: addCurrencyType in CurrencyTypeController -- PARAMS: " + currencyType.toString());
 		currencyTypeService.addCurrencyType(currencyType,userSession.getId());
-		 return "redirect:/admin/currencytype";
+		model.addAttribute("currencytypes", currencyTypeService.listAllCurrencyType());
+		return "currencytype :: #currencyTypeRow";
 	}
 	
 	@GetMapping("/admin/addcurrencytype")
@@ -50,15 +51,4 @@ public class CurrencyTypeController {
 		return "redirect:/admin/currencytype";
 	}
 	
-	@GetMapping("/admin/chargecurrencytype")
-	public ModelAndView chargeRole(int idCurrencyType, Model model) {
-		
-			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("currencyType");
-			modelAndView.addObject("currencytypes", currencyTypeService.listAllCurrencyType());
-			modelAndView.addObject("updateCurrencyType",currencyTypeService.getCurrencyType(idCurrencyType));
-
-		return modelAndView;
-	}
-
 }

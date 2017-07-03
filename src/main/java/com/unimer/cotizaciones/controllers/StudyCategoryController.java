@@ -37,24 +37,15 @@ public class StudyCategoryController {
 	
 	@PostMapping("/admin/addStudyCategory")
 	public String addStudyCategory(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "studyCategory") StudyCategory studyCategory, Model model){
+		
 		LOG.info("METHOD: addStudyCategory in StudyCategoryController -- PARAMS: " + studyCategory.toString());
 		studyCategoryService.addStudyCategory(studyCategory,userSession.getId());
-		 return "redirect:/admin/studyCategory";
+		model.addAttribute("studyCategories", studyCategoryService.listAllStudyCategories());
+		return "studyCategory :: #studyCategoryRow";
 	}
 	
 	@GetMapping("/admin/addStudyCategory")
 	public String getStudyCategory(){
 		return "redirect:/admin/studyCategory";
-	}
-	
-	@GetMapping("/admin/chargestudyCategory")
-	public ModelAndView chargestudyCategory(int idStudyCategory, Model model) {
-		
-			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("studyCategory");
-			modelAndView.addObject("studyCategories", studyCategoryService.listAllStudyCategories());
-			modelAndView.addObject("updateStudyCategory",studyCategoryService.findById(idStudyCategory));
-
-		return modelAndView;
 	}
 }

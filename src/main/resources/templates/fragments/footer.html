@@ -38,13 +38,18 @@
 <p title="Para cambiar mis datos personales, preciona click aqu&iacute;" style="text-align: center;cursor: pointer;" onclick="return window.location.href='/'">Usuario activo: ADMIN</p>
         <div data-role="navbar" data-iconpos="right">
             <ul>
-            	<li><a href="#"  onclick="return window.location.href='/admin/proposal'" data-ajax="false" data-icon="home" th:classappend="${viewName=='dashboard'} ? 'ui-btn-active ui-state-persist'">Inicio</a></li>
+            	<li><a href="#"  onclick="return window.location.href='/assessment'" data-ajax="false" data-icon="home" th:classappend="${viewName=='dashboard'} ? 'ui-btn-active ui-state-persist'">Inicio</a></li>
             	<li><a href="#adminmenu" data-rel="popup" data-transition="flip" data-icon="grid" >Opciones</a></li>
             	<li><a href="#" data-icon="" data-ajax="false">Procesos</a></li>
             	<li><a href="#" data-icon="" data-ajax="false">Reporteria</a></li>
-            	<li><form th:action="@{/admin/logout}" method="post">
+            	<li><form  th:action="@{/logout}" method="post">
             		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-            		<button type="submit" data-icon="forward" data-ajax="false">Salir</button>
+            		<button type="submit" data-icon="forward" data-ajax="false" onclick="return window.location.href='/index'">Salir</button>
             	</form></li>
            	</ul>
        	</div>
+<div>
+<script>
+
+</script> 	
+</div>

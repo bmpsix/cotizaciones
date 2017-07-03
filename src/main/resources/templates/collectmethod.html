@@ -14,20 +14,18 @@
 		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
 		<h3>Control de Métodos de recolección</h3>
 			<div data-role="fieldcontain">
-				<form method="post" action="#" th:action="@{/admin/addcollectmethod}" th:object="${updateCollectMethod}">
-					<div th:if="${updateCollectMethod==null}">
-						<label for="detail">Detalle:</label>
-						<input type="text" name="detail" th:value="${detail}" required/>
+				<form id="formCollectMethod" method="POST" action="javascript:sendFormCollectMethod();">
+					<input type="hidden" name="idCollectMethod" id="idCollectMethod" th:value="0" readonly />
+					<label for="detail">Detalle:</label>
+					<input id="detail" type="text" name="detail" th:value="${detail}" required/>
+					
+						
+					<div id="msg">
+						
 					</div>
-					<div th:if="${updateCollectMethod !=null}">
-						<input type="hidden"  name="idCollectMethod" th:value="${updateCollectMethod.idCollectMethod}" readonly/>
-						<label for="detail">Detalle:</label>
-						<input type="text" name="detail" th:value="${updateCollectMethod.detail}" required/>
-						<a href="#" th:href="@{/admin/addcollectmethod}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
-					</div>
-                    <hr>
+                    	<hr>
+                    <a id="collectMethodCancel" type="button"  style="display:none;" data-icon="delete" onclick="clearCollectMethod();"><input data-icon="delete" type="button" value="Cancelar"/></a>
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
-                   <!--  <input type="submit" name="submit" class="custom_text" data-icon="refresh" value="Modificar registro">-->
 				</form>
 			</div>
            	 	
@@ -41,11 +39,11 @@
            				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
            				</thead>
-           				<tbody>
-	           			<tr th:each="collectmethod : ${collectmethods}">
-							<td style="padding-right: 15px;" th:text="${collectmethod.idCollectMethod}"></td>
-							<td style="padding-right: 15px;" th:text="${collectmethod.detail}"></td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargecollectmethod?idCollectMethod=__${collectmethod.idCollectMethod}__}">Editar</a></td>
+           				<tbody id="tbodyCollectMethod">
+	           			<tr id="collectMethodRow" th:each="collectmethod : ${collectmethods}">
+							<td id="idCollectMethod" style="padding-right: 15px;"><span th:text="${collectmethod.idCollectMethod}"></span> </td>
+							<td id="detail" style="padding-right: 15px;"><span th:text="${collectmethod.detail}"></span> </td>
+	           				<td style="padding-right: 15px;"><a href="#" onclick="editCollectMethod(this);">Editar</a></td>
            				</tr>
           			</tbody>
            			</table>

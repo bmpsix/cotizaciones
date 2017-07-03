@@ -15,19 +15,14 @@
 		<h3>Control de tipo de ejecución</h3>
 			<div data-role="fieldcontain">
 					
-					<form method="post" action="#" th:action="@{/admin/addexecutiontype}" th:object="${updateExecutionType}" >
-						<div th:if="${updateExecutionType==null}">
+					<form id="formExecutionType" method="POST" action="javascript:sendFormExecutionType();">
+							<input id="idExecutionType" type="hidden" name="idExecutionType" th:value="0" readonly />
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el tipo de ejecución" type="text" name="detail" th:value="${detail}" required/>
-						</div>
-						
-						<div th:if="${updateExecutionType!=null}">
-							<input type="hidden" name="idExecutionType" th:value="${updateExecutionType.idExecutionType}" readonly />
-							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el tipo de ejecución" type="text" name="detail" th:value="${updateExecutionType.detail}" required/>
-							<a href="#" th:href="@{/admin/addexecutiontype}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
-						</div>
-                    	<hr>
+							<input id="detail" title="Debe ingresar el tipo de ejecución" type="text" name="detail" th:value="${detail}" required/>
+                    	
+                    <div id="msg"></div>	
+                    <hr>
+                    <a id="executionTypeCancel" type="button"  style="display:none;" data-icon="delete" onclick="clearExecutionType();"><input data-icon="delete" type="button" value="Cancelar"/></a>
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
 				</form>
 			</div>
@@ -43,14 +38,12 @@
            				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
            				</thead>
-           				<tbody>
-	           			<tr th:each="executiontype : ${executiontypes}">
-							<td style="padding-right: 15px;" th:text="${executiontype.idExecutionType}"></td>
-							<td style="padding-right: 15px;" th:text="${executiontype.detail}"></td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updateexecutiontype?idExecutionType=__${executiontype.idExecutionType}__}"  >Editar</a></td>
-	           				
+           				<tbody id="tbodyExecutionType">
+	           			<tr id="executionTypeRow" th:each="executiontype : ${executiontypes}">
+							<td id="idExecutionType" style="padding-right: 15px;"><span th:text="${executiontype.idExecutionType}"></span></td>
+							<td id="detail" style="padding-right: 15px;"><span th:text="${executiontype.detail}"></span></td>
+	           				<td style="padding-right: 15px;"><a href="#" onclick="editExecutionType(this);">Editar</a></td>
            				</tr>
-           				
           			</tbody>
            			</table>
            	</fieldset>

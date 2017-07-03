@@ -14,41 +14,21 @@
 		<h3>Control de operaciones</h3>
 			<div data-role="fieldcontain">
 			
-					<form method="post" action="#" th:action="@{/admin/addoperation}" th:object="${updateOperation}" >
+					<form id="formOperation" method="POST" action="javascript:sendFormOperation();">
 					
-						<div th:if="${updateOperation==null}">
+							<input id="idOperation" type="hidden" name="idOperation" th:value="0" readonly />
 							<label for="details">Detalle:</label>
-							<input title="Debe ingresar el nombre que describe la operación" type="text" name="detail" th:value="${detail}" required/>
+							<input id="detail" title="Debe ingresar el nombre que describe la operación" type="text" name="detail" th:value="${detail}" required/>
 							<label for="operationTypes">Tipo de operación:</label>
-							<select name="operationType.idOperationType">
+							<select id="operarionType" name="operationType.idOperationType">
 								<option  th:each="operationType : ${operationTypes}" th:value="${operationType.idOperationType}"> 
 									<p name="operationType.detail" th:text="${operationType.detail}" th:value="${operationType.detail}" ></p>
 								</option>
 								
 							</select>
-							
-						</div>
-						
-						<div th:if="${updateOperation!=null}">
-							<input type="hidden" name="idOperation" th:value="${updateOperation.idOperation}" readonly />
-							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre que describe la operación" type="text" name="detail" th:value="${updateOperation.detail}" required/>	
-							<label for="operationType">Tipo de operación</label>
-							<select name="operationType.idOperationType">
-								<option th:each="operationType : ${operationTypes}" th:value="${operationType.idOperationType}" th:if="${updateOperation.OperationType.detail == operationType.detail}"  selected readonly>
-									<p name="operationType.detail" th:text="${operationType.detail}" th:value="${operationType.detail}" ></p>
-								</option>
-								<option th:each="operationType : ${operationTypes}" th:value="${operationType.idOperationType}" th:if="${updateOperation.OperationType.detail != operationType.detail}"  readonly>
-										<p name="operationType.detail" th:text="${operationType.detail}" th:value="${operationType.detail}" ></p>
-								</option>
-							</select>
-							
-							<a href="#" th:href="@{/admin/addoperation}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>	
-						</div>
-                    	<hr>
-                    	
-                   
-                    	
+					<div id="msg"></div>
+                    <hr>
+                    <a id="operationCancel" type="button"  style="display:none;" data-icon="delete" onclick="clearOperation();"><input data-icon="delete" type="button" value="Cancelar"/></a>
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
 				</form>
 			</div>
@@ -65,12 +45,16 @@
            				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
            				</thead>
-           				<tbody>
-	           			<tr th:each="operation: ${operations}">
-							<td style="padding-right: 15px;" th:text="${operation.idOperation}"></td>
-							<td style="padding-right: 15px;" th:text="${operation.detail}"></td>
-							<td style="padding-right: 15px;" th:text="${operation.OperationType.detail}"></td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updateoperation?idOperation=__${operation.idOperation}__}"  >Editar</a></td>
+           				<tbody id="tbodyOperation">
+	           			<tr id="operationRow" th:each="operation: ${operations}">
+							<td id="idOperation" style="padding-right: 15px;"><span th:text="${operation.idOperation}"></span></td>
+							<td id="detail" style="padding-right: 15px;"><span  th:text="${operation.detail}"></span></td>
+							<td style="padding-right: 15px;"><span  th:text="${operation.OperationType.detail}"></span></td>
+	           				<td style="padding-right: 15px;"><a href="#" onclick="editOperation(this);">Editar</a></td>
+	           				
+	           				<!-- display;none tds -->
+	           				
+	           				<td style="padding-right: 15px;display:none;" id="idOperationType"><span th:text="${operation.OperationType.idOperationType}"></span></td>
            				</tr>
            				
           			</tbody>
@@ -82,15 +66,6 @@
 			<div data-role="popup" data-position="left" id="adminmenu" th:replace="fragments/footer"></div>
 		<!-- /panel -->	
 		</div>
-		
-	 <script>
-$(".opt").each(function()
-{
-	alert($(this).val());
-});
-</script>
-
-		
 	</div>
 </body>
 </html>

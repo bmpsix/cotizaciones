@@ -15,20 +15,14 @@
 		<h3>Control de tipos de operación</h3>
 			<div data-role="fieldcontain">
 			
-					<form method="post" action="#" th:action="@{/admin/addoperationtype}" th:object="${updateOperationType}" >
+					<form id="formOperationType" method="POST" action="javascript:sendFormOperationType();">
 					
-						<div th:if="${updateOperationType==null}">
+							<input id="idOperationType" type="hidden" name="idOperationType" th:value="0" readonly />
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre que describe el tipo de operación" type="text" name="detail" th:value="${detail}" required/>	
-						</div>
-						
-						<div th:if="${updateOperationType!=null}">
-							<input type="hidden" name="idOperationType" th:value="${updateOperationType.idOperationType}" readonly />
-							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre que describe el tipo de operación" type="text" name="detail" th:value="${updateOperationType.detail}" required/>	
-							<a href="#" th:href="@{/admin/addoperationtype}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>					
-						</div>
-                    	<hr>
+							<input id="detail" title="Debe ingresar el nombre que describe el tipo de operación" type="text" name="detail" th:value="${detail}" required/>	
+					<div id="msg"></div>
+                    <hr>
+                    <a id="operationTypeCancel" type="button"  style="display:none;" data-icon="delete" onclick="clearOperationType();"><input data-icon="delete" type="button" value="Cancelar"/></a>	
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
 				</form>
 			</div>
@@ -44,11 +38,11 @@
            				<th  style="padding-right: 15px;">opción</th>
            				</tr>
            				</thead>
-           				<tbody>
-	           			<tr th:each="operationType: ${operationTypes}">
-							<td style="padding-right: 15px;" th:text="${operationType.idOperationType}"></td>
-							<td style="padding-right: 15px;" th:text="${operationType.detail}"></td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updateoperationtype?idOperationType=__${operationType.idOperationType}__}"  >Editar</a></td>
+           				<tbody id="tbodyOperationType">
+	           			<tr id="operationTypeRow" th:each="operationType: ${operationTypes}">
+							<td id="idOperationType" style="padding-right: 15px;"><span th:text="${operationType.idOperationType}"></span></td>
+							<td id="detail" style="padding-right: 15px;"><span th:text="${operationType.detail}"></span></td>
+	           				<td style="padding-right: 15px;"><a href="#" onclick="editOperationType(this);">Editar</a></td>
            				</tr>
            				
           			</tbody>

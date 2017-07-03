@@ -16,19 +16,13 @@
 		<h3>Control de categorías de estudio</h3>
 			<div data-role="fieldcontain">
 			
-					<form method="post" action="#" th:action="@{/admin/addStudyCategory}" th:object="${updateStudyCategory}" >
-						<div th:if="${updateStudyCategory==null}">
-							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${detail}" required/>
-						</div>
-						
-						<div th:if="${updateStudyCategory!=null}">
-							<input type="hidden" name="idStudyCategory" th:value="${updateStudyCategory.idStudyCategory}" readonly />
-							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${updateStudyCategory.detail}" required/>
-							<a href="#" th:href="@{/admin/addStudyCategory}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
-						</div>
-                    	<hr>
+				<form id="formStudyCategory" method="POST" action="javascript:sendFormStudyCategory();">
+					<input id="idStudyCategory" type="hidden" name="idStudyCategory" th:value="0" readonly />
+					<label for="detail">Detalle:</label>
+					<input id="detail" title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${detail}" required/>
+					<div id="msg"></div>
+                    <hr>
+                    <a id="studyCategoryCancel" type="button"  style="display:none;" data-icon="delete" onclick="clearStudyCategory();"><input data-icon="delete" type="button" value="Cancelar"/></a>		
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
 				</form>
 			</div>
@@ -44,13 +38,11 @@
            				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
            				</thead>
-           				<tbody>
-	           			<tr th:each="studyCategory: ${studyCategories}">
-							<td style="padding-right: 15px;" th:text="${studyCategory.idStudyCategory}"></td>
-							<td style="padding-right: 15px;" th:text="${studyCategory.detail}"></td>
-							
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargestudyCategory?idStudyCategory=__${studyCategory.idStudyCategory}__}"  >Editar</a></td>
-	           				
+           				<tbody id="tbodyStudyCategory">
+	           			<tr id="studyCategoryRow" th:each="studyCategory: ${studyCategories}">
+							<td id="idStudyCategory" style="padding-right: 15px;"><span th:text="${studyCategory.idStudyCategory}"></span></td>
+							<td id="detail" style="padding-right: 15px;"><span th:text="${studyCategory.detail}"></span></td>
+							<td style="padding-right: 15px;"><a href="#" onclick="editStudyCategory(this);">Editar</a></td>
            				</tr>
            				
           			</tbody>

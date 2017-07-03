@@ -37,7 +37,7 @@ public class LogCurrencyType implements Serializable {
 	@Column(nullable=false)
 	private byte status;
 
-	@Column(nullable=false, length=1)
+	@Column(nullable=false, length=3)
 	private String symbol;
 
 	

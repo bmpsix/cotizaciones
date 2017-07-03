@@ -36,24 +36,12 @@ public class IndustrySectorController {
 	public String addIndustrySector(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "industrySector") IndustrySector industrySector, Model model) {
 		LOG.info("METHOD: addIndustrySector in IndustrySectorController -- PARAMS: " + industrySector.toString());
 		industrySectorService.addIndustrySector(industrySector,userSession.getId());
-		 return "redirect:/admin/industrysector";
+		model.addAttribute("industrysectors", industrySectorService.listAllIndustrySectors());
+		return "industrysector :: #industrySectorRow";
 	}
 	
 	@GetMapping("/admin/addindustrysector")
 	public String getIndustrySector(){
 		return "redirect:/admin/industrysector";
 	}
-	
-	@GetMapping("/admin/chargeindustrysector")
-	public ModelAndView chargeIndustrySector(int idIndustrySector, Model model) {
-		
-			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("industrysector");
-			modelAndView.addObject("industrysectors", industrySectorService.listAllIndustrySectors());
-			modelAndView.addObject("updateIndustrySector",industrySectorService.findById(idIndustrySector));
-
-		return modelAndView;
-	}
-	
-	
 }

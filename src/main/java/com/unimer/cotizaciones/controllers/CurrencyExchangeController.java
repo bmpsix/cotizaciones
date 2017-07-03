@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.entities.CurrencyExchange;
+import com.unimer.cotizaciones.entities.CurrencyType;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.CurrencyExchangeService;
@@ -53,26 +56,17 @@ public class CurrencyExchangeController {
 	@PostMapping("/admin/addcurrencyexchange")
 	public String addCurrencyExchange(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "currencyExchange") CurrencyExchange currencyExchange, Model model) {
 		LOG.info("METHOD: addCurrencyExchange in CurrencyExchangeController -- PARAMS: " + currencyExchange.toString());
+		Country country = countryService.findById(currencyExchange.getCountry().getIdCountry());
+		CurrencyType currencyType = currencyTypeService.getCurrencyType(currencyExchange.getCurrencyType().getIdCurrencyType());
+		currencyExchange.setCountry(country);
+		currencyExchange.setCurrencyType(currencyType);
 		currencyExchangeService.addCurrencyExchange(currencyExchange,userSession.getId());
-		 return "redirect:/admin/currencyexchange";
+		model.addAttribute("currencyexchanges", currencyExchangeService.listAllCurrencyExchange());
+		return "currencyexchange :: #currencyExchangeRow";
 	}
 	
 	@GetMapping("/admin/addcurrencyexchange")
 	public String getCurrencyExchange() {
 		return "redirect:/admin/currencyexchange";
 	}
-	
-	@GetMapping("/admin/chargecurrencyexchange")
-	public ModelAndView chargeCurrencyExchange(int idCurrencyExchange, Model model) {
-		
-			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("currencyexchange");
-			modelAndView.addObject("currencyexchanges", currencyExchangeService.listAllCurrencyExchange());
-			modelAndView.addObject("updateCurrencyExchange",currencyExchangeService.getCurrencyExchange(idCurrencyExchange));
-			modelAndView.addObject("countries", countryService.listAllCountries());
-			modelAndView.addObject("types", currencyTypeService.listAllCurrencyType());
-
-		return modelAndView;
-	}
-	
 }

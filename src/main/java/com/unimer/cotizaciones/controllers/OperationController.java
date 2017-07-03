@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.Operation;
+import com.unimer.cotizaciones.entities.OperationType;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.OperationService;
 import com.unimer.cotizaciones.services.OperationTypeService;
@@ -46,25 +47,15 @@ public class OperationController {
 	@PostMapping("/admin/addoperation")
 	public String addOperation(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name ="operation") Operation operation, Model model) {
 		LOG.info("METHOD: addOperation in OperationController -- PARAMS: " + operation.toString());
+		OperationType operationType = operationTypeService.findById(operation.getOperationType().getIdOperationType());
+		operation.setOperationType(operationType);
 		operationService.addOperation(operation,userSession.getId());
-		return "redirect:/admin/operation";
+		model.addAttribute("operations", operationService.listAllOperation());
+		return "operation :: #operationRow";
 	}
 
 	@GetMapping("/admin/addoperation")
 	public String getOperation(){
 		return "redirect:/admin/operation";
 	}
-
-	@GetMapping("/admin/updateoperation")
-	public ModelAndView updateOperation(int idOperation, Model model) {
-
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("operation");;
-		modelAndView.addObject("operationTypes", operationTypeService.listAllOperationType());
-		modelAndView.addObject("operations", operationService.listAllOperation());
-		modelAndView.addObject("updateOperation", operationService.findById(idOperation));
-
-		return modelAndView;
-	}
-
 }

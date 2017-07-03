@@ -42,26 +42,13 @@ public class RolController {
 	public String addRole(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "role") Rol rol, Model model) {
 		LOG.info("METHOD: addRol in RolController -- PARAMS: " + rol.toString());
 		rolService.addRol(rol,userSession.getId());
-		 return "redirect:/admin/role";
+		model.addAttribute("roles", rolService.listAllRol());
+		return "role :: #roleRow";
 	}
 	
 	@GetMapping("/admin/addrole")
 	public String getRol(){
 		return "redirect:/admin/role";
 	}
-	
-	@GetMapping("/admin/updaterole")
-	public ModelAndView updateRole(int idRol, Model model) {
-		
-			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("role");
-			modelAndView.addObject("roles", rolService.listAllRol());
-			modelAndView.addObject("updateRole",rolService.findById(idRol));
-
-		return modelAndView;
-	}
-	
-	
-
 	
 }

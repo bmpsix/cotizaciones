@@ -46,27 +46,14 @@ public class CountryController {
 	public String addCountry(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "country") Country country, Model model) {
 		LOG.info("METHOD: addCountry in CountryController -- PARAMS: " + country.toString());
 		countryService.addCountry(country,userSession.getId());
-		 return "redirect:/admin/country";
+		model.addAttribute("countries", countryService.listAllCountries());
+	   return "country :: #countryRow";
 	}
 	
 	@GetMapping("/admin/addcountry")
 	public String getCountry() {
 		return "redirect:/admin/country";
 	}
-	
-	@GetMapping("/admin/chargecountry")
-	public ModelAndView chargeCountry(int idCountry, Model model) {
-		
-			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("country");
-			modelAndView.addObject("countries", countryService.listAllCountries());
-			modelAndView.addObject("updateCountry",countryService.findById(idCountry));
 
-		return modelAndView;
-	}
-	
-	
-
-	
 }
 

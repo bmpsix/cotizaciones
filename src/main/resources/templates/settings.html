@@ -16,71 +16,36 @@
 		<h3>Control de ajustes</h3>
 			<div data-role="fieldcontain">
 			
-					<form method="post" action="#" th:action="@{/admin/addsettings}" th:object="${updateSettings}">
-						<div th:if="${updateSettings==null}">
+					<form id="formSettings" method="POST" action="javascript:sendFormSettings();" >
+					
+						<input id="idSettings" type="hidden" name="idSettings" th:value="0" readonly />
+						
 							<label for="currencyType">Tipo de modena favorita</label> 
-							<select name="currencyTypeFavorite.idCurrencyType">
+							<select id="currencyTypeFavorite" name="currencyTypeFavorite.idCurrencyType">
 								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}" th:if="${type.favorite==0}">
 									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
 								</option>
 							</select>
 							<label for="currencyType">Tipo de principal internacional</label> 
-							<select name="currencyTypeInternational.idCurrencyType">
+							<select id="currencyTypeInternational" name="currencyTypeInternational.idCurrencyType">
 								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}" th:if="${type.favorite==1}">
 									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
 								</option>
 							</select>
-							<label for="detail">Imprevisto %:</label>
-							<input title="Debe ingresar el porcentaje de imprevisto" type="number"  min="0" max="50" step="any" name="imprevisto" th:value="${imprevisto}" required/>
-							<label for="cod">Factor 1 (Comisionables):</label>
-							<input title="Debe ingresar el valor del factor 1" type="number" min="0" step="any" name="factor1" th:value="${factor1}"  required/>	
-							<label for="detail">Aporte fijo:</label>
-							<input title="Debe ingresar el aporte fijo" type="number"  min="0"  step="any" name="aporteFijo" th:value="${aporteFijo}" required/>
-							<label for="cod">Factor 2 (No comisionables):</label>
-							<input title="Debe ingresar el valor del factor 1" type="number" min="0" step="any" name="factor2" th:value="${factor2}"  required/>	
+							<label for="imprevisto">Imprevisto %:</label>
+							<input id="imprevisto" title="Debe ingresar el porcentaje de imprevisto" type="number"  min="0" max="50" step="any" name="imprevisto" th:value="${imprevisto}" required/>
+							<label for="factor1">Factor 1 (Comisionables):</label>
+							<input id="factor1" title="Debe ingresar el valor del factor 1" type="number" min="0" step="any" name="factor1" th:value="${factor1}"  required/>	
+							<label for="aporteFijo">Aporte fijo:</label>
+							<input id="aporteFijo" title="Debe ingresar el aporte fijo" type="number"  min="0"  step="any" name="aporteFijo" th:value="${aporteFijo}" required/>
+							<label for="factor2">Factor 2 (No comisionables):</label>
+							<input id="factor2" title="Debe ingresar el valor del factor 1" type="number" min="0" step="any" name="factor2" th:value="${factor2}"  required/>	
 							
-												
-						</div>
-						
-						<div th:if="${updateSettings!=null}">
-							<input type="hidden" name="idSettings" th:value="${updateSettings.idSettings}" readonly />
-							<label for="currencyType">Tipo de moneda favorita:</label>
-							<select name="currencyTypeFavorite.idCurrencyType">
-								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}" th:if="${updateSettings.CurrencyTypeFavorite.detail == type.detail AND type.favorite==0}" selected >
-									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
-								</option>
-								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}" th:if="${updateSettings.CurrencyTypeFavorite.detail != type.detail AND type.favorite==0}">
-									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
-								</option>
-							</select>
-							<label for="currencyType">Tipo de moneda principal internacional:</label>
-							<select name="currencyTypeInternational.idCurrencyType">
-								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}" th:if="${updateSettings.CurrencyTypeInternational.detail == type.detail AND type.favorite==1}" selected >
-									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
-								</option>
-								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}" th:if="${updateSettings.CurrencyTypeInternational.detail != type.detail AND type.favorite==1}">
-									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
-								</option>
-							</select>
-							<label for="detail">Imprevisto %:</label>
-							<input title="Debe ingresar el porcentaje de imprevisto" type="number"  min="0" max="50" step="any" name="imprevisto" th:value="${updateSettings.imprevisto}" required/>
-							<label for="cod">Factor 1 (Comisionables):</label>
-							<input title="Debe ingresar el valor del factor 1" type="number" min="0" step="any" name="factor1" th:value="${updateSettings.factor1}"  required/>	
-							<label for="detail">Aporte fijo:</label>
-							<input title="Debe ingresar el aporte fijo" type="number"  min="0" step="any" name="aporteFijo" th:value="${updateSettings.aporteFijo}" required/>
-							<label for="cod">Factor 2 (No comisionables):</label>
-							<input title="Debe ingresar el valor del factor 1" type="number" min="0" step="any" name="factor2" th:value="${updateSettings.factor2}"  required/>	
-							
-							
-							
-							
-							<a href="#" th:href="@{/admin/addsettings}"><button  class="custom_text" data-icon="delete">Cancelar</button></a>							
-						</div>
-					
-						
-                    	<hr>
+					<div id="msg"></div>
+                    <hr>
+                    <a id="settingsCancel" type="button"  style="display:none;" data-icon="delete" onclick="clearSettings();"><input data-icon="delete" type="button" value="Cancelar"/></a>
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
-                   <!--  <input type="submit" name="submit" class="custom_text" data-icon="refresh" value="Modificar registro">-->
+                  
 				</form>
 			</div>
            	
@@ -101,17 +66,22 @@
            				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
            				</thead>
-           				<tbody>
-	           			<tr th:each="countrySetting : ${countrySettings}">
-							<td style="padding-right: 15px;" th:text="${countrySetting.idSettings}"></td>
-							<td style="padding-right: 15px;" th:text="${countrySetting.Country.detail}"></td>
-							<td style="padding-right: 15px;" th:text="${countrySetting.CurrencyTypeFavorite.detail}"></td>
-							<td style="padding-right: 15px;" th:text="${countrySetting.CurrencyTypeInternational.detail}"></td>
-							<td style="padding-right: 15px;" th:text="${countrySetting.imprevisto}+'%'"></td>
-							<td style="padding-right: 15px;" th:text="${countrySetting.factor1}"></td>
-							<td style="padding-right: 15px;" th:text="${countrySetting.aporteFijo}"></td>
-							<td style="padding-right: 15px;" th:text="${countrySetting.factor2}"></td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updatesettings?idSettings=__${countrySetting.idSettings}__}"  >Editar</a></td>
+           				<tbody id="tbodySettings">
+	           			<tr id="settingsRow" th:each="countrySetting : ${countrySettings}">
+							<td id="idSettings" style="padding-right: 15px;"><span th:text="${countrySetting.idSettings}"></span></td>
+							<td style="padding-right: 15px;"><span  th:text="${countrySetting.Country.detail}"></span></td>
+							<td style="padding-right: 15px;"><span  th:text="${countrySetting.CurrencyTypeFavorite.detail}"></span></td>
+							<td style="padding-right: 15px;"><span  th:text="${countrySetting.CurrencyTypeInternational.detail}"></span></td>
+							<td id="imprevisto" style="padding-right: 15px;"><span th:text="${countrySetting.imprevisto}+'%'"></span></td>
+							<td id="factor1" style="padding-right: 15px;"><span  th:text="${countrySetting.factor1}"></span></td>
+							<td id="aporteFijo" style="padding-right: 15px;"><span  th:text="${countrySetting.aporteFijo}"></span></td>
+							<td id="factor2" style="padding-right: 15px;"><span  th:text="${countrySetting.factor2}"></span></td>
+	           				<td style="padding-right: 15px;"><a href="#" onclick="editSettings(this);">Editar</a></td>
+	           				
+	           				
+	           				<!-- display;none tds -->
+							<td style="padding-right: 15px;display:none;" id="idCurrencyTypeFavorite"><span th:text="${countrySetting.CurrencyTypeFavorite.idCurrencyType}"></span></td>
+							<td style="padding-right: 15px;display:none;" id="idCurrencyTypeInternational"><span th:text="${countrySetting.CurrencyTypeInternational.idCurrencyType}"></span></td>
            				</tr>
            				
           			</tbody>

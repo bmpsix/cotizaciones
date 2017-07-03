@@ -16,18 +16,14 @@
 		<h3>Control de tipos de propuesta</h3>
 			<div data-role="fieldcontain">
 			
-					<form method="post" action="#" th:action="@{/admin/addproposaltype}" th:object="${updateProposalType}" >
-						<div th:if="${updateProposalType==null}">
+				<form id="formProposalType" method="POST" action="javascript:sendFormProposalType();">
+						
+							<input id="idProposalType" type="hidden" name="idProposalType" th:value="0" readonly />
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${detail}" required/>			
-						</div>
-						<div th:if="${updateProposalType!=null}">
-							<input type="hidden" name="idProposalType" th:value="${updateProposalType.idProposalType}" readonly />
-							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${updateProposalType.detail}" required/>	
-							<a href="#" th:href="@{/admin/addproposaltype}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>					
-						</div>
-                    	<hr>
+							<input id="detail" title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${detail}" required/>			
+					<div id="msg"></div>
+                    <hr>
+                    <a id="proposalTypeCancel" type="button"  style="display:none;" data-icon="delete" onclick="clearProposalType();"><input data-icon="delete" type="button" value="Cancelar"/></a>	
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
                    
 				</form>
@@ -44,11 +40,11 @@
            				<th  style="padding-right: 15px;">Opción</th>          			
            				</tr>
            				</thead>
-           				<tbody>
-	           			<tr th:each="proposalType: ${proposalTypes}">
-							<td style="padding-right: 15px;" th:text="${proposalType.idProposalType}"></td>
-							<td style="padding-right: 15px;" th:text="${proposalType.detail}"></td>							
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargeproposaltype?idProposalType=__${proposalType.idProposalType}__}"  >Editar</a></td>
+           				<tbody id="tbodyProposalType">
+	           			<tr id="proposalTypeRow" th:each="proposalType: ${proposalTypes}">
+							<td id="idProposalType" style="padding-right: 15px;"><span th:text="${proposalType.idProposalType}"></span></td>
+							<td id="detail" style="padding-right: 15px;"><span th:text="${proposalType.detail}"></span></td>							
+	           				<td style="padding-right: 15px;"><a href="#" onclick="editProposalType(this);">Editar</a></td>
 	           				
            				</tr>
            				

@@ -14,68 +14,30 @@
 		<h3>Control de partidas</h3>
 			<div data-role="fieldcontain">
 			
-					<form method="post" action="#" th:action="@{/admin/adddeparture}" th:object="${updateDeparture}" >
-					
-						<div th:if="${updateDeparture==null}">
+					<form id="formDeparture" method="POST" action="javascript:sendFormDeparture();">
+						<input id="idDeparture" type="hidden" name="idDeparture" th:value="0" readonly />
+						
 							<label for="details">Detalle:</label>
-							<input title="Debe ingresar el nombre que describe la partida" type="text" name="detail" th:value="${detail}" required/>
+							<input id="detail" title="Debe ingresar el nombre que describe la partida" type="text" name="detail" th:value="${detail}" required/>
 							<label for="currencyType">Tipo de modena sugerida</label> 
 						
-							<select name="currencyType.idCurrencyType">
+							<select id="currencyType" name="currencyType.idCurrencyType">
 								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}">
 									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
 								</option>
 							</select>
-							
-							
 							<label for="sell">Precio sugerido:</label>
-							<input type="number" name="price" step="any" th:value="${price}" required/>
-							
+							<input id="price" type="number" name="price" step="any" th:value="${price}" required/>
 							<label for="status"  title="Estado de la partida o catálogo">Estado</label>
-							<select  name="status" data-role="slider"  th:value="${status}">
+							<select id="status"  name="status" data-role="slider"  th:value="${status}">
 								<option value="0">Inactivo</option>
 								<option value="1">Activo</option>
 							</select>
-						</div>
+					<div id="msg">
 						
-						<div th:if="${updateDeparture!=null}">
-							<input type="hidden" name="idDeparture" th:value="${updateDeparture.idDeparture}" readonly />
-							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre que describe la partida" type="text" name="detail" th:value="${updateDeparture.detail}" required/>	
-							<label for="currencyType">Tipo de moneda sugerida:</label>
-							<select name="currencyType.idCurrencyType">
-								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}" th:if="${updateDeparture.CurrencyType.detail == type.detail}" selected >
-									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
-								</option>
-								<option th:each="type : ${currencyTypes}" th:value="${type.idCurrencyType}" th:if="${updateDeparture.CurrencyType.detail != type.detail}">
-									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
-								</option>
-							</select>
-							
-							<label for="text">Precio sugerido:</label>
-							<input type="text" name="price" step="any" th:value="${updateDeparture.price}" required/>
-							
-							<label for="status"  title="Estado de la partida o catálogo">Estado</label>
-							<div  th:if="${updateDeparture.status==0}">
-								<select  name="status" data-role="slider"  th:value="${status}">
-									<option  value="0" selected>Inactivo </option>
-									<option  value="1">Activo</option>
-								</select>
-							</div>
-							<div  th:if="${updateDeparture.status==1}">
-								<select  name="status" data-role="slider"  th:value="${status}">
-									<option  value="0" >Inactivo </option>
-									<option  value="1" selected>Activo</option>
-								</select>
-							</div>
-							
-							
-							<a href="#" th:href="@{/admin/adddeparture}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>	
-						</div>
+					</div>
                     	<hr>
-                    	
-                   
-                    	
+                    <a id="departureCancel" type="button"  style="display:none;" data-icon="delete" onclick="clearDeparture();"><input data-icon="delete" type="button" value="Cancelar"/></a>
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
 				</form>
 			</div>
@@ -95,16 +57,21 @@
            				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
            				</thead>
-           				<tbody>
-	           			<tr th:each="departure: ${departures}">
-							<td style="padding-right: 15px;" th:text="${departure.idDeparture}"></td>
-							<td style="padding-right: 15px;" th:text="${departure.detail}"></td>
-							<td style="padding-right: 15px;" th:text="${departure.Country.detail}"></td>
-							<td style="padding-right: 15px;" th:text="${departure.CurrencyType.detail}"></td>
-							<td style="padding-right: 15px;" th:text="${departure.price}"></td>
-							<td style="padding-right: 15px;" th:if="${departure.status==1}">Activo</td>
-							<td style="padding-right: 15px;" th:if="${departure.status==0}">Inactivo</td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updatedeparture?idDeparture=__${departure.idDeparture}__}"  >Editar</a></td>
+           				<tbody id="tbodyDeparture">
+	           			<tr id="departureRow" th:each="departure: ${departures}">
+							<td id="idDeparture" style="padding-right: 15px;"><span th:text="${departure.idDeparture}"></span></td>
+							<td id="detail" style="padding-right: 15px;"><span th:text="${departure.detail}"></span></td>
+							<td style="padding-right: 15px;"><span th:text="${departure.Country.detail}"></span></td>
+							<td style="padding-right: 15px;"><span th:text="${departure.CurrencyType.detail}"></span></td>
+							<td id="price" style="padding-right: 15px;"><span th:text="${departure.price}"></span></td>
+							<td id="status" style="padding-right: 15px;" th:if="${departure.status==1}"><span> Activo</span></td>
+							<td id="status" style="padding-right: 15px;" th:if="${departure.status==0}"><span>Inactivo</span></td>
+	           				<td style="padding-right: 15px;"><a href="#" onclick="editDeparture(this);">Editar</a></td>
+	           				
+	           				<!-- display;none tds -->
+	           				
+	           				<td style="padding-right: 15px;display:none;" id="idCountry"><span th:text="${departure.Country.idCountry}"></span></td>
+							<td style="padding-right: 15px;display:none;" id="idCurrencyType"><span th:text="${departure.CurrencyType.idCurrencyType}"></span></td>
            				</tr>
            				
           			</tbody>
@@ -116,14 +83,6 @@
 			<div data-role="popup"  data-position="left" id="adminmenu" th:replace="fragments/footer"></div>
 		<!-- /panel -->	
 		</div>
-		
-	 <script>
-$(".opt").each(function()
-{
-	alert($(this).val());
-});
-</script>
-
 		
 	</div>
 </body>

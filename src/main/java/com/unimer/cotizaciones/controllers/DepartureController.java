@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.Country;
+import com.unimer.cotizaciones.entities.CurrencyType;
 import com.unimer.cotizaciones.entities.Departure;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.DepartureService;
@@ -55,25 +56,17 @@ public class DepartureController {
 	public String addDeparture(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name ="departure") Departure departure, Model model) {
 		LOG.info("METHOD: addDeparture in DepartureController -- PARAMS: " + departure.toString());
 		Country cntry = countryService.findById(userSession.getIdCountry());
+		CurrencyType currencyType = currencyTypeService.getCurrencyType(departure.getCurrencyType().getIdCurrencyType());
 		departure.setCountry(cntry);
+		departure.setCurrencyType(currencyType);
 		departureService.addDeparture(departure,userSession.getId());
-		return "redirect:/admin/departure";
+		model.addAttribute("departures", departureService.listAllDeparture());
+		return "departure :: #departureRow";
 	}
 
 	@GetMapping("/admin/adddeparture")
 	public String getDeparture(){
 		return "redirect:/admin/departure";
-	}
-
-	@GetMapping("/admin/updatedeparture")
-	public ModelAndView updateDeparture(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,int idDeparture, Model model) {
-		Country cntry = countryService.findById(userSession.getIdCountry());
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("departure");
-		modelAndView.addObject("currencyTypes", cntry.getCurrencyType());
-		modelAndView.addObject("departures", departureService.listAllDeparture());
-		modelAndView.addObject("updateDeparture", departureService.findById(idDeparture));
-		return modelAndView;
 	}
 
 }

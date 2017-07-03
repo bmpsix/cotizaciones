@@ -30,7 +30,7 @@ public class Client implements Serializable {
 	@Column(length=100, nullable=false)
 	private String detail;
 
-	@Column(length=50, nullable=false)
+	@Column(length=100, nullable=false)
 	private String email;
 
 	@Column(length=15, nullable=false)

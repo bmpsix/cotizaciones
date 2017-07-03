@@ -41,24 +41,12 @@ public class OperationTypeController {
 	public String addOperationType(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "operationType") OperationType operationType, Model model){
 		LOG.info("METHOD: addOperationType in OperationTypeController -- PARAMS: " + operationType.toString());
 		operationTypeService.addOperationType(operationType,userSession.getId());
-		 return "redirect:/admin/operationtype";
+		model.addAttribute("operationTypes", operationTypeService.listAllOperationType());
+		return "operationtype :: #operationTypeRow";
 	}
 	
 	@GetMapping("/admin/addoperationtype")
 	public String getOPT(){
 		return "redirect:/admin/operationtype";
 	}
-	
-	@GetMapping("/admin/updateoperationtype")
-	public ModelAndView updateOperationType(int idOperationType, Model model) {
-		
-			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("operationtype");
-			modelAndView.addObject("operationTypes", operationTypeService.listAllOperationType());
-			modelAndView.addObject("updateOperationType",operationTypeService.findById(idOperationType));
-
-		return modelAndView;
-	}
-	
-	
 }

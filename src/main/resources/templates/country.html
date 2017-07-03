@@ -16,27 +16,19 @@
 		<h3>Control de países</h3>
 			<div data-role="fieldcontain">
 			
-					<form method="post" action="#" th:action="@{/admin/addcountry}" th:object="${updateCountry}"> <!--  onSubmit="if (detail.value!=null && cod.value!=null) return location.reload(); else return false;"-->
-						<div th:if="${updateCountry==null}">
+					<form id="formCountry" method="POST" action="javascript:sendFormCountry();">
+							<input id="idCountry" type="hidden" name="idCountry" th:value="0"  readonly />
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${detail}" required/>
+							<input id="detail" title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${detail}" required/>
 							<label for="cod">Código del país:</label>
-							<input title="Debe ingresar el código del país" type="text" name="cod" th:value="${cod}" maxlength="3" required/>						
-						</div>
+							<input id="cod" title="Debe ingresar el código del país" type="text" name="cod" th:value="${cod}" maxlength="3" required/>						
 						
-						<div th:if="${updateCountry!=null}">
-							<input type="hidden" name="idCountry" th:value="${updateCountry.idCountry}" readonly />
-							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${updateCountry.detail}" required/>
-							<label for="cod">Código del país:</label>
-							<input title="Debe ingresar el código del país" type="text" name="cod" th:value="${updateCountry.cod}"   maxlength="3" required/>	
-							<a href="#" th:href="@{/admin/addcountry}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>							
-						</div>
-					
+					<div id="msg">
 						
-                    	<hr>
+					</div>
+                    <hr>
+                    <a id="countryCancel" type="button"  style="display:none;" data-icon="delete" onclick="clearCountry();"><input data-icon="delete" type="button" value="Cancelar"/></a>
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
-                   <!--  <input type="submit" name="submit" class="custom_text" data-icon="refresh" value="Modificar registro">-->
 				</form>
 			</div>
            	
@@ -52,13 +44,12 @@
            				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
            				</thead>
-           				<tbody>
-	           			<tr th:each="country : ${countries}">
-							<td style="padding-right: 15px;" th:text="${country.idCountry}"></td>
-							<td style="padding-right: 15px;" th:text="${country.detail}"></td>
-							<td style="padding-right: 15px;" th:text="${country.cod}"></td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/chargecountry?idCountry=__${country.idCountry}__}"  >Editar</a></td>
-	           				
+           				<tbody id="tbodyCountry">
+	           			<tr id="countryRow" th:each="country : ${countries}">
+							<td id="idCountry" style="padding-right: 15px;"><span th:text="${country.idCountry}"></span></td>
+							<td id="detail" style="padding-right: 15px;" ><span th:text="${country.detail}"></span></td>
+							<td id="cod" style="padding-right: 15px;"><span th:text="${country.cod}"></span></td>
+	           				<td style="padding-right: 15px;"><a href="#" onclick="editCountry(this);">Editar</a></td>
            				</tr>
            				
           			</tbody>

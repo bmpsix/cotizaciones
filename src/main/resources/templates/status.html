@@ -15,20 +15,14 @@
 		<h3>Control de estados</h3>
 			<div data-role="fieldcontain">
 					
-				<form method="post" action="#" th:action="@{/admin/addstatus}" th:object="${updateStatus}" >
+				<form id="formStatus" method="POST" action="javascript:sendFormStatus();">
 		
-						<div th:if="${updateStatus==null}">
+							<input id="idStatus" type="hidden" name="idStatus" th:value="0" readonly />
 							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el estado" type="text" name="detail" th:value="${detail}" required/>
-						</div>
-						
-						<div th:if="${updateStatus!=null}">
-							<input type="hidden" name="idStatus" th:value="${updateStatus.idStatus}" readonly />
-							<label for="detail">Detalle:</label>
-							<input title="Debe ingresar el estado" type="text" name="detail" th:value="${updateStatus.detail}" required/>
-							<a href="#" th:href="@{/admin/addstatus}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
-						</div>
-                    	<hr>
+							<input id="detail" title="Debe ingresar el estado" type="text" name="detail" th:value="${detail}" required/>
+					<div id="msg"></div>
+                    <hr>
+                    <a id="statusCancel" type="button"  style="display:none;" data-icon="delete" onclick="clearStatus();"><input data-icon="delete" type="button" value="Cancelar"/></a>	
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
 				</form>
 			</div>
@@ -44,12 +38,11 @@
            				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
            				</thead>
-           				<tbody>
-	           			<tr th:each="status : ${allStatus}">
-							<td style="padding-right: 15px;" th:text="${status.idStatus}"></td>
-							<td style="padding-right: 15px;" th:text="${status.detail}"></td>
-	           				<td style="padding-right: 15px;"><a href="#" th:href="@{/admin/updatestatus?idStatus=__${status.idStatus}__}"  >Editar</a></td>
-	           				
+           				<tbody id="tbodyStatus">
+	           			<tr id="statusRow" th:each="status : ${allStatus}">
+							<td id="idStatus" style="padding-right: 15px;"><span th:text="${status.idStatus}"></span></td>
+							<td id="detail" style="padding-right: 15px;"><span th:text="${status.detail}"></span></td>
+	           				<td style="padding-right: 15px;"><a href="#" onclick="editStatus(this);">Editar</a></td>
            				</tr>
            				
           			</tbody>

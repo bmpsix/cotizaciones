@@ -39,24 +39,12 @@ public class CollectMethodController {
 	@PostMapping("/admin/addcollectmethod")
 	public String addCollectMethod(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "collectMethod") CollectMethod collectMethod, Model model){
 		collectMethodService.addCollectMethod(collectMethod,userSession.getId()); 
-		return "redirect:/admin/collectmethod";
+		model.addAttribute("collectmethods", collectMethodService.listAllCollectMethod());
+		return "collectmethod :: #collectMethodRow";
 	}
 	
 	@GetMapping("/admin/addcollectmethod")
 	public String getCollectMethod(){
 		return "redirect:/admin/collectmethod";
 	}
-	
-	@GetMapping("/admin/chargecollectmethod")
-	public ModelAndView chargeCollectMethod(int idCollectMethod, Model model) {
-
-			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("collectmethod");
-			modelAndView.addObject("collectmethods", collectMethodService.listAllCollectMethod());
-			modelAndView.addObject("updateCollectMethod", collectMethodService.getCollectMethod(idCollectMethod));
-			
-		return modelAndView;
-	}
-	
-	
 }

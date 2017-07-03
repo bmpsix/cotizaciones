@@ -41,22 +41,12 @@ public class ExecutionTypeController {
 			Model model){
 		LOG.info("METHOD: addExecutionType in ExecutionTypeController -- PARAMS: " + executionType.toString());
 		executionTypeService.addExecutionType(executionType,userSession.getId());
-		return "redirect:/admin/executiontype";
+		model.addAttribute("executiontypes", executionTypeService.listAllExecutionType());
+		return "executiontype :: #executionTypeRow";
 	}
 
 	@GetMapping("/admin/addexecutiontype")
 	public String getExecutionType(){
 		return "redirect:/admin/executiontype";
 	}
-
-	@GetMapping("/admin/updateexecutiontype")
-	public ModelAndView updateExecutionType(int idExecutionType, Model model) {
-
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("executiontype");
-		modelAndView.addObject("executiontypes", executionTypeService.listAllExecutionType());
-		modelAndView.addObject("updateExecutionType", executionTypeService.findById(idExecutionType));
-		return modelAndView;
-	}
-
 }

@@ -38,7 +38,7 @@ public class CurrencyType implements Serializable {
 	@Column(nullable=false)
 	private byte status;
 
-	@Column(nullable=false, length=2)
+	@Column(nullable=false, length=3)
 	private String symbol;
 
 	

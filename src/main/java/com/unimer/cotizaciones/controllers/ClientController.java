@@ -72,8 +72,6 @@ public class ClientController {
 		List<Client> clients = clientService.listAllClient();
 		model.addAttribute("clients",clients);
 		
-		LOG.info("ESTOY A PUNTO DE RETORNAR......."+clients);
-		
 		return"client :: #clientRow";
 	}
 	
@@ -81,21 +79,5 @@ public class ClientController {
 	public String getClient(){
 		return "redirect:/admin/client";
 	}
-	
-	@GetMapping("/admin/updateclient")
-	public ModelAndView updateClient(int idClient, Model model) {
-		
-			ModelAndView modelAndView = new ModelAndView();
-			 modelAndView.setViewName("client");
-				modelAndView.addObject("countries", countryService.listAllCountries());
-				modelAndView.addObject("saClients", saClientService.findByActiveStatus());
-				modelAndView.addObject("clientTypes", clientTypeService.findByActiveStatus());
-				modelAndView.addObject("clients", clientService.listAllClient());
-			modelAndView.addObject("updateClient",clientService.findById(idClient));
-
-		return modelAndView;
-	}
-	
-
 	
 }
