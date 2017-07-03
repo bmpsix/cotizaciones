@@ -140,7 +140,7 @@ public class AssessmentController {
 			assessment.setSaClient(saClientService.findById(idSaClient));
 			assessment.setStatus(statusServiceImpl.findById(idStatus));
 			assessment.setUser(userService.findById(idUser));
-			
+			assessment.setUserAssigned(userService.findById(idUser));
 			LOG.info(assessment.toString());
 			assessmentService.addAssessment(assessment, idUser);
 			return "true";

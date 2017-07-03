@@ -51,17 +51,19 @@ $( document ).ready(function(){
 		           url: url,
 		           data: { 
 		        	   'idAssessment': idAssessment,
-		        	   'creationDate': creationDate, 
+		        	   'creationDate': creationDate,
 		        	   'detail' : detail,
 		        	   'idCurrencyExchange' : idCurrencyExchange,
 		        	   'idSaClient' : idSaClient,
 		        	   'idStatus' : idStatus,
-		        	   'idUser' : idUser
+		        	   'idUser' : idUser,
+		        	   'userAssigned': idUser
 		        		 },  // Adjuntar los campos del formulario enviado.
 
 		           success: function(data)
 		           {
 		        	   if(data != null){
+		        		   alert(data);
 		        		   location.reload();
 		        	   }else{
 		        		   alert("false");
