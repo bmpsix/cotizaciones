@@ -5,7 +5,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -137,7 +136,6 @@ public class ProposalController {
 	private SettingsService settingsService;
 	
 	@GetMapping("/admin/proposal")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView proposal(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession){
 		Country cntry = countryService.findById(userSession.getIdCountry());
 		Settings sttings = settingsService.findSettingByCountry(cntry);
@@ -176,9 +174,11 @@ public class ProposalController {
 	public String addProposal(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@RequestParam("idProposal") int idProposal,@RequestParam("proposalName") String proposalName,@RequestParam("idCurrencyType") int idCurrencyType,@RequestParam("endDate") Date endDate,@RequestParam("initialDate") Date initialDate,@RequestParam("observations") String observations,@RequestParam("targetText") String targetText,@RequestParam("idAssessment") int idAssessment,@RequestParam("idClientContact") int idClientContact,@RequestParam("idCollectMethod") int idCollectMethod,@RequestParam("idCountry") int idCountry,@RequestParam("idExecutionType") int idExecutionType,@RequestParam("idIndustrySector") int idIndustrySector,@RequestParam("idOperation") int idOperation,@RequestParam("idProposalType") int idProposalType,@RequestParam("idStatus") int idStatus,@RequestParam("idStudyCategory") int idStudyCategory,@RequestParam("idStudyType") int idStudyType,@RequestParam("idTechnique") int idTechnique,@RequestParam("tracker") String tracker,@RequestParam("projectType") String projectType,Model model) 
 	{
 		
+		
 		Country cntry = countryService.findById(userSession.getIdCountry());
 		CurrencyType currencyType = currencyTypeService.getCurrencyType(idCurrencyType);
-		CurrencyExchange currencyE = currencyExchangeService.findByCountryAndCurrencyType(cntry, currencyType);
+		Settings settings = settingsService.findSettingByCountry(cntry);
+		CurrencyExchange currencyE = currencyExchangeService.findByCountryAndCurrencyType(cntry, settings.getCurrencyTypeInternational());
 		Assessment assessment = assessmentService.findById(idAssessment);
 		ClientContact clientContact = clientContactService.findById(idClientContact);
 		CollectMethod collectMethod = collectMethodService.getCollectMethod(idCollectMethod);
@@ -193,6 +193,7 @@ public class ProposalController {
 		Technique technique = techniqueService.findById(idTechnique);		
 		User user = userService.findById(userSession.getId());
 		java.util.Date date = new Date();
+		
 		Proposal  proposal = new Proposal(proposalName,date,currencyE.getSell(), endDate,initialDate,  observations,  targetText,  assessment,clientContact,  collectMethod,  countryProposal,  executionType,industrySector,  operation,  proposalType,  status, studyCategory,  studyType,technique, tracker,projectType,user,currencyType);
 		if(idProposal!=0) proposal.setIdProposal(idProposal);	
 		proposal = proposalService.addProposal(proposal, userSession.getId());

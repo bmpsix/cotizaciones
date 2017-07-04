@@ -16,7 +16,12 @@ $( document ).ready(function() {
 	$(".paso1").show();
 	$(".paso2").hide();
 	$(".paso3").hide();
-	
+	$(".detailTable").hide();
+	$(".columnHide").show();
+	$("#hideDetails").hide();
+	$(".parametersTable").hide();
+	$(".columnHide2").show();
+	$("#hideParameters").hide();
 	
 	
 	$(".first").click(function(){
@@ -68,7 +73,38 @@ $( document ).ready(function() {
 	$(".ui-filterable").focusin(function(){
 		$(".form-proposaldetails").hide("slow");
 	});
+	
+	
+	$("#showDetails").click(function(){
+		$(".detailTable").toggle();
+		$(".columnHide").hide();
+		$("#showDetails").hide("slow");
+		$("#hideDetails").toggle("slow");
 		
+	});
+
+	$("#hideDetails").click(function(){
+		$(".detailTable").hide();
+		$(".columnHide").toggle();
+		$("#hideDetails").hide("slow");
+		$("#showDetails").toggle("slow");
+	});
+	
+	$("#showParameters").click(function(){
+		$(".parametersTable").toggle();
+		$(".columnHide2").hide();
+		$("#showParameters").hide("slow");
+		$("#hideParameters").toggle("slow");
+		
+	});
+
+	$("#hideParameters").click(function(){
+		$(".parametersTable").hide();
+		$(".columnHide2").toggle();
+		$("#hideParameters").hide("slow");
+		$("#showParameters").toggle("slow");
+	});
+	
 	 
 //------------------------------------------------------------------------------------------------------------------------------------------------
 	 
@@ -185,7 +221,17 @@ $( document ).ready(function() {
 			        		   if($("#idProposalDetails").val()==0) msg = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
 			        		   else  if($("#idProposalDetails").val()!=0) msg = "<p style='color: hsl(153,80%,40%)'>Se actualizó la información correctamente <p>";
 			        		   ClearForm();
-			        		   alert(data);
+			        		   
+			        		   //Diseño de tabla
+			        		    $(".parametersTable").hide();
+			        			$(".columnHide2").show();
+			        			$("#hideParameters").hide();
+			        			$("#showParameters").show();
+			        			$(".detailTable").hide();
+			        			$(".columnHide").show();
+			        			$("#hideDetails").hide();
+			        			$("#showDetails").show();
+			        			
 			        		   totalcharge();
 			        		   //location.reload();
 			        		   $(".form-proposaldetails").hide("slow");
@@ -368,8 +414,8 @@ function chargeTheDetailForUpdate(row) {
 	var numberTable = $(row).parents("tr").find("#numberTable span").eq(0).html();
 	var daysTimesTable = $(row).parents("tr").find("#daysTimesTable span").eq(0).html();
 	var totalBudgetTable = $(row).parents("tr").find("#totalBudgetTable span").eq(0).html();
-	var detailTable = $(row).parents("tr").find("#detailTable span").eq(0).html();
-	var parametersTable = $(row).parents("tr").find("#parametersTable span").eq(0).html();
+	var detailTable = $(row).parents("tr").find("#detailTable textarea").eq(0).html();
+	var parametersTable = $(row).parents("tr").find("#parametersTable textarea").eq(0).html();
 	var commissionableTable = $(row).parents("tr").find("#commissionableTable span").eq(0).html();
 	var idCurrencyTypeTable = $(row).parents("tr").find("#idCurrencyTypeTable span").eq(0).html();
 	var idDepartureTable = $(row).parents("tr").find("#idDepartureTable span").eq(0).html();

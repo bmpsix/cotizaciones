@@ -212,7 +212,7 @@
 			<label for="clientContact"><h5>Contacto de cliente:</h5></label>
         	<select name="idClientContact">
 				<option th:each="clientContact : ${clientContacts}" th:value="${clientContact.idClientContact}">
-					<p name="clientContact.name" th:text="${clientContact.name}" th:value="${clientContact.name}" ></p>
+					<p name="clientContact.name" th:text="${clientContact.name+' - '+clientContact.Client.detail}" th:value="${clientContact.name}" ></p>
 				</option>
 			</select>
 			

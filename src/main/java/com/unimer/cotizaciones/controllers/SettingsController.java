@@ -40,7 +40,7 @@ public class SettingsController {
 	
 	private static final Log LOG = LogFactory.getLog(CountryController.class);
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_CONTRIBUTOR')")
 	@GetMapping("/admin/settings")
 	public ModelAndView settings(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession){
 		Country cntry = countryService.findById(userSession.getIdCountry());

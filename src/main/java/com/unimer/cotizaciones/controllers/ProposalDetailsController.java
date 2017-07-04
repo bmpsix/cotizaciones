@@ -5,7 +5,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -143,7 +142,6 @@ public class ProposalDetailsController {
 	private SettingsService settingsService;
 	
 	@GetMapping("/admin/proposaldetails")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView proposalDetails(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute("proposedHeader") Proposal proposal){
 		ModelAndView modelAndView = new ModelAndView();
 		Country cntry = countryService.findById(userSession.getIdCountry());
