@@ -356,13 +356,18 @@ function totalcharge()
 	// -2 debido a que la ultima fila es la del total de presupuesto
 	for(contador=1;contador<=table.rows.length-2;contador++)
 	{
+		
 		var valor = table.rows[contador].cells[5].innerText;
-		var cms = table.rows[contador].cells[8].innerText;
-		var crrtype = table.rows[contador].cells[9].innerText;
+		var cms = table.rows[contador].cells[10].innerText;
+		var crrtype = table.rows[contador].cells[11].innerText;
 		valor = valor.split(" ");
 		valor = valor[valor.length-1];
+		
+		alert(crrtype);
+		
 		if(cms==1)
 		{
+			
 			if(idCurrencyTypeFavorite==crrtype) valor=valor/currencyExchange;
 			sub1=sub1+parseFloat(valor);
 		}
@@ -373,6 +378,7 @@ function totalcharge()
 			sub4=sub4+parseFloat(valor);
 		}
 	}
+	
 	totalImprevisto=sub1*(imprevisto/100);
 	sub2 = sub1+totalImprevisto;
 	sub3 = sub2*factor1;
