@@ -363,7 +363,6 @@ function totalcharge()
 		valor = valor.split(" ");
 		valor = valor[valor.length-1];
 		
-		alert(crrtype);
 		
 		if(cms==1)
 		{
