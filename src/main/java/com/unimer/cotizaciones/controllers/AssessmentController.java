@@ -82,6 +82,7 @@ public class AssessmentController {
 		modelAndView.addObject("status", statusServiceImpl.listAllStatus());
 		modelAndView.addObject("currencyexchanges", currencyExchangeService.listAllCurrencyExchange());
 		modelAndView.addObject("user", userService.findByEmail(userEntity.getEmail()));
+		modelAndView.addObject("role", userSession.getDetailRol());
 		return modelAndView;
 		
 	}

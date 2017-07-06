@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.unimer.cotizaciones.component.PasswordCreator;
+import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.entities.LogUser;
 import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.repositories.LogUserJpaRepository;
@@ -57,6 +58,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void addUser(User user, int idUser) {
 		
+			User creationUser = userJpaRepository.findByIdUser(idUser);
+			Country country = creationUser.getCountry();
+			user.setCountry(country);
+			
 			if (user.getIdUser()==0) {
 				java.util.Date date = new Date();
 				user.setLastLoggin(date);
@@ -108,6 +113,19 @@ public class UserServiceImpl implements UserService {
 	        Token += CharSet.charAt(new Random().nextInt(CharSet.length()));
 	    }
 	    return Token;
+	}
+
+	@Override
+	public void lastLogin(User user) {
+		
+		java.util.Date date = new Date();
+		user.setLastLoggin(date);
+		userJpaRepository.save(user);
+	}
+
+	@Override
+	public List<User> findByCountry(Country country) {
+		return userJpaRepository.findByCountry(country);
 	}
 	
 	/*public synchronized String generateToken() {

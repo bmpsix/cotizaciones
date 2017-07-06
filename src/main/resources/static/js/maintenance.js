@@ -1588,6 +1588,7 @@ function sendFormTechnique()
 		        		  if($("#idTechnique").val()==0) msg = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
 		        		  else  if($("#idTechnique").val()!=0) msg = "<p style='color: hsl(153,80%,40%)'>Se actualizó la información correctamente <p>";
 		        		  clearTechnique(); //Clear
+		        		
 		        		  div.innerHTML = msg;
 		        	   }else{
 		        		   msg = "<p style='color:#800000'>Ha ocurrido un error inesperado!<p>";
@@ -1630,3 +1631,123 @@ function clearTechnique(){
 //----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+
+
+
+
+
+
+//--------------------------------------------User--------------------------------------------------------------------------------------------------------
+
+function sendFormUser()
+{
+		var div = document.getElementById('msg');
+		var tbody = document.getElementById('tbodyUser');
+		var msg="";
+		var form = $("#formUser").serialize();
+		
+		var url = "/admin/adduser"; 
+		    $.ajax({
+		           type: "POST",
+		           cache: false,
+		           url: url,
+		           data: form,
+
+		           success: function(data)
+		           {
+		        	   if(data != null){
+		        		  tbody.innerHTML = data;
+		        		  if($("#idUser").val()==0) msg = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
+		        		  else  if($("#idUser").val()!=0) msg = "<p style='color: hsl(153,80%,40%)'>Se actualizó la información correctamente <p>";
+		        		   $(".detailTable").hide();
+		        			$(".columnHide").show();
+		        			$("#hideDetails").hide();
+		        			$("#showDetails").show();
+		        		  clearUser(); //Clear
+		        		  div.innerHTML = msg;
+		        	   }else{
+		        		   msg = "<p style='color:#800000'>Ha ocurrido un error inesperado!<p>";
+		        		   div.innerHTML = msg;
+		        		   }
+		           }
+		    	
+		         });
+}
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//----------------------------editUser--------------------------------------------------------------------------------------------------------------------
+
+function editUser(row){
+	
+   	var fullName = $(row).parents("tr").find("#fullName span").eq(0).html();
+   
+   	fullName= fullName.split(" ");
+   	
+   	var name = fullName[0];
+	var midname = fullName[1];
+	var lastname = fullName[2];
+	var email = $(row).parents("tr").find("#email span").eq(0).html();
+	var accountBank = $(row).parents("tr").find("#accountBank span").eq(0).html();
+	var status = $(row).parents("tr").find("#status span").eq(0).html();
+	var expired = $(row).parents("tr").find("#expired span").eq(0).html();
+	var credentialExpired = $(row).parents("tr").find("#credentialExpired span").eq(0).html();
+	var idRol = $(row).parents("tr").find("#idRol span").eq(0).html();
+	var idUser = $(row).parents("tr").find("#idUser span").eq(0).html();
+	var div = document.getElementById('msg');
+	var msg="";
+	div.innerHTML = msg;
+	$("#userCancel").show();
+	
+	$("#name").val(name);
+	$("#midname").val(midname);
+	$("#lastname").val(lastname);
+	$("#email").val(email);
+	$("#accountBank").val(accountBank);
+	$("#status").val(status).change();
+	$("#expired").val(expired).change();;
+	$("#credentialExpired").val(credentialExpired).change();
+	$("#idRol").val(idRol).change();;
+	$("#idUser").val(idUser);
+};
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------
+//----------------------------clearUser--------------------------------------------------------------------------------------------------------------------
+
+function clearUser(){
+	
+	$("#userCancel").hide();
+	$("#name").val("");
+	$("#midname").val("");
+	$("#lastname").val("");
+	$("#email").val("");
+	$("#accountBank").val("");
+	$("#status").val(0).change();
+	$("#expired").val(0).change();;
+	$("#credentialExpired").val(0).change();
+	$("#password").val("");
+	$("#idRol").val(1).change();;
+	$("#idUser").val(0);
+	var div = document.getElementById('msg');
+	var msg="";
+	div.innerHTML = msg;
+};
+//-----------------------------------------------Asigned Head contributor-----------------------------------------------------------------------------------
+
+
+function asignedHead(){
+
+	alert($("#rol").val());
+	if($("#rol").val()!="Boss_contributor")
+	{
+		$("#asignedHead").toggle();
+	}
+	else
+	{
+		$("#asignedHead").hide()
+	}
+	
+};
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------

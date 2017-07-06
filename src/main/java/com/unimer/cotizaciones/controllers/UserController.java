@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.unimer.cotizaciones.entities.Country;
+import com.unimer.cotizaciones.entities.Rol;
 import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.CountryService;
@@ -26,12 +29,12 @@ import com.unimer.cotizaciones.services.UserService;
 public class UserController {
 
 	@Autowired
-	@Qualifier("countryServiceImpl")
-	private CountryService countryService;
-
-	@Autowired
 	@Qualifier("rolServiceImpl")
 	private RolService rolService;
+	
+	@Autowired
+	@Qualifier("countryServiceImpl")
+	private CountryService countryService;
 
 	@Autowired
 	@Qualifier("userServiceImpl")
@@ -40,38 +43,28 @@ public class UserController {
 	private static final Log LOG = LogFactory.getLog(ClientController.class);
 
 	@GetMapping("/admin/user")
-	public ModelAndView user(){
-		
+	public ModelAndView user(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession){
+		Country country = countryService.findById(userSession.getIdCountry());
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("user");
-		modelAndView.addObject("countries", countryService.listAllCountries());
 		modelAndView.addObject("roles", rolService.findByActiveStatus());
-		modelAndView.addObject("users", userService.listAllUser());
+		modelAndView.addObject("users", userService.findByCountry(country));
 		return modelAndView;
 	}
 
 	@PostMapping("/admin/adduser")
 	public String addUser(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "user") User user, Model model) {
-		LOG.info("METHOD: addUser in UserController -- PARAMS: " + user.toString());
+		Country country = countryService.findById(userSession.getIdCountry());
+		Rol rol = rolService.findById(user.getRol().getIdRol());
+		user.setRol(rol);
 		userService.addUser(user,userSession.getId());
-		return "redirect:/admin/user";
+		model.addAttribute("users",userService.findByCountry(country));
+		return "user :: #userRow";
 	}
 
 	@GetMapping("/admin/adduser")
 	public String getUser(){
 		return "redirect:/admin/user";
-	}
-
-	@GetMapping("/admin/updateuser")
-	public ModelAndView updateUser(int idUser, Model model) {
-
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("user");
-		modelAndView.addObject("countries", countryService.listAllCountries());
-		modelAndView.addObject("roles", rolService.findByActiveStatus());
-		modelAndView.addObject("users", userService.listAllUser());
-		modelAndView.addObject("updateUser", userService.findById(idUser));
-		return modelAndView;
 	}
 	
 	@GetMapping("/admin/changepassword")

@@ -60,6 +60,7 @@ public class AuthenticationController {
 		UserSession userSession = new UserSession(userEntity.getIdUser(),userEntity.getEmail(), user.getAuthorities().toString(),userEntity.getCountry().getIdCountry(), userEntity.getCountry().getCod());
 		model.addAttribute("userSession",userSession);//se asignan los datos a la variable
 		
+		if(userEntity!=null) userService.lastLogin(userEntity);
 		return  "redirect:/assessment";
 	}
 	

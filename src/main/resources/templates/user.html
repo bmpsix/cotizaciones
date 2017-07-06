@@ -11,231 +11,132 @@
             SIP Cotizaciones - Usuarios
             </h1>
 		</div>
-		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
+		<div data-role="content" data-theme="a" style="width: 90%;margin: 1em auto;">
 		<h3>Control de usuarios</h3>
 			<div data-role="fieldcontain">
 					
-					<form id="formUser" method="POST" action="#" th:action="@{/admin/adduser}" th:object="${updateUser}" >
-					
-						<div th:if="${updateUser==null}">
+					<form id="formUser" method="POST" action="javascript:sendFormUser();">
 						<input id="idUser" type="hidden" name="idUser" th:value="0" readonly />
-							<label for="country">País:</label>
-							<select id="country" name="country.idCountry">
-								<option th:each="country : ${countries}" th:value="${country.idCountry}">
-									<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
-								</option>
-							</select>
-							<label for="rol">Rol:</label>
-							<select id="rol" name="rol.idRol">
+						<label for="rol">Rol:</label>
+							<select id="rol" name="rol.idRol" onchange="asignedHead()";>
 								<option th:each="rol : ${roles}" th:value="${rol.idRol}">
 									<p name="rol.detail" th:text="${rol.detail}" th:value="${rol.detail}" ></p>
 								</option>
 							</select>
+					  <div class="ui-grid-a" id="cotiHeader2">
+    
+      					<div class="ui-block-a" style="width:45%; margin-right: 5%">
+     
+							
 							<label for="name">Nombre:</label>
 							<input id="name" title="Debe ingresar el nombre del usuario" maxlength="100" type="text" name="name" th:value="${name}" required/>
 							<label for="midname">Segundo nombre:</label>
 							<input id="midname" title="Debe ingresar el segundo nombre del usuario" maxlength="15" type="text" name="midname" th:value="${midname}" required/>
 							<label for="lastname">Apellidos:</label>
 							<input id="lastname" title="Debe ingresar los apellidos del usuario"  maxlength="15" type="text" name="lastname" th:value="${lastname}" required/>
-							<label for="email">Correo:</label>
-							<input id="email" title="Debe ingresar el correo del cliente" maxlength="49" type="email" name="email" th:value="${email}" required/>
-							<label for="password">Contraseña:</label>
-							<input id="password" title="Debe ingresar una contraseña"  maxlength="15" type="password" name="password" th:value="${password}" required/>
-							<label for="accountBank">Cuenta bancaria:</label>
-							<input id="accountBank" title="Debe ingresar una cuenta bancaria"  maxlength="15" type="text" name="accountBank" th:value="${accountBank}" required/>
-							<label for="expired"  title="Indica si el usuario esta caducado en el sistema">Caducado</label>
+							<label for="expired"  title="Indica si el usuario esta caducado en el sistema">Cuenta caducada</label>
 							<select id="expired" name="expired" data-role="slider"  th:value="${expired}">
-								<option value="0">No</option>
-								<option value="1">Sí</option>
-							</select>
-							<label for="status"  title="Indica si las credenciales del usuario caducaron">Credenciales caducadas</label>
-							<select id="credenciales" name="credentialExpired" data-role="slider"  th:value="${credentialExpired}">
-								<option value="0">No</option>
-								<option value="1">Sí</option>
-							</select>
-							<label for="status"  title="Indica si el usuario esta activo o inactivo">Estado</label>
-							<select id="status"  name="status" data-role="slider"  th:value="${status}">
-								<option value="0">Inactivo</option>
-								<option value="1">Activo</option>
-							</select>
-						</div>
-						
-						<div th:if="${updateUser!=null}">
-							<input id="idUser" type="hidden" name="idUser" th:value="${updateUser.idUser}" readonly />
-							<select name="country.idCountry">
-								<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${updateUser.Country.detail == country.detail}" selected readonly>
-									<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
-								</option>
-								<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${updateUser.Country.detail != country.detail}" readonly>
-									<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
-								</option>
-							</select>
-							<label for="rol">Rol:</label>
-							<select name="rol.idRol">
-								<option th:each="rol : ${roles}" th:value="${rol.idRol}" th:if="${updateUser.Rol.detail == rol.detail}"  selected readonly>
-									<p name="rol.detail" th:text="${rol.detail}" th:value="${rol.detail}" ></p>
-									</option>
-								<option th:each="rol : ${roles}" th:value="${rol.idRol}" th:if="${updateUser.Rol.detail != rol.detail}"   readonly>
-									<p name="rol.detail" th:text="${rol.detail}" th:value="${rol.detail}" ></p>
-								</option>
-							</select>
-							<label for="rname">Nombre:</label>
-							<input title="Debe ingresar el nombre del usuario" maxlength="100" type="text" name="name" th:value="${updateUser.name}" required/>
-							<label for="midname">Segundo nombre:</label>
-							<input title="Debe ingresar el segundo nombre del usuario" maxlength="15" type="text" name="midname" th:value="${updateUser.midname}" required/>
-							<label for="lastname">Apellidos:</label>
-							<input title="Debe ingresar los apellidos del usuario"  maxlength="15" type="text" name="lastname" th:value="${updateUser.lastname}" required/>
-							<label for="email">Correo:</label>
-							<input title="Debe ingresar el correo del cliente" maxlength="49" type="email" name="email" th:value="${updateUser.email}" required/>
-							<label for="password">Contraseña:</label>
-							<input title="Debe ingresar una contraseña"  maxlength="15" type="password" name="password" th:value="${password}" required/>
-							<label for="accountBank">Cuenta bancaria:</label>
-							<input title="Debe ingresar una cuenta bancaria"  maxlength="15" type="text" name="accountBank" th:value="${updateUser.accountBank}" required/>
-							<label for="expired"  title="Indica si el usuario esta caducado en el sistema">Caducado</label>
-							<div  th:if="${updateUser.expired==0}">
-								<select id="expired" name="expired" data-role="slider"  th:value="${expired}">
-									<option value="0" selected>No</option>
+									<option value="0">No</option>
 									<option value="1">Sí</option>
 								</select>
-							</div>
-							<div  th:if="${updateUser.expired==1}">
-								<select  id="expired"  name="expired" data-role="slider"  th:value="${expired}">
-									<option  value="0" >No </option>
-									<option  value="1" selected>Sí</option>
-								</select>
-							</div>
-							<label for="status"  title="Indica si las credenciales del usuario caducaron">Credenciales caducadas</label>
-							<div  th:if="${updateUser.credentialExpired==0}">
-								<select  id="credenciales"  name="credentialExpired" data-role="slider"  th:value="${credentialExpired}">
-									<option value="0" selected>No</option>
+								<label for="credentialExpired"  title="Indica si las credenciales del usuario caducaron">Credenciales caducadas</label>
+								<select id="credentialExpired" name="credentialExpired" data-role="slider"  th:value="${credentialExpired}">
+									<option value="0">No</option>
 									<option value="1">Sí</option>
 								</select>
-							</div>
-							<div  th:if="${updateUser.credentialExpired==1}">
-								<select   id="credenciales" name="credentialExpired" data-role="slider"  th:value="${credentialExpired}">
-									<option  value="0" >No </option>
-									<option  value="1" selected>Sí</option>
-								</select>
-							</div>
-							<label for="status"  title="Indica si el usuario esta activo o inactivo">Estado</label>
-							<div  th:if="${updateUser.status==0}">
-								<select id="status" name="status" data-role="slider"  th:value="${status}">
-									<option  value="0" selected>Inactivo </option>
-									<option  value="1">Activo</option>
-								</select>
-							</div>
-							<div  th:if="${updateUser.status==1}">
+								<label for="status"  title="Indica si el usuario esta activo o inactivo">Estado</label>
 								<select id="status"  name="status" data-role="slider"  th:value="${status}">
-									<option  value="0" >Inactivo </option>
-									<option  value="1" selected>Activo</option>
+									<option value="0">Inactivo</option>
+									<option value="1">Activo</option>
 								</select>
-							</div>
-							<a href="#" th:href="@{/admin/adduser}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
-						</div>
-                    	<hr>
+      					</div>
+      					<div class="ui-block-b" style="width:45%; margin-right: 5%" >
+      						
+      							<label for="email">Correo:</label>
+								<input id="email" title="Debe ingresar el correo del cliente" maxlength="49" type="email" name="email" th:value="${email}" required/>
+								<label for="password">Contraseña:</label>
+								<input id="password" title="Debe ingresar una contraseña"  maxlength="15" type="password" name="password" th:value="${password}" required/>
+							
+    							<label for="accountBank">Cuenta bancaria:</label>
+								<input id="accountBank" title="Debe ingresar una cuenta bancaria"  maxlength="15" type="text" name="accountBank" th:value="${accountBank}" required/>
+								
+								<div id="asignedHead" style="display: none;">
+									<label  for="accountBank">Asignar un jefe de cotización:</label>
+									<select id="head" >
+										<option  th:each="head : ${users}" th:value="${head.idUser}" th:if="head.Rol.detail=='Boss_contributor'">
+											<p  th:text="${head.name+' '+head.midname+' '+head.lastname}" ></p>
+										</option>
+									</select>
+								</div>
+     					 </div>
+      
+					 </div>
+						
+					
+						
+					<div id="msg"></div>
+                    <hr>
+                    <a id="userCancel" type="button"  style="display:none;" data-icon="delete" onclick="clearUser();"><input data-icon="delete" type="button" value="Cancelar"/></a>	
   					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
 				</form>
 			</div>
 			
 			
-          	<div data-role="header"  data-theme="a">
-      		 	<h1>Usuarios en el sistema</h1>
-    		</div>
-           
-  				 <div data-role="main" class="ui-content">
-  				 
-  				 	<form class="ui-filterable">
-      					<input id="myFilterD" data-type="search" placeholder="Buscador de usuarios"/>
-    				</form>
-  				 
-					<div  data-role="collapsibleset"  data-filter="true" data-input="#myFilterD" data-autodividers="true" data-inset="true"> 
-						
-						<div th:each="user : ${users}" data-role="collapsible">
-							<h4 th:text="${'ID: '+user.idUser+' '+user.name+' '+user.midname+' '+user.lastname}"></h4>
-							
-							<table style="text-align:justify;">
-							<tr>
-								<th>ID:</th>
-								<td th:text="${user.idUser}"></td>
-							</tr>
-							<tr>
-								<th>País:</th>
-								<td th:text="${user.Country.detail}"></td>
-							</tr>
-							<tr>
-								<th>Rol:</th>
-								<td th:text="${user.Rol.detail}"></td>
-							</tr>
-							<tr>
-								<th>Nombre:</th>
-								<td th:text="${user.name}"></td>
-							</tr>
-							<tr>
-								<th>Segundo nombre:</th>
-								<td th:text="${user.midname}"></td>
-							</tr>
-							<tr>
-								<th>Apellidos:</th>
-								<td th:text="${user.lastname}"></td>
-							</tr>
-							<tr>
-								<th>Correo:</th>
-								<td th:text="${user.email}"></td>
-							</tr>
-							<tr>
-								<th>Cuenta bancaria:</th>
-								<td th:text="${user.accountBank}"></td>
-							</tr>
-							<tr>
-								<th>Comisión de uso:</th>
-								<td th:text="${user.useCommission}"></td>
-							</tr>
-							<tr>
-								<th>Cantidad de la comisión:</th>
-								<td th:text="${user.commissionAmount}"></td>
-							</tr>
-							<tr>
-								<th>Último ingreso:</th>
-								<td th:text="${user.lastLoggin}"></td>
-							</tr>
-							<tr>
-								<th>Caducado:</th>
-								<td th:if="${user.expired==1}">Sí</td>
-								<td th:if="${user.expired==0}">No</td>
-							</tr>
-							<tr>
-								<th>Caducado el:</th>
-								<td th:text="${#dates.format(user.expiredAt,'dd MMM yyyy HH:mm')}"></td>
-							</tr>
-							<tr>
-								<th>Credenciales caducadas:</th>
-								<td th:if="${user.credentialExpired==1}">Sí</td>
-								<td th:if="${user.credentialExpired==0}">No</td>
-							</tr>
-							<tr>
-								<th>Credenciales caducadas el:</th>
-								<td th:text="${#dates.format(user.credentialExpiredAt,'dd MMM yyyy HH:mm')}"></td>
-							</tr>
-							<tr>
-								<th>Fecha de creación</th>
-								<td th:text="${#dates.format(user.creationDate,'dd MMM yyyy HH:mm')}"></td>
-							</tr>
-							<tr>
-								<th>Última modificación</th>
-								<td th:text="${#dates.format(user.lastModification,'dd MMM yyyy HH:mm')}"></td>
-							</tr>
-							<tr>
-								<th>Estado:</th>
-								<td th:if="${user.status==1}">Activo</td>
-								<td th:if="${user.status==0}">Inactivo</td>
-							</tr>
-							<tr>
-								<th>Acción disponible:</th>
-								<td><a href="#" th:href="@{/admin/updateuser?idUser=__${user.idUser}__}"  >Editar</a></td>
-							</tr>
-							</table>
-						</div>
-				</div>
+     
+				
+		<form class="ui-filterable">
+			<input id="myFilter2" data-type="search" placeholder="Buscar usuario">
+			<div class="ui-block-b">
+		</div>
+		</form> 
+
+		
+		<table data-role="table" id="userTable" data-filter="true" data-input="#myFilter2" class="ui-responsive" >
+		<thead>
+    	<tr>
+
+       	 
+       	 <th data-priority="3">Nombre </th>
+       	 <th data-priority="4" >Correo</th>
+       	 <th data-priority="8">Cuenta bancaria</th>
+       	 <th data-priority="5">Rol</th>
+       	 <th data-priority="6">Caducada</th>
+       	 <th data-priority="6">Credenciales</th>
+       	 <th data-priority="6">Estado</th>
+       	 <th data-priority="7"><span class="detailTable">Fechas</span><span class="columnHide"></span>
+       	 	<a id="showDetails" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
+       	 	<a id="hideDetails" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
+       	 </th>
+       		<th data-priority="7">Opción</th>
+   	 	</tr>
+		</thead>
+	
+    	<tbody id="tbodyUser">
+      
+       	 <tr id="userRow" th:each="user : ${users}">
+           	 
+           	 <td id="fullName"><span  th:text="${user.name+' '+user.midname+' '+user.lastname}"></span></td>
+           	 <td id="email"><span  th:text="${user.email}"></span></td>
+           	 <td id="accountBank" ><span  th:text="${user.accountBank}"></span></td>
+           	 <td><span  th:text="${user.Rol.detail}"></span></td>	
+           	 <td th:if="${user.expired==1}" ><span  th:text="Si"></span></td>
+           	 <td th:if="${user.expired==0}" ><span  th:text="No"></span></td>
+           	 <td th:if="${user.credentialExpired==1}" ><span  th:text="No"></span></td>
+           	 <td th:if="${user.credentialExpired==0}" ><span  th:text="Si"></span></td>
+           	 <td th:if="${user.status==1}" ><span  th:text="Activo"></span></td>
+           	 <td th:if="${user.status==0}" ><span  th:text="Inactivo"></span></td>
+           	 <td class="detailTable"  id="dates"><span style="width: 200px;-moz-border-radius: 10px;-webkit-border-radius: 10px; border-color:white;"th:text="${'Fecha de creación: '+#dates.format(user.creationDate, 'MM/dd/yyyy')+' Expiró en: '+#dates.format(user.expiredAt, 'MM/dd/yyyy')+' Credenciales expiradas en: '+#dates.format(user.credentialExpiredAt, 'MM/dd/yyyy')+' Último ingreso: '+#dates.format(user.lastLoggin, 'MM/dd/yyyy')+' Última modificación: '+#dates.format(user.lastModification, 'MM/dd/yyyy')}" readonly></span></td>     																																																		
+           	 <td class="columnHide"><span></span></td>
+           	 <td id="status"style="display:none;" ><span  th:text="${user.status}"></span></td>
+           	 <td id="expired" style="display:none;"><span  th:text="${user.expired}"></span></td>
+           	 <td id="credentialExpired" style="display:none;"><span  th:text="${user.credentialExpired}"></span></td>
+           	 <td id="idRol" style="display:none;"><span  th:text="${user.Rol.idRol}" ></span></td>
+           	 <td id="idUser" style="display:none;"><span  th:text="${user.idUser}" ></span></td>
+           	 <td style="padding-right: 15px;"><a href="#" onclick="editUser(this)" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;"></a></td>
+       	 </tr>
+    	</tbody>    
+	</table>
+       
 		
 		<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
 			<div data-role="popup" data-position="left" id="adminmenu" th:replace="fragments/footer"></div>

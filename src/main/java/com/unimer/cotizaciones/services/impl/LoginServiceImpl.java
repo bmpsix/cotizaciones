@@ -48,7 +48,7 @@ public class LoginServiceImpl implements UserDetailsService {
 	private User buildUser(com.unimer.cotizaciones.entities.User user, List<GrantedAuthority> authorities) {
 		boolean status=false;
 		if(user.getStatus()==1) status=true;
-		return new User(user.getEmail(), user.getPassword(),status,true,true,true, authorities);
+		return new User(user.getEmail(), user.getPassword(),status,converter(user.getExpired()),converter(user.getCredentialExpired()),true, authorities);
 	}
 
 	private List<GrantedAuthority> buildAuthorities(Set<Rol> roles) {
@@ -64,5 +64,14 @@ public class LoginServiceImpl implements UserDetailsService {
 
 		return new ArrayList<GrantedAuthority>(auths);
 	}
+	
+	
+	private boolean converter(byte value)
+	{
+		if(value==0) return true;
+		else return false;
+	}
+	
+	
 }
 

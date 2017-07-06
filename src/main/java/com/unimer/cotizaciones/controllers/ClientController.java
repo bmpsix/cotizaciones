@@ -1,5 +1,4 @@
 package com.unimer.cotizaciones.controllers;
-import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -69,8 +68,7 @@ public class ClientController {
 		ClientType clientType = clientTypeService.findById(client.getClientType().getIdClientType());
 		client.setClientType(clientType);
 		clientService.addClient(client,userSession.getId());
-		List<Client> clients = clientService.listAllClient();
-		model.addAttribute("clients",clients);
+		model.addAttribute("clients",clientService.listAllClient());
 		
 		return"client :: #clientRow";
 	}
