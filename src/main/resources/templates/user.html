@@ -17,12 +17,7 @@
 					
 					<form id="formUser" method="POST" action="javascript:sendFormUser();">
 						<input id="idUser" type="hidden" name="idUser" th:value="0" readonly />
-						<label for="rol">Rol:</label>
-							<select id="rol" name="rol.idRol" onchange="asignedHead()";>
-								<option th:each="rol : ${roles}" th:value="${rol.idRol}">
-									<p name="rol.detail" th:text="${rol.detail}" th:value="${rol.detail}" ></p>
-								</option>
-							</select>
+						
 					  <div class="ui-grid-a" id="cotiHeader2">
     
       					<div class="ui-block-a" style="width:45%; margin-right: 5%">
@@ -60,10 +55,26 @@
     							<label for="accountBank">Cuenta bancaria:</label>
 								<input id="accountBank" title="Debe ingresar una cuenta bancaria"  maxlength="15" type="text" name="accountBank" th:value="${accountBank}" required/>
 								
-								<div id="asignedHead" style="display: none;">
-									<label  for="accountBank">Asignar un jefe de cotización:</label>
-									<select id="head" >
-										<option  th:each="head : ${users}" th:value="${head.idUser}" th:if="head.Rol.detail=='Boss_contributor'">
+								<label for="rol">Rol:</label>
+								<select id="rol" name="rol.idRol" onchange="asignedHead();">
+									<option th:each="rol : ${roles}" th:value="${rol.idRol}">
+										<p th:text="${rol.detail}" th:value="${rol.detail}" ></p>
+									</option>
+								</select>
+								<div style="display: none;">
+									<select id="headRol" name="rol.idRol">
+									<option th:each="rol : ${roles}" th:value="${rol.idRol}"  th:if="${rol.detail=='Boss_contributor'}">
+										<p th:text="${rol.detail}" th:value="${rol.detail}" ></p>
+									</option>
+								</select>
+								</div>		
+								
+								<input type="hidden" id="idHeadUser" name="idHeadUser" th:value="0" />
+								
+								<div id="asignedHead">
+									<label  for="head">Asignar un jefe de cotización:</label>
+									<select  id="head"  onchange="changeidHeadUser();">
+										<option  th:each="head : ${users}" th:value="${head.idUser}" th:if="${head.Rol.detail=='Boss_contributor'}">
 											<p  th:text="${head.name+' '+head.midname+' '+head.lastname}" ></p>
 										</option>
 									</select>

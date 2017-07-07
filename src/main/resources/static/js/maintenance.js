@@ -1646,6 +1646,8 @@ function sendFormUser()
 		var msg="";
 		var form = $("#formUser").serialize();
 		
+	if($("#head").val()!=$("#idUser").val())
+	{
 		var url = "/admin/adduser"; 
 		    $.ajax({
 		           type: "POST",
@@ -1656,6 +1658,8 @@ function sendFormUser()
 		           success: function(data)
 		           {
 		        	   if(data != null){
+		        		   if($("#head").val()==$("#idUser").val() || $("#headRol").val()==$("#rol").val()) location.reload();
+		        		   else{
 		        		  tbody.innerHTML = data;
 		        		  if($("#idUser").val()==0) msg = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
 		        		  else  if($("#idUser").val()!=0) msg = "<p style='color: hsl(153,80%,40%)'>Se actualizó la información correctamente <p>";
@@ -1665,6 +1669,7 @@ function sendFormUser()
 		        			$("#showDetails").show();
 		        		  clearUser(); //Clear
 		        		  div.innerHTML = msg;
+		        		   }
 		        	   }else{
 		        		   msg = "<p style='color:#800000'>Ha ocurrido un error inesperado!<p>";
 		        		   div.innerHTML = msg;
@@ -1672,6 +1677,12 @@ function sendFormUser()
 		           }
 		    	
 		         });
+		}
+		else
+		{
+			msg = "<p style='color:#800000'>No se puede asignar ese jefe a esta cuenta<p>";
+   		    div.innerHTML = msg;
+		}
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1726,8 +1737,10 @@ function clearUser(){
 	$("#expired").val(0).change();;
 	$("#credentialExpired").val(0).change();
 	$("#password").val("");
-	$("#idRol").val(1).change();;
+	$("#idRol").val(0).change();;
 	$("#idUser").val(0);
+	$("#idHeadUser").val(0);
+	$("#head").val(0);
 	var div = document.getElementById('msg');
 	var msg="";
 	div.innerHTML = msg;
@@ -1737,10 +1750,14 @@ function clearUser(){
 
 function asignedHead(){
 
-	alert($("#rol").val());
-	if($("#rol").val()!="Boss_contributor")
+	
+	if($("#headRol").val()!=$("#rol").val())
 	{
-		$("#asignedHead").toggle();
+		if( $("#asignedHead").css('display') == 'none') 
+			{
+				$("#asignedHead").toggle();
+				$("#idHeadUser").val($("#head").val());
+			}
 	}
 	else
 	{
@@ -1750,4 +1767,21 @@ function asignedHead(){
 };
 
 
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------
+function changeidHeadUser(){
+
+	
+	if( $("#asignedHead").css('display') == 'none')
+	{
+		 $("#idHeadUser").val(0);
+	}
+	else
+	{
+		 $("#idHeadUser").val($("#head").val());
+		 alert( $("#idHeadUser").val());
+	}
+	
+};
 //----------------------------------------------------------------------------------------------------------------------------------------------------------

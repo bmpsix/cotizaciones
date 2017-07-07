@@ -21,6 +21,7 @@ import com.unimer.cotizaciones.entities.Rol;
 import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.CountryService;
+import com.unimer.cotizaciones.services.HeadUserToUserService;
 import com.unimer.cotizaciones.services.RolService;
 import com.unimer.cotizaciones.services.UserService;
 
@@ -39,6 +40,11 @@ public class UserController {
 	@Autowired
 	@Qualifier("userServiceImpl")
 	private UserService userService;
+	
+	@Autowired
+	@Qualifier("headUserToUserServiceImpl")
+	private HeadUserToUserService headUserToUserService;
+	
 
 	private static final Log LOG = LogFactory.getLog(ClientController.class);
 
@@ -53,11 +59,15 @@ public class UserController {
 	}
 
 	@PostMapping("/admin/adduser")
-	public String addUser(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "user") User user, Model model) {
+	public String addUser(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "user") User user, @RequestParam("idHeadUser") int idHeadUser, Model model) {
+		
+		
 		Country country = countryService.findById(userSession.getIdCountry());
 		Rol rol = rolService.findById(user.getRol().getIdRol());
 		user.setRol(rol);
 		userService.addUser(user,userSession.getId());
+		headUserToUserService.addHeadUserToUser(idHeadUser, user);
+		model.addAttribute("roles", rolService.findByActiveStatus());
 		model.addAttribute("users",userService.findByCountry(country));
 		return "user :: #userRow";
 	}
