@@ -38,6 +38,10 @@ public class UserServiceImpl implements UserService {
 	@Qualifier("logUserJpaRepository")
 	private LogUserJpaRepository logUserJpaRepository;
 	
+
+	/*@Autowired
+	private JavaMailSender javaMailService;*/
+	
 	
 	@Override
 	public List<User> listAllUser() {
@@ -61,7 +65,9 @@ public class UserServiceImpl implements UserService {
 			User creationUser = userJpaRepository.findByIdUser(idUser);
 			Country country = creationUser.getCountry();
 			user.setCountry(country);
-			
+			/*String password = getToken(8);
+			/user.setPassword(password);
+			sendPassword(user.getEmail(),password);*/
 			if (user.getIdUser()==0) {
 				java.util.Date date = new Date();
 				user.setLastLoggin(date);
@@ -93,6 +99,7 @@ public class UserServiceImpl implements UserService {
 		user.setExpiredAt(date);
 		user.setLastLoggin(userToUpdate.getLastLoggin());
 		user.setLastModification(date);
+		
 		user.setPassword(passwordCreator.EncodePass(user.getPassword()));
 		LOG.info("METHOD: updateUser  User in userServiceImpl -- PARAMS: " + user.toString());
 		LOG.info("METHOD: updateUser  userToUpdate in userServiceImpl -- PARAMS: " + user.toString());
@@ -127,6 +134,26 @@ public class UserServiceImpl implements UserService {
 	public List<User> findByCountry(Country country) {
 		return userJpaRepository.findByCountry(country);
 	}
+	
+	
+	/*private void sendPassword(String email, String password)
+	{
+		
+		try{
+			MimeMessage mailMessage = javaMailService.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper( mailMessage, false, "utf-8" );
+			helper.setTo(email);
+			helper.setFrom("bot@unimercentroamerica.info");
+			helper.setSubject("UNIMER clave de acceso");
+			helper.setText("Clave: "+password);
+			javaMailService.send( mailMessage );
+			LOG.info("METHOD: sendPassword. Enviando a:"+email+"pass: "+password);
+		}
+		catch(Exception e)
+		{
+			LOG.info("METHOD: sendPassword. Error al enviar el correo "+e.toString());
+		}
+	}*/
 	
 	/*public synchronized String generateToken() {
         long longToken = Math.abs( random.nextLong() );

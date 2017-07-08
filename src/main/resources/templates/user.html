@@ -11,7 +11,7 @@
             SIP Cotizaciones - Usuarios
             </h1>
 		</div>
-		<div data-role="content" data-theme="a" style="width: 90%;margin: 1em auto;">
+		<div data-role="content" data-theme="a" style="width: 95%;margin: 1em auto;">
 		<h3>Control de usuarios</h3>
 			<div data-role="fieldcontain">
 					
@@ -108,12 +108,16 @@
 
        	 
        	 <th data-priority="3">Nombre </th>
-       	 <th data-priority="4" >Correo</th>
        	 <th data-priority="8">Cuenta bancaria</th>
        	 <th data-priority="5">Rol</th>
        	 <th data-priority="6">Caducada</th>
        	 <th data-priority="6">Credenciales</th>
        	 <th data-priority="6">Estado</th>
+       	 <th data-priority="6">Jefe</th>
+       	 <th data-priority="7" ><span  class="parametersTable">Correo</span><span class="columnHide2"></span>
+       	 	<a id="showParameters" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
+       	 	<a id="hideParameters" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
+       	 </th>
        	 <th data-priority="7"><span class="detailTable">Fechas</span><span class="columnHide"></span>
        	 	<a id="showDetails" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
        	 	<a id="hideDetails" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
@@ -123,11 +127,13 @@
 		</thead>
 	
     	<tbody id="tbodyUser">
+     
       
        	 <tr id="userRow" th:each="user : ${users}">
-           	 
+     		 
+     		  	 
            	 <td id="fullName"><span  th:text="${user.name+' '+user.midname+' '+user.lastname}"></span></td>
-           	 <td id="email"><span  th:text="${user.email}"></span></td>
+           	 
            	 <td id="accountBank" ><span  th:text="${user.accountBank}"></span></td>
            	 <td><span  th:text="${user.Rol.detail}"></span></td>	
            	 <td th:if="${user.expired==1}" ><span  th:text="Si"></span></td>
@@ -136,13 +142,21 @@
            	 <td th:if="${user.credentialExpired==0}" ><span  th:text="Si"></span></td>
            	 <td th:if="${user.status==1}" ><span  th:text="Activo"></span></td>
            	 <td th:if="${user.status==0}" ><span  th:text="Inactivo"></span></td>
-           	 <td class="detailTable"  id="dates"><span style="width: 200px;-moz-border-radius: 10px;-webkit-border-radius: 10px; border-color:white;"th:text="${'Fecha de creación: '+#dates.format(user.creationDate, 'MM/dd/yyyy')+' Expiró en: '+#dates.format(user.expiredAt, 'MM/dd/yyyy')+' Credenciales expiradas en: '+#dates.format(user.credentialExpiredAt, 'MM/dd/yyyy')+' Último ingreso: '+#dates.format(user.lastLoggin, 'MM/dd/yyyy')+' Última modificación: '+#dates.format(user.lastModification, 'MM/dd/yyyy')}" readonly></span></td>     																																																		
+           	 <td>
+           	 	<div th:each="headUserToUser : ${headUserToUsers}" >
+           	 		<span th:if="${user.idUser==headUserToUser.User.idUser}" th:text="${headUserToUser.headUser.name+' '+headUserToUser.headUser.midname+' '+headUserToUser.headUser.lastname}"></span>
+           	 	</div>
+           	 </td>
+           	 <td id="email" class="parametersTable"><p  th:text="${user.email}"></p></td>
+           	 <td class="columnHide2"><span></span></td>
+           	 <td class="detailTable"  id="dates"><textarea style="width: 200px;-moz-border-radius: 10px;-webkit-border-radius: 10px; border-color:white;"th:text="${'Fecha de creación: '+#dates.format(user.creationDate, 'MM/dd/yyyy')+' Expiró en: '+#dates.format(user.expiredAt, 'MM/dd/yyyy')+' Credenciales expiradas en: '+#dates.format(user.credentialExpiredAt, 'MM/dd/yyyy')+' Último ingreso: '+#dates.format(user.lastLoggin, 'MM/dd/yyyy')+' Última modificación: '+#dates.format(user.lastModification, 'MM/dd/yyyy')}" readonly></textarea></td>     																																																		
            	 <td class="columnHide"><span></span></td>
            	 <td id="status"style="display:none;" ><span  th:text="${user.status}"></span></td>
            	 <td id="expired" style="display:none;"><span  th:text="${user.expired}"></span></td>
            	 <td id="credentialExpired" style="display:none;"><span  th:text="${user.credentialExpired}"></span></td>
            	 <td id="idRol" style="display:none;"><span  th:text="${user.Rol.idRol}" ></span></td>
            	 <td id="idUser" style="display:none;"><span  th:text="${user.idUser}" ></span></td>
+           	 <td id="idHead" style="display:none;"  th:each="headUserToUser : ${headUserToUsers}" th:if="${user.idUser==headUserToUser.User.idUser}"><span  th:text="${headUserToUser.headUser.idUser}"></span></td>
            	 <td style="padding-right: 15px;"><a href="#" onclick="editUser(this)" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;"></a></td>
        	 </tr>
     	</tbody>    

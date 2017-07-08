@@ -2,6 +2,7 @@ package com.unimer.cotizaciones.services;
 
 import java.util.List;
 
+import com.unimer.cotizaciones.entities.HeadUserToUser;
 import com.unimer.cotizaciones.entities.User;
 
 public interface HeadUserToUserService {
@@ -12,4 +13,5 @@ public interface HeadUserToUserService {
 	
 	public abstract User findHeadUserByUser(User user);
 	
+	public abstract List<HeadUserToUser> findHeadUserToUser();
 }

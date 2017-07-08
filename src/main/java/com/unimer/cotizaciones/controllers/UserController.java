@@ -55,6 +55,7 @@ public class UserController {
 		modelAndView.setViewName("user");
 		modelAndView.addObject("roles", rolService.findByActiveStatus());
 		modelAndView.addObject("users", userService.findByCountry(country));
+		modelAndView.addObject("headUserToUsers", headUserToUserService.findHeadUserToUser());
 		return modelAndView;
 	}
 
@@ -69,6 +70,7 @@ public class UserController {
 		headUserToUserService.addHeadUserToUser(idHeadUser, user);
 		model.addAttribute("roles", rolService.findByActiveStatus());
 		model.addAttribute("users",userService.findByCountry(country));
+		model.addAttribute("headUserToUsers", headUserToUserService.findHeadUserToUser());
 		return "user :: #userRow";
 	}
 

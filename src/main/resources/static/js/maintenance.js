@@ -1663,10 +1663,16 @@ function sendFormUser()
 		        		  tbody.innerHTML = data;
 		        		  if($("#idUser").val()==0) msg = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
 		        		  else  if($("#idUser").val()!=0) msg = "<p style='color: hsl(153,80%,40%)'>Se actualizó la información correctamente <p>";
-		        		   $(".detailTable").hide();
+		        		    $(".detailTable").hide();
 		        			$(".columnHide").show();
 		        			$("#hideDetails").hide();
 		        			$("#showDetails").show();
+		        			
+		        			$(".parametersTable").hide();
+		        			$(".columnHide2").show();
+			        		$("#hideParameters").hide();
+			        		$("#showParameters").show();
+		        			
 		        		  clearUser(); //Clear
 		        		  div.innerHTML = msg;
 		        		   }
@@ -1698,13 +1704,14 @@ function editUser(row){
    	var name = fullName[0];
 	var midname = fullName[1];
 	var lastname = fullName[2];
-	var email = $(row).parents("tr").find("#email span").eq(0).html();
+	var email = $(row).parents("tr").find("#email p").eq(0).html();
 	var accountBank = $(row).parents("tr").find("#accountBank span").eq(0).html();
 	var status = $(row).parents("tr").find("#status span").eq(0).html();
 	var expired = $(row).parents("tr").find("#expired span").eq(0).html();
 	var credentialExpired = $(row).parents("tr").find("#credentialExpired span").eq(0).html();
 	var idRol = $(row).parents("tr").find("#idRol span").eq(0).html();
 	var idUser = $(row).parents("tr").find("#idUser span").eq(0).html();
+	var idHead = $(row).parents("tr").find("#idHead span").eq(0).html();
 	var div = document.getElementById('msg');
 	var msg="";
 	div.innerHTML = msg;
@@ -1718,8 +1725,10 @@ function editUser(row){
 	$("#status").val(status).change();
 	$("#expired").val(expired).change();;
 	$("#credentialExpired").val(credentialExpired).change();
-	$("#idRol").val(idRol).change();;
+	$("#rol").val(idRol).change();
 	$("#idUser").val(idUser);
+	$("#head").val(idHead).change();
+	
 };
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1737,7 +1746,7 @@ function clearUser(){
 	$("#expired").val(0).change();;
 	$("#credentialExpired").val(0).change();
 	$("#password").val("");
-	$("#idRol").val(0).change();;
+	$("#rol").val(0).change();
 	$("#idUser").val(0);
 	$("#idHeadUser").val(0);
 	$("#head").val(0);
@@ -1780,7 +1789,6 @@ function changeidHeadUser(){
 	else
 	{
 		 $("#idHeadUser").val($("#head").val());
-		 alert( $("#idHeadUser").val());
 	}
 	
 };
