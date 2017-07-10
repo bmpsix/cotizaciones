@@ -1,6 +1,7 @@
 package com.unimer.cotizaciones.controllers;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,15 +12,13 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.Assessment;
 import com.unimer.cotizaciones.entities.AssessmentShared;
-import com.unimer.cotizaciones.entities.Country;
+import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.AssessmentService;
 import com.unimer.cotizaciones.services.AssessmentSharedService;
@@ -66,73 +65,46 @@ public class AssessmentController {
 	@Qualifier("currencyTypeServiceImpl")
 	private CurrencyTypeService currencyTypeService;
 	
+	
 	private static final Log LOG = LogFactory.getLog(AssessmentController.class);
 	
 	@GetMapping("/assessment")
 	public ModelAndView assessmentIndex(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession){
 		
-		/*Country cntry = countryService.findById(userSession.getIdCountry());*/
-		
-		com.unimer.cotizaciones.entities.User userEntity = userService.findById(userSession.getId());
-		
+		User userEntity = userService.findById(userSession.getId());
 		ModelAndView modelAndView = new ModelAndView();
+		List<User> listUsers = userService.listAllUser();
+		listUsers.remove(userEntity);
 		modelAndView.setViewName("projects");
 		modelAndView.addObject("projects", assessmentService.listAllByUser(userEntity));
 		modelAndView.addObject("saClients", saClientService.listAllSaClient());
 		modelAndView.addObject("status", statusServiceImpl.listAllStatus());
 		modelAndView.addObject("currencyexchanges", currencyExchangeService.listAllCurrencyExchange());
-		modelAndView.addObject("user", userService.findByEmail(userEntity.getEmail()));
+		modelAndView.addObject("users", listUsers);
+		modelAndView.addObject("countries", countryService.listAllCountries());
 		modelAndView.addObject("role", userSession.getDetailRol());
+		modelAndView.addObject("shareds", assessmentSharedService.listAllByUser(userEntity));
+		modelAndView.addObject("sharedWithMe", assessmentSharedService.listAllByUserShared(userEntity));
+		
 		return modelAndView;
 		
 	}
 	
-	@RequestMapping(value="/admin/addassessmentshared", method=  RequestMethod.POST)
-	@ResponseBody
-	public String addAssessmentShared(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute("assessmentShared") AssessmentShared assessmentShared) {
-		
-		try{
-			LOG.info(assessmentShared.toString());
-			assessmentSharedService.addAssessmentShared(assessmentShared, userSession.getId());
-			return "true";
-			
-		}catch(Exception ex){
-			return null;
-			
-		}
-		
-	}
-	
-	
-	@RequestMapping(value="/admin/deleteassessmentshared", method=  RequestMethod.POST)
-	@ResponseBody
-	public String deleteAssessmentShared(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute("assessmentShared") AssessmentShared assessmentShared) {
-		
-		try{
-			LOG.info(assessmentShared.toString());
-			assessmentSharedService.delete(assessmentShared);
-			return "true";
-			
-		}catch(Exception ex){
-			return null;
-			
-		}
-		
-	}
 	
 	
 	
-	@RequestMapping(value="/admin/addassessment", method=  RequestMethod.POST)
-	@ResponseBody
-	public String addAssessment(@RequestParam("idAssessment") int idAssessment,
+	
+	@PostMapping("/admin/addassessment")
+	public String addAssessment(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,
+			@RequestParam("idAssessment") int idAssessment,
 			@RequestParam("creationDate") Date creationDate,
 			@RequestParam("detail") String detail,
 			@RequestParam("idCurrencyExchange") int idCurrencyExchange,
 			@RequestParam("idSaClient") int idSaClient,
-			@RequestParam("idStatus") int idStatus,
-			@RequestParam("idUser") int idUser) {
+			@RequestParam("idStatus") int idStatus) {
 		
 		try{
+			
 			Assessment assessment = new Assessment();
 			assessment.setIdAssessment(idAssessment);
 			assessment.setCreationDate(creationDate);
@@ -140,11 +112,12 @@ public class AssessmentController {
 			assessment.setDetail(detail);
 			assessment.setSaClient(saClientService.findById(idSaClient));
 			assessment.setStatus(statusServiceImpl.findById(idStatus));
-			assessment.setUser(userService.findById(idUser));
-			assessment.setUserAssigned(userService.findById(idUser));
+			assessment.setUser(userService.findById(userSession.getId()));
+			assessment.setUserAssigned(userService.findById(userSession.getId()));
 			LOG.info(assessment.toString());
-			assessmentService.addAssessment(assessment, idUser);
-			return "true";
+			assessmentService.addAssessment(assessment, userSession.getId());
+			
+			return "projects";
 			
 		}catch(Exception ex){
 			return null;
@@ -152,18 +125,51 @@ public class AssessmentController {
 		}
 		
 	}
+	@PostMapping("/assessment/addassessmentshared")
+	public String addAssessmentShared(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,
+										@RequestParam("idUser") int idUser,
+										@RequestParam("idAssessmentToShared") int idAssessmentToShared,
+										Model model) {
+		
+		try{
+			
+			
+			Assessment assessment = assessmentService.findById(idAssessmentToShared);
+			User userShared = userService.findById(idUser);
+			User session = userService.findById(userSession.getId());
+			AssessmentShared assessmentShared = new AssessmentShared(userShared,assessment,session);
+			assessmentSharedService.addAssessmentShared(assessmentShared, userSession.getId());
+			LOG.info(assessmentShared.toString());
+			User userEntity = userService.findById(userSession.getId());
+			model.addAttribute("shareds", assessmentSharedService.listAllByUser(userEntity));
+			model.addAttribute("role", userSession.getDetailRol());
+			return "projects :: #sharedRow";
+			
+		}catch(Exception ex){
+			return "projects :: #sharedRow";
+			
+		}
+		
+	}
 	
 	
-	@GetMapping("/admin/updateassesssment")
-	public ModelAndView updateAssessment(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,int idAssessment, Model model) {
-		Country cntry = countryService.findById(userSession.getIdCountry());
-			ModelAndView modelAndView = new ModelAndView();
-			 	modelAndView.setViewName("assessment");
-			 	modelAndView.addObject("assessments", assessmentService.listAllAssessment());
-			 	modelAndView.addObject("currencyTypes", cntry.getCurrencyType());
-				modelAndView.addObject("saClients", saClientService.listAllSaClient());
-				modelAndView.addObject("updateAssessment",assessmentService.findById(idAssessment));
-
-		return modelAndView;
+	@PostMapping("/assessment/deleteassessmentshared")
+	public String deleteAssessmentShared(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@RequestParam("idAssessmentShared") int idAssessmentShared,Model model) {
+		
+		try{
+			
+			AssessmentShared assessmentShared = assessmentSharedService.findById(idAssessmentShared);
+			LOG.info(assessmentShared.toString());
+			assessmentSharedService.delete(assessmentShared);
+			User userEntity = userService.findById(userSession.getId());
+			model.addAttribute("shareds", assessmentSharedService.listAllByUser(userEntity));
+			model.addAttribute("role", userSession.getDetailRol());
+			return "projects :: #sharedRow";
+			
+		}catch(Exception ex){
+			return "projects :: #sharedRow";
+			
+		}
+		
 	}
 }

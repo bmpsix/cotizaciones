@@ -48,6 +48,11 @@ public class AssessmentSharedServiceImpl implements AssessmentSharedService {
 	public void delete(AssessmentShared assessmentShared) {
 		assessmentSharedJpaRepository.delete(assessmentShared);
 	}
+
+	@Override
+	public List<AssessmentShared> listAllByUserShared(User user) {
+		return assessmentSharedJpaRepository.findByUserShared(user);
+	}
 	
 	
 

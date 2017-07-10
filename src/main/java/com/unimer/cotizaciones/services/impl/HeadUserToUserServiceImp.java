@@ -2,10 +2,13 @@ package com.unimer.cotizaciones.services.impl;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.unimer.cotizaciones.controllers.ClientController;
 import com.unimer.cotizaciones.entities.HeadUserToUser;
 import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.repositories.HeadUserToUserJpaRepository;
@@ -24,19 +27,21 @@ public class HeadUserToUserServiceImp implements HeadUserToUserService {
 	@Qualifier("userJpaRepository")
 	private UserJpaRepository userJpaRepository;
 	
+	private static final Log LOG = LogFactory.getLog(ClientController.class);
+	
 	@Override
-	public List<User> findUserByHeadUser(User headUser) {
+	public List<HeadUserToUser> findUserByHeadUser(User headUser) {
 		return headUserToUserJpaRepository.findUserByHeadUser(headUser);
 	}
 
 	@Override
-	public User findHeadUserByUser(User user) {
-		return headUserToUserJpaRepository.findHeadUserByUser(user);
+	public HeadUserToUser findByUser(User user) {
+		return headUserToUserJpaRepository.findHeadUserToUserByUser(user);
 	}
 
 	@Override
 	public void addHeadUserToUser(int idHeadUser, User user) {
-		
+		LOG.info("MIERAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA  iddddddddddddddddd"+idHeadUser);
 		if(idHeadUser!=0)
 		{
 			User headUser = userJpaRepository.findByIdUser(idHeadUser);
@@ -45,6 +50,13 @@ public class HeadUserToUserServiceImp implements HeadUserToUserService {
 			HeadUserToUser headUserToUser = new HeadUserToUser(headUser,user);
 			headUserToUserJpaRepository.save(headUserToUser);
 		}
+		else
+		{
+			HeadUserToUser headUserToUserOld = headUserToUserJpaRepository.findHeadUserToUserByUser(user);
+			LOG.info("MIERAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"+headUserToUserOld.toString());
+			headUserToUserJpaRepository.delete(headUserToUserOld);
+			
+		}
 		
 		
 	}
@@ -52,6 +64,12 @@ public class HeadUserToUserServiceImp implements HeadUserToUserService {
 	@Override
 	public List<HeadUserToUser> findHeadUserToUser() {
 		return headUserToUserJpaRepository.findAll();
+	}
+
+	@Override
+	public void delete(HeadUserToUser headUserToUser) {
+		headUserToUserJpaRepository.delete(headUserToUser);
+		
 	}
 
 

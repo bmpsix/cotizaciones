@@ -1658,8 +1658,20 @@ function sendFormUser()
 		           success: function(data)
 		           {
 		        	   if(data != null){
+		        		   
 		        		   if($("#head").val()==$("#idUser").val() || $("#headRol").val()==$("#rol").val()) location.reload();
 		        		   else{
+		        	      var selectHead = document.getElementById("head");
+		        	      for(count = 0; count<selectHead.length;count++)
+		        	      {
+		        	    	  if(selectHead.options[count].value==$("#idUser").val()) 
+		        	    		  {
+		        	    		  	location.reload();
+		        	    		  	break;
+		        	    		  }
+		        	      }
+		        		 
+		        	       
 		        		  tbody.innerHTML = data;
 		        		  if($("#idUser").val()==0) msg = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
 		        		  else  if($("#idUser").val()!=0) msg = "<p style='color: hsl(153,80%,40%)'>Se actualizó la información correctamente <p>";
@@ -1770,7 +1782,8 @@ function asignedHead(){
 	}
 	else
 	{
-		$("#asignedHead").hide()
+		$("#asignedHead").hide();
+		$("#idHeadUser").val(0);
 	}
 	
 };

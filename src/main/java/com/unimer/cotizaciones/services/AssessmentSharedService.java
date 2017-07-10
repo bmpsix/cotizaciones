@@ -12,6 +12,8 @@ public interface AssessmentSharedService {
 	public abstract List<AssessmentShared> listAllAssessmentShared();
 	
 	public abstract List<AssessmentShared> listAllByUser(User user);
+	
+	public abstract List<AssessmentShared> listAllByUserShared(User user);
 
 	public abstract AssessmentShared findById(int idAssessmentShared);
 	

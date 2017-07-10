@@ -9,9 +9,12 @@ public interface HeadUserToUserService {
 
 	public abstract void addHeadUserToUser(int idHeadUser, User user);
 	
-	public abstract List<User> findUserByHeadUser(User headUser);
+	public abstract List<HeadUserToUser> findUserByHeadUser(User headUser);
 	
-	public abstract User findHeadUserByUser(User user);
+	public abstract HeadUserToUser findByUser(User user);
 	
 	public abstract List<HeadUserToUser> findHeadUserToUser();
+	
+	
+	public abstract void delete(HeadUserToUser headUserToUser);
 }

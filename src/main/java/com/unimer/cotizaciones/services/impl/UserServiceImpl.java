@@ -50,7 +50,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findByEmail(String email) {
-		return userJpaRepository.findByEmail(email);
+		int length = email.length();
+		return userJpaRepository.findByEmail(email,length);
 	}
 
 	@Override

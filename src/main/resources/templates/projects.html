@@ -3,7 +3,7 @@
 <head th:replace="fragments/header">
 <meta charset="UTF-8"/>
 </head>
-<body>
+<body onload="chargeUserSharedByCountry();">
 	<div data-role="page" data-theme="a" data-dom-cache="false" >
 		<div data-role="header" data-position="inline" >
 			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
@@ -35,7 +35,9 @@
 						</div>
 					
                     	<hr>
-                    
+                     <div id="msg2">
+						
+							</div>
                    </fieldset>
 				</form>
 		               
@@ -51,7 +53,6 @@
     						<input data-type="search" id="searchForSelect" placeholder="Busqueda de Tipo de Moneda"/>
     						<hr>
 							<select name="idCurrencyExchange" id="idCurrencyExchange" data-filter="true" data-input="#searchForSelect" required>
-								<option value="">...Seleccione un Tipo de Moneda...</option>
 							    <option th:each="currencyexchange : ${currencyexchanges}" th:value="${currencyexchange.idCurrencyExchange}">
 							    	<p th:text="${currencyexchange.country.detail +'/'+ currencyexchange.currencyType.detail +'/'+ currencyexchange.sell}"></p>
 							    </option>
@@ -59,7 +60,6 @@
 							
 							<label for="saClient">SA Cliente:</label>
 							<select name="idSaClient" id="idSaClient" required>
-								<option value="">...Seleccione un Cliente SA...</option>
 								<option th:each="saClient : ${saClients}" th:value="${saClient.idSaClient}">
 									<p th:text="${saClient.detail}"></p>
 								</option>
@@ -67,16 +67,15 @@
 							
 							<label for="idStatus">Estado del Proyecto:</label>
 							<select name="idStatus" id="idStatus" required>
-								<option value="">...Seleccione un Estado...</option>
 								<option th:each="statu : ${status}" th:value="${statu.idStatus}">
 									<p th:text="${statu.detail}"></p>
 								</option>
 							</select>
 							
-							<input type="hidden" th:object="${user}" th:value="${user.idUser}" name="idUser" id="idUser" required/>
-							<h3>Opciones</h3>
-							<a href="#" th:href="@{/assessment}"><button  class="custom_text" data-icon="Cancel">Cancelar</button></a>
 							
+							<h3>Opciones</h3>
+							<a id="assessmentCancel" type="button"  style="display:none;" data-icon="delete"><input class="assessmentCancel" data-icon="delete" type="button" value="Cancelar"/></a>
+									
 						</div>
 					
                     	<hr>
@@ -87,34 +86,131 @@
 		      </div>
 		    </div>
 		    
-			<div class="ui-grid-solo" id="detalleCoti">
-		     <div class="ui-block-a" >
-		        <fieldset style="margin: 30px;">
-		        	<h5>Proyectos:</h5>
+		    
+		    
+		   <div class="ui-grid-a" id="divShared" style="display: none;">
+   		
+    			
+    			
+      			<div class="ui-block-a" style="width:55%; margin-right: 5%">
+      			<h3>Compartir proyectos</h3>
+    			
+    			 <fieldset>
+		        	
 		 			<form class="ui-filterable">
-		      			<input id="myFilter2" data-type="search" placeholder="Busca la partida">
+		      			<input id="myFilter2" data-type="search" placeholder="Busca proyecto">
 		      			<div class="ui-block-b">
-				        <button class="ui-icon-delete ui-btn-icon-notext ui-btn-inline" data-mini="true">Eliminar Seleccion</button>
+				       <div id="msg">
+						
+						</div>
 				    	</div>
 		    		</form> 
 		    		
-		    		<table data-role="table" id="movie-table" data-filter="true" data-input="#myFilter2" class="ui-responsive">
+		    		<table data-role="table" dfe="movie-table" data-filter="true" data-input="#myFilter2" class="ui-responsive">
 		    			<thead>
            				
-           				<th  style="padding-right: 15px;">ID de Propuesta</th>
-           				<th  style="padding-right: 15px;">Fecha de Creacion</th>
+           				<th  style="padding-right: 15px;">Proyecto</th>
+           				<th  style="padding-right: 15px;">Usuario</th>
+           				<th colspan="2" style="padding-right: 15px;">País</th>
+           				
+           				</thead>
+				        <tbody id="tbodyShared">
+	           			<tr id="sharedRow" th:each="shared : ${shareds}">
+							<td><span th:text="${shared.assessment.detail}"></span></td>
+							<td><span th:text="${shared.userShared.name+' '+shared.userShared.midname+' '+shared.userShared.lastname}"></span></td>
+							<td><span th:text="${shared.userShared.Country.detail}"></span></td>
+							
+							 <!-- IdS -->
+						    <td style="padding-right: 15px;display:none;" id="idAssessmentShared" ><span th:text="${shared.idAssessmentShared}"></span></td>
+							
+							<div th:if="${role == '[ROLE_CONTRIBUTOR]' or role == '[ROLE_BOSS_CONTRIBUTOR]'}">
+	           				<td class="edit">
+	           				<a class="ui-link ui-btn ui-btn-b ui-icon-minus ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;" onclick="deleteShared(this);" title="Eliminar"></a>
+	           				</td>
+	           				</div>
+           				</tr>
+          			    </tbody>
+		    		</table>
+		        </fieldset>       
+    			
+    			
+      			</div>
+      			<div class="ui-block-b" style="width:35%; margin-right: 5%">
+      			<br/><br/><br/>
+    				
+							<label for="country">País:</label>
+							<select id="country" name="country.idCountry" onchange=" chargeUserSharedByCountry();">
+								<option th:each="country : ${countries}" th:value="${country.idCountry}">
+									<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
+								</option>
+							</select>
+							
+					<form method="POST" id="formShared" action="javascript:sendformShared();">
+							
+							<label style="margin-top: 15px" for="users">Usuarios del sistema</label>
+							<select name="idUser" id="userShared" required>
+							</select>
+							<label  style="margin-top: 15px" for="projects">Proyecto</label>
+							<input id="idAssessmentToShared" name="idAssessmentToShared" type="hidden" th:value="0" required/>
+							<input id="assessmentDetail" type="text" readonly/>
+							
+							<div  style="display: none;">
+								<table id="userTable">
+								<tbody>
+									<tr  th:each="user : ${users}">
+										<td id="fullName"><span th:text="${user.name+' '+user.midname+' '+user.lastname}"></span></td>
+										<td id="idCountry"><span th:text="${user.Country.idCountry}"></span></td>
+										<td id="idUser"><span th:text="${user.idUser}"></span></td>
+									</tr>
+								</tbody>
+							</table>
+							</div>
+							
+							
+					<br/>		
+					<div id="msgShared"></div>
+                    <hr>
+                    <a id="sharedCancel" type="button" data-icon="delete" onclick="clearShared();"><input data-icon="delete" type="button" value="Cerrar"/></a>
+  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
+  					
+                    
+					</form>
+     	 		</div>
+           
+		   </div>
+		    
+<!---------------------------------------------- TABLA DE PROYECTOS-------------------------------------------------------------------------------------------------------------------------------- -->
+		    
+			<div class="ui-grid-solo" id="detalleCoti">
+		     <div class="ui-block-a" >
+		        <fieldset>
+		        	<h5>Proyectos:</h5>
+		 			<form class="ui-filterable">
+		      			<input id="myFilter3" data-type="search" placeholder="Busca proyecto">
+		      			<div class="ui-block-b">
+				       <div id="msg">
+						
+						</div>
+				    	</div>
+		    		</form> 
+		    		
+		    		<table data-role="table" dfe="movie-table" data-filter="true" data-input="#myFilter3" class="ui-responsive">
+		    			<thead>
+           				
+           				<th  style="padding-right: 15px;">ID</th>
+           				<th  style="padding-right: 15px;">Fecha de creación</th>
            				<th  style="padding-right: 15px;">Nombre</th>
            				<th  style="padding-right: 15px;">Tipo de Cambio</th>
-           				<th  style="padding-right: 15px;">Cliente</th>
-           				<th  style="padding-right: 15px;">Usuario de Creacion</th>
+           				<th  style="padding-right: 15px;">Cliente SA</th>
+           				<th  style="padding-right: 15px;">Creado por</th>
            				<th  style="padding-right: 15px;">Estado</th>
            				<th style="padding-right: 15px;">
 		            	<a id="addAssessment" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;">Plus</a>
 		                </th>
            				
            				</thead>
-				        <tbody>
-	           			<tr th:each="project : ${projects}">
+				        <tbody id="tbodyAssessment">
+	           			<tr id="assessmentRow" th:each="project : ${projects}">
 							<td style="padding-right: 15px;" id="idAssessment"><span th:text="${project.idAssessment}"></span></td>
 							<td style="padding-right: 15px;" id="creationDate"><span th:text="${#dates.format(project.creationDate, 'dd-MMM-yyyy')}"></span></td>
 							<td style="padding-right: 15px;" id="detail" ><span th:text="${project.detail}"></span></td>
@@ -126,13 +222,30 @@
 						    <td style="padding-right: 15px;display:none;" id="idSaClient" ><span th:text="${project.saClient.idSaClient}"></span></td>
 							<td style="padding-right: 15px;display:none;" id="idCurrencyExchange" ><span th:text="${project.currencyExchange.idCurrencyExchange}"></span></td>
 							<td style="padding-right: 15px;display:none;" id="idStatus" ><Span th:text="${project.status.idStatus}"></Span></td>
-							<div th:if="${role == '[ROLE_CONTRIBUTOR]'}">
-	           				<td class="edit">
-	           				<a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;" title="Editar"></a>
-	           				<a class="ui-link ui-btn ui-btn-b ui-icon-action ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;" title="Compartir"></a>
+							<div th:if="${role == '[ROLE_CONTRIBUTOR]' or role == '[ROLE_BOSS_CONTRIBUTOR]'}">
+	           				<td>
+	           				<a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;" onclick="editAssessment(this);" title="Editar"></a>
+	           				<a class="ui-link ui-btn ui-btn-b ui-icon-action ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all"  style="background-color: #009082;" onclick="sharedProject(this);" title="Compartir"></a>
 	           				<a class="ui-link ui-btn ui-btn-b ui-icon-forward ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;" title="Asignar"></a>
 	           				</td>
 	           				</div>
+	           				<td  th:if="${role != '[ROLE_CONTRIBUTOR]' and role != '[ROLE_BOSS_CONTRIBUTOR]'}"></td>
+	           				
+	           				
+           				</tr>
+           				<tr  th:each="sharedProject : ${sharedWithMe}">
+							<td style="padding-right: 15px;" id="idAssessment"><span th:text="${sharedProject.Assessment.idAssessment}"></span></td>
+							<td style="padding-right: 15px;" id="creationDate"><span th:text="${#dates.format(sharedProject.Assessment.creationDate, 'dd-MMM-yyyy')}"></span></td>
+							<td style="padding-right: 15px;" id="detail" ><span th:text="${sharedProject.Assessment.detail}"></span></td>
+							<td style="padding-right: 15px;" id="currencyExchange" ><span th:text="${sharedProject.Assessment.currencyExchange.buy}"></span></td>
+							<td style="padding-right: 15px;" id="saClient" ><span th:text="${sharedProject.Assessment.saClient.detail}"></span></td>
+							<td style="padding-right: 15px;" id="name" ><span th:text="${sharedProject.Assessment.user.name}"></span></td>
+							<td style="padding-right: 15px;" id="status" ><Span th:text="${sharedProject.Assessment.status.detail}"></Span></td>
+							 <!-- IdS -->
+						    <td style="padding-right: 15px;display:none;" id="idSaClient" ><span th:text="${sharedProject.Assessment.saClient.idSaClient}"></span></td>
+							<td style="padding-right: 15px;display:none;" id="idCurrencyExchange" ><span th:text="${sharedProject.Assessment.currencyExchange.idCurrencyExchange}"></span></td>
+							<td style="padding-right: 15px;display:none;" id="idStatus" ><Span th:text="${sharedProject.Assessment.status.idStatus}"></Span></td>
+							<td></td>
            				</tr>
           			    </tbody>
 		    		</table>

@@ -16,6 +16,7 @@ import javax.persistence.Table;
 @Table(name="assessment_shared")
 public class AssessmentShared implements Serializable{
 	
+
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -25,12 +26,24 @@ public class AssessmentShared implements Serializable{
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_user_shared", nullable=false)
-	private User user;
+	private User userShared;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_assessment", nullable=false)
 	private Assessment assessment;
 
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_user", nullable=false)
+	private User user;
+
+	public User getUserShared() {
+		return userShared;
+	}
+
+	public void setUserShared(User userShared) {
+		this.userShared = userShared;
+	}
 	public int getIdAssessmentShared() {
 		return idAssessmentShared;
 	}
@@ -55,11 +68,28 @@ public class AssessmentShared implements Serializable{
 		this.assessment = assessment;
 	}
 
-	public AssessmentShared(int idAssessmentShared, User user, Assessment assessment) {
+	
+	
+	
+	
+
+	public AssessmentShared() {
+		super();
+	}
+
+	public AssessmentShared(User userShared, Assessment assessment, User user) {
+		super();
+		this.userShared = userShared;
+		this.assessment = assessment;
+		this.user = user;
+	}
+
+	public AssessmentShared(int idAssessmentShared, User userShared, Assessment assessment, User user) {
 		super();
 		this.idAssessmentShared = idAssessmentShared;
-		this.user = user;
+		this.userShared = userShared;
 		this.assessment = assessment;
+		this.user = user;
 	}
 
 	@Override

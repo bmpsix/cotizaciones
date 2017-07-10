@@ -16,8 +16,8 @@ public interface UserJpaRepository extends JpaRepository<User, Serializable>{
 	
 	public abstract User findByIdUser(int idUser);
 	
-	@Query("select U from User U where U.email like %:email%")
-	public abstract User findByEmail(@Param("email")String email);
+	@Query("select U from User U where U.email like %:email% and Length(U.email)=:length")
+	public abstract User findByEmail(@Param("email")String email,@Param("length")int length);
 	
 	public abstract List<User> findByCountry(Country country);
 	

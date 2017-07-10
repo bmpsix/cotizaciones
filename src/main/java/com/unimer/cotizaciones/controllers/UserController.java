@@ -1,5 +1,7 @@
 package com.unimer.cotizaciones.controllers;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.unimer.cotizaciones.entities.Country;
+import com.unimer.cotizaciones.entities.HeadUserToUser;
 import com.unimer.cotizaciones.entities.Rol;
 import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.model.UserSession;
@@ -62,16 +65,30 @@ public class UserController {
 	@PostMapping("/admin/adduser")
 	public String addUser(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "user") User user, @RequestParam("idHeadUser") int idHeadUser, Model model) {
 		
-		
+		try
+		{
 		Country country = countryService.findById(userSession.getIdCountry());
 		Rol rol = rolService.findById(user.getRol().getIdRol());
-		user.setRol(rol);
-		userService.addUser(user,userSession.getId());
-		headUserToUserService.addHeadUserToUser(idHeadUser, user);
-		model.addAttribute("roles", rolService.findByActiveStatus());
-		model.addAttribute("users",userService.findByCountry(country));
-		model.addAttribute("headUserToUsers", headUserToUserService.findHeadUserToUser());
-		return "user :: #userRow";
+		List<HeadUserToUser> headUserToUser = headUserToUserService.findUserByHeadUser(user);
+		if(headUserToUser.isEmpty())
+		{
+			
+			user.setRol(rol);
+			userService.addUser(user,userSession.getId());
+			headUserToUserService.addHeadUserToUser(idHeadUser, user);
+			model.addAttribute("roles", rolService.findByActiveStatus());
+			model.addAttribute("users",userService.findByCountry(country));
+			model.addAttribute("headUserToUsers", headUserToUserService.findHeadUserToUser());
+			return "user :: #userRow";
+		 
+		}
+		else return "user :: #userRow";
+		}
+		catch(Exception e)
+		{
+			return "user :: #userRow";
+		}
+			
 	}
 
 	@GetMapping("/admin/adduser")

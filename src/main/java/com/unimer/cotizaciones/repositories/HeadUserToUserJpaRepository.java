@@ -12,9 +12,9 @@ import com.unimer.cotizaciones.entities.User;
 @Repository("headUserToUserJpaRepository")
 public interface HeadUserToUserJpaRepository extends JpaRepository<HeadUserToUser, Serializable>{
 
-	public abstract List<User> findUserByHeadUser(User headUser);
+	public abstract List<HeadUserToUser> findUserByHeadUser(User headUser);
 	
-	public abstract User findHeadUserByUser(User user);
+	public abstract HeadUserToUser findHeadUserByUser(User user);
 	
 	public abstract HeadUserToUser findHeadUserToUserByUser(User user);
 	
