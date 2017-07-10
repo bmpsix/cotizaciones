@@ -2,6 +2,7 @@ package com.unimer.cotizaciones.services;
 
 import java.util.List;
 
+import com.unimer.cotizaciones.entities.Assessment;
 import com.unimer.cotizaciones.entities.AssessmentShared;
 import com.unimer.cotizaciones.entities.User;
 
@@ -18,5 +19,6 @@ public interface AssessmentSharedService {
 	public abstract AssessmentShared findById(int idAssessmentShared);
 	
 	public abstract void delete(AssessmentShared assessmentShared);
-
+	
+	public abstract AssessmentShared findByUserAndUserSharedAndAssessment(User user, User userShared, Assessment assessment);
 }

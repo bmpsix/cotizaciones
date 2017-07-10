@@ -7,13 +7,14 @@ import com.unimer.cotizaciones.entities.User;
 
 public interface AssessmentService {
 	
-	public abstract Assessment addAssessment(Assessment assessment, int idUser);
+	public abstract void addAssessment(Assessment assessment, int idUser);
 	
 	public abstract List<Assessment> listAllAssessment();
 	
-	public abstract List<Assessment> listAllByUser(User user);
+	public abstract List<Assessment> listAllByUserAssign(User user);
 
 	public abstract Assessment findById(int idAssessment);
 
+	public abstract void addAssigned(Assessment assessment);
 
 }

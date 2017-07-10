@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.unimer.cotizaciones.entities.Assessment;
 import com.unimer.cotizaciones.entities.AssessmentShared;
 import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.repositories.AssessmentSharedJpaRepository;
@@ -52,6 +53,11 @@ public class AssessmentSharedServiceImpl implements AssessmentSharedService {
 	@Override
 	public List<AssessmentShared> listAllByUserShared(User user) {
 		return assessmentSharedJpaRepository.findByUserShared(user);
+	}
+
+	@Override
+	public AssessmentShared findByUserAndUserSharedAndAssessment(User user, User userShared, Assessment assessment) {
+		return assessmentSharedJpaRepository.findByUserAndUserSharedAndAssessment(user, userShared, assessment);
 	}
 	
 	

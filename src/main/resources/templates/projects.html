@@ -3,7 +3,7 @@
 <head th:replace="fragments/header">
 <meta charset="UTF-8"/>
 </head>
-<body onload="chargeUserSharedByCountry();">
+<body onload="chargeUserSharedByCountry(); chargeUserByCountryAssign();">
 	<div data-role="page" data-theme="a" data-dom-cache="false" >
 		<div data-role="header" data-position="inline" >
 			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
@@ -86,7 +86,7 @@
 		      </div>
 		    </div>
 		    
-		    
+<!-- --------------------------------------------COMPARTIR PROYECTO------------------------------------------------------------------------------------------------------------------------------ ---->			    
 		    
 		   <div class="ui-grid-a" id="divShared" style="display: none;">
    		
@@ -145,7 +145,7 @@
 								</option>
 							</select>
 							
-					<form method="POST" id="formShared" action="javascript:sendformShared();">
+					<form method="POST" id="formShared" action="javascript:sendformShared();"  >
 							
 							<label style="margin-top: 15px" for="users">Usuarios del sistema</label>
 							<select name="idUser" id="userShared" required>
@@ -178,7 +178,44 @@
      	 		</div>
            
 		   </div>
-		    
+<!-- --------------------------------------------ASIGNAR PROYECTO------------------------------------------------------------------------------------------------------------------------------ ---->	
+
+			<div class="ui-grid-solo" id="divAssign" style="display: none;">
+   		
+      			<div class="ui-block-a" style="width:90%; margin: 5%">
+      			
+    				<h3>Asignar proyectos</h3>
+					<label for="countryAssign">País:</label>
+					<select id="countryAssign" name="countryAssign.idCountry" onchange=" chargeUserByCountryAssign();">
+						<option th:each="countryAssign : ${countries}" th:value="${countryAssign.idCountry}">
+							<p name="countryAssign.detail" th:text="${countryAssign.detail}" th:value="${countryAssign.detail}" ></p>
+						</option>
+				 	</select>
+							
+					<form method="POST" id="formAssign" action="javascript:sendformAssign();">
+							
+							<label style="margin-top: 15px" for="users">Usuarios del sistema</label>
+							<select name="idUserAssign" id="userAssign" required>
+							</select>
+							<label  style="margin-top: 15px" for="projects">Proyecto</label>
+							<input id="idAssessmentToAssign" name="idAssessmentToAssign" type="hidden" th:value="0" required/>
+							<input id="assessmentDetailAssign" type="text" readonly/>
+							
+							
+					<br/>		
+					<div id="msgAssign"></div>
+                    <hr>
+                    <a id="assignCancel" type="button" data-icon="delete" onclick="clearAssign();"><input data-icon="delete" type="button" value="Cerrar"/></a>
+  					<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
+  					
+                    
+					</form>
+     	 		</div>
+           
+		   </div>
+
+
+	    
 <!---------------------------------------------- TABLA DE PROYECTOS-------------------------------------------------------------------------------------------------------------------------------- -->
 		    
 			<div class="ui-grid-solo" id="detalleCoti">
@@ -226,7 +263,7 @@
 	           				<td>
 	           				<a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;" onclick="editAssessment(this);" title="Editar"></a>
 	           				<a class="ui-link ui-btn ui-btn-b ui-icon-action ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all"  style="background-color: #009082;" onclick="sharedProject(this);" title="Compartir"></a>
-	           				<a class="ui-link ui-btn ui-btn-b ui-icon-forward ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;" title="Asignar"></a>
+	           				<a class="ui-link ui-btn ui-btn-b ui-icon-forward ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;" onclick="assignProject(this);" title="Asignar"></a>
 	           				</td>
 	           				</div>
 	           				<td  th:if="${role != '[ROLE_CONTRIBUTOR]' and role != '[ROLE_BOSS_CONTRIBUTOR]'}"></td>

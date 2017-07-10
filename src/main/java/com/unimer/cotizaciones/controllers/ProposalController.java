@@ -147,7 +147,7 @@ public class ProposalController {
 		modelAndView.addObject("industrysectors", industrySectorService.listAllIndustrySectors());
 		modelAndView.addObject("techniques", techniqueService.orderlistAllTechniques());
 		modelAndView.addObject("targets", targetService.listAllTargets());
-		modelAndView.addObject("assessments", assessmentService.listAllAssessment());
+		modelAndView.addObject("assessments", assessmentService.listAllByUserAssign(userService.findById(userSession.getId())));
 		modelAndView.addObject("clientContacts", clientContactService.findByCountry(cntry));
 		modelAndView.addObject("executionTypes", executionTypeService.listAllExecutionType());
 		modelAndView.addObject("autoIncrement", proposalService.autoIncrement());

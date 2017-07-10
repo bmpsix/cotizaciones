@@ -76,7 +76,7 @@ public class AssessmentController {
 		List<User> listUsers = userService.listAllUser();
 		listUsers.remove(userEntity);
 		modelAndView.setViewName("projects");
-		modelAndView.addObject("projects", assessmentService.listAllByUser(userEntity));
+		modelAndView.addObject("projects", assessmentService.listAllByUserAssign(userEntity));
 		modelAndView.addObject("saClients", saClientService.listAllSaClient());
 		modelAndView.addObject("status", statusServiceImpl.listAllStatus());
 		modelAndView.addObject("currencyexchanges", currencyExchangeService.listAllCurrencyExchange());
@@ -172,4 +172,30 @@ public class AssessmentController {
 		}
 		
 	}
+	
+	
+	@PostMapping("/assessment/assign")
+	public String assessmentAssign(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@RequestParam("idAssessmentToAssign") int idAssessmentToAssign,@RequestParam("idUserAssign") int idUserAssign,Model model) {
+		
+		
+			User userEntity = userService.findById(userSession.getId());
+			Assessment assessment = assessmentService.findById(idAssessmentToAssign);
+			LOG.info("METHOD assessmentAssign in AssessmentController assessmento assigned: "+assessment.toString());
+			User userAssign = userService.findById(idUserAssign);
+			LOG.info("METHOD userAssign in AssessmentController assessmento assigned: "+userAssign.toString());
+			AssessmentShared assessmentShared = assessmentSharedService.findByUserAndUserSharedAndAssessment(userEntity, userAssign, assessment);
+			assessment.setUserAssigned(userAssign);
+			if(assessmentShared!=null)assessmentSharedService.delete(assessmentShared);
+			assessmentService.addAssessment(assessment, userSession.getId());	
+			
+			model.addAttribute("shareds", assessmentSharedService.listAllByUser(userEntity));
+			model.addAttribute("role", userSession.getDetailRol());
+			model.addAttribute("projects", assessmentService.listAllByUserAssign(userEntity));
+			return "projects";
+			
+		
+		
+	}
+	
+	
 }

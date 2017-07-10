@@ -8,6 +8,7 @@ $( document ).ready(function(){
 	
 	$("#addAssessment").click(function(){
 		$("#divShared").hide("slow");
+		$("#divAssign").hide("slow");
 		$(".form-assessment").toggle("slow");
 		
 		var f = new Date();
@@ -222,7 +223,7 @@ function clearShared(){
 	var msgShared="";
 	div.innerHTML = msgShared;
 };
-//----------------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------sharedAssessmentButton----------------------------------------------------------------------------------------------------------------
 
 
 function sharedProject(x)
@@ -232,7 +233,92 @@ function sharedProject(x)
 	$(".form-assessment").hide("slow");
 	$("#idAssessmentToShared").val(idAssessment);
 	$("#assessmentDetail").val(detail);
+	$("#divAssign").hide("slow");
 	$("#divShared").show("slow");
 };
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+//--------------------------------------------------------AssignAssessment--------------------------------------------------------------------------------------------------------------------------
+
+
+function sendformAssign()
+{
+		var div = document.getElementById('msgAssign');
+		var msgAssign="";
+		var form = $("#formAssign").serialize();
+		
+		var url = "/assessment/assign"; 
+		    $.ajax({
+		           type: "POST",
+		           cache: false,
+		           url: url,
+		           data: form,
+
+		           success: function(data)
+		           {
+		        	   
+		        	   if(data != null){
+		        		
+		        		  location.reload();
+		        		
+		        	   }else{
+		        		   msgAssign = "<p style='color:#800000'>Ha ocurrido un error inesperado!<p>";
+		        		   div.innerHTML = msg;
+		        	   }
+		           }
+		    	
+		         });
+}
+
+//----------------------------clearAssign--------------------------------------------------------------------------------------------------------------------
+
+function clearAssign(){
+	$("#divAssign").hide("slow");
+	$("#countryAssign").val(1).change();
+	var div = document.getElementById('msgAssign');
+	var msgAssign="";
+	div.innerHTML = msgAssign;
+};
+//------------------------------------------assignAssessmentButton----------------------------------------------------------------------------------------------------------------
+
+
+function assignProject(x)
+{
+	var idAssessment = $(x).parents("tr").find("#idAssessment span").eq(0).html();
+	var detail = $(x).parents("tr").find("#detail span").eq(0).html();
+	$(".form-assessment").hide("slow");
+	$("#idAssessmentToAssign").val(idAssessment);
+	$("#assessmentDetailAssign").val(detail);
+	$("#divShared").hide("slow");
+	$("#divAssign").show("slow");
+};
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+function chargeUserByCountryAssign()
+{
+	var country = $("#countryAssign").val();
+	var div = document.getElementById("userAssign");
+	var table = document.getElementById("userTable");
+	var select="";
+
+	for(count=0;count<=table.rows.length-1;count++)
+	{
+		
+		if(country == table.rows[count].cells[1].innerText)
+		{
+			select=select+"<option value='"+table.rows[count].cells[2].innerText+"'>"+table.rows[count].cells[0].innerText+"</option>";
+		}
+	}
+	
+	div.innerHTML = select;
+	$("#userAssign").val("");
+}
+
+
 
 

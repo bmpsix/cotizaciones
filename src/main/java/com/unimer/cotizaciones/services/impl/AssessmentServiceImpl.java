@@ -33,16 +33,16 @@ public class AssessmentServiceImpl implements AssessmentService {
 	
 	
 	@Override
-	public Assessment addAssessment(Assessment assessment, int idUser) {
+	public void addAssessment(Assessment assessment, int idUser) {
 		
 			if (assessment.getIdAssessment()==0) {
 				java.util.Date date = new Date();
 				assessment.setCreationDate(date);
 				LOG.info("METHOD: addAssessment in AssessmentServiceImpl -- PARAMS: " + assessment.toString());
-			    return assessmentJpaRepository.save(assessment);
+			    assessmentJpaRepository.save(assessment);
 
 			} else {
-				return updateAssessment(assessment, idUser);
+				 updateAssessment(assessment, idUser);
 			}
 	}
 
@@ -58,26 +58,33 @@ public class AssessmentServiceImpl implements AssessmentService {
 
 	
 	
-	private Assessment updateAssessment(Assessment assessment, int idUser) {
+	private void updateAssessment(Assessment assessment, int idUser) {
 
 			java.util.Date date = new Date();
 			Assessment asessmentToUpdate = assessmentJpaRepository.findByIdAssessment(assessment.getIdAssessment());
+			LOG.info("METHOD: updateAssessment assessmentToUpdate in AssessmentServiceImpl -- PARAMS: " + asessmentToUpdate.toString());
+			LOG.info("METHOD: updateAssessment assessment in AssessmentServiceImpl -- PARAMS: " + assessment.toString());
 			if (asessmentToUpdate != null) {
 				LogAssessment logAssessment = new LogAssessment(date, "Assesssment  modified", idUser, asessmentToUpdate.getCreationDate(),asessmentToUpdate.getDetail() ,
 						asessmentToUpdate.getIdAssessment(),asessmentToUpdate.getCurrencyExchange().getIdCurrencyExchange(),asessmentToUpdate.getSaClient().getIdSaClient(),asessmentToUpdate.getUser().getIdUser());
 				//assessment.setCreationDate(date);
 				logAssessmentJpaRepository.save(logAssessment);
-				return assessmentJpaRepository.save(assessment);
+				LOG.info("METHOD: updateAssessment in AssessmentServiceImpl -- PARAMS: " + assessment.toString());
 				
-			}else{
-				return null;
+				
 			}
 		
 	}
 
 	@Override
-	public List<Assessment> listAllByUser(User user) {
-		return assessmentJpaRepository.findByUser(user);
+	public List<Assessment> listAllByUserAssign(User user) {
+		return assessmentJpaRepository.findByUserAssigned(user);
+	}
+
+	@Override
+	public void addAssigned(Assessment assessment) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 
