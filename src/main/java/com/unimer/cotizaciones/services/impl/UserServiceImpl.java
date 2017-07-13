@@ -135,6 +135,7 @@ public class UserServiceImpl implements UserService {
 	public List<User> findByCountry(Country country) {
 		return userJpaRepository.findByCountry(country);
 	}
+
 	
 	
 	/*private void sendPassword(String email, String password)

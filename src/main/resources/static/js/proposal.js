@@ -23,7 +23,6 @@ $( document ).ready(function() {
 	$(".columnHide2").show();
 	$("#hideParameters").hide();
 	
-	
 	$(".first").click(function(){
 	        $("#generalInfo").show();
 	        $("#generalInfo2").show();
@@ -260,32 +259,7 @@ $( document ).ready(function() {
 		});
 //------------------------------------------------------------------------------------------------------------------------------------------------		
 		
-//-----------------------------------Obtener valores de la tabla de partidas para saber el precio sugerido y el tipo de moneda------------------
-		$("#idDeparture").change(function()
-		{
-			
-			var table = document.getElementById("departureTable");
-			var idDeparture = $("#idDeparture").val();
-			var price=0;
-			var idPriceCurrencyType=0;
-			    
-			for(contador=0;contador<=table.rows.length-1;contador++)
-			{
-				if(table.rows[contador].cells[0].innerText==idDeparture)
-				{
-			    	idPriceCurrencyType=table.rows[contador].cells[1].innerText;
-			    	price=table.rows[contador].cells[2].innerText;
-			    	break;
-			    }
-			}
-			$("#price").val(price);
-			$("#idPriceCurrencyType").val(parseInt(idPriceCurrencyType)).change();
-			
-		});
-		
-		
-//------------------------------------------------------------------------------------------------------------------------------------------------		 
-		
+
 });
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
@@ -296,6 +270,31 @@ $( document ).ready(function() {
 
 //-----------------------------------FUNCIONES UTILIZADAS EN LOS EVENTOS DE LOS ELEMENTOS DEL HTML------------------------------------------------
 
+//-----------------------------------Obtener valores de la tabla de partidas para saber el precio sugerido y el tipo de moneda------------------
+function changeDeparture()
+{
+	
+	var table = document.getElementById("departureTable");
+	var idDeparture = $("#idDeparture").val();
+	var price=0;
+	var idPriceCurrencyType=0;
+	    
+	for(contador=0;contador<=table.rows.length-1;contador++)
+	{
+		if(table.rows[contador].cells[0].innerText==idDeparture)
+		{
+	    	idPriceCurrencyType=table.rows[contador].cells[1].innerText;
+	    	price=table.rows[contador].cells[2].innerText;
+	    	break;
+	    }
+	}
+	$("#price").val(price);
+	$("#idPriceCurrencyType").val(parseInt(idPriceCurrencyType)).change();
+	
+};
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------		 
 
 //-----------------------------------Limpiar formulario-------------------------------------------------------------------------------------------
 function ClearForm()
@@ -446,4 +445,19 @@ function chargeTheDetailForUpdate(row) {
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 
+function methodLoad()
+{
+	document.getElementById("secondLink").click();
+	totalcharge(); 
+	proposalDetailsLoad();
+	changeDeparture();
+	
+};
+
+function proposalLoad()
+{
+	document.getElementById("firstLink").click();
+}
+
 //--------------------------------------------------------------------------------------------------------------------------------------------------
+

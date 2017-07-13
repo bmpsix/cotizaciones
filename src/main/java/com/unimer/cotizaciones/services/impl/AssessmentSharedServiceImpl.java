@@ -29,11 +29,6 @@ public class AssessmentSharedServiceImpl implements AssessmentSharedService {
 		return assessmentSharedJpaRepository.save(assessmentShared);
 	}
 
-	@Override
-	public List<AssessmentShared> listAllAssessmentShared() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public List<AssessmentShared> listAllByUser(User user) {
@@ -59,6 +54,25 @@ public class AssessmentSharedServiceImpl implements AssessmentSharedService {
 	public AssessmentShared findByUserAndUserSharedAndAssessment(User user, User userShared, Assessment assessment) {
 		return assessmentSharedJpaRepository.findByUserAndUserSharedAndAssessment(user, userShared, assessment);
 	}
+
+
+	@Override
+	public void updateAssignedShared(Assessment assessment,User userAssign, User user) {
+		
+		List<AssessmentShared> assessmentSharedToUser = assessmentSharedJpaRepository.findByUser(user);
+		if(assessmentSharedToUser!=null)
+		{
+			for(AssessmentShared assessmentShared : assessmentSharedToUser)
+			{
+				assessmentShared.setUser(userAssign);
+				assessmentSharedJpaRepository.save(assessmentShared);
+			}
+		}
+		
+		
+	}
+
+
 	
 	
 

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.Assessment;
 import com.unimer.cotizaciones.entities.AssessmentShared;
+import com.unimer.cotizaciones.entities.HeadUserToUser;
 import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.AssessmentService;
@@ -25,6 +26,7 @@ import com.unimer.cotizaciones.services.AssessmentSharedService;
 import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.CurrencyExchangeService;
 import com.unimer.cotizaciones.services.CurrencyTypeService;
+import com.unimer.cotizaciones.services.HeadUserToUserService;
 import com.unimer.cotizaciones.services.SaClientService;
 import com.unimer.cotizaciones.services.StatusService;
 import com.unimer.cotizaciones.services.UserService;
@@ -58,6 +60,10 @@ public class AssessmentController {
 	private UserService userService;
 	
 	@Autowired
+	@Qualifier("headUserToUserServiceImpl")
+	private HeadUserToUserService headUserToUserService;
+	
+	@Autowired
 	@Qualifier("currencyExchangeServiceImpl")
 	private CurrencyExchangeService currencyExchangeService;
 	
@@ -74,18 +80,23 @@ public class AssessmentController {
 		User userEntity = userService.findById(userSession.getId());
 		ModelAndView modelAndView = new ModelAndView();
 		List<User> listUsers = userService.listAllUser();
+		HeadUserToUser headUserToUser = headUserToUserService.findByUser(userEntity);
+		if(headUserToUser!=null)listUsers.remove(headUserToUser.getHeadUser());
 		listUsers.remove(userEntity);
 		modelAndView.setViewName("projects");
-		modelAndView.addObject("projects", assessmentService.listAllByUserAssign(userEntity));
+		if(userSession.getDetailRol().equals("[ROLE_BOSS_CONTRIBUTOR]")) modelAndView.addObject("projects", assessmentService.listAllAssessmentToHeadUser(userEntity));
+		else if(userSession.getDetailRol().equals("[ROLE_ADMIN]") || userSession.getDetailRol().equals("[ROLE_ADMINISTRATOR]"))  modelAndView.addObject("projects", assessmentService.listAllAssessmentByUserCountry(userEntity));
+		else modelAndView.addObject("projects", assessmentService.listAllByUserAssign(userEntity));
 		modelAndView.addObject("saClients", saClientService.listAllSaClient());
 		modelAndView.addObject("status", statusServiceImpl.listAllStatus());
 		modelAndView.addObject("currencyexchanges", currencyExchangeService.listAllCurrencyExchange());
 		modelAndView.addObject("users", listUsers);
 		modelAndView.addObject("countries", countryService.listAllCountries());
 		modelAndView.addObject("role", userSession.getDetailRol());
+		modelAndView.addObject("email", userSession.getMail());
 		modelAndView.addObject("shareds", assessmentSharedService.listAllByUser(userEntity));
 		modelAndView.addObject("sharedWithMe", assessmentSharedService.listAllByUserShared(userEntity));
-		
+		LOG.info("ROLE DEL USUARIO EN SESION: "+userSession.getDetailRol());
 		return modelAndView;
 		
 	}
@@ -120,7 +131,7 @@ public class AssessmentController {
 			return "projects";
 			
 		}catch(Exception ex){
-			return null;
+			return ex.toString();
 			
 		}
 		
@@ -186,11 +197,15 @@ public class AssessmentController {
 			AssessmentShared assessmentShared = assessmentSharedService.findByUserAndUserSharedAndAssessment(userEntity, userAssign, assessment);
 			assessment.setUserAssigned(userAssign);
 			if(assessmentShared!=null)assessmentSharedService.delete(assessmentShared);
-			assessmentService.addAssessment(assessment, userSession.getId());	
+			assessmentService.addAssessment(assessment, userSession.getId());
+			assessmentSharedService.updateAssignedShared(assessment,userAssign,userEntity);
 			
 			model.addAttribute("shareds", assessmentSharedService.listAllByUser(userEntity));
 			model.addAttribute("role", userSession.getDetailRol());
-			model.addAttribute("projects", assessmentService.listAllByUserAssign(userEntity));
+			if(userSession.getDetailRol().equals("[ROLE_BOSS_CONTRIBUTOR]")) model.addAttribute("projects", assessmentService.listAllAssessmentToHeadUser(userEntity));
+			else if(userSession.getDetailRol().equals("[ROLE_ADMIN]") || userSession.getDetailRol().equals("[ROLE_ADMINISTRATOR]"))  model.addAttribute("projects", assessmentService.listAllAssessmentByUserCountry(userEntity));
+			else model.addAttribute("projects", assessmentService.listAllByUserAssign(userEntity));
+		
 			return "projects";
 			
 		

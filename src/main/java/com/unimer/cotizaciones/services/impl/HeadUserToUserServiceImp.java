@@ -41,7 +41,7 @@ public class HeadUserToUserServiceImp implements HeadUserToUserService {
 
 	@Override
 	public void addHeadUserToUser(int idHeadUser, User user) {
-		LOG.info("MIERAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA  iddddddddddddddddd"+idHeadUser);
+		LOG.info("");
 		if(idHeadUser!=0)
 		{
 			User headUser = userJpaRepository.findByIdUser(idHeadUser);
@@ -53,7 +53,7 @@ public class HeadUserToUserServiceImp implements HeadUserToUserService {
 		else
 		{
 			HeadUserToUser headUserToUserOld = headUserToUserJpaRepository.findHeadUserToUserByUser(user);
-			LOG.info("MIERAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"+headUserToUserOld.toString());
+			LOG.info("");
 			headUserToUserJpaRepository.delete(headUserToUserOld);
 			
 		}

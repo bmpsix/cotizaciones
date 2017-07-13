@@ -3,7 +3,7 @@
 <head th:replace="fragments/header">
 <meta charset="UTF-8"/>
 </head>
-<body  th:object="${proposal}" onload="totalcharge(); proposalDetailsLoad();">
+<body  th:object="${proposal}" onload="methodLoad();">
 	<div data-role="page" data-theme="a" data-dom-cache="false" >
 	
 	
@@ -57,7 +57,7 @@
 	<div data-role="navbar">
 			<ul>
 				<li title="Puede modificar la información general de la propuesta desde este apartado." class="first"><a href="#">Informacion General</a></li>
-				<li class="second"><a href="#">Detalle de la Cotizacion</a></li>
+				<li class="second"><a id="secondLink"  href="#">Detalle de la Cotizacion</a></li>
 				<li title="Proceso de facturación y finalización de la propuesta." ><a href="#" >Escenarios de Facturacion</a></li>
 			</ul>
 	</div>
@@ -409,7 +409,7 @@
 					<label for="departure">Partida:</label>
 					<input data-type="search" id="searchForSelect" placeholder="Buscar partida /catálogo"/>
     				<hr>
-					<select name="idDeparture" id="idDeparture" data-filter="true" data-input="#searchForSelect" required>
+					<select name="idDeparture" id="idDeparture" data-filter="true" data-input="#searchForSelect" onchange="changeDeparture();" required>
 						<option  th:each="departure : ${departures}" th:value="${departure.idDeparture}">
 							<p  th:text="${departure.detail}"></p>
 						</option>

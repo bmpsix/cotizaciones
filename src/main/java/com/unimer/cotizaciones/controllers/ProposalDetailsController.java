@@ -22,6 +22,7 @@ import com.unimer.cotizaciones.entities.Departure;
 import com.unimer.cotizaciones.entities.Proposal;
 import com.unimer.cotizaciones.entities.ProposalDetails;
 import com.unimer.cotizaciones.entities.Settings;
+import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.AssessmentService;
 import com.unimer.cotizaciones.services.CollectMethodService;
@@ -146,6 +147,7 @@ public class ProposalDetailsController {
 		ModelAndView modelAndView = new ModelAndView();
 		Country cntry = countryService.findById(userSession.getIdCountry());
 		Settings sttings = settingsService.findSettingByCountry(cntry);
+		User userEntity = userService.findById(userSession.getId());
 		CurrencyExchange crrencyExchange = currencyExchangeService.findByCountryAndCurrencyType(cntry, sttings.getCurrencyTypeInternational());
 		modelAndView.addObject("countries",countryService.listAllCountries());
 		modelAndView.addObject("collectmethods", collectMethodService.listAllCollectMethod());
@@ -155,7 +157,9 @@ public class ProposalDetailsController {
 		modelAndView.addObject("techniques", techniqueService.orderlistAllTechniques());
 		modelAndView.addObject("countryByCurrencyType", cntry.getCurrencyType());
 		modelAndView.addObject("targets", targetService.listAllTargets());
-		modelAndView.addObject("assessments", assessmentService.listAllByUserAssign(userService.findById(userSession.getId())));
+		if(userSession.getDetailRol().equals("[ROLE_BOSS_CONTRIBUTOR]")) modelAndView.addObject("assessments", assessmentService.listAllAssessmentToHeadUser(userEntity));
+		else if(userSession.getDetailRol().equals("[ROLE_ADMIN]") || userSession.getDetailRol().equals("[ROLE_ADMINISTRATOR]"))  modelAndView.addObject("assessments", assessmentService.listAllAssessmentByUserCountry(userEntity));
+		else modelAndView.addObject("assessments", assessmentService.listAllByUserAssign(userEntity));
 		modelAndView.addObject("clientContacts", clientContactService.findByCountry(cntry));
 		modelAndView.addObject("executionTypes", executionTypeService.listAllExecutionType());
 		modelAndView.addObject("autoIncrement", proposalService.autoIncrement());

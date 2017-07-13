@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.unimer.cotizaciones.entities.Assessment;
+import com.unimer.cotizaciones.entities.HeadUserToUser;
 import com.unimer.cotizaciones.entities.LogAssessment;
 import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.repositories.AssessmentJpaRepository;
+import com.unimer.cotizaciones.repositories.HeadUserToUserJpaRepository;
 import com.unimer.cotizaciones.repositories.LogAssessmentJpaRepository;
 import com.unimer.cotizaciones.services.AssessmentService;
 
@@ -22,6 +24,10 @@ public class AssessmentServiceImpl implements AssessmentService {
 	@Autowired
 	@Qualifier("assessmentJpaRepository")
 	private AssessmentJpaRepository assessmentJpaRepository;
+	
+	@Autowired
+	@Qualifier("headUserToUserJpaRepository")
+	private HeadUserToUserJpaRepository headUserToUserJpaRepository;
 
 	
 	@Autowired
@@ -56,7 +62,35 @@ public class AssessmentServiceImpl implements AssessmentService {
 		return assessmentJpaRepository.findByIdAssessment(idAssessment);
 	}
 
+	@Override
+	public List<Assessment> listAllByUserAssign(User user) {
+		return assessmentJpaRepository.findByUserAssigned(user);
+	}
+
+	@Override
+	public List<Assessment> listAllAssessmentToHeadUser(User user) {
+		
+		List<Assessment> listAssessmentToHeadUser = assessmentJpaRepository.findByUserAssigned(user);
+		List<HeadUserToUser> listHeadUserToUser = headUserToUserJpaRepository.findUserByHeadUser(user);
+		for(HeadUserToUser headUserToUser : listHeadUserToUser)
+		{
+			if(headUserToUser.getHeadUser().equals(user))
+			{
+				List<Assessment> listAssessmentToUser = assessmentJpaRepository.findByUserAssigned(headUserToUser.getUser());
+				if(listAssessmentToUser!=null) for(Assessment assessmentToUser : listAssessmentToUser) listAssessmentToHeadUser.add(assessmentToUser);
+			}
+		}
+		
+		return listAssessmentToHeadUser;
+	}
 	
+	@Override
+	public List<Assessment> listAllAssessmentByUserCountry(User user) {
+		
+		List<Assessment> listAllAssessment = assessmentJpaRepository.findAll();
+		for(Assessment assessment : listAllAssessment) if(!assessment.getUserAssigned().getCountry().equals(user.getCountry())) listAllAssessment.remove(assessment);
+		return listAllAssessment;
+	}
 	
 	private void updateAssessment(Assessment assessment, int idUser) {
 
@@ -68,6 +102,7 @@ public class AssessmentServiceImpl implements AssessmentService {
 				LogAssessment logAssessment = new LogAssessment(date, "Assesssment  modified", idUser, asessmentToUpdate.getCreationDate(),asessmentToUpdate.getDetail() ,
 						asessmentToUpdate.getIdAssessment(),asessmentToUpdate.getCurrencyExchange().getIdCurrencyExchange(),asessmentToUpdate.getSaClient().getIdSaClient(),asessmentToUpdate.getUser().getIdUser());
 				//assessment.setCreationDate(date);
+				assessmentJpaRepository.save(assessment);
 				logAssessmentJpaRepository.save(logAssessment);
 				LOG.info("METHOD: updateAssessment in AssessmentServiceImpl -- PARAMS: " + assessment.toString());
 				
@@ -76,16 +111,6 @@ public class AssessmentServiceImpl implements AssessmentService {
 		
 	}
 
-	@Override
-	public List<Assessment> listAllByUserAssign(User user) {
-		return assessmentJpaRepository.findByUserAssigned(user);
-	}
-
-	@Override
-	public void addAssigned(Assessment assessment) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 
 }

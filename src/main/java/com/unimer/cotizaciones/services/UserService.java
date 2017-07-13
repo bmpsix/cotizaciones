@@ -13,4 +13,5 @@ public interface UserService {
 	public abstract User findById(int idUser);
 	public abstract void lastLogin(User user);
 	public abstract List<User> findByCountry(Country country);
+	
 }

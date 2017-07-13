@@ -10,8 +10,6 @@ public interface AssessmentSharedService {
 	
 	public abstract AssessmentShared addAssessmentShared(AssessmentShared assessmentShared, int idUser);
 	
-	public abstract List<AssessmentShared> listAllAssessmentShared();
-	
 	public abstract List<AssessmentShared> listAllByUser(User user);
 	
 	public abstract List<AssessmentShared> listAllByUserShared(User user);
@@ -21,4 +19,6 @@ public interface AssessmentSharedService {
 	public abstract void delete(AssessmentShared assessmentShared);
 	
 	public abstract AssessmentShared findByUserAndUserSharedAndAssessment(User user, User userShared, Assessment assessment);
+	
+	public abstract void updateAssignedShared(Assessment assessment, User userAssign, User user);
 }

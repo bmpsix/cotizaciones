@@ -1657,41 +1657,43 @@ function sendFormUser()
 
 		           success: function(data)
 		           {
-		        	   if(data != null){
+		        	   if(data != null)
+		        	   {
 		        		   
 		        		   if($("#head").val()==$("#idUser").val() || $("#headRol").val()==$("#rol").val()) location.reload();
-		        		   else{
-		        	      var selectHead = document.getElementById("head");
-		        	      for(count = 0; count<selectHead.length;count++)
-		        	      {
-		        	    	  if(selectHead.options[count].value==$("#idUser").val()) 
-		        	    		  {
-		        	    		  	location.reload();
-		        	    		  	break;
-		        	    		  }
-		        	      }
-		        		 
-		        	       
-		        		  tbody.innerHTML = data;
-		        		  if($("#idUser").val()==0) msg = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
-		        		  else  if($("#idUser").val()!=0) msg = "<p style='color: hsl(153,80%,40%)'>Se actualizó la información correctamente <p>";
-		        		    $(".detailTable").hide();
-		        			$(".columnHide").show();
-		        			$("#hideDetails").hide();
-		        			$("#showDetails").show();
+		        		   else
+		        		   {
+		        			   var selectHead = document.getElementById("head");
+		        			   for(count = 0; count<selectHead.length;count++)
+		        			   {
+		        				   if(selectHead.options[count].value==$("#idUser").val()) 
+		        				   {
+		        					   location.reload();
+		        					   break;
+		        				   }
+		        			   }
+		        		   
+		        			   tbody.innerHTML = data;
+		        			   if($("#idUser").val()==0) msg = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
+		        			   else  if($("#idUser").val()!=0) msg = "<p style='color: hsl(153,80%,40%)'>Se actualizó la información correctamente <p>";
+		        			   $(".detailTable").hide();
+		        			   $(".columnHide").show();
+		        			   $("#hideDetails").hide();
+		        			   $("#showDetails").show();
 		        			
-		        			$(".parametersTable").hide();
-		        			$(".columnHide2").show();
-			        		$("#hideParameters").hide();
-			        		$("#showParameters").show();
+		        			   $(".parametersTable").hide();
+		        			   $(".columnHide2").show();
+		        			   $("#hideParameters").hide();
+		        			   $("#showParameters").show();
 		        			
-		        		  clearUser(); //Clear
-		        		  div.innerHTML = msg;
+		        			   clearUser(); //Clear
+		        			   div.innerHTML = msg;
 		        		   }
-		        	   }else{
+		        	   }else
+		        	   {
 		        		   msg = "<p style='color:#800000'>Ha ocurrido un error inesperado!<p>";
 		        		   div.innerHTML = msg;
-		        		   }
+		        	   }
 		           }
 		    	
 		         });
@@ -1806,3 +1808,4 @@ function changeidHeadUser(){
 	
 };
 //----------------------------------------------------------------------------------------------------------------------------------------------------------
+

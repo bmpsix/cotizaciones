@@ -3,7 +3,7 @@
 <head th:replace="fragments/header">
 <meta charset="UTF-8"/>
 </head>
-<body>
+<body onload="changeidHeadUser();">
 	<div data-role="page" data-theme="a" data-dom-cache="false" >
 		<div data-role="header" data-position="inline" >
 			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
@@ -53,7 +53,7 @@
 								<input id="password" title="Debe ingresar una contraseña"  maxlength="15" type="password" name="password" th:value="${password}" required/>
 							
     							<label for="accountBank">Cuenta bancaria:</label>
-								<input id="accountBank" title="Debe ingresar una cuenta bancaria"  maxlength="15" type="text" name="accountBank" th:value="${accountBank}" required/>
+								<input id="accountBank" title="Debe ingresar una cuenta bancaria"  maxlength="15" type="number" name="accountBank" th:value="${accountBank}" required/>
 								
 								<label for="rol">Rol:</label>
 								<select id="rol" name="rol.idRol" onchange="asignedHead();">

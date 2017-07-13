@@ -3,8 +3,10 @@
  * 
  */
 
+var email;
+
+
 $( document ).ready(function(){
-	
 	
 	$("#addAssessment").click(function(){
 		$("#divShared").hide("slow");
@@ -319,6 +321,10 @@ function chargeUserByCountryAssign()
 	$("#userAssign").val("");
 }
 
-
+function onLoadProjects()
+{
+	chargeUserSharedByCountry(); 
+	chargeUserByCountryAssign();
+};
 
 

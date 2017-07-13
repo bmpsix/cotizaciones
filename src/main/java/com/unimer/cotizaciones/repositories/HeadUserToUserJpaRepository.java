@@ -13,9 +13,6 @@ import com.unimer.cotizaciones.entities.User;
 public interface HeadUserToUserJpaRepository extends JpaRepository<HeadUserToUser, Serializable>{
 
 	public abstract List<HeadUserToUser> findUserByHeadUser(User headUser);
-	
-	public abstract HeadUserToUser findHeadUserByUser(User user);
-	
 	public abstract HeadUserToUser findHeadUserToUserByUser(User user);
 	
 }

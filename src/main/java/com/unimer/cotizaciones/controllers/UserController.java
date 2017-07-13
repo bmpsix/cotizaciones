@@ -65,29 +65,36 @@ public class UserController {
 	@PostMapping("/admin/adduser")
 	public String addUser(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "user") User user, @RequestParam("idHeadUser") int idHeadUser, Model model) {
 		
-		try
-		{
+		
 		Country country = countryService.findById(userSession.getIdCountry());
 		Rol rol = rolService.findById(user.getRol().getIdRol());
-		List<HeadUserToUser> headUserToUser = headUserToUserService.findUserByHeadUser(user);
-		if(headUserToUser.isEmpty())
+		if (user.getIdUser() != 0) {
+			List<HeadUserToUser> headUserToUser = headUserToUserService.findUserByHeadUser(user);
+			if (headUserToUser.isEmpty()) {
+
+				user.setRol(rol);
+				userService.addUser(user, userSession.getId());
+				headUserToUserService.addHeadUserToUser(idHeadUser, user);
+				model.addAttribute("roles", rolService.findByActiveStatus());
+				model.addAttribute("users", userService.findByCountry(country));
+				model.addAttribute("headUserToUsers", headUserToUserService.findHeadUserToUser());
+				return "user :: #userRow";
+
+			}
+			else return "user";
+		}
+		else 
 		{
-			
 			user.setRol(rol);
-			userService.addUser(user,userSession.getId());
+			userService.addUser(user, userSession.getId());
 			headUserToUserService.addHeadUserToUser(idHeadUser, user);
 			model.addAttribute("roles", rolService.findByActiveStatus());
-			model.addAttribute("users",userService.findByCountry(country));
+			model.addAttribute("users", userService.findByCountry(country));
 			model.addAttribute("headUserToUsers", headUserToUserService.findHeadUserToUser());
 			return "user :: #userRow";
-		 
 		}
-		else return "user :: #userRow";
-		}
-		catch(Exception e)
-		{
-			return "user :: #userRow";
-		}
+		
+		
 			
 	}
 

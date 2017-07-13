@@ -14,7 +14,8 @@ public interface AssessmentService {
 	public abstract List<Assessment> listAllByUserAssign(User user);
 
 	public abstract Assessment findById(int idAssessment);
-
-	public abstract void addAssigned(Assessment assessment);
-
+	
+	public abstract List<Assessment> listAllAssessmentToHeadUser(User user);
+	
+	public abstract List<Assessment> listAllAssessmentByUserCountry(User user);
 }

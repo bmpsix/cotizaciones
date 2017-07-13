@@ -139,6 +139,7 @@ public class ProposalController {
 	public ModelAndView proposal(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession){
 		Country cntry = countryService.findById(userSession.getIdCountry());
 		Settings sttings = settingsService.findSettingByCountry(cntry);
+		User userEntity = userService.findById(userSession.getId());
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("countries",countryService.listAllCountries());
 		modelAndView.addObject("collectmethods", collectMethodService.listAllCollectMethod());
@@ -147,7 +148,9 @@ public class ProposalController {
 		modelAndView.addObject("industrysectors", industrySectorService.listAllIndustrySectors());
 		modelAndView.addObject("techniques", techniqueService.orderlistAllTechniques());
 		modelAndView.addObject("targets", targetService.listAllTargets());
-		modelAndView.addObject("assessments", assessmentService.listAllByUserAssign(userService.findById(userSession.getId())));
+		if(userSession.getDetailRol().equals("[ROLE_BOSS_CONTRIBUTOR]")) modelAndView.addObject("assessments", assessmentService.listAllAssessmentToHeadUser(userEntity));
+		else if(userSession.getDetailRol().equals("[ROLE_ADMIN]") || userSession.getDetailRol().equals("[ROLE_ADMINISTRATOR]"))  modelAndView.addObject("assessments", assessmentService.listAllAssessmentByUserCountry(userEntity));
+		else modelAndView.addObject("assessments", assessmentService.listAllByUserAssign(userEntity));
 		modelAndView.addObject("clientContacts", clientContactService.findByCountry(cntry));
 		modelAndView.addObject("executionTypes", executionTypeService.listAllExecutionType());
 		modelAndView.addObject("autoIncrement", proposalService.autoIncrement());
