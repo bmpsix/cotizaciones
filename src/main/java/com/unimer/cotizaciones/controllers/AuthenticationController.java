@@ -51,7 +51,7 @@ public class AuthenticationController {
 	
 	@GetMapping({"/loginsuccess","/","/css/images/ajax-loader.gif"})
 	public String loginCheck(HttpServletRequest request){
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession();
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();//sesión de usuario por defecto
 		com.unimer.cotizaciones.entities.User userEntity = userService.findByEmail(user.getUsername()); // datos usuario logueado
 		if(session.getAttribute("userSession")==null) session.setAttribute("userSession",userEntity);
@@ -61,9 +61,12 @@ public class AuthenticationController {
 	
 	
 	@GetMapping("/admin/logout")
-	public ModelAndView logout(){
+	public ModelAndView logout(HttpServletRequest request){
 		SecurityContextHolder.getContext().setAuthentication(null);
-		return new ModelAndView(new RedirectView("/admin/country"));
+		HttpSession session = request.getSession();
+		session.setAttribute("userSession",null);
+		session.setAttribute("proposedHeader",null);
+		return new ModelAndView(new RedirectView("/index"));
 	}
 	
 	

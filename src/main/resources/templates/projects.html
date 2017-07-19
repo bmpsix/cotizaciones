@@ -248,9 +248,12 @@
        	 					<a id="showDetails" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
        	 					<a id="hideDetails" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
        	 				</th>
-           				<th style="padding-right: 15px;">
-		            	<a id="addAssessment" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;" title="Agregar proyecto">Plus</a>
-		                </th>
+       	 				<div th:if="${role != 'ADMINISTRATOR'}">
+           					<th style="padding-right: 15px;">
+		            			<a id="addAssessment" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;" title="Agregar proyecto">Plus</a>
+		                	</th>
+		                </div>
+           				<td  th:if="${role == 'ADMINISTRATOR'}"></td>
            				
            				</thead>
 				        <tbody id="tbodyAssessment">

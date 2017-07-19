@@ -13,6 +13,7 @@ import com.unimer.cotizaciones.entities.User;
 @Repository("assessmentSharedJpaRepository")
 public interface AssessmentSharedJpaRepository extends JpaRepository<AssessmentShared, Serializable> {
 	public abstract List<AssessmentShared> findByUser(User user);
+	public abstract List<AssessmentShared> findByAssessment(Assessment assessment);
 	public abstract AssessmentShared findByIdAssessmentShared(int idAssessmentShared);
 	public abstract List<AssessmentShared> findByUserShared(User user);
 	public abstract AssessmentShared findByUserAndUserSharedAndAssessment(User user, User userAssign, Assessment assessment);

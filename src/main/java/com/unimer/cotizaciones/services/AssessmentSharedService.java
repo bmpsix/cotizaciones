@@ -20,5 +20,5 @@ public interface AssessmentSharedService {
 	
 	public abstract AssessmentShared findByUserAndUserSharedAndAssessment(User user, User userShared, Assessment assessment);
 	
-	public abstract void updateAssignedShared(Assessment assessment, User userAssign, User user);
+	public abstract void updateAssignedShared(Assessment assessment, User userAssign);
 }

@@ -77,6 +77,7 @@ public class AssessmentController {
 	public ModelAndView assessmentIndex(HttpServletRequest request){
 		HttpSession session = request.getSession();
 		User userSession =  (User) session.getAttribute("userSession");
+		LOG.info("USUARIO EN SESION: "+userSession.toString());
 		ModelAndView modelAndView = new ModelAndView();
 		List<User> listUsers = userService.listAllUser();
 		HeadUserToUser headUserToUser = headUserToUserService.findByUser(userSession);
@@ -193,7 +194,7 @@ public class AssessmentController {
 			assessment.setUserAssigned(userAssign);
 			if(assessmentShared!=null)assessmentSharedService.delete(assessmentShared);
 			assessmentService.addAssessment(assessment, userSession.getIdUser());
-			assessmentSharedService.updateAssignedShared(assessment,userAssign,userSession);
+			assessmentSharedService.updateAssignedShared(assessment,userAssign);
 			model.addAttribute("shareds", assessmentSharedService.listAllByUser(userSession));
 			model.addAttribute("role", userSession.getRol().getDetail().toUpperCase());
 			if(userSession.getRol().getDetail().toUpperCase().equals("BOSS_CONTRIBUTOR")) model.addAttribute("projects", assessmentService.listAllAssessmentToHeadUser(userSession));

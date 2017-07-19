@@ -57,15 +57,18 @@ public class AssessmentSharedServiceImpl implements AssessmentSharedService {
 
 
 	@Override
-	public void updateAssignedShared(Assessment assessment,User userAssign, User user) {
+	public void updateAssignedShared(Assessment assessment,User userAssign) {
 		
-		List<AssessmentShared> assessmentSharedToUser = assessmentSharedJpaRepository.findByUser(user);
-		if(assessmentSharedToUser!=null)
+		List<AssessmentShared> assessmentSharedToAssessment = assessmentSharedJpaRepository.findByAssessment(assessment);
+		if(!assessmentSharedToAssessment.isEmpty())
 		{
-			for(AssessmentShared assessmentShared : assessmentSharedToUser)
+			for(AssessmentShared assessmentShared : assessmentSharedToAssessment)
 			{
-				assessmentShared.setUser(userAssign);
-				assessmentSharedJpaRepository.save(assessmentShared);
+				if(assessment.getIdAssessment()==assessmentShared.getAssessment().getIdAssessment())
+				{
+					assessmentShared.setUser(userAssign);
+					assessmentSharedJpaRepository.save(assessmentShared);
+				}
 			}
 		}
 		

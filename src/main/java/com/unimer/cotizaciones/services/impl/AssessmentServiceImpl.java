@@ -72,15 +72,17 @@ public class AssessmentServiceImpl implements AssessmentService {
 		
 		List<Assessment> listAssessmentToHeadUser = assessmentJpaRepository.findByUserAssigned(user);
 		List<HeadUserToUser> listHeadUserToUser = headUserToUserJpaRepository.findUserByHeadUser(user);
-		for(HeadUserToUser headUserToUser : listHeadUserToUser)
-		{
-			if(headUserToUser.getHeadUser().equals(user))
+		
+		if (!listHeadUserToUser.isEmpty()) {
+			for (HeadUserToUser headUserToUser : listHeadUserToUser) 
 			{
-				List<Assessment> listAssessmentToUser = assessmentJpaRepository.findByUserAssigned(headUserToUser.getUser());
-				if(listAssessmentToUser!=null) for(Assessment assessmentToUser : listAssessmentToUser) listAssessmentToHeadUser.add(assessmentToUser);
+				if (headUserToUser.getHeadUser().getIdUser() == user.getIdUser()) 
+				{
+					List<Assessment> listAssessmentToUser = assessmentJpaRepository.findByUserAssigned(headUserToUser.getUser());
+					if (!listAssessmentToUser.isEmpty()) for (Assessment assessmentToUser : listAssessmentToUser) listAssessmentToHeadUser.add(assessmentToUser);
+				}
 			}
 		}
-		
 		return listAssessmentToHeadUser;
 	}
 	
@@ -88,7 +90,10 @@ public class AssessmentServiceImpl implements AssessmentService {
 	public List<Assessment> listAllAssessmentByUserCountry(User user) {
 		
 		List<Assessment> listAllAssessment = assessmentJpaRepository.findAll();
-		for(Assessment assessment : listAllAssessment) if(!assessment.getUserAssigned().getCountry().equals(user.getCountry())) listAllAssessment.remove(assessment);
+		if(!listAllAssessment.isEmpty())
+		{
+			for(Assessment assessment : listAllAssessment) if(assessment.getUserAssigned().getCountry().getIdCountry()!=user.getCountry().getIdCountry()) listAllAssessment.remove(assessment);
+		}
 		return listAllAssessment;
 	}
 	
