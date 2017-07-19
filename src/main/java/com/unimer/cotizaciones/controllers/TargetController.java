@@ -1,23 +1,23 @@
 package com.unimer.cotizaciones.controllers;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.Target;
-import com.unimer.cotizaciones.model.UserSession;
+import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.services.TargetService;
 
 @Controller
-@SessionAttributes({"userSession"})
 public class TargetController {
 
 	@Autowired
@@ -25,6 +25,9 @@ public class TargetController {
 	private TargetService targetService;
 
 	private static final Log LOG = LogFactory.getLog(TargetController.class);
+	
+	
+	
 	
 	@GetMapping("/admin/target")
 	public ModelAndView TargetService()
@@ -37,10 +40,12 @@ public class TargetController {
 		return modelAndView;
 	}
 	@PostMapping("/admin/addtarget")
-	public  String addTarget(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@ModelAttribute(name = "target") Target target, Model model)
+	public  String addTarget(HttpServletRequest request,@ModelAttribute(name = "target") Target target, Model model)
 	{
+		HttpSession session = request.getSession();
+		User userSession =  (User) session.getAttribute("userSession");
 		LOG.info("METHOD: addTarget in TargetController -- PARAMS:" + model);		
-		targetService.addTarget(target,userSession.getId());
+		targetService.addTarget(target,userSession.getIdUser());
 		return "redirect:/admin/target";
 	}
 	

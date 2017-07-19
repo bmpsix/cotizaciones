@@ -43,7 +43,7 @@
 			</ul>
 </div><!-- /panel -->
 
-<p title="Para cambiar mis datos personales, preciona click aqu&iacute;" style="text-align: center;cursor: pointer;" onclick="return window.location.href='/'">Usuario activo: ADMIN</p>
+<p title="Para cambiar mis datos personales, preciona click aqu&iacute;" style="text-align: center;cursor: pointer;" onclick="return window.location.href='/'">Usuario activo: <span th:text="|${session.userSession.name} ${session.userSession.lastname} |"></span></p>
         <div data-role="navbar" data-iconpos="right">
             <ul>
             	<li><a href="#"  onclick="return window.location.href='/assessment'" data-ajax="false" data-icon="home" th:classappend="${viewName=='dashboard'} ? 'ui-btn-active ui-state-persist'">Inicio</a></li>

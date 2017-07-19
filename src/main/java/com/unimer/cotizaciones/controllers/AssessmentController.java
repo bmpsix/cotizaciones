@@ -3,24 +3,23 @@ package com.unimer.cotizaciones.controllers;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.Assessment;
 import com.unimer.cotizaciones.entities.AssessmentShared;
 import com.unimer.cotizaciones.entities.HeadUserToUser;
 import com.unimer.cotizaciones.entities.User;
-import com.unimer.cotizaciones.model.UserSession;
 import com.unimer.cotizaciones.services.AssessmentService;
 import com.unimer.cotizaciones.services.AssessmentSharedService;
 import com.unimer.cotizaciones.services.CountryService;
@@ -32,7 +31,6 @@ import com.unimer.cotizaciones.services.StatusService;
 import com.unimer.cotizaciones.services.UserService;
 
 @Controller
-@SessionAttributes({"userSession"})
 public class AssessmentController {
 	
 	@Autowired
@@ -74,29 +72,29 @@ public class AssessmentController {
 	
 	private static final Log LOG = LogFactory.getLog(AssessmentController.class);
 	
+	
 	@GetMapping("/assessment")
-	public ModelAndView assessmentIndex(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession){
-		
-		User userEntity = userService.findById(userSession.getId());
+	public ModelAndView assessmentIndex(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		User userSession =  (User) session.getAttribute("userSession");
 		ModelAndView modelAndView = new ModelAndView();
 		List<User> listUsers = userService.listAllUser();
-		HeadUserToUser headUserToUser = headUserToUserService.findByUser(userEntity);
+		HeadUserToUser headUserToUser = headUserToUserService.findByUser(userSession);
 		if(headUserToUser!=null)listUsers.remove(headUserToUser.getHeadUser());
-		listUsers.remove(userEntity);
+		listUsers.remove(userSession);
 		modelAndView.setViewName("projects");
-		if(userSession.getDetailRol().equals("[ROLE_BOSS_CONTRIBUTOR]")) modelAndView.addObject("projects", assessmentService.listAllAssessmentToHeadUser(userEntity));
-		else if(userSession.getDetailRol().equals("[ROLE_ADMIN]") || userSession.getDetailRol().equals("[ROLE_ADMINISTRATOR]"))  modelAndView.addObject("projects", assessmentService.listAllAssessmentByUserCountry(userEntity));
-		else modelAndView.addObject("projects", assessmentService.listAllByUserAssign(userEntity));
+		if(userSession.getRol().getDetail().toUpperCase().equals("BOSS_CONTRIBUTOR")) modelAndView.addObject("projects", assessmentService.listAllAssessmentToHeadUser(userSession));
+		else if(userSession.getRol().getDetail().toUpperCase().equals("ADMIN") || userSession.getRol().getDetail().toUpperCase().equals("ADMINISTRATOR"))  modelAndView.addObject("projects", assessmentService.listAllAssessmentByUserCountry(userSession));
+		else modelAndView.addObject("projects", assessmentService.listAllByUserAssign(userSession));
 		modelAndView.addObject("saClients", saClientService.listAllSaClient());
 		modelAndView.addObject("status", statusServiceImpl.listAllStatus());
 		modelAndView.addObject("currencyexchanges", currencyExchangeService.listAllCurrencyExchange());
 		modelAndView.addObject("users", listUsers);
 		modelAndView.addObject("countries", countryService.listAllCountries());
-		modelAndView.addObject("role", userSession.getDetailRol());
-		modelAndView.addObject("email", userSession.getMail());
-		modelAndView.addObject("shareds", assessmentSharedService.listAllByUser(userEntity));
-		modelAndView.addObject("sharedWithMe", assessmentSharedService.listAllByUserShared(userEntity));
-		LOG.info("ROLE DEL USUARIO EN SESION: "+userSession.getDetailRol());
+		modelAndView.addObject("role", userSession.getRol().getDetail().toUpperCase());
+		modelAndView.addObject("shareds", assessmentSharedService.listAllByUser(userSession));
+		modelAndView.addObject("sharedWithMe", assessmentSharedService.listAllByUserShared(userSession));
+		LOG.info("ROLE DEL USUARIO EN SESION: "+userSession.getRol().getDetail().toUpperCase());
 		return modelAndView;
 		
 	}
@@ -106,7 +104,7 @@ public class AssessmentController {
 	
 	
 	@PostMapping("/admin/addassessment")
-	public String addAssessment(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,
+	public String addAssessment(HttpServletRequest request,
 			@RequestParam("idAssessment") int idAssessment,
 			@RequestParam("creationDate") Date creationDate,
 			@RequestParam("detail") String detail,
@@ -115,7 +113,8 @@ public class AssessmentController {
 			@RequestParam("idStatus") int idStatus) {
 		
 		try{
-			
+			HttpSession session = request.getSession();
+			User userSession =  (User) session.getAttribute("userSession");
 			Assessment assessment = new Assessment();
 			assessment.setIdAssessment(idAssessment);
 			assessment.setCreationDate(creationDate);
@@ -123,10 +122,10 @@ public class AssessmentController {
 			assessment.setDetail(detail);
 			assessment.setSaClient(saClientService.findById(idSaClient));
 			assessment.setStatus(statusServiceImpl.findById(idStatus));
-			assessment.setUser(userService.findById(userSession.getId()));
-			assessment.setUserAssigned(userService.findById(userSession.getId()));
+			assessment.setUser(userService.findById(userSession.getIdUser()));
+			assessment.setUserAssigned(userService.findById(userSession.getIdUser()));
 			LOG.info(assessment.toString());
-			assessmentService.addAssessment(assessment, userSession.getId());
+			assessmentService.addAssessment(assessment, userSession.getIdUser());
 			
 			return "projects";
 			
@@ -137,23 +136,21 @@ public class AssessmentController {
 		
 	}
 	@PostMapping("/assessment/addassessmentshared")
-	public String addAssessmentShared(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,
+	public String addAssessmentShared(	HttpServletRequest request,
 										@RequestParam("idUser") int idUser,
 										@RequestParam("idAssessmentToShared") int idAssessmentToShared,
 										Model model) {
 		
 		try{
-			
-			
+			HttpSession session = request.getSession();
+			User userSession =  (User) session.getAttribute("userSession");
 			Assessment assessment = assessmentService.findById(idAssessmentToShared);
 			User userShared = userService.findById(idUser);
-			User session = userService.findById(userSession.getId());
-			AssessmentShared assessmentShared = new AssessmentShared(userShared,assessment,session);
-			assessmentSharedService.addAssessmentShared(assessmentShared, userSession.getId());
+			AssessmentShared assessmentShared = new AssessmentShared(userShared,assessment,userSession);
+			assessmentSharedService.addAssessmentShared(assessmentShared, userSession.getIdUser());
 			LOG.info(assessmentShared.toString());
-			User userEntity = userService.findById(userSession.getId());
-			model.addAttribute("shareds", assessmentSharedService.listAllByUser(userEntity));
-			model.addAttribute("role", userSession.getDetailRol());
+			model.addAttribute("shareds", assessmentSharedService.listAllByUser(userSession));
+			model.addAttribute("role", userSession.getRol().getDetail().toUpperCase());
 			return "projects :: #sharedRow";
 			
 		}catch(Exception ex){
@@ -165,51 +162,45 @@ public class AssessmentController {
 	
 	
 	@PostMapping("/assessment/deleteassessmentshared")
-	public String deleteAssessmentShared(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@RequestParam("idAssessmentShared") int idAssessmentShared,Model model) {
+	public String deleteAssessmentShared(HttpServletRequest request,@RequestParam("idAssessmentShared") int idAssessmentShared,Model model) {
 		
 		try{
-			
+			HttpSession session = request.getSession();
+			User userSession =  (User) session.getAttribute("userSession");
 			AssessmentShared assessmentShared = assessmentSharedService.findById(idAssessmentShared);
 			LOG.info(assessmentShared.toString());
 			assessmentSharedService.delete(assessmentShared);
-			User userEntity = userService.findById(userSession.getId());
-			model.addAttribute("shareds", assessmentSharedService.listAllByUser(userEntity));
-			model.addAttribute("role", userSession.getDetailRol());
+			model.addAttribute("shareds", assessmentSharedService.listAllByUser(userSession));
+			model.addAttribute("role", userSession.getRol().getDetail().toUpperCase());
 			return "projects :: #sharedRow";
 			
 		}catch(Exception ex){
-			return "projects :: #sharedRow";
-			
+			return "projects :: #sharedRow";	
 		}
 		
 	}
 	
 	
 	@PostMapping("/assessment/assign")
-	public String assessmentAssign(ModelMap modelSession,@ModelAttribute("userSession") UserSession userSession,@RequestParam("idAssessmentToAssign") int idAssessmentToAssign,@RequestParam("idUserAssign") int idUserAssign,Model model) {
-		
-		
-			User userEntity = userService.findById(userSession.getId());
+	public String assessmentAssign(HttpServletRequest request,@RequestParam("idAssessmentToAssign") int idAssessmentToAssign,@RequestParam("idUserAssign") int idUserAssign,Model model) {
+			HttpSession session = request.getSession();
+			User userSession =  (User) session.getAttribute("userSession");
 			Assessment assessment = assessmentService.findById(idAssessmentToAssign);
 			LOG.info("METHOD assessmentAssign in AssessmentController assessmento assigned: "+assessment.toString());
 			User userAssign = userService.findById(idUserAssign);
 			LOG.info("METHOD userAssign in AssessmentController assessmento assigned: "+userAssign.toString());
-			AssessmentShared assessmentShared = assessmentSharedService.findByUserAndUserSharedAndAssessment(userEntity, userAssign, assessment);
+			AssessmentShared assessmentShared = assessmentSharedService.findByUserAndUserSharedAndAssessment(userSession, userAssign, assessment);
 			assessment.setUserAssigned(userAssign);
 			if(assessmentShared!=null)assessmentSharedService.delete(assessmentShared);
-			assessmentService.addAssessment(assessment, userSession.getId());
-			assessmentSharedService.updateAssignedShared(assessment,userAssign,userEntity);
-			
-			model.addAttribute("shareds", assessmentSharedService.listAllByUser(userEntity));
-			model.addAttribute("role", userSession.getDetailRol());
-			if(userSession.getDetailRol().equals("[ROLE_BOSS_CONTRIBUTOR]")) model.addAttribute("projects", assessmentService.listAllAssessmentToHeadUser(userEntity));
-			else if(userSession.getDetailRol().equals("[ROLE_ADMIN]") || userSession.getDetailRol().equals("[ROLE_ADMINISTRATOR]"))  model.addAttribute("projects", assessmentService.listAllAssessmentByUserCountry(userEntity));
-			else model.addAttribute("projects", assessmentService.listAllByUserAssign(userEntity));
-		
+			assessmentService.addAssessment(assessment, userSession.getIdUser());
+			assessmentSharedService.updateAssignedShared(assessment,userAssign,userSession);
+			model.addAttribute("shareds", assessmentSharedService.listAllByUser(userSession));
+			model.addAttribute("role", userSession.getRol().getDetail().toUpperCase());
+			if(userSession.getRol().getDetail().toUpperCase().equals("BOSS_CONTRIBUTOR")) model.addAttribute("projects", assessmentService.listAllAssessmentToHeadUser(userSession));
+			else if(userSession.getRol().getDetail().toUpperCase().equals("ADMIN") || userSession.getRol().getDetail().toUpperCase().equals("ADMINISTRATOR")) model.addAttribute("projects", assessmentService.listAllAssessmentByUserCountry(userSession));
+			else model.addAttribute("projects", assessmentService.listAllByUserAssign(userSession));
 			return "projects";
 			
-		
-		
 	}
 	
 	

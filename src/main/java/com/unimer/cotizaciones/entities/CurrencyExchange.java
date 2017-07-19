@@ -44,13 +44,13 @@ public class CurrencyExchange implements Serializable {
 	private float sell;
 
 	//bi-directional many-to-one association to Country
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_country", nullable=false)
 	
 	private Country country;
 
 	//bi-directional many-to-one association to CurrencyType
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_currency_type", nullable=false)
 	private CurrencyType currencyType;
 

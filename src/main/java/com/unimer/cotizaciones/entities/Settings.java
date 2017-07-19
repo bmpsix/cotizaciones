@@ -41,17 +41,17 @@ public class Settings  implements Serializable{
 	private double imprevisto;
 
 	//bi-directional many-to-one association to Country
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_country", nullable=false,unique=true)
 	private Country country;
 	
 	//bi-directional many-to-one association to CurrencyType
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_currency_type_Fa", nullable=false)
 	private CurrencyType currencyTypeFavorite;
 
 	//bi-directional many-to-one association to CurrencyType
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_currency_type_In", nullable=false)
 	private CurrencyType currencyTypeInternational;
 

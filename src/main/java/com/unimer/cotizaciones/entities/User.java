@@ -91,7 +91,7 @@ public class User implements Serializable {
 	private String email;
 
 	//bi-directional many-to-one association to Country
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_country", nullable=false)
 	private Country country;
 	
