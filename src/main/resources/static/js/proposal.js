@@ -69,7 +69,7 @@ $( document ).ready(function() {
 		$(".form-proposaldetails").toggle("slow");
 	});
 		
-	$(".ui-filterable").focusin(function(){
+	$(".ui-filterable").click(function(){
 		$(".form-proposaldetails").hide("slow");
 	});
 	
@@ -118,6 +118,49 @@ $( document ).ready(function() {
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------
 	 
+	 
+	 
+//------------------------------------------------Actualizar y recalcular factor 1, 2, imprevisto y aporte fijo------------------------------------------------
+	 $(".param").change(function(){
+		 
+		 if($("#aporteFijo").val()=="" || $("#aporteFijo").val()== null || $("#aporteFijo").val()< 0 ) $("#aporteFijo").val(0);
+		if( $("#factor1").val()=="" ||  $("#factor1").val()== null || $("#factor1").val()<1 )  $("#factor1").val(1);
+		if($("#factor2").val()=="" || $("#factor2").val()== null || $("#factor2").val()<1 ) $("#factor2").val(1);
+		if($("#imprevisto").val()=="" || $("#imprevisto").val()== null || $("#imprevisto").val()<0) $("#imprevisto").val(0);
+		 
+		 
+		var aporteFijo =$("#aporteFijo").val();
+		var factor1 = $("#factor1").val();
+		var factor2 = $("#factor2").val();
+		var imprevisto = $("#imprevisto").val();
+		
+		
+		
+		
+		
+		var url = "/proposal/customizeparameters"; // El script a dónde se realizará la petición.
+	    $.ajax({
+	           type: "POST",
+	           cache: false,
+	           url: url,
+	           data: { 
+	        	  'aporteFijo':aporteFijo, 
+	   			 'factor1':factor1,
+	   			 'factor2':factor2,
+	   			 'imprevisto': imprevisto
+	        		 },  // Adjuntar los campos del formulario enviado.
+
+	           success: function(data)
+	           {
+	        	   totalcharge();
+	           }
+	         });
+		
+		
+	 });
+	
+//------------------------------------------------------------------------------------------------------------------------------------------------
+	 
 
 //----------------------------------------Validar los datos de proposal: informacion general antes del submit----------------------------------------------------------------------
 	 $("#proposalSubmit").click(function(){
@@ -158,11 +201,7 @@ $( document ).ready(function() {
 		});
 //------------------------------------------------------------------------------------------------------------------------------------------------	
 		
-/*
-		var aporteFijo =$("#aporteFijo").val();
-		var factor1 = $("#factor1").val();
-		var factor2 = $("#factor2").val();
-		var imprevisto = $("#imprevisto").val();*/
+
 		
 		
 //----------------------Enviar formulario de proposaldetails con ajax--------------------------------------------------------------------------------------
@@ -226,7 +265,7 @@ $( document ).ready(function() {
 			        			$(".columnHide").show();
 			        			$("#hideDetails").hide();
 			        			$("#showDetails").show();
-			        			
+			        			changeDeparture();
 			        		   totalcharge();
 			        		   //location.reload();
 			        		   $(".form-proposaldetails").hide("slow");
@@ -251,7 +290,7 @@ $( document ).ready(function() {
 		$("#cancelProposalDetail").click(function(){
 			
 			ClearForm();
-		
+			changeDeparture();
 		});
 //------------------------------------------------------------------------------------------------------------------------------------------------		
 		
@@ -361,14 +400,12 @@ function totalcharge()
 		
 		if(cms==1)
 		{
-			
 			if(idCurrencyTypeFavorite==crrtype) valor=valor/currencyExchange;
 			sub1=sub1+parseFloat(valor);
 		}
 		else 
 		{
-			if(idCurrencyTypeFavorite==crrtype) valor=valor/currencyExchange;
-			
+			if(idCurrencyTypeFavorite==crrtype) valor=valor/currencyExchange;	
 			sub4=sub4+parseFloat(valor);
 		}
 	}
@@ -376,12 +413,11 @@ function totalcharge()
 	totalImprevisto=sub1*(imprevisto/100);
 	sub2 = sub1+totalImprevisto;
 	sub3 = sub2*factor1;
-	montoAporteFijo =  sub3*(aporteFijo/100);
-	total1 = sub3 + montoAporteFijo;
+	total1 = sub3;
 	sub5=sub4*factor2;
 	total2=sub5;
-	nacional1= total1 + total2;
-	nacional2 = nacional1*currencyExchange;
+	nacional1= total1 + total2+(aporteFijo/currencyExchange);
+	nacional2 = (nacional1*currencyExchange)+aporteFijo;
 	totalSumBudget = (sub1+sub4)*currencyExchange;
 	
 	
@@ -460,3 +496,11 @@ function methodLoad()
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------

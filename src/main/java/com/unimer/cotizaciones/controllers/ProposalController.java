@@ -1,8 +1,6 @@
 package com.unimer.cotizaciones.controllers;
 
 import java.util.Date;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
@@ -13,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.Assessment;
@@ -160,9 +156,7 @@ public class ProposalController {
 		User userSession =  (User) session.getAttribute("userSession");
 		Assessment assessment = (Assessment) session.getAttribute("assessment");
 		if(session.getAttribute("proposedHeader")!=null){proposedHeader = (Proposal) session.getAttribute("proposedHeader");}
-		
 		Settings sttings = settingsService.findSettingByCountry(userSession.getCountry());
-		CurrencyExchange crrencyExchange = currencyExchangeService.findByCountryAndCurrencyType(userSession.getCountry(), sttings.getCurrencyTypeInternational());
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("countries",countryService.listAllCountries());
 		modelAndView.addObject("collectmethods", collectMethodService.listAllCollectMethod());
@@ -182,7 +176,7 @@ public class ProposalController {
 		modelAndView.addObject("proposalTypes", proposalTypeService.listAllProposalTypes());
 		modelAndView.addObject("countryByCurrencyType", userSession.getCountry().getCurrencyType());
 		modelAndView.addObject("currencyType",userSession.getCountry().getCurrencyType());
-		modelAndView.addObject("exchangeRate",crrencyExchange);
+		if(proposedHeader!=null)modelAndView.addObject("exchangeRate", (float) proposedHeader.getCurrencyExchange());
 		modelAndView.addObject("departures",departureService.findDepartureByCountryAndStatus(userSession.getCountry(),(byte) 1));
 		modelAndView.addObject("proposal",proposedHeader);
 		if(proposedHeader!=null)modelAndView.addObject("proposaldetailss",proposalDetailsService.findByProposal(proposedHeader));
@@ -205,8 +199,28 @@ public class ProposalController {
 	
 
 	@PostMapping("/admin/addproposal")
-	public String addProposal(HttpServletRequest request,@RequestParam("idProposal") int idProposal,@RequestParam("idCurrencyType") int idCurrencyType,@RequestParam("endDate") Date endDate,@RequestParam("initialDate") Date initialDate,@RequestParam("observations") String observations,@RequestParam("targetText") String targetText,@RequestParam("idClientContact") int idClientContact,@RequestParam("idCollectMethod") int idCollectMethod,@RequestParam("idCountry") int idCountry,@RequestParam("idExecutionType") int idExecutionType,@RequestParam("idIndustrySector") int idIndustrySector,@RequestParam("idOperation") int idOperation,@RequestParam("idProposalType") int idProposalType,@RequestParam("idStatus") int idStatus,@RequestParam("idStudyCategory") int idStudyCategory,@RequestParam("idStudyType") int idStudyType,@RequestParam("idTechnique") int idTechnique,@RequestParam("tracker") String tracker,@RequestParam("projectType") String projectType,Model model) 
+	public String addProposal(HttpServletRequest request,
+								@RequestParam("idProposal") int idProposal,
+								@RequestParam("idCurrencyType") int idCurrencyType,
+								@RequestParam("endDate") Date endDate,
+								@RequestParam("initialDate") Date initialDate,
+								@RequestParam("observations") String observations,
+								@RequestParam("targetText") String targetText,
+								@RequestParam("idClientContact") int idClientContact,
+								@RequestParam("idCollectMethod") int idCollectMethod,
+								@RequestParam("idCountry") int idCountry,
+								@RequestParam("idExecutionType") int idExecutionType,
+								@RequestParam("idIndustrySector") int idIndustrySector,
+								@RequestParam("idOperation") int idOperation,
+								@RequestParam("idProposalType") int idProposalType,
+								@RequestParam("idStatus") int idStatus,@RequestParam("idStudyCategory") int idStudyCategory,
+								@RequestParam("idStudyType") int idStudyType,
+								@RequestParam("idTechnique") int idTechnique,
+								@RequestParam("tracker") String tracker,
+								@RequestParam("projectType") String projectType,
+								Model model) 
 	{
+		Proposal  proposal = null;
 		HttpSession session = (HttpSession) request.getSession();
 		User userSession =  (User) session.getAttribute("userSession");
 		Assessment assessment = (Assessment) session.getAttribute("assessment");
@@ -226,8 +240,12 @@ public class ProposalController {
 		Technique technique = techniqueService.findById(idTechnique);		
 		User user = userService.findById(userSession.getIdUser());
 		java.util.Date date = new Date();
-		Proposal  proposal = new Proposal(assessment.getDetail(),projectType,tracker,settings.getAporteFijo(),date,currencyE.getSell(),currencyType,endDate,settings.getFactor1(),settings.getFactor2(),settings.getImprevisto(),initialDate,observations,targetText,assessment,clientContact,  collectMethod,  countryProposal,  executionType,industrySector,  operation,proposalType,status,studyCategory,studyType,technique,user);
-		if(idProposal!=0) proposal.setIdProposal(idProposal);	
+		if(idProposal!=0) 
+		{
+				Proposal proposalToUpdate = proposalService.findByIdProposal(idProposal);
+				proposal = new Proposal(idProposal,assessment.getDetail(),projectType,tracker,proposalToUpdate.getAporteFijo(),date,(float)proposalToUpdate.getCurrencyExchange(),currencyType,endDate,proposalToUpdate.getFactor1(),proposalToUpdate.getFactor2(),proposalToUpdate.getImprevisto(),initialDate,observations,targetText,assessment,clientContact,  collectMethod,  countryProposal,  executionType,industrySector,  operation,proposalType,status,studyCategory,studyType,technique,user);
+		}
+		else  proposal = new Proposal(assessment.getDetail(),projectType,tracker,settings.getAporteFijo(),date,currencyE.getSell(),currencyType,endDate,settings.getFactor1(),settings.getFactor2(),settings.getImprevisto(),initialDate,observations,targetText,assessment,clientContact,  collectMethod,  countryProposal,  executionType,industrySector,  operation,proposalType,status,studyCategory,studyType,technique,user);
 		proposal = proposalService.addProposal(proposal, userSession.getIdUser());
 		LOG.info("METHOD: PROPOSAL -- PARAMS: " + proposal.toString());
 		session.setAttribute("proposedHeader",proposal);
@@ -244,9 +262,7 @@ public class ProposalController {
 	
 	
 	
-	
-	
-	@RequestMapping(value = "/admin/addproposaldetails", method = RequestMethod.POST)
+	@PostMapping(value = "/admin/addproposaldetails")
 	public String addProposalDetails(HttpServletRequest request,
 									@RequestParam("idProposalDetails") int idProposalDetails,
 									@RequestParam("detail") String detail,
@@ -272,8 +288,7 @@ public class ProposalController {
 
 				LOG.info("METHOD: addProposalDetails in ProposalController -- PARAMS: " + proposalDetails.toString());
 		proposalDetailsService.addProposalDetails(proposalDetails, userSession.getIdUser());
-		List<ProposalDetails> proposaldetailss = proposalDetailsService.findByProposal(proposedHeader);
-		model.addAttribute("proposaldetailss", proposaldetailss);
+		model.addAttribute("proposaldetailss",proposalDetailsService.findByProposal(proposedHeader));
 		return "proposal :: #proposalDetailRow";
 	}
 	
@@ -281,6 +296,19 @@ public class ProposalController {
 	public String getProposalDetails(HttpServletRequest requestUser,HttpServletRequest requestProposedHeader) {
 		return "redirect:/admin/proposal";
 	}
-
 	
+	@PostMapping("/proposal/customizeparameters")
+	public String customizeParameters(HttpServletRequest request,@RequestParam("aporteFijo") double aporteFijo,@RequestParam("factor1") double factor1,@RequestParam("factor2") double factor2,@RequestParam("imprevisto") double imprevisto) {
+		
+		HttpSession session = request.getSession();
+		User userSession =  (User) session.getAttribute("userSession");
+		Proposal proposal = (Proposal) session.getAttribute("proposedHeader");
+		proposal.setAporteFijo(aporteFijo);
+		proposal.setFactor1(factor1);
+		proposal.setFactor2(factor2);
+		proposal.setImprevisto(imprevisto);
+		proposalService.addProposal(proposal, userSession.getIdUser());
+		LOG.info("METHOD: ESTO ES EL PROPOSEDHEADER: " + proposal.toString());
+		return "proposal :: #divCustomizeParameters";
+	}
 }

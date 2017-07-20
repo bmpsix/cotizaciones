@@ -222,6 +222,7 @@ public class AssessmentController {
 			HttpSession session = request.getSession();
 			Assessment assessment = assessmentService.findById(idAssessment);
 			session.setAttribute("assessment",assessment);
+			session.setAttribute("proposedHeader", null);
 			LOG.info("METHOD assessmentToProposal in AssessmentController  /assessment/proposal : "+assessment.toString());
 			return "redirect:/admin/proposal";
 			

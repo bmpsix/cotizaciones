@@ -25,4 +25,6 @@ public interface ProposalJpaRepository extends JpaRepository<Proposal, Serializa
 	
 	public abstract int countByUserAndAssessment(User user,Assessment assessmnet);
 	
+	public abstract Proposal findByIdProposal(int idProposal);
+	
 }

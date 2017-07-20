@@ -74,6 +74,11 @@ public class ProposalServiceImpl implements ProposalService {
 	public List<Proposal> findByContryAndUser(Country country, User user) {
 		return proposalJpaRepository.findByCountryAndUser(country, user);
 	}
+
+	@Override
+	public Proposal findByIdProposal(int idProposal) {
+		return proposalJpaRepository.findByIdProposal(idProposal);
+	}
 	
 	
 	

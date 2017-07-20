@@ -442,25 +442,25 @@
       				<th ><p th:text="'Sub Total 1 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
       				<td><input id="sub1" style="background-color:#FFFAFA;" type="text" readonly/></td>
       				<th>Factor 1:</th>
-      				<td><input id="factor1" type="number" min="0" step="any" th:value="${settings.factor1}" readonly/></td>
+      				<td><input class="param" id="factor1" type="number" min="1" step="any" th:value="${proposal.factor1}" /></td>
       			</tr>
       			<tr>
       				<th>Imprevisto %:</th>
-      				<td><input id="imprevisto"  type="number" min="0" step="any" th:value="${settings.imprevisto}" readonly/></td>
+      				<td><input class="param" id="imprevisto"  type="number" min="0" step="any" th:value="${proposal.imprevisto}" /></td>
       				<th><p th:text="'Sub Total 3 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
-      				<td ><input id="sub3" style="background-color:#FFFAFA;" type="text"  readonly/></td>
+      				<td ><input  id="sub3" style="background-color:#FFFAFA;" type="text"  readonly/></td>
       			</tr>
       			<tr>
       				<th><p th:text="'Total Imprevisto '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
       				<td><input id="totalImprevisto" style="background-color:#FFFAFA;"  type="text" readonly/></td>
-      				<th><p th:text="'Aporte Fijo:'"></p></th>
-      				<td><input id="aporteFijo" type="number"  min="0" step="any" th:value="${settings.aporteFijo}" readonly/></td>
+      				<th><p th:text="'Aporte Fijo '+${settings.CurrencyTypeFavorite.symbol}+' :'"></p></th>
+      				<td><input class="param" id="aporteFijo" type="number"  min="0" step="any" th:value="${proposal.aporteFijo}"/></td>
       			</tr>
       			<tr>
       				<th><p th:text="'Sub Total 2 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
       				<td><input id="sub2" style="background-color:#FFFAFA;" type="text" readonly/></td>
       				<th><p th:text="'Tipo de cambio '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
-      				<td th:object="${exchangeRate}"><input id="currencyExchange" style="background-color:#FFFAFA;" type="number"  th:value="${exchangeRate.sell}" readonly/></td>
+      				<td th:object="${exchangeRate}"><input id="currencyExchange" style="background-color:#FFFAFA;" type="number"  th:value="${exchangeRate}" readonly/></td>
       			</tr>
       			<tr>
       				<th><p th:text="'Total 1 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
@@ -499,7 +499,7 @@
       			</tr>
       			<tr>
       				<th>Factor 2:</th>
-      				<td><input id="factor2" type="number"  min="0" step="any" th:value="${settings.factor2}" readonly/></td>
+      				<td><input class="param" id="factor2" type="number"  min="1" step="any" th:value="${proposal.factor2}"/></td>
       			</tr>
       			<tr>
       				<th><p th:text="'Sub Total 5 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
@@ -711,7 +711,13 @@
 	</div>
 
     </div>
+    <div th:if="${proposal==null}" class="ui-grid-a" id="detalleCoti" style="display: none;" th:object="${settings}">
+    	<p style="color: hsl(153,80%,40%); text-align: center; margin-top: 25%; margin-bottom: 25%;    " >Por favor complete la información general antes de ingresar a este módulo</p>
+    </div>
+    
 	<div class="ui-grid-b" id="facturaEscena" style="display: none;">
+	
+    <div id="divCustomizeParameters"></div>
     
     <!-- DETALLE DE COTIZACION -->
     

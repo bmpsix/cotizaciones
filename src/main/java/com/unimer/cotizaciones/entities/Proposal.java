@@ -388,6 +388,7 @@ public class Proposal implements Serializable {
 	public void setProjectType(String projectType) {
 		this.projectType = projectType;
 	}
+	
 
 	public Proposal() {
 		super();
@@ -445,6 +446,43 @@ public class Proposal implements Serializable {
 
 	
 	
+	public Proposal(int idProposal, String proposalName, String projectType, String tracker, double aporteFijo,
+			Date creationDate, float currencyExchange, CurrencyType currencyType, Date endDate, double factor1,
+			double factor2, double imprevisto, Date initialDate, String observations, String targetText,
+			Assessment assessment, ClientContact clientContact, CollectMethod collectMethod, Country country,
+			ExecutionType executionType, IndustrySector industrySector, Operation operation, ProposalType proposalType,
+			Status status, StudyCategory studyCategory, StudyType studyType, Technique technique, User user) {
+		super();
+		this.idProposal = idProposal;
+		this.proposalName = proposalName;
+		this.projectType = projectType;
+		this.tracker = tracker;
+		this.aporteFijo = aporteFijo;
+		this.creationDate = creationDate;
+		this.currencyExchange = currencyExchange;
+		this.currencyType = currencyType;
+		this.endDate = endDate;
+		this.factor1 = factor1;
+		this.factor2 = factor2;
+		this.imprevisto = imprevisto;
+		this.initialDate = initialDate;
+		this.observations = observations;
+		this.targetText = targetText;
+		this.assessment = assessment;
+		this.clientContact = clientContact;
+		this.collectMethod = collectMethod;
+		this.country = country;
+		this.executionType = executionType;
+		this.industrySector = industrySector;
+		this.operation = operation;
+		this.proposalType = proposalType;
+		this.status = status;
+		this.studyCategory = studyCategory;
+		this.studyType = studyType;
+		this.technique = technique;
+		this.user = user;
+	}
+
 	@Override
 	public String toString() {
 		return "Proposal [idProposal=" + idProposal + ", proposalName=" + proposalName + ", projectType=" + projectType

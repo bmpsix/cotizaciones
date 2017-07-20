@@ -18,4 +18,6 @@ public interface ProposalService {
 	public abstract List<Proposal> findByContryAndUser(Country country, User user);
 
 	public abstract String formatNumber(int valie);
+	
+	public abstract Proposal findByIdProposal(int idProposal);
 }
