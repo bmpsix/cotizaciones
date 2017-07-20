@@ -12,6 +12,15 @@ import java.util.Date;
 @Entity
 @Table(name="log_assessment")
 public class LogAssessment implements Serializable {
+	public double getCurrencyExchange() {
+		return currencyExchange;
+	}
+
+	public void setCurrencyExchange(double currencyExchange) {
+		this.currencyExchange = currencyExchange;
+	}
+
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -35,8 +44,8 @@ public class LogAssessment implements Serializable {
 	@Column(name="id_assessment", nullable=false, length=8)
 	private int idAssessment;
 
-	@Column(name="id_currency_exchange", nullable=false, length=8)
-	private int idCurrencyExchange;
+	@Column(name="currency_exchange", nullable=false, length=8)
+	private double currencyExchange;
 
 	@Column(name="id_sa_client", nullable=false, length=8)
 	private int idSaClient;
@@ -45,10 +54,6 @@ public class LogAssessment implements Serializable {
 	private int idUser;
 	
 
-
-	public LogAssessment() {
-		super();
-	}
 
 	public Date getDateRecord() {
 		return this.dateRecord;
@@ -98,13 +103,6 @@ public class LogAssessment implements Serializable {
 		this.idAssessment = idAssessment;
 	}
 
-	public int getIdCurrencyExchange() {
-		return this.idCurrencyExchange;
-	}
-
-	public void setIdCurrencyExchange(int idCurrencyExchange) {
-		this.idCurrencyExchange = idCurrencyExchange;
-	}
 
 	public int getIdSaClient() {
 		return this.idSaClient;
@@ -121,10 +119,9 @@ public class LogAssessment implements Serializable {
 	public void setIdUser(int idUser) {
 		this.idUser = idUser;
 	}
-	
-	
+
 	public LogAssessment(Date dateRecord, String actionDetail, int actionUser, Date creationDate, String detail,
-			int idAssessment, int idCurrencyExchange, int idSaClient, int idUser) {
+			int idAssessment, double currencyExchange, int idSaClient, int idUser) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;
@@ -132,10 +129,17 @@ public class LogAssessment implements Serializable {
 		this.creationDate = creationDate;
 		this.detail = detail;
 		this.idAssessment = idAssessment;
-		this.idCurrencyExchange = idCurrencyExchange;
+		this.currencyExchange = currencyExchange;
 		this.idSaClient = idSaClient;
 		this.idUser = idUser;
 	}
+
+	public LogAssessment() {
+		super();
+	}
+	
+	
+	
 	
 	
 

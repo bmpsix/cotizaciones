@@ -50,6 +50,7 @@ $( document ).ready(function(){
 		var idStatus = $("#idStatus").val();
 		var idUser = $("#idUser").val();
 		
+		
 		if(detail==null || detail=="")
 		{
 			msg = "<p style='color:#800000'>Debe completar el formulario<p>";
@@ -158,7 +159,6 @@ function sendformShared()
 		var tbodyShared = document.getElementById('tbodyShared');
 		var msgShared="";
 		var form = $("#formShared").serialize();
-		
 		var url = "/assessment/addassessmentshared"; 
 		    $.ajax({
 		           type: "POST",
@@ -170,8 +170,10 @@ function sendformShared()
 		           {
 		        	   if(data != null){
 		        		  tbodyShared.innerHTML = data;
-		        		  msgShared = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
+		        		  if($("#msgAction").val()==1)  msgShared = "<p style='color: #800000'>Ya se le ha compartido el proyecto a este usuario<p>";
+		        		  else msgShared = "<p style='color: hsl(153,80%,40%)'>Se compartió el proyecto correctamente <p>";
 		        		  div.innerHTML = msgShared;
+		        		  $("#msgAction").val("");
 		        	   }else{
 		        		   msg = "<p style='color:#800000'>Ha ocurrido un error inesperado!<p>";
 		        		   div.innerHTML = msgShared;
@@ -191,6 +193,7 @@ function deleteShared(x){
 	var tbodyShared = document.getElementById('tbodyShared');
 	var msgShared="";
 	var idAssessmentShared = $(x).parents("tr").find("#idAssessmentShared span").eq(0).html();
+	var msgAction = $("#msgAction").val();
 	
 	var url = "/assessment/deleteassessmentshared"; 
 	    $.ajax({
@@ -203,9 +206,10 @@ function deleteShared(x){
 	           {
 	        	   if(data != null){
 	        		   tbodyShared.innerHTML = data;
-	        		   msgShared = "<p style='color: hsl(153,80%,40%)'>Se dejó de compartir el proyecto con el usuario <p>";
-	        		   
+	        		   if($("#msgAction").val()==2) msgShared = "<p style='color: #800000'>Acción inválida, el usuario tiene propuestas asociadas a este proyecto.<p>";
+	        		   else msgShared = "<p style='color: hsl(153,80%,40%)'>Se dejó de compartir el proyecto con el usuario <p>";
 	        		  div.innerHTML = msgShared;
+	        		  $("#msgAction").val("");
 	        	   }else{
 	        		   msgShared = "<p style='color:#800000'>Ha ocurrido un error inesperado!<p>";
 	        		   div.innerHTML = msgShared;
@@ -297,8 +301,12 @@ function assignProject(x)
 	$("#divShared").hide("slow");
 	$("#divAssign").show("slow");
 };
-
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+//---------------------------------------------------userByCountryMethod-------------------------------------------------------------------------------------------------------------------------------
 
 
 function chargeUserByCountryAssign()
@@ -320,11 +328,47 @@ function chargeUserByCountryAssign()
 	div.innerHTML = select;
 	$("#userAssign").val("");
 }
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+//--------------------------------------------functionBodyLoad---------------------------------------------------------------------------------------------------------------------------------
 function onLoadProjects()
 {
 	chargeUserSharedByCountry(); 
 	chargeUserByCountryAssign();
 };
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+//---------------------------------------------------projectProposalList-------------------------------------------------------------------------------------------------------------------------------
+function projectProposal(x)
+{
+	var idAssessment = $(x).parents("tr").find("#idAssessment span").eq(0).html();
+	
+	var url = "/assessment/proposal"; 
+	    $.ajax({
+	           type: "POST",
+	           cache: false,
+	           url: url,
+	           data: {
+	        	   'idAssessment' : idAssessment
+	           },
+
+	           success: function(data)
+	           {
+	        	   if(data != null){
+	        		
+	        		 location="/admin/proposal";
+	        	   }
+	           }
+	    	
+	         });
+};
+
+
 
 

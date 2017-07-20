@@ -66,6 +66,7 @@ public class AuthenticationController {
 		HttpSession session = request.getSession();
 		session.setAttribute("userSession",null);
 		session.setAttribute("proposedHeader",null);
+		session.setAttribute("assessment",null);
 		return new ModelAndView(new RedirectView("/index"));
 	}
 	

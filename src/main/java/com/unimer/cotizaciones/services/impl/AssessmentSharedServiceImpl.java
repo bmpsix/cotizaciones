@@ -12,6 +12,7 @@ import com.unimer.cotizaciones.entities.Assessment;
 import com.unimer.cotizaciones.entities.AssessmentShared;
 import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.repositories.AssessmentSharedJpaRepository;
+import com.unimer.cotizaciones.repositories.ProposalJpaRepository;
 import com.unimer.cotizaciones.services.AssessmentSharedService;
 
 @Service("assessmentSharedServiceImpl")
@@ -20,6 +21,10 @@ public class AssessmentSharedServiceImpl implements AssessmentSharedService {
 	@Autowired
 	@Qualifier("assessmentSharedJpaRepository")
 	private AssessmentSharedJpaRepository assessmentSharedJpaRepository;
+	
+	@Autowired
+	@Qualifier("proposalJpaRepository")
+	private ProposalJpaRepository proposalJpaRepository;
 	
 	private static final Log LOG = LogFactory.getLog(AssessmentSharedServiceImpl.class);
 
@@ -73,6 +78,12 @@ public class AssessmentSharedServiceImpl implements AssessmentSharedService {
 		}
 		
 		
+	}
+
+
+	@Override
+	public int countProposalToAssessmentSharedByUserShared(AssessmentShared assessmentShared) {
+		return proposalJpaRepository.countByUserAndAssessment(assessmentShared.getUserShared(), assessmentShared.getAssessment());
 	}
 
 

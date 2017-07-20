@@ -125,12 +125,11 @@ $( document ).ready(function() {
 		var msg="";
 		var initialDate = $("#initialDate").val()
 		var endDate = $("#endDate").val()
-		var proposalName =$("#proposalName").val();
 		var targetText =$("#targetText").val();
 		var observations =$("#observations").val();
 		
 		
-		if(initialDate!=null && endDate!=null && (new Date(initialDate).getTime() <= new Date(endDate).getTime())&& proposalName!=null && targetText!=null && observations!=null && initialDate!="" && endDate!="" && proposalName!="" && targetText!="" && observations!="")
+		if(initialDate!=null && endDate!=null && (new Date(initialDate).getTime() <= new Date(endDate).getTime()) && targetText!=null && observations!=null && initialDate!="" && endDate!="" && targetText!="" && observations!="")
 		{
 			
 			msg = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
@@ -141,7 +140,6 @@ $( document ).ready(function() {
 			if(initialDate>endDate) msg+="<p style='color:#800000'>La fecha inicial debe ser mayor que la fecha final <p>";
 			if(initialDate=="") msg+="<p style='color:#800000'>Debe ingresar la fecha inicial en el Paso 1 <p>";
 			if(endDate=="") msg+="<p style='color:#800000'>Debe ingresar la fecha final en el Paso 1 <p>";
-			if(proposalName=="") msg+="<p style='color:#800000'>Debe ingresar el nombre de la propuesta <p>";
 			if(targetText=="") msg+="<p style='color:#800000'>Debe ingresar el objetivo o muestra en el Paso 2 <p>";
 			if(observations=="") msg+="<p style='color:#800000'>Debe Ingresar las observaciones en el Paso 2 <p>";
 		}
@@ -160,19 +158,21 @@ $( document ).ready(function() {
 		});
 //------------------------------------------------------------------------------------------------------------------------------------------------	
 		
-
+/*
+		var aporteFijo =$("#aporteFijo").val();
+		var factor1 = $("#factor1").val();
+		var factor2 = $("#factor2").val();
+		var imprevisto = $("#imprevisto").val();*/
+		
+		
 //----------------------Enviar formulario de proposaldetails con ajax--------------------------------------------------------------------------------------
 		
 		$("#sendProposalDetail").click(function(){
 			
 			
 			var idProposalDetails =$("#idProposalDetails").val();
-			var aporteFijo =$("#aporteFijo").val();
-			var factor1 = $("#factor1").val();
-			var factor2 = $("#factor2").val();
 			var detail = $("#detail").val();
 			var parameters = $("#parameters").val();
-			var imprevisto = $("#imprevisto").val();
 			var idDeparture = $("#idDeparture").val();
 			var price = $("#price").val();
 			var commissionable = $("#commissionable").val();
@@ -197,12 +197,8 @@ $( document ).ready(function() {
 			           url: url,
 			           data: { 
 			        	  'idProposalDetails':idProposalDetails, 
-			   			 'aporteFijo': aporteFijo,
-			   			 'factor1': factor1,
-			   			'factor2': factor2,
 			   			 'detail':detail,
 			   			 'parameters':parameters,
-			   			 'imprevisto': imprevisto,
 			   			 'idDeparture': idDeparture,
 			   			 'price': price,
 			   			 'commissionable': commissionable,
@@ -447,17 +443,20 @@ function chargeTheDetailForUpdate(row) {
 
 function methodLoad()
 {
-	document.getElementById("secondLink").click();
-	totalcharge(); 
-	proposalDetailsLoad();
-	changeDeparture();
+	if($("#idProposal").val()==0)
+	{
+		document.getElementById("firstLink").click();
+	}
+	else
+	{
+		document.getElementById("secondLink").click();
+		totalcharge(); 
+		changeDeparture();
+	}
 	
 };
 
-function proposalLoad()
-{
-	document.getElementById("firstLink").click();
-}
+
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 

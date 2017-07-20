@@ -2,10 +2,9 @@
 <html>
 <head th:replace="fragments/header">
 <meta charset="UTF-8"/>
-
 </head>
-<body onload="proposalLoad();">
-	<div  data-role="page" data-theme="a" data-dom-cache="false" >
+<body  th:object="${proposal}" onload="methodLoad();">
+	<div data-role="page" data-theme="a" data-dom-cache="false" >
 	
 	
 	
@@ -18,8 +17,7 @@
 
 		<div data-role="content" data-theme="a" style="width: 95%;margin: 1em auto;">
 		
-		
-	<form action="#" id="proposalForm" method="POST" th:action="@{/admin/addproposal}"> <!-- PRIMER FORMULARIO -->
+	<form action="#" method="POST" id="proposalForm" th:action="@{/admin/addproposal}"> <!-- PRIMER FORMULARIO -->
 	
 	
     <div class="ui-grid-b" id="cotiHeader1">
@@ -27,17 +25,23 @@
     
     
       <div class="ui-block-a">
-        <label for="cotizacion"> <h5>Número de Propuesta:</h5> <span th:text="${autoIncrement}" ></span></label>
-         <input name="idProposal" id="idProposal" type="hidden" value="0"></input>
+      	<div th:if="${proposal!=null}">
+         	<label for="cotizacion"> <h5>Número de Propuesta:</h5> <span th:text="${formatIdProposal}" ></span></label>
+         	<input name="idProposal" type="hidden" th:value="${proposal.idProposal}" ></input>
+         	<br>
+         </div>
+         <div th:if="${proposal==null}">
+         	<label for="cotizacion"> <h5>Número de Propuesta:</h5> <span th:text="${autoIncrement}" ></span></label>
+         	<input name="idProposal" id="idProposal" type="hidden" value="0"></input>
+         	<br>
+         </div>
       </div>
       
       <div class="ui-block-b" data-inline=true>
-         <label style=" width: 99%;" for="cotizacion"><h5>Nombre de propuesta:</h5> <input id="proposalName" placeholder="Nombre para la propuesta"  title="Debe ingresar un nombre para la propuesta" type="text" name="proposalName" th:value="${proposalName}" required/></label>
-     
-      	
+         <label style=" width: 99%;" for="cotizacion"><h5>Nombre de Cotización:</h5> <label placeholder="Nombre para la propuesta"  title="Debe ingresar un nombre para la propuesta" type="text" id="proposalName" name="proposalName" th:text="${proposalName}"></label></label>
+    
       </div>
       <div class="ui-block-c">
-       
       
       </div> 
        
@@ -60,18 +64,71 @@
 	
 	<div data-role="navbar">
 			<ul>
-				<li class="first"><a id="firstLink" href="#">Información General</a></li>
-				<li title="Debe completar la información general para ir a este apartado"><a>Detalle de la Cotizacion</a></li>
-				<li title="Debe completar la informaciójn general y los detalles de cotización para ir a este apartado "><a>Escenarios de Facturacion</a></li>
+				<li title="Puede modificar la información general de la propuesta desde este apartado." class="first"><a id="firstLink" href="#">Informacion General</a></li>
+				<li class="second"><a id="secondLink"  href="#">Detalle de la Cotizacion</a></li>
+				<li title="Proceso de facturación y finalización de la propuesta." ><a href="#" >Escenarios de Facturacion</a></li>
 			</ul>
 	</div>
 	
-	<div class="ui-grid-b" id="generalInfo" style="display: none;">
+	<div class="ui-grid-b" id="generalInfo2" style="display: none;">
     
       <div class="ui-block-a" >
         <fieldset style="margin: 30px;">
+        	<div id="msgSave"></div>
         	
+        <div th:if="${proposal!=null}">
         	<div class="paso1">
+        	
+        	<legend><h1>Paso 1</h1></legend> 
+         	<label  for="initialDate"><h5>Fecha inicio operaciones:</h5></label>
+        	<input id="initialDate" name="initialDate" th:value="${#dates.format(proposal.initialDate, 'MM/dd/yyyy')}"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text" required />  
+        	<label for="endDate"><h5>Fecha de entrega final:</h5></label>
+       		<input  id="endDate" name="endDate"  th:value="${#dates.format(proposal.endDate, 'MM/dd/yyyy')}"  data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }'  type="text" required/>   
+		
+        	<label for="cotizacion"><h5>Tipo de Proyecto:</h5></label>
+        	<select name="projectType" th:value="${projectType}">
+  				<option value="Cuantitativo" th:if="${proposal.projectType =='Cuantitavito'}" selected >Cuantitativo</option>
+  				<option value="Cualitativo" th:if="${proposal.projectType =='Cualitativo'}" selected>Cualitativo</option>
+  				<option value="Cuantitativo" th:if="${proposal.projectType !='Cuantitavito'}"  >Cuantitavito</option>
+  				<option value="Cualitativo" th:if="${proposal.projectType !='Cualitativo'}" >Cualitativo</option>
+			</select>
+			
+			<label for="status"><h5>Estado</h5></label>
+        	<select name="idStatus">
+				<option th:each="status : ${statuss}" th:value="${status.idStatus}"  th:if="${proposal.Status.detail == status.detail}" selected readonly>
+					<p name="status.detail" th:text="${status.detail}" th:value="${status}" ></p>
+				</option>
+				<option th:each="status : ${statuss}" th:value="${status.idStatus}"  th:if="${proposal.Status.detail != status.detail}"  readonly>
+					<p name="status.detail" th:text="${status.detail}" th:value="${status}" ></p>
+				</option>
+			</select>
+      
+			<label for="country"><h5>País donde se realizará el estudio:</h5></label>
+        	<select name="idCountry">
+				<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${proposal.Country.detail == country.detail}" selected>
+					<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
+				</option>
+				<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${proposal.Country.detail != country.detail}">
+					<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
+				</option>
+			</select>
+			</div>
+			
+			<div class="paso2">
+			
+        	<legend><h1>Paso 2</h1></legend>
+        		
+        	<label for="target"><h5>Muestreo:</h5></label>
+        	<textarea name="targetText" id="targetText" style="border-bottom:1px solid green;" th:text="${proposal.targetText}" required></textarea>
+       
+        	<label for="observacion"><h5>Observacion:</h5></label>
+        	<textarea name="observations" id="observations" style="border-bottom:1px solid green;" th:text="${proposal.observations}" required></textarea>
+        	
+			</div>
+		</div>
+			
+		<div th:if="${proposal==null}">
+			<div class="paso1">
         	<legend><h1>Paso 1</h1></legend>
         	
         	<label for="initialDate"><h5>Fecha inicio operaciones:</h5></label>
@@ -112,9 +169,7 @@
         	
 			
 			</div>
-			
-			
-			
+		</div>
 			
         </fieldset>
         
@@ -123,6 +178,84 @@
       <div class="ui-block-b">
        <fieldset style="margin: 30px;">
        
+       <div th:if="${proposal!=null}">
+       		<div class="paso1">
+       		<legend><h1><br/></h1></legend>
+       		<label for="metodo"><h5>Metodo de recoleccion de datos:</h5></label>
+        	<select name="idCollectMethod">
+				<option th:each="collectMethod : ${collectmethods}"  th:value="${collectMethod.idCollectMethod}" th:if="${proposal.CollectMethod.detail == collectMethod.detail}" selected>
+					<p name="collectMethod.detail" th:text="${collectMethod.detail}" th:value="${collectMethod.detail}" ></p>
+				</option>
+				<option th:each="collectMethod : ${collectmethods}" th:value="${collectMethod.idCollectMethod}" th:if="${proposal.CollectMethod.detail != collectMethod.detail}" >
+					<p name="collectMethod.detail" th:text="${collectMethod.detail}" th:value="${collectMethod.detail}" ></p>
+				</option>
+			</select>
+       		<label for="industry"><h5>Sector o industria:</h5></label>
+        	<select name="idIndustrySector">
+				<option th:each="industrySector : ${industrysectors}" th:value="${industrySector.idIndustrySector}" th:if="${proposal.IndustrySector.detail == industrySector.detail}" selected>
+					<p name="industrySector.detail" th:text="${industrySector.detail}" th:value="${industrySector.detail}" ></p>
+				</option>
+				<option th:each="industrySector : ${industrysectors}" th:value="${industrySector.idIndustrySector}" th:if="${proposal.IndustrySector.detail != industrySector.detail}">
+					<p name="industrySector.detail" th:text="${industrySector.detail}" th:value="${industrySector.detail}" ></p>
+				</option>
+			</select>
+			
+			<label for="categoria"><h5>Categoria:</h5></label>
+        	<select name="idStudyCategory">
+				<option th:each="studyCategory : ${studyCategories}" th:value="${studyCategory.idStudyCategory}" th:if="${proposal.StudyCategory.detail == studyCategory.detail}" selected>
+					<p name="studyCategory.detail" th:text="${studyCategory.detail}" th:value="${studyCategory.detail}" ></p>
+				</option>
+				<option th:each="studyCategory : ${studyCategories}" th:value="${studyCategory.idStudyCategory}" th:if="${proposal.StudyCategory.detail != studyCategory.detail}">
+					<p name="studyCategory.detail" th:text="${studyCategory.detail}" th:value="${studyCategory.detail}" ></p>
+				</option>
+			</select>
+			
+			<label for="tipoEstudio"><h5>Tipo de estudio:</h5></label>
+        	<select name="idStudyType">
+				<option th:each="studyType : ${studytypes}" th:value="${studyType.idStudyType}" th:if="${proposal.StudyType.detail == studyType.detail}" selected>
+					<p name="studyType.detail" th:text="${studyType.detail}" th:value="${studyType.detail}" ></p>
+				</option>
+				<option th:each="studyType : ${studytypes}" th:value="${studyType.idStudyType}" th:if="${proposal.StudyType.detail != studyType.detail}">
+					<p name="studyType.detail" th:text="${studyType.detail}" th:value="${studyType.detail}" ></p>
+				</option>
+			</select>
+			
+			<label for="tipoEstudio"><h5>Continuo/Tracker:</h5></label>
+        	<select  name="tracker" th:value="${tracker}">
+  				<option value="Aplica"    th:if="${proposal.tracker =='Aplica'}" selected>Aplica</option>
+  				<option value="No aplica" th:if="${proposal.tracker =='No Aplica'}" selected>No Aplica</option>
+  				<option value="Aplica"    th:if="${proposal.tracker !='Aplica'}">Aplica</option>
+  				<option value="No aplica" th:if="${proposal.tracker !='No Aplica'}">No Aplica</option>
+			</select>
+			
+			<input type="hidden" name="idCurrencyType" id="idCurrencyType" th:value="${settings.CurrencyTypeFavorite.idCurrencyType}"/>
+			
+			
+       		</div>
+       		
+       		
+       		<div class="paso2">
+			
+        		<legend><h1>Paso 3</h1></legend>
+        	<h5>Tecnicas/Modelo:</h5>
+        	  	
+    		<form class="ui-filterable">
+      			<input id="myFilter" data-type="search" placeholder="Busca las tecnicas/modelos">
+    		</form>
+    		
+    		<select name="idTechnique">
+				<option th:each="technique : ${techniques}" th:value="${technique.idTechnique}" th:if="${proposal.Technique.detail == technique.detail}" selected>
+					<p name="technique.detail" th:text="${technique.detail}" th:value="${technique.detail}" ></p>
+				</option>
+				<option th:each="technique : ${techniques}" th:value="${technique.idTechnique}" th:if="${proposal.Technique.detail != technique.detail}">
+					<p name="technique.detail" th:text="${technique.detail}" th:value="${technique.detail}" ></p>
+				</option>
+			</select>
+    		
+       		</div>
+       </div>
+       
+       <div th:if="${proposal==null}">
        		<div class="paso1">
        		<legend><h1><br/></h1></legend>
        		<label for="metodo"><h5>Metodo de recoleccion de datos:</h5></label>
@@ -163,7 +296,6 @@
 			
        		</div>
        		
-       		
        		<div class="paso2">
 			
         	<legend><h1>Paso 3</h1></legend>
@@ -178,37 +310,66 @@
 				</option>
 			</select>
     	
-    	
-    		<!--	
-    			<form class="ui-filterable">
-      			<input id="myFilter" data-type="search" placeholder="Busca las tecnicas/modelos">
-    			</form>
-    
-    
-   				 <ul  data-role="listview" data-filter="true" data-input="#myFilter" data-autodividers="true" data-inset="true">
-      			<li id="getId" th:each="technique : ${techniques}"  selected>
-      				<a href="#" th:text="${technique.detail}" th:value="${technique.idTechnique}" ></a>
-      				    <input type="hidden" id="idTechnique" name="idTechnique" th:value="${technique.idTechnique}" ></input>
-      			</li>
-    		</ul> -->
-    		
        		</div>
        
+       </div>
        
         </fieldset>
       </div>
       <div class="ui-block-c">
        <fieldset style="margin: 30px;">
-       
-       <div class="paso1">
-       <legend><h1><br/></h1></legend>
-       	<label for="assessment"><h5>Evaluación:</h5></label>
-        	<select name="idAssessment">
-				<option th:each="assessment : ${assessments}" th:value="${assessment.idAssessment}">
-					<p name="assessment.detail" th:text="${assessment.detail  + ' - ' + assessment.saClient.detail}" th:value="${assessment.detail}" ></p>
+       	<div th:if="${proposal!=null}">
+       		<div class="paso1">
+       		<legend><h1><br/></h1></legend>
+			
+			<label for="clientContact"><h5>Contacto de cliente:</h5></label>
+        	<select name="idClientContact">
+				<option th:each="clientContact : ${clientContacts}" th:value="${clientContact.idClientContact}"  th:if="${proposal.ClientContact.name == clientContact.name}" selected>
+					<p name="clientContact.name" th:text="${clientContact.name+' - '+clientContact.Client.detail}" th:value="${clientContact.name}" ></p>
+				</option>
+				<option th:each="clientContact : ${clientContacts}" th:value="${clientContact.idClientContact}"  th:if="${proposal.ClientContact.name != clientContact.name}">
+					<p name="clientContact.name" th:text="${clientContact.name+' - '+clientContact.Client.detail}" th:value="${clientContact.name}" ></p>
 				</option>
 			</select>
 			
+			<label for="executionType"><h5>Tipo de ejecución:</h5></label>
+        	<select name="idExecutionType">
+				<option th:each="executionType : ${executionTypes}" th:value="${executionType.idExecutionType}" th:if="${proposal.ExecutionType.detail == executionType.detail}" selected>
+					<p name="executionType.detail" th:text="${executionType.detail}" th:value="${executionType.detail}" ></p>
+				</option>
+				<option th:each="executionType : ${executionTypes}" th:value="${executionType.idExecutionType}" th:if="${proposal.ExecutionType.detail != executionType.detail}">
+					<p name="executionType.detail" th:text="${executionType.detail}" th:value="${executionType.detail}" ></p>
+				</option>
+			</select>
+			
+			
+			<label for="operation"><h5>Operaciones:</h5></label>
+        	<select name="idOperation">
+				<option th:each="operation : ${operations}" th:value="${operation.idOperation}" th:if="${proposal.Operation.detail == operation.detail}" selected>
+					<p name="operation.detail" th:text="${operation.detail  + ' - ' + operation.OperationType.detail}" th:value="${operation.detail}" ></p>
+				</option>
+					<option th:each="operation : ${operations}" th:value="${operation.idOperation}" th:if="${proposal.Operation.detail == operation.detail}">
+					<p name="operation.detail" th:text="${operation.detail  + ' - ' + operation.OperationType.detail}" th:value="${operation.detail}" ></p>
+				</option>
+			</select>
+			
+				
+			<label for="proposalType"><h5>Tipos de propuesta:</h5></label>
+        	<select name="idProposalType">
+				<option th:each="proposalType : ${proposalTypes}" th:value="${proposalType.idProposalType}" th:if="${proposal.ProposalType.detail == proposalType.detail}" selected>
+					<p name="proposalType.detail" th:text="${proposalType.detail}" th:value="${proposalType.detail}" ></p>
+				</option>
+				<option th:each="proposalType : ${proposalTypes}" th:value="${proposalType.idProposalType}" th:if="${proposal.ProposalType.detail != proposalType.detail}">
+					<p name="proposalType.detail" th:text="${proposalType.detail}" th:value="${proposalType.detail}" ></p>
+				</option>
+			</select>
+       		</div>
+       </div>
+       
+       <div th:if="${proposal==null}">
+       		 <div class="paso1">
+       <legend><h1><br/></h1></legend>
+       	
 			<label for="clientContact"><h5>Contacto de cliente:</h5></label>
         	<select name="idClientContact">
 				<option th:each="clientContact : ${clientContacts}" th:value="${clientContact.idClientContact}">
@@ -238,17 +399,17 @@
 					<p name="proposalType.detail" th:text="${proposalType.detail}" th:value="${proposalType.detail}" ></p>
 				</option>
 			</select>
-       		
-       		
        
        </div>
        
-       <div class="paso2">
+       </div>
+       
+      		 <div class="paso2">
        		<legend><h1>Paso 4</h1></legend>
        		<label for="executionType"><h5>Guardar información general</h5></label>
-       		<input id="proposalSubmit" type="button" value="Guardar" data-icon="check"></input>
+       		<input id="proposalSubmit" type="button" value="Guardar" data-icon="check" ></input>
        		<div id="msg"></div>
-       </div>
+      		 </div>
        
     		
         </fieldset>
@@ -268,11 +429,307 @@
        
 	</form> <!-- PRIMER FORMULARIO -->
 	
+	
+	
+	<!-- DETALLE DE COTIZACION -->
+	
+	<div th:if="${proposal!=null}" class="ui-grid-a" id="detalleCoti" style="display: none;" th:object="${settings}">
+     <div class="ui-block-a" >
+        <fieldset style="margin: 30px ; " >
+        		<h3>Comisionable</h3>
+      		<table style="width:99%";>
+      			<tr>
+      				<th ><p th:text="'Sub Total 1 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td><input id="sub1" style="background-color:#FFFAFA;" type="text" readonly/></td>
+      				<th>Factor 1:</th>
+      				<td><input id="factor1" type="number" min="0" step="any" th:value="${settings.factor1}" readonly/></td>
+      			</tr>
+      			<tr>
+      				<th>Imprevisto %:</th>
+      				<td><input id="imprevisto"  type="number" min="0" step="any" th:value="${settings.imprevisto}" readonly/></td>
+      				<th><p th:text="'Sub Total 3 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td ><input id="sub3" style="background-color:#FFFAFA;" type="text"  readonly/></td>
+      			</tr>
+      			<tr>
+      				<th><p th:text="'Total Imprevisto '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td><input id="totalImprevisto" style="background-color:#FFFAFA;"  type="text" readonly/></td>
+      				<th><p th:text="'Aporte Fijo:'"></p></th>
+      				<td><input id="aporteFijo" type="number"  min="0" step="any" th:value="${settings.aporteFijo}" readonly/></td>
+      			</tr>
+      			<tr>
+      				<th><p th:text="'Sub Total 2 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td><input id="sub2" style="background-color:#FFFAFA;" type="text" readonly/></td>
+      				<th><p th:text="'Tipo de cambio '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td th:object="${exchangeRate}"><input id="currencyExchange" style="background-color:#FFFAFA;" type="number"  th:value="${exchangeRate.sell}" readonly/></td>
+      			</tr>
+      			<tr>
+      				<th><p th:text="'Total 1 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td colspan="3"><input id="total1" style="background-color:#FFFAFA;" type="text" readonly/></td>
+      				
+      			</tr>
+      		</table>
+        
+      		<h3>Precios nacionales</h3>
+      		
+      		<input id="idCurrencyTypeFavorite" type="hidden" th:value="${settings.CurrencyTypeFavorite.idCurrencyType}"/>
+      		
+      		
+      		<table style="width:99%">
+      			<tr>
+      				<th><p th:text="'Precio nacional '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td><input id="nacional1" style="background-color:#FFFAFA;" type="text" readonly/></td>
+      				
+      			</tr>
+      			<tr>
+      				<th><p th:text="'Precio nacional '+${proposal.CurrencyType.symbol}+' :'"></p></th>
+      				<td><input  id="nacional2" style="background-color:#FFFAFA;" type="text" readonly/></td>
+      			</tr>
+
+      		</table>
+        </fieldset>       
+      </div>
+       
+      <div class="ui-block-b">
+       <fieldset style="margin: 30px;">
+         <h3>No Comisionable</h3>
+      		<table style="width:99%">
+      			<tr>
+      				<th><p th:text="'Sub Total 4 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td><input id="sub4" style="background-color:#FFFAFA;" type="text" readonly/></td>
+      			</tr>
+      			<tr>
+      				<th>Factor 2:</th>
+      				<td><input id="factor2" type="number"  min="0" step="any" th:value="${settings.factor2}" readonly/></td>
+      			</tr>
+      			<tr>
+      				<th><p th:text="'Sub Total 5 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td><input id="sub5" style="background-color:#FFFAFA;" type="text" readonly/></td>
+      			</tr>
+      			<tr>
+      				<th><p th:text="'Total 2 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td><input id="total2" style="background-color:#FFFAFA;" type="text" readonly /></td>
+      			</tr>
+      		</table>
+      		
+      		
+       </fieldset>
+      </div>
+     
+
+
+ 	<div>
+       <fieldset style="margin: 30px; width: 95%">
+       <br/>
+       
+       	<div class="ui-grid-a" id="detalleCoti" >
+       	
+       	 <hr class="form-proposaldetails" style="margin: 30px; display:none;">
+       	 <h3  class="form-proposaldetails" style="margin: 30px; display:none;">Detalle de propuesta</h3>
+       	 <div class="ui-block-a" >
+       		<form class="form-data-proposaldetails">
+				<fieldset class="form-proposaldetails" style="margin: 30px; display:none;">
+					  
+					<input type="hidden" id="idProposalDetails" name="idProposalDetails" th:value="${idProposalDetails}" readonly />
+					<label for="departure">Partida:</label>
+					<input data-type="search" id="searchForSelect" placeholder="Buscar partida /catálogo"/>
+    				<hr>
+					<select name="idDeparture" id="idDeparture" data-filter="true" data-input="#searchForSelect" onchange="changeDeparture();" required>
+						<option  th:each="departure : ${departures}" th:value="${departure.idDeparture}">
+							<p  th:text="${departure.detail}"></p>
+						</option>
+					</select>
+					
+					<div style="display:none;">
+					<input data-type="search" id="searchForSelect2"/>
+					<select name="listDeparture" id="listDeparture"  data-filter="true" data-select="#searchForSelect" >
+						<option   th:each="departure : ${departures}" th:value="${departure}">
+						</option>
+					</select>
+					</div>
+					
+					<label for="price">Tipo de moneda:</label>
+					<select name="idPriceCurrencyType" id="idPriceCurrencyType" required>
+						<option  th:each="priceCurrencyType : ${currencyType}" th:value="${priceCurrencyType.idCurrencyType}">
+							<p th:text="${priceCurrencyType.detail +' '+priceCurrencyType.symbol}"></p>
+						</option>
+					</select>
+					<label for="price">Precio:</label>
+					 <input id="price"  title="Debe ingresar el precio"  maxlength="30" type="number" min="1" step="any" class="cal" name="cal" th:value="${price}" required/>
+					<label for="number">Número:</label>
+            		<input id="number" title="Debe ingresar la cantidad"  maxlength="30" type="number" min="1" name="cal" th:value="${number}"  class="cal" required/>
+            		<label for="daysTimes">Días/Veces:</label>
+            		<input id="daysTimes" title="Debe ingresar la cantidad de días o veces"  maxlength="30" type="number"  min="1"  name="cal" class="cal"  th:value="${daysTimes}" required/>
+            		<label>Comisionable:</label>
+					<select id="commissionable"  name="commissionable" data-role="slider"  th:value="${commissionable}">
+							<option  value="0" >No </option>
+							<option  value="1" selected>Si</option>
+					</select>
+            		
+                   </fieldset>
+			</form>
+       
+         </div>
+          <div class="ui-block-b">
+          	<form class="form-data-proposaldetails">
+				<fieldset class="form-proposaldetails" style="margin: 30px; display:none;">
+					  
+					<br/>
+					
+            		<label for="detail">Detalle:</label>
+            		<textarea id="detail" title="Ingrese algún detalle"  maxlength="99" type="text"  th:value="${detail}" required></textarea>
+            		<label for="parameters">Parametros:</label>
+            		<textarea id="parameters" title="Ingrese algún parametro"  maxlength="99" type="text"  th:value="${parameters}" required></textarea>
+            		<label for="totalBudget">Total presupuesto:</label>
+            		<input id="totalBudget" style="background-color:#FFFAFA;" title="Total presupuesto" name="totalBudget" th:text="${totalBudget}" th:value="${totalBudget}" readonly	required/>
+            		
+            		<br/>
+					<input id="cancelProposalDetail" type="button" class="custom_text" data-icon="delete" value="Cancelar">
+  					<input type="button" id="sendProposalDetail" class="custom_text" data-icon="plus" value="Guardar">
+                   </fieldset>
+			</form>
+           <div id="validateForm">
+       	 </div>
+          
+          </div>
+       	</div>
+       <hr class="form-proposaldetails" style="margin: 30px; display:none;">
+       <h3>Detalles de propuesta</h3>
+         	<div class="ui-grid-a">
+         	
+         	 <div class="ui-block-a">
+         	 	 <div id="infoDetail" style="text-align:left;"></div>
+         	 </div>
+         	  <div class="ui-block-b">
+         	   	<div style="text-align:right;">
+         	   		<div class="ui-grid-a">
+         	   			 <div class="ui-block-a">
+         	   				<p><canvas width="20" height="20" style="background-color: #009082;"></canvas> Comisionables</p>
+         	   			 </div>
+         	   			 <div class="ui-block-b">
+         	   				<p><canvas width="20" height="20" style="background-color: #ECF0F1;"></canvas> No comisionables</p>
+         	   			 </div>
+         	   		</div>
+         	   	</div>
+         	  </div>
+         	</div>
+       
+       
+      
+		<form class="ui-filterable">
+			<input id="myFilter2" data-type="search" placeholder="Buscar detalle de propuesta">
+			<div class="ui-block-b">
+		</div>
+		</form> 
+
+		
+		<table data-role="table" id="proposalDetailsTable" data-filter="true" data-input="#myFilter2" class="ui-responsive" >
+		<thead>
+    	<tr>
+       	 <th data-priority="persist">ID</th>
+       	 <th data-priority="3">Partida</th>
+       	 <th data-priority="4" >Precio</th>
+       	 <th data-priority="8">Numero</th>
+       	 <th data-priority="5">Dias/Veces</th>
+       	 <th data-priority="6">Total Presupuesto</th>
+       	 <th data-priority="7"><span class="detailTable">Detalle</span><span class="columnHide"></span>
+       	 	<a id="showDetails" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
+       	 	<a id="hideDetails" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
+       	 </th>
+       	 <th data-priority="7"><span class="parametersTable">Parametros</span><span class="columnHide2"></span>
+       	 	<a id="showParameters" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
+       	 	<a id="hideParameters" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
+       	 
+       	 </th>
+       	 <th>
+		    <a id="addProposalDetail" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
+		 </th>
+   	 	</tr>
+		</thead>
+	
+	
+    	<tbody id="tableBodyProposalDetail">
+      
+       	 <tr id="proposalDetailRow" th:each="proposaldetail : ${proposaldetailss}" th:if="${proposaldetail.commissionable==1}" style="background-color: #009082; color: white;">
+           	 <td id="idProposalDetailsTable" ><span th:text="${proposaldetail.idProposalDetails}"></span></td>
+           	 <td id="departureDetailTable" ><span  th:text="${proposaldetail.Departure.detail}"></span></td>
+           	 <td id="priceTable" ><span  th:text="${proposaldetail.CurrencyType.symbol+' '+proposaldetail.price}"></span></td>
+           	 <td id="numberTable" ><span  th:text="${proposaldetail.number}"></span></td>
+           	 <td id="daysTimesTable" ><span  th:text="${proposaldetail.daysTimes}"></span></td>
+           	 <td id="totalBudgetTable" ><span  th:text="${proposaldetail.CurrencyType.symbol+' '+proposaldetail.totalBudget}"></span></td>
+           	 <td class="detailTable" id="detailTable" ><textarea style="background-color:#009082; color: white; overflow-y: scroll;-moz-border-radius: 10px;-webkit-border-radius: 10px; border-color:white;"  th:text="${proposaldetail.detail}" readonly></textarea></td>
+           	 <td class="columnHide"><span></span></td>
+           	 <td class="parametersTable" id="parametersTable" ><textarea style="background-color:#009082; color: white; overflow-y: scroll; -moz-border-radius: 10px;-webkit-border-radius: 10px; border-color:white;"  th:text="${proposaldetail.parameters}" readonly></textarea></td>
+           	 <td class="columnHide2"><span></span></td>
+           	 <td id="commissionableTable" style="display:none;"><span  th:text="${proposaldetail.commissionable}" ></span></td>
+           	 <td id="idCurrencyTypeTable"  style="display:none;"><span  th:text="${proposaldetail.CurrencyType.idCurrencyType}"></span></td>
+           	 <td id="idDepartureTable" style="display:none;" ><span  th:text="${proposaldetail.Departure.idDeparture}" ></span></td>
+           	 <td style="padding-right: 15px;"><a href="#" onclick="chargeTheDetailForUpdate(this);" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;"></a></td>
+       	 </tr>
+       	 
+       	 <tr id="proposalDetailRow" th:each="proposaldetail : ${proposaldetailss}" th:if="${proposaldetail.commissionable==0}"  style="background-color: #ECF0F1;">  	
+           	 <td id="idProposalDetailsTable" ><span  th:text="${proposaldetail.idProposalDetails}"></span></td>
+           	 <td id="departureDetailTable" ><span  th:text="${proposaldetail.Departure.detail}"></span></td>
+           	 <td id="priceTable" ><span  th:text="${proposaldetail.CurrencyType.symbol+' '+proposaldetail.price}"></span></td>
+           	 <td id="numberTable" ><span  th:text="${proposaldetail.number}"></span></td>
+           	 <td id="daysTimesTable" ><span  th:text="${proposaldetail.daysTimes}"></span></td>
+           	 <td id="totalBudgetTable" ><span  th:text="${proposaldetail.CurrencyType.symbol+' '+proposaldetail.totalBudget}"></span></td>
+           	 <td class="detailTable" id="detailTable" style="text-align:justify;"><textarea style="background-color:#ECF0F1;overflow-y: scroll; -moz-border-radius: 10px;-webkit-border-radius: 10px; border-color:white;"  th:text="${proposaldetail.detail}" readonly></textarea></td>
+           	 <td class="columnHide"><span></span></td>
+           	 <td class="parametersTable" id="parametersTable" style="text-align:justify;" ><textarea style="background-color:#ECF0F1;overflow-y: scroll;-moz-border-radius: 10px;-webkit-border-radius: 10px; border-color:white;" th:text="${proposaldetail.parameters}" readonly></textarea></td>
+      		 <td class="columnHide2"><span></span></td>
+      		 <td id="commissionableTable" style="display:none;"><span  th:text="${proposaldetail.commissionable}" ></span></td>
+      		 <td id="idCurrencyTypeTable"  style="display:none;" ><span  th:text="${proposaldetail.CurrencyType.idCurrencyType}"></span></td>
+      		 <td id="idDepartureTable" style="display:none;"><span  th:text="${proposaldetail.Departure.idDeparture}" ></span></td>
+      		 <td style="padding-right: 15px;"><a  href="#" onclick="chargeTheDetailForUpdate(this);" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;"></a></td>
+       	 </tr>
+        
+    	</tbody>     
+    	 <tr style="background-color: #FFFFFF;">
+       	 	<td colspan="5" style="text-align: right; font-weight: bold;"><p th:text="'Total de presupuesto '+${settings.CurrencyTypeFavorite.symbol}+' :'"></p> </td>
+       	 	<td > <input id="totalSumBudget" style="background-color:  #FFFFFF;" type="text" readonly/></td>
+       	 	<td colspan="3"></td>
+       	 </tr>
+       	
+    	
+	</table>
+       
+       
+       
+       
+    </fieldset>
+  </div>
+
+
+	<div style="display: none;">
+		<table id="departureTable">
+	 		<tr th:each="departure : ${departures}">
+           	 	<td th:text="${departure.idDeparture}"></td>
+           	 	<td th:text="${departure.CurrencyType.idCurrencyType}"></td>
+           	 	<td th:text="${departure.price}"></td>
+       	 	</tr>
+       	 </table>
+	</div>
+
+    </div>
+	<div class="ui-grid-b" id="facturaEscena" style="display: none;">
+    
+    <!-- DETALLE DE COTIZACION -->
+    
+    
+      <div class="ui-block-a">
+        <p>Esta Tercera Parte es el ultimo entregable</div>
+      </div>
+       
+	</div>
+
+	
 		<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
 			<div data-role="popup" data-position="left" id="adminmenu" th:replace="fragments/footer"></div>
 		<!-- /panel -->	
 		</div>
 	</div>
-	</div>
 </body>
+
+
 </html>
+

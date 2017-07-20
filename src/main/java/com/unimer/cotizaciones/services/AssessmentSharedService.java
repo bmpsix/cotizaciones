@@ -21,4 +21,6 @@ public interface AssessmentSharedService {
 	public abstract AssessmentShared findByUserAndUserSharedAndAssessment(User user, User userShared, Assessment assessment);
 	
 	public abstract void updateAssignedShared(Assessment assessment, User userAssign);
+	
+	public abstract int countProposalToAssessmentSharedByUserShared(AssessmentShared assessmentShared);
 }

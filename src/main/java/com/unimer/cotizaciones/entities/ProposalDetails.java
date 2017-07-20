@@ -22,13 +22,7 @@ public class ProposalDetails  implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_proposalDetalis", unique=true, nullable=false)
 	private int idProposalDetails;
-	
 
-	@Column(name="aporte_fijo", nullable=false)
-	private double aporteFijo;
-	
-	@Column(nullable=false)
-	private double factor;
 
 	@Column(nullable=true, length=100)
 	private String detail;
@@ -36,8 +30,6 @@ public class ProposalDetails  implements Serializable {
 	@Column(nullable=true, length=100)
 	private String parameters;
 
-	@Column(name="imprevisto", nullable=true)
-	private double imprevisto;
 
 	//bi-directional many-to-one association to ExecutionType
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -73,16 +65,12 @@ public class ProposalDetails  implements Serializable {
 	
 	
 
-	public ProposalDetails(int idProposalDetails, double aporteFijo, double factor, String detail, String parameters,
-			double imprevisto, Departure departure, double price, byte commissionable, int number, int daysTimes,
+	public ProposalDetails(int idProposalDetails,String detail, String parameters,Departure departure, double price, byte commissionable, int number, int daysTimes,
 			double totalBudget, Proposal proposal, CurrencyType currencyType) {
 		super();
 		this.idProposalDetails = idProposalDetails;
-		this.aporteFijo = aporteFijo;
-		this.factor = factor;
 		this.detail = detail;
 		this.parameters = parameters;
-		this.imprevisto = imprevisto;
 		this.departure = departure;
 		this.price = price;
 		this.commissionable = commissionable;
@@ -108,21 +96,7 @@ public class ProposalDetails  implements Serializable {
 		this.idProposalDetails = idProposalDetails;
 	}
 
-	public double getAporteFijo() {
-		return aporteFijo;
-	}
-
-	public void setAporteFijo(double aporteFijo) {
-		this.aporteFijo = aporteFijo;
-	}
-
-	public double getFactor() {
-		return factor;
-	}
-
-	public void setFactor(double factor) {
-		this.factor = factor;
-	}
+	
 
 	public String getDetail() {
 		return detail;
@@ -140,13 +114,7 @@ public class ProposalDetails  implements Serializable {
 		this.parameters = parameters;
 	}
 
-	public double getImprevisto() {
-		return imprevisto;
-	}
-
-	public void setImprevisto(double imprevisto) {
-		this.imprevisto = imprevisto;
-	}
+	
 
 	public Departure getDeparture() {
 		return departure;
@@ -208,8 +176,7 @@ public class ProposalDetails  implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ProposalDetails [idProposalDetails=" + idProposalDetails + ", aporteFijo=" + aporteFijo + ", factor="
-				+ factor + ", detail=" + detail + ", parameters=" + parameters + ", imprevisto=" + imprevisto
+		return "ProposalDetails [idProposalDetails=" + idProposalDetails  + ", detail=" + detail + ", parameters=" + parameters
 				+ ", departure=" + departure + ", price=" + price + ", commissionable=" + commissionable + ", number="
 				+ number + ", daysTimes=" + daysTimes + ", totalBudget=" + totalBudget + ", proposal=" + proposal
 				+ ", currencyType=" + currencyType + "]";

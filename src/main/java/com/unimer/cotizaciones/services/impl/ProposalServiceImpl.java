@@ -47,8 +47,8 @@ public class ProposalServiceImpl implements ProposalService {
 		}
 	}
 	
-	
-	private String formatNumber(int valie)
+	@Override
+	public String formatNumber(int valie)
 	{
 		@SuppressWarnings("resource")
 		Formatter fmt = new Formatter();

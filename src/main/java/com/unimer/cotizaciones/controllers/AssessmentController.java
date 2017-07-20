@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.Assessment;
 import com.unimer.cotizaciones.entities.AssessmentShared;
+import com.unimer.cotizaciones.entities.CurrencyExchange;
 import com.unimer.cotizaciones.entities.HeadUserToUser;
+import com.unimer.cotizaciones.entities.Settings;
 import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.services.AssessmentService;
 import com.unimer.cotizaciones.services.AssessmentSharedService;
@@ -27,6 +29,7 @@ import com.unimer.cotizaciones.services.CurrencyExchangeService;
 import com.unimer.cotizaciones.services.CurrencyTypeService;
 import com.unimer.cotizaciones.services.HeadUserToUserService;
 import com.unimer.cotizaciones.services.SaClientService;
+import com.unimer.cotizaciones.services.SettingsService;
 import com.unimer.cotizaciones.services.StatusService;
 import com.unimer.cotizaciones.services.UserService;
 
@@ -69,6 +72,9 @@ public class AssessmentController {
 	@Qualifier("currencyTypeServiceImpl")
 	private CurrencyTypeService currencyTypeService;
 	
+	@Autowired
+	@Qualifier("settingsServiceImpl")
+	private SettingsService settingsService;
 	
 	private static final Log LOG = LogFactory.getLog(AssessmentController.class);
 	
@@ -77,6 +83,8 @@ public class AssessmentController {
 	public ModelAndView assessmentIndex(HttpServletRequest request){
 		HttpSession session = request.getSession();
 		User userSession =  (User) session.getAttribute("userSession");
+		Settings sttings = settingsService.findSettingByCountry(userSession.getCountry());
+		CurrencyExchange currencyExchange = currencyExchangeService.findByCountryAndCurrencyType(userSession.getCountry(), sttings.getCurrencyTypeInternational());
 		LOG.info("USUARIO EN SESION: "+userSession.toString());
 		ModelAndView modelAndView = new ModelAndView();
 		List<User> listUsers = userService.listAllUser();
@@ -89,7 +97,9 @@ public class AssessmentController {
 		else modelAndView.addObject("projects", assessmentService.listAllByUserAssign(userSession));
 		modelAndView.addObject("saClients", saClientService.listAllSaClient());
 		modelAndView.addObject("status", statusServiceImpl.listAllStatus());
-		modelAndView.addObject("currencyexchanges", currencyExchangeService.listAllCurrencyExchange());
+		modelAndView.addObject("currencyExchange",currencyExchange.getSell());
+		modelAndView.addObject("international",sttings.getCurrencyTypeInternational().getSymbol());
+		modelAndView.addObject("favorite",sttings.getCurrencyTypeFavorite().getSymbol());
 		modelAndView.addObject("users", listUsers);
 		modelAndView.addObject("countries", countryService.listAllCountries());
 		modelAndView.addObject("role", userSession.getRol().getDetail().toUpperCase());
@@ -109,7 +119,7 @@ public class AssessmentController {
 			@RequestParam("idAssessment") int idAssessment,
 			@RequestParam("creationDate") Date creationDate,
 			@RequestParam("detail") String detail,
-			@RequestParam("idCurrencyExchange") int idCurrencyExchange,
+			@RequestParam("idCurrencyExchange") double currencyExchange,
 			@RequestParam("idSaClient") int idSaClient,
 			@RequestParam("idStatus") int idStatus) {
 		
@@ -119,7 +129,7 @@ public class AssessmentController {
 			Assessment assessment = new Assessment();
 			assessment.setIdAssessment(idAssessment);
 			assessment.setCreationDate(creationDate);
-			assessment.setCurrencyExchange(currencyExchangeService.getCurrencyExchange(idCurrencyExchange));
+			assessment.setCurrencyExchange(currencyExchange);
 			assessment.setDetail(detail);
 			assessment.setSaClient(saClientService.findById(idSaClient));
 			assessment.setStatus(statusServiceImpl.findById(idStatus));
@@ -136,6 +146,7 @@ public class AssessmentController {
 		}
 		
 	}
+	
 	@PostMapping("/assessment/addassessmentshared")
 	public String addAssessmentShared(	HttpServletRequest request,
 										@RequestParam("idUser") int idUser,
@@ -148,14 +159,15 @@ public class AssessmentController {
 			Assessment assessment = assessmentService.findById(idAssessmentToShared);
 			User userShared = userService.findById(idUser);
 			AssessmentShared assessmentShared = new AssessmentShared(userShared,assessment,userSession);
-			assessmentSharedService.addAssessmentShared(assessmentShared, userSession.getIdUser());
+			if(assessmentSharedService.findByUserAndUserSharedAndAssessment(userSession, userShared, assessment)==null) assessmentSharedService.addAssessmentShared(assessmentShared, userSession.getIdUser());
+			else model.addAttribute("msg",1);
 			LOG.info(assessmentShared.toString());
 			model.addAttribute("shareds", assessmentSharedService.listAllByUser(userSession));
 			model.addAttribute("role", userSession.getRol().getDetail().toUpperCase());
-			return "projects :: #sharedRow";
+			return "projects :: #tbodyShared";
 			
 		}catch(Exception ex){
-			return "projects :: #sharedRow";
+			return "projects :: #tbodyShared";
 			
 		}
 		
@@ -170,13 +182,14 @@ public class AssessmentController {
 			User userSession =  (User) session.getAttribute("userSession");
 			AssessmentShared assessmentShared = assessmentSharedService.findById(idAssessmentShared);
 			LOG.info(assessmentShared.toString());
-			assessmentSharedService.delete(assessmentShared);
+			if(assessmentSharedService.countProposalToAssessmentSharedByUserShared(assessmentShared)==0) assessmentSharedService.delete(assessmentShared);
+			else  model.addAttribute("msg",2);
 			model.addAttribute("shareds", assessmentSharedService.listAllByUser(userSession));
 			model.addAttribute("role", userSession.getRol().getDetail().toUpperCase());
-			return "projects :: #sharedRow";
+			return "projects :: #tbodyShared";
 			
 		}catch(Exception ex){
-			return "projects :: #sharedRow";	
+			return "projects :: #tbodyShared";	
 		}
 		
 	}
@@ -204,5 +217,13 @@ public class AssessmentController {
 			
 	}
 	
-	
+	@PostMapping("/assessment/proposal")
+	public String assessmentToProposal(HttpServletRequest request,@RequestParam("idAssessment") int idAssessment) {
+			HttpSession session = request.getSession();
+			Assessment assessment = assessmentService.findById(idAssessment);
+			session.setAttribute("assessment",assessment);
+			LOG.info("METHOD assessmentToProposal in AssessmentController  /assessment/proposal : "+assessment.toString());
+			return "redirect:/admin/proposal";
+			
+	}
 }

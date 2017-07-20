@@ -105,7 +105,7 @@ public class AssessmentServiceImpl implements AssessmentService {
 			LOG.info("METHOD: updateAssessment assessment in AssessmentServiceImpl -- PARAMS: " + assessment.toString());
 			if (asessmentToUpdate != null) {
 				LogAssessment logAssessment = new LogAssessment(date, "Assesssment  modified", idUser, asessmentToUpdate.getCreationDate(),asessmentToUpdate.getDetail() ,
-						asessmentToUpdate.getIdAssessment(),asessmentToUpdate.getCurrencyExchange().getIdCurrencyExchange(),asessmentToUpdate.getSaClient().getIdSaClient(),asessmentToUpdate.getUser().getIdUser());
+						asessmentToUpdate.getIdAssessment(),asessmentToUpdate.getCurrencyExchange(),asessmentToUpdate.getSaClient().getIdSaClient(),asessmentToUpdate.getUser().getIdUser());
 				//assessment.setCreationDate(date);
 				assessmentJpaRepository.save(assessment);
 				logAssessmentJpaRepository.save(logAssessment);

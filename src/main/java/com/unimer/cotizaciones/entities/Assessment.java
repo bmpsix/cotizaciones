@@ -38,9 +38,12 @@ public class Assessment implements Serializable {
 	private String detail;
 
 	//bi-directional many-to-one association to CurrencyExchange
-	@ManyToOne(fetch=FetchType.LAZY)
+	/*@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_currency_exchange", nullable=false)
-	private CurrencyExchange currencyExchange;
+	private CurrencyExchange currencyExchange;*/
+	
+	@Column(name="currency_exchange", nullable=false)
+	private double currencyExchange;
 
 	//bi-directional many-to-one association to SaClient
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -87,11 +90,11 @@ public class Assessment implements Serializable {
 		this.detail = detail;
 	}
 
-	public CurrencyExchange getCurrencyExchange() {
+	public double getCurrencyExchange() {
 		return currencyExchange;
 	}
 
-	public void setCurrencyExchange(CurrencyExchange currencyExchange) {
+	public void setCurrencyExchange(double currencyExchange) {
 		this.currencyExchange = currencyExchange;
 	}
 
@@ -128,7 +131,7 @@ public class Assessment implements Serializable {
 	}
 
 
-	public Assessment(int idAssessment, Date creationDate, String detail, CurrencyExchange currencyExchange,
+	public Assessment(int idAssessment, Date creationDate, String detail, double currencyExchange,
 			SaClient saClient, User user, User userAssigned, Status status) {
 		super();
 		this.idAssessment = idAssessment;
