@@ -1,12 +1,26 @@
  <meta charset="utf-8" />
+ 
+ <div th:if="${session.userSession.rol.detail !='ADMIN'}">
+<p title="Para cambiar mis datos personales, preciona click aqu&iacute;" style="text-align: center;cursor: pointer;"  onclick="return window.location.href='/admin/changepassword'">Usuario activo: <span th:text="|${session.userSession.name} ${session.userSession.lastname} |"></span></p>
+        <div data-role="navbar" data-iconpos="right">
+            <ul>
+            	<li><a href="#"  onclick="return window.location.href='/assessment'" data-ajax="false" data-icon="home" th:classappend="${viewName=='dashboard'} ? 'ui-btn-active ui-state-persist'">Inicio</a></li>
+            	<li><a href="#" data-icon="" data-ajax="false">Opciones</a></li>
+            	<li><form  th:action="@{/logout}" method="post">
+            		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            		<button type="submit" data-icon="forward" data-ajax="false" onclick="return window.location.href='/index'">Salir</button>
+            	</form></li>
+           	</ul>
+       	</div>
+
+
+</div>
+
+<div th:if="${session.userSession.rol.detail =='ADMIN'}">
  <div data-role="popup" data-history="false" data-position="left" id="adminmenu">
 		 <a href="#" onclick="return window.location.href='/'" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right" >Cerrar</a>
 		  <ul data-role="listview" data-inset="true" style="min-width:210px;">
 		       
-	        <!--<li><a href="#" onclick="return window.location.href='/admin/assessment'" th:classappend="${viewName=='asseament'} ?'active-class-botton-menu'">Evaluaciones</a></li>-->
-			<!--<li><a href="#" onclick="return window.location.href='/admin/target'" th:classappend="${viewName=='target'} ?'active-class-botton-menu'">Muestreos</a></li>-->
-			<!-- <li><a href="#" onclick="return window.location.href='/admin/techniquebyproposal'"  th:classappend="${viewName=='techniquebyproposal'} ?'active-class-botton-menu'">Technique By Proposal</a></li>-->
-		   
 			
 			 	<li><a href="#" onclick="return window.location.href='/admin/client'" th:classappend="${viewName=='client'} ?'active-class-botton-menu'">Clientes</a></li>
 				<li><a href="#" onclick="return window.location.href='/admin/saclient'" th:classappend="${viewName=='saclient'} ?'active-class-botton-menu'">Clientes SA</a></li>
@@ -56,8 +70,4 @@
             	</form></li>
            	</ul>
        	</div>
-<div>
-<script>
-
-</script> 	
 </div>
