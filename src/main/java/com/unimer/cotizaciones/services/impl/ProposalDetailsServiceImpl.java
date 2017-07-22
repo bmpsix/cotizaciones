@@ -50,4 +50,10 @@ public class ProposalDetailsServiceImpl implements ProposalDetailsService{
 		return proposalDetailsJpaRepository.findByIdProposalDetails(idProposalDetails);
 	}
 
+	@Override
+	public void deleteByIdProposalDetails(int idProposalDetails) {
+		proposalDetailsJpaRepository.deleteById(idProposalDetails);
+		
+	}
+
 }

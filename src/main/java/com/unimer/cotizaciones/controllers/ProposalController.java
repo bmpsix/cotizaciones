@@ -348,4 +348,18 @@ public class ProposalController {
 		return "proposal :: #proposalDetailRow";
 	}
 	
+	@PostMapping("/proposal/deleteproposaldetail")
+	public String deleteProposalDetail(HttpServletRequest request,@RequestParam("idProposalDetails") int idProposalDetails,Model model) {
+		
+		HttpSession session = request.getSession();
+		User userSession =  (User) session.getAttribute("userSession");
+		Proposal proposedHeader = (Proposal) session.getAttribute("proposedHeader");
+		ProposalDetails proposalDetails = proposalDetailsService.findById(idProposalDetails);
+		proposalDetailsService.deleteByIdProposalDetails(idProposalDetails);
+		model.addAttribute("currencyType",userSession.getCountry().getCurrencyType());
+		model.addAttribute("proposaldetailss",proposalDetailsService.findByProposal(proposedHeader));
+		LOG.info("METHOD: ESTO ES EL currencyType DESDE LA TABLA: " + proposalDetails.toString());
+		return "proposal :: #proposalDetailRow";
+	}
+	
 }

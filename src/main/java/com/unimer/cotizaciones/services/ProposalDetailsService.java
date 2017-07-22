@@ -15,4 +15,6 @@ public interface ProposalDetailsService {
 	
 	public abstract ProposalDetails findById(int idProposalDetails);
 	
+	
+	public abstract void deleteByIdProposalDetails(int idProposalDetails);
 }

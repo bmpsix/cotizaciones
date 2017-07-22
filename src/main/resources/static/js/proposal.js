@@ -553,7 +553,7 @@ function changeCurrencyTypeInRowTable(row)
 function calRow(row)
 {
 	var tbody = document.getElementById('tableBodyProposalDetail');
-	var div = document.getElementById('msgEditRow');
+	var div = document.getElementById('infoDetail');
 	var msg="";
 	var idProposalDetailsTable = $(row).parents("tr").find("#idProposalDetailsTable span").eq(0).html();
 	var priceTable = $(row).parents("tr").find("#priceTable span").eq(1).html();
@@ -617,5 +617,46 @@ function calRow(row)
 };
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------
+
+//-----------------------------------------------deleteProposalDetail---------------------------------------------------------------------------------------------------
+
+function deleteProposalDetail(row){
+	
+	var div = document.getElementById('infoDetail');
+	var tbodyShared = document.getElementById('tableBodyProposalDetail');
+	var msg="";
+	var idProposalDetailsTable = $(row).parents("tr").find("#idProposalDetailsTable span").eq(0).html();
+	
+	var url = "/proposal/deleteproposaldetail"; 
+	    $.ajax({
+	           type: "POST",
+	           cache: false,
+	           url: url,
+	           data: {'idProposalDetails': idProposalDetailsTable},
+
+	           success: function(data)
+	           {
+	        	   if(data != null){
+	        		   tbodyShared.innerHTML = data;
+	        		   //Diseño de tabla
+	        		    $(".parametersTable").hide();
+	        			$(".columnHide2").show();
+	        			$("#hideParameters").hide();
+	        			$("#showParameters").show();
+	        			$(".detailTable").hide();
+	        			$(".columnHide").show();
+	        			$("#hideDetails").hide();
+	        			$("#showDetails").show();
+		        		totalcharge();
+	        		   msg = "<p style='color: hsl(153,80%,40%)'>Se eliminó el detalle correctamente. <p>";
+	        		  div.innerHTML = msg;
+	        	   }else{
+	        		   msgShared = "<p style='color:#800000'>Ha ocurrido un error inesperado!<p>";
+	        		   div.innerHTML = msg;
+	        		   }
+	           }
+	    	
+	         });
+};
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------
