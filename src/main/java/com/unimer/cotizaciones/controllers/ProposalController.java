@@ -288,6 +288,7 @@ public class ProposalController {
 
 				LOG.info("METHOD: addProposalDetails in ProposalController -- PARAMS: " + proposalDetails.toString());
 		proposalDetailsService.addProposalDetails(proposalDetails, userSession.getIdUser());
+		model.addAttribute("currencyType",userSession.getCountry().getCurrencyType());
 		model.addAttribute("proposaldetailss",proposalDetailsService.findByProposal(proposedHeader));
 		return "proposal :: #proposalDetailRow";
 	}
@@ -311,4 +312,40 @@ public class ProposalController {
 		LOG.info("METHOD: ESTO ES EL PROPOSEDHEADER: " + proposal.toString());
 		return "proposal :: #divCustomizeParameters";
 	}
+	
+	@PostMapping("/proposal/editrowdetail")
+	public String editRowDetail(HttpServletRequest request,@RequestParam("idProposalDetails") int idProposalDetails,@RequestParam("price") double price,@RequestParam("number") int number,@RequestParam("daysTimes") int daysTimes,Model model) {
+		
+		HttpSession session = request.getSession();
+		User userSession =  (User) session.getAttribute("userSession");
+		Proposal proposedHeader = (Proposal) session.getAttribute("proposedHeader");
+		ProposalDetails proposalDetails = proposalDetailsService.findById(idProposalDetails);
+		double totalBudget = price*number*daysTimes;
+		proposalDetails.setPrice(price);
+		proposalDetails.setNumber(number);
+		proposalDetails.setDaysTimes(daysTimes);
+		proposalDetails.setTotalBudget(Math.rint(totalBudget*100)/100);
+		proposalDetailsService.addProposalDetails(proposalDetails, userSession.getIdUser());
+		model.addAttribute("currencyType",userSession.getCountry().getCurrencyType());
+		model.addAttribute("proposaldetailss",proposalDetailsService.findByProposal(proposedHeader));
+		LOG.info("METHOD: ESTO ES EL PROPOSALDETAIL DESDE LA TABLA: " + proposalDetails.toString());
+		return "proposal :: #proposalDetailRow";
+	}
+	
+	
+	@PostMapping("/proposal/editrowcurrencytype")
+	public String editRowCurrencyType(HttpServletRequest request,@RequestParam("idProposalDetails") int idProposalDetails,@RequestParam("idCurrencyType") int idCurrencyType,Model model) {
+		
+		HttpSession session = request.getSession();
+		User userSession =  (User) session.getAttribute("userSession");
+		Proposal proposedHeader = (Proposal) session.getAttribute("proposedHeader");
+		ProposalDetails proposalDetails = proposalDetailsService.findById(idProposalDetails);
+		proposalDetails.setCurrencyType(currencyTypeService.getCurrencyType(idCurrencyType));
+		proposalDetailsService.addProposalDetails(proposalDetails, userSession.getIdUser());
+		model.addAttribute("currencyType",userSession.getCountry().getCurrencyType());
+		model.addAttribute("proposaldetailss",proposalDetailsService.findByProposal(proposedHeader));
+		LOG.info("METHOD: ESTO ES EL currencyType DESDE LA TABLA: " + proposalDetails.toString());
+		return "proposal :: #proposalDetailRow";
+	}
+	
 }

@@ -44,4 +44,10 @@ public class ProposalDetailsServiceImpl implements ProposalDetailsService{
 		
 	}
 
+	@Override
+	public ProposalDetails findById(int idProposalDetails) {
+		
+		return proposalDetailsJpaRepository.findByIdProposalDetails(idProposalDetails);
+	}
+
 }

@@ -104,7 +104,7 @@ $( document ).ready(function() {
 		$("#showParameters").toggle("slow");
 	});
 	
-	 
+	
 //------------------------------------------------------------------------------------------------------------------------------------------------
 	 
 	
@@ -118,6 +118,7 @@ $( document ).ready(function() {
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------
 	 
+
 	 
 	 
 //------------------------------------------------Actualizar y recalcular factor 1, 2, imprevisto y aporte fijo------------------------------------------------
@@ -292,6 +293,7 @@ $( document ).ready(function() {
 			ClearForm();
 			changeDeparture();
 		});
+		
 //------------------------------------------------------------------------------------------------------------------------------------------------		
 		
 
@@ -417,7 +419,7 @@ function totalcharge()
 	sub5=sub4*factor2;
 	total2=sub5;
 	nacional1= total1 + total2+(aporteFijo/currencyExchange);
-	nacional2 = (nacional1*currencyExchange)+aporteFijo;
+	nacional2 = (nacional1*currencyExchange);
 	totalSumBudget = (sub1+sub4)*currencyExchange;
 	
 	
@@ -446,20 +448,20 @@ function chargeTheDetailForUpdate(row) {
 	$(".form-proposaldetails").hide("slow");
 	var idProposalDetailsTable = $(row).parents("tr").find("#idProposalDetailsTable span").eq(0).html();
 	var departureDetailTable = $(row).parents("tr").find("#departureDetailTable span").eq(0).html();
-	var priceTable = $(row).parents("tr").find("#priceTable span").eq(0).html();
+	var priceTable = $(row).parents("tr").find("#priceTable span").eq(1).html();
 	var numberTable = $(row).parents("tr").find("#numberTable span").eq(0).html();
 	var daysTimesTable = $(row).parents("tr").find("#daysTimesTable span").eq(0).html();
-	var totalBudgetTable = $(row).parents("tr").find("#totalBudgetTable span").eq(0).html();
+	var totalBudgetTable = $(row).parents("tr").find("#totalBudgetTable span").eq(1).html();
 	var detailTable = $(row).parents("tr").find("#detailTable textarea").eq(0).html();
 	var parametersTable = $(row).parents("tr").find("#parametersTable textarea").eq(0).html();
 	var commissionableTable = $(row).parents("tr").find("#commissionableTable span").eq(0).html();
 	var idCurrencyTypeTable = $(row).parents("tr").find("#idCurrencyTypeTable span").eq(0).html();
 	var idDepartureTable = $(row).parents("tr").find("#idDepartureTable span").eq(0).html();
-	priceTable = priceTable.split(" ");
-	priceTable = priceTable[priceTable.length-1];
+	//priceTable = priceTable.split(" ");
+	//priceTable = priceTable[priceTable.length-1];
 	
-	totalBudgetTable = totalBudgetTable.split(" ");
-	totalBudgetTable = totalBudgetTable[totalBudgetTable.length-1];
+	//totalBudgetTable = totalBudgetTable.split(" ");
+	//totalBudgetTable = totalBudgetTable[totalBudgetTable.length-1];
 
 	
 	$("#idDeparture").val(idDepartureTable).change();
@@ -499,8 +501,121 @@ function methodLoad()
 
 
 
-//------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------editCurrencyType in the rowProposalDetails--------------------------------------------------------------------------------------------------
+function changeCurrencyTypeInRowTable(row)
+{
+	var tbody = document.getElementById('tableBodyProposalDetail');
+	var idCurrencyTypeFavorite =$("#idCurrencyTypeFavorite").val();
+	var idProposalDetailsTable = $(row).parents("tr").find("#idProposalDetailsTable span").eq(0).html();
+	var idCurrencyTypeInternational =$("#idCurrencyTypeInternational").val();
+	var idCurrencyTypeTable = $(row).parents("tr").find("#idCurrencyTypeTable span").eq(0).html();
+		
+		if(idCurrencyTypeTable==idCurrencyTypeFavorite) idCurrencyTypeTable=idCurrencyTypeInternational;
+		else idCurrencyTypeTable=idCurrencyTypeFavorite;
+		
+			var url = "/proposal/editrowcurrencytype"; 
+		    $.ajax({
+		           type: "POST",
+		           cache: false,
+		           url: url,
+		           data: { 
+		        	 'idProposalDetails':idProposalDetailsTable,
+		        	 'idCurrencyType':idCurrencyTypeTable 
+		        		 },
+
+		           success: function(data)
+		           {
+		        	   if(data != null){
+		        		tbody.innerHTML = data;
+		        		//Diseño de tabla
+	        		    $(".parametersTable").hide();
+	        			$(".columnHide2").show();
+	        			$("#hideParameters").hide();
+	        			$("#showParameters").show();
+	        			$(".detailTable").hide();
+	        			$(".columnHide").show();
+	        			$("#hideDetails").hide();
+	        			$("#showDetails").show();
+		        		totalcharge();
+		        		
+		        	   }else{
+		        		   alert("false");
+		        		   }
+		        	   }
+		         });
+
+};
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+//-------------------------------------------------------CalRow change and charge to editRow-------------------------------------------------------------------------------------------
+function calRow(row)
+{
+	var tbody = document.getElementById('tableBodyProposalDetail');
+	var div = document.getElementById('msgEditRow');
+	var msg="";
+	var idProposalDetailsTable = $(row).parents("tr").find("#idProposalDetailsTable span").eq(0).html();
+	var priceTable = $(row).parents("tr").find("#priceTable span").eq(1).html();
+	var numberTable = $(row).parents("tr").find("#numberTable span").eq(0).html();
+	var daysTimesTable = $(row).parents("tr").find("#daysTimesTable span").eq(0).html();
+	var totalBudgetTable = 0;
+	try
+	{
+		priceTable=priceTable.replace(",",".");
+		priceTable=parseFloat(priceTable).toFixed(2);
+		numberTable=parseInt(numberTable);
+		daysTimesTable=parseInt(daysTimesTable);
+		if(priceTable=="" || priceTable==null || priceTable<1 || isNaN(priceTable/1)) msg+="<p style='color:#800000'>Debe ingresar un precio válido<p>";
+		else if(numberTable=="" || numberTable==null || numberTable<1 || isNaN(numberTable/1)) msg+="<p style='color:#800000'>Debe ingresar un numero o cantidad y debe ser un valor entero<p>";
+		else if(daysTimesTable=="" || daysTimesTable==null || daysTimesTable<1 || isNaN(daysTimesTable/1)) msg+="<p style='color:#800000'>Debe ingresar la cantidad de días o veces y debe ser un valor entero<p>";
+		else
+		{
+			
+			var url = "/proposal/editrowdetail"; 
+		    $.ajax({
+		           type: "POST",
+		           cache: false,
+		           url: url,
+		           data: { 
+		        	 'idProposalDetails':idProposalDetailsTable,
+		        	 'price':priceTable , 
+		   			 'number': numberTable,
+		   			 'daysTimes': daysTimesTable
+		        		 },
 
-//------------------------------------------------------------------------------------------------------------------------------------------------
+		           success: function(data)
+		           {
+		        	   if(data != null){
+		        		tbody.innerHTML = data;
+		        		//Diseño de tabla
+	        		    $(".parametersTable").hide();
+	        			$(".columnHide2").show();
+	        			$("#hideParameters").hide();
+	        			$("#showParameters").show();
+	        			$(".detailTable").hide();
+	        			$(".columnHide").show();
+	        			$("#hideDetails").hide();
+	        			$("#showDetails").show();
+		        		totalcharge();
+		        		/*msg = "<p style='color: hsl(153,80%,40%)'>Se actualizó la información correctamente <p>";*/
+		        	   }else{
+		        		   alert("false");
+		        		   }
+		        	   }
+		         });
+		}
+		div.innerHTML = msg;
+		//alert(priceTable+" "+totalBudgetTable);
+	}
+	catch(err)
+	{
+		msg+="<p style='color:#800000'>El formato de los datos es incorrecto, ingrese solo números.<p>";
+		div.innerHTML = msg;
+	}
+
+};
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------

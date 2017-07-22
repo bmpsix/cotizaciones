@@ -14,7 +14,7 @@ public interface ProposalDetailsJpaRepository  extends JpaRepository<ProposalDet
 
 	public abstract List<ProposalDetails> findByProposal(Proposal proposal);
 
-
+	public abstract ProposalDetails findByIdProposalDetails(int idProposalDetails);
 
 	
 } 

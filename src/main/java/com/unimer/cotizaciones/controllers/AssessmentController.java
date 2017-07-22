@@ -225,6 +225,5 @@ public class AssessmentController {
 			session.setAttribute("proposedHeader", null);
 			LOG.info("METHOD assessmentToProposal in AssessmentController  /assessment/proposal : "+assessment.toString());
 			return "redirect:/admin/proposal";
-			
 	}
 }

@@ -13,5 +13,6 @@ public interface ProposalDetailsService {
 	
 	public abstract void addProposalDetails(ProposalDetails proposalDetails, int idUser);
 	
+	public abstract ProposalDetails findById(int idProposalDetails);
 	
 }
