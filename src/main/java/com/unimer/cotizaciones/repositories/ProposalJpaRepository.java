@@ -18,7 +18,6 @@ public interface ProposalJpaRepository extends JpaRepository<Proposal, Serializa
 	@Query("select max(V.idProposal) from Proposal V")
 	public abstract int autoIncrement();
 	
-	
 	public abstract List<Proposal> findByCountry(Country country);
 	
 	public abstract List<Proposal> findByCountryAndUser(Country country, User user);	
@@ -26,5 +25,10 @@ public interface ProposalJpaRepository extends JpaRepository<Proposal, Serializa
 	public abstract int countByUserAndAssessment(User user,Assessment assessmnet);
 	
 	public abstract Proposal findByIdProposal(int idProposal);
+	
+	public abstract List<Proposal> findByAssessment(Assessment assessment);
+	
+	/*@Query("SELECT p FROM proposal p WHERE p.id_assesment = :id_assessment")
+	public abstract List<Proposal> getAllListByIdAssessment(int id_assessment);*/
 	
 }

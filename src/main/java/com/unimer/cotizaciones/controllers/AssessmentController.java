@@ -28,6 +28,7 @@ import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.CurrencyExchangeService;
 import com.unimer.cotizaciones.services.CurrencyTypeService;
 import com.unimer.cotizaciones.services.HeadUserToUserService;
+import com.unimer.cotizaciones.services.ProposalService;
 import com.unimer.cotizaciones.services.SaClientService;
 import com.unimer.cotizaciones.services.SettingsService;
 import com.unimer.cotizaciones.services.StatusService;
@@ -76,6 +77,11 @@ public class AssessmentController {
 	@Qualifier("settingsServiceImpl")
 	private SettingsService settingsService;
 	
+	@Autowired
+	@Qualifier("proposalServiceImpl")
+	private ProposalService proposalService;
+	
+	
 	private static final Log LOG = LogFactory.getLog(AssessmentController.class);
 	
 	
@@ -108,6 +114,16 @@ public class AssessmentController {
 		LOG.info("ROLE DEL USUARIO EN SESION: "+userSession.getRol().getDetail().toUpperCase());
 		return modelAndView;
 		
+	}
+	
+	@GetMapping("/assessment/listProposal")
+	public ModelAndView assessmentProposal(HttpServletRequest request){
+		ModelAndView nvm = new ModelAndView("listProposal");
+		HttpSession session = request.getSession();
+		Assessment assessment = (Assessment) session.getAttribute("assessment");
+		nvm.addObject("proposals",proposalService.findByAssessment(assessment));
+		nvm.addObject("saclients",saClientService.listAllSaClient());
+		return nvm;
 	}
 	
 	
@@ -224,6 +240,6 @@ public class AssessmentController {
 			session.setAttribute("assessment",assessment);
 			session.setAttribute("proposedHeader", null);
 			LOG.info("METHOD assessmentToProposal in AssessmentController  /assessment/proposal : "+assessment.toString());
-			return "redirect:/admin/proposal";
+			return "redirect:/assessment/listProposal";
 	}
 }

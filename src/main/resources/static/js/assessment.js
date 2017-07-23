@@ -362,7 +362,7 @@ function projectProposal(x)
 	           {
 	        	   if(data != null){
 	        		
-	        		 location="/admin/proposal";
+	        		 location="/assessment/listProposal";
 	        	   }
 	           }
 	    	

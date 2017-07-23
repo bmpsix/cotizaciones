@@ -2,6 +2,7 @@ package com.unimer.cotizaciones.services;
 
 import java.util.List;
 
+import com.unimer.cotizaciones.entities.Assessment;
 import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.entities.Proposal;
 import com.unimer.cotizaciones.entities.User;
@@ -20,4 +21,6 @@ public interface ProposalService {
 	public abstract String formatNumber(int valie);
 	
 	public abstract Proposal findByIdProposal(int idProposal);
+	
+	public abstract List<Proposal> findByAssessment(Assessment assessment);
 }

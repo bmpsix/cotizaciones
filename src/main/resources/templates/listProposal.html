@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html>
+<head th:replace="fragments/header">
+<meta charset="UTF-8">
+</head>
+<body>
+	<div data-role="page" data-theme="a" data-dom-cache="false" >
+		<div data-role="header" data-position="inline" >
+			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
+            <h1>
+            SIP Cotizaciones - Lista de Propuestas
+            </h1>
+		</div>
+		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
+		<h3>Busqueda de Propuestas</h3>
+			<div data-role="fieldcontain">
+			<fieldset class="ui-grid-b">
+              <div class="ui-block-a">
+              	<h3>Busqueda por Cliente</h3>
+	              	<form class="ui-filterable">
+	      			  <input id="myFilter" data-type="search" placeholder="Busqueda de Clientes">
+	    		    </form>
+    		
+		    		<select name="idClient">
+						<option th:each="saclient : ${saclients}" th:value="${saclient.idSaClient}">
+							<p name="saclient.detail" th:text="${saclient.detail}" th:value="${saclient.detail}" ></p>
+						</option>
+					</select>
+              </div>
+              <div class="ui-block-b">
+              	<h3>Busqueda por Fecha Inicial</h3>
+              	<input id="initialDate" name="initialDate"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text" required />
+              	<br>
+              	<h3>Busqueda por Fecha Final</h3>
+              	<input id="initialDate" name="initialDate"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text" required />
+              </div>
+              
+              <div class="ui-block-c">
+              	<h3>Busqueda por Estado</h3>
+              		<select name="state">
+						<option value="activo">Activo</option>
+						<option value="inactivo">Inactivo</option>
+					</select>
+              </div>
+			</fieldset>
+			<fieldset data-role="controlgroup"  data-type="horizontal">
+         
+           		<table style="text-align:justify;width:100%;">
+           				<thead>
+           				<tr>
+           				<th  style="padding-right: 15px;">ID</th>
+           				<th  style="padding-right: 15px;">Nombre del Proyecto</th>
+           				<th  style="padding-right: 15px;">Pais</th>
+           				<th  style="padding-right: 15px;">Tipo de Proyecto</th>
+           				<th  style="padding-right: 15px;">Fecha de Inicio</th>
+           				<th  style="padding-right: 15px;">Fecha Final</th>
+           				<th  style="padding-right: 15px;">Opcion</th>
+           				</tr>
+           				</thead>
+           				<tbody id="tbodyProposal">
+           				<tr id="proposalRow" th:each="proposal : ${proposals}">
+							<td id="idProposal" style="padding-right: 15px;"><span th:text="${proposal.idProposal}"></span></td>
+							<td id="proposalName" style="padding-right: 15px;" ><span th:text="${proposal.proposalName}"></span></td>
+							<td id="idCountry" style="padding-right: 15px;"><span th:text="${proposal.country.idCountry}"></span></td>
+							<td id="projectType" style="padding-right: 15px;"><span th:text="${proposal.projectType}"></span></td>
+							<td id="initialDate" style="padding-right: 15px;"><span th:text="${proposal.initialDate}"></span></td>
+							<td id="endDate" style="padding-right: 15px;"><span th:text="${proposal.endDate}"></span></td>
+		            		<td style="padding-right: 15px;"><a href="#" onclick="editCurrencyType(this);">Ver Propuesta</a></td>
+          			    </tbody>
+           			</table>
+           	</fieldset>
+			</div>  	
+		</div>
+		<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
+			<div data-role="popup" data-position="left" id="adminmenu" th:replace="fragments/footer"></div>
+		<!-- /panel -->	
+		</div>
+	</div>
+</body>
+</html>

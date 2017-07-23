@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.unimer.cotizaciones.entities.Assessment;
 import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.entities.Proposal;
 import com.unimer.cotizaciones.entities.User;
@@ -78,6 +79,11 @@ public class ProposalServiceImpl implements ProposalService {
 	@Override
 	public Proposal findByIdProposal(int idProposal) {
 		return proposalJpaRepository.findByIdProposal(idProposal);
+	}
+
+	@Override
+	public List<Proposal> findByAssessment(Assessment assessement) {
+		return proposalJpaRepository.findByAssessment(assessement);
 	}
 	
 	
