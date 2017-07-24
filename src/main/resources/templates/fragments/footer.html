@@ -1,6 +1,6 @@
  <meta charset="utf-8" />
  
- <div th:if="${session.userSession.rol.detail !='ADMIN'}">
+ <div th:if="${session.userSession.rol.detail !='ADMIN' and session.userSession.rol.detail !='Admin'}">
 <p title="Para cambiar mis datos personales, preciona click aqu&iacute;" style="text-align: center;cursor: pointer;"  onclick="return window.location.href='/admin/changepassword'">Usuario activo: <span th:text="|${session.userSession.name} ${session.userSession.lastname} |"></span></p>
         <div data-role="navbar" data-iconpos="right">
             <ul>
@@ -16,7 +16,7 @@
 
 </div>
 
-<div th:if="${session.userSession.rol.detail =='ADMIN'}">
+<div th:if="${session.userSession.rol.detail =='ADMIN' or session.userSession.rol.detail =='Admin'}">
  <div data-role="popup" data-history="false" data-position="left" id="adminmenu">
 		 <a href="#" onclick="return window.location.href='/'" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right" >Cerrar</a>
 		  <ul data-role="listview" data-inset="true" style="min-width:210px;">
@@ -34,7 +34,6 @@
 				<li><a href="#" onclick="return window.location.href='/admin/currencytype'" th:classappend="${viewName=='currencytype'} ?'active-class-botton-menu'">Tipos de moneda</a></li>
 				<li><a href="#" onclick="return window.location.href='/admin/countrybycurrencytype'" th:classappend="${viewName=='countrybycurrencytype'} ?'active-class-botton-menu'">Tipo de moneda por país</a></li>
 			<hr>
-				<li><a href="#" onclick="return window.location.href='/admin/proposal'" th:classappend="${viewName=='proposal'} ?'active-class-botton-menu'">Propuestas</a></li>
 				<li><a href="#" onclick="return window.location.href='/admin/proposaltype'" th:classappend="${viewName=='proposaltype'} ?'active-class-botton-menu'">Tipos de propuesta</a></li>
 				
 			<hr>	

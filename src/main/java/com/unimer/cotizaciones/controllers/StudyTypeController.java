@@ -31,7 +31,7 @@ public class StudyTypeController {
 	public ModelAndView StudyTypeService(){
 		
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("StudyType");
+		modelAndView.setViewName("studytype");
 		modelAndView.addObject("StudyTypes", StudyTypeService.listAllStudyTypes());
 		return modelAndView;
 	}

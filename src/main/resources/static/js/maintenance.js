@@ -291,7 +291,7 @@ function clearClientType(){
 	
 	$("#clientTypeCancel").hide();
 	
-	$("#idClientType").val("");
+	$("#idClientType").val(0);
 	$("#detail").val("");
 	$("#status").val(0).change();
 	var div = document.getElementById('msg');
@@ -1646,7 +1646,7 @@ function sendFormUser()
 		var msg="";
 		var form = $("#formUser").serialize();
 		
-	if($("#head").val()!=$("#idUser").val())
+	if($("#head").val()!=$("#idUser").val() && $("#head").val()!="" && $("#head").val()!=null)
 	{
 		var url = "/admin/adduser"; 
 		    $.ajax({
@@ -1760,10 +1760,10 @@ function clearUser(){
 	$("#expired").val(0).change();;
 	$("#credentialExpired").val(0).change();
 	$("#password").val("");
-	$("#rol").val(0).change();
+	$("#rol").val(1).change();
 	$("#idUser").val(0);
 	$("#idHeadUser").val(0);
-	$("#head").val(0);
+	$("#head").val(1).change();
 	var div = document.getElementById('msg');
 	var msg="";
 	div.innerHTML = msg;
