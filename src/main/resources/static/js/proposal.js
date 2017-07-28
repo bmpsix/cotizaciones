@@ -723,6 +723,14 @@ var idProposal = $(row).parents("tr").find("#idProposal span").eq(0).html();
 	         });
 }
 
-//--------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------Convert amount--------------------------------------------------------------------------------------------
 
+/* value means the number od the textbox */
 
+function convertCurrrency(value){
+	var total =  value.replace(/\D/g, "")
+    .replace(/([0-9])([0-9]{2})$/, '$1$2') /* si reemplzas el numero $1$2 por $1.$2 se mantendra con dos digitos al final no se como sera el mejor ahi */
+    .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
+    
+	return total; /* devuelve el valor ya formateado no se cualquiera que ocupes aqui
+}
