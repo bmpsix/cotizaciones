@@ -20,12 +20,15 @@
 			<div data-role="fieldcontain">
 			
 			<div id="divSearch" style="display: none;">
+			<br>
+			
+			<h3>Opciones de busqueda</h3>
 			<fieldset class="ui-grid-a">
               <div class="ui-block-a" style="width: 49%; margin-right: 0.5%;">
               
               		<h5>Busqueda por fecha inicial</h5>
               		<input id="initialDate" name="initialDate"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%d/%m/%Y" }' type="text" required />
-       
+       				<br>
     				
     				<h5>Busqueda por cliente</h5>
               	
@@ -44,7 +47,7 @@
               
               		<h5>Busqueda por fecha final</h5>
               		<input id="endDate" name="endDate"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%d/%m/%Y" }' type="text" required />
-              	
+              		<br>
               		<h5>Busqueda por estado</h5>
               			<select name="idStatus" id="idStatus" required>
 								<option th:each="statu : ${status}" th:value="${statu.idStatus}">
@@ -101,7 +104,7 @@
           			    	<!-- <div th:if="${role == 'CONTRIBUTOR'}"></div>-->
 	           				<td>
 	           					<a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #8B4513;" onclick="editProposal(this);" title="Editar"></a>
-	           					<a class="ui-link ui-btn ui-btn-b ui-icon-view ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all"  style="background-color: #4A708B;" title="Ver"></a>
+	           					<a class="ui-link ui-btn ui-btn-b ui-icon-eye ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all"  style="background-color: #4A708B;" title="Ver"></a>
 	           				</td>
            				</tr>
           			    </tbody>
