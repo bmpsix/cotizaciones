@@ -246,7 +246,7 @@
 		            			<a id="addAssessment" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;" title="Agregar proyecto">Plus</a>
 		                	</th>
 		                </div>
-           				<td  th:if="${role == 'ADMINISTRATOR'}"></td>
+           				<td  th:if="${role == 'ADMINISTRATOR' or role == 'ADMIN'}"></td>
            				
            				</thead>
 				        <tbody id="tbodyAssessment">

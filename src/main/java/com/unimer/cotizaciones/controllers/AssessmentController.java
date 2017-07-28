@@ -24,6 +24,7 @@ import com.unimer.cotizaciones.entities.Settings;
 import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.services.AssessmentService;
 import com.unimer.cotizaciones.services.AssessmentSharedService;
+import com.unimer.cotizaciones.services.ClientService;
 import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.CurrencyExchangeService;
 import com.unimer.cotizaciones.services.CurrencyTypeService;
@@ -47,7 +48,7 @@ public class AssessmentController {
 	
 	@Autowired
 	@Qualifier("statusServiceImpl")
-	private StatusService statusServiceImpl;
+	private StatusService statusService;
 	
 	@Autowired
 	@Qualifier("countryServiceImpl")
@@ -56,6 +57,10 @@ public class AssessmentController {
 	@Autowired
 	@Qualifier("saClientServiceImpl")
 	private SaClientService saClientService;
+	
+	@Autowired
+	@Qualifier("clientServiceImpl")
+	private ClientService clientService;
 	
 	@Autowired
 	@Qualifier("userServiceImpl")
@@ -80,7 +85,7 @@ public class AssessmentController {
 	@Autowired
 	@Qualifier("proposalServiceImpl")
 	private ProposalService proposalService;
-	
+
 	
 	private static final Log LOG = LogFactory.getLog(AssessmentController.class);
 	
@@ -102,7 +107,7 @@ public class AssessmentController {
 		else if(userSession.getRol().getDetail().toUpperCase().equals("ADMIN") || userSession.getRol().getDetail().toUpperCase().equals("ADMINISTRATOR"))  modelAndView.addObject("projects", assessmentService.listAllAssessmentByUserCountry(userSession));
 		else modelAndView.addObject("projects", assessmentService.listAllByUserAssign(userSession));
 		modelAndView.addObject("saClients", saClientService.listAllSaClient());
-		modelAndView.addObject("status", statusServiceImpl.listAllStatus());
+		modelAndView.addObject("status", statusService.listAllStatus());
 		modelAndView.addObject("currencyExchange",currencyExchange.getSell());
 		modelAndView.addObject("international",sttings.getCurrencyTypeInternational().getSymbol());
 		modelAndView.addObject("favorite",sttings.getCurrencyTypeFavorite().getSymbol());
@@ -116,15 +121,7 @@ public class AssessmentController {
 		
 	}
 	
-	@GetMapping("/assessment/listProposal")
-	public ModelAndView assessmentProposal(HttpServletRequest request){
-		ModelAndView nvm = new ModelAndView("listProposal");
-		HttpSession session = request.getSession();
-		Assessment assessment = (Assessment) session.getAttribute("assessment");
-		nvm.addObject("proposals",proposalService.findByAssessment(assessment));
-		nvm.addObject("saclients",saClientService.listAllSaClient());
-		return nvm;
-	}
+	
 	
 	
 	
@@ -148,7 +145,7 @@ public class AssessmentController {
 			assessment.setCurrencyExchange(currencyExchange);
 			assessment.setDetail(detail);
 			assessment.setSaClient(saClientService.findById(idSaClient));
-			assessment.setStatus(statusServiceImpl.findById(idStatus));
+			assessment.setStatus(statusService.findById(idStatus));
 			assessment.setUser(userService.findById(userSession.getIdUser()));
 			assessment.setUserAssigned(userService.findById(userSession.getIdUser()));
 			LOG.info(assessment.toString());
@@ -233,13 +230,33 @@ public class AssessmentController {
 			
 	}
 	
-	@PostMapping("/assessment/proposal")
+	@PostMapping("/assessment/listproposal")
 	public String assessmentToProposal(HttpServletRequest request,@RequestParam("idAssessment") int idAssessment) {
 			HttpSession session = request.getSession();
 			Assessment assessment = assessmentService.findById(idAssessment);
 			session.setAttribute("assessment",assessment);
-			session.setAttribute("proposedHeader", null);
 			LOG.info("METHOD assessmentToProposal in AssessmentController  /assessment/proposal : "+assessment.toString());
 			return "redirect:/assessment/listProposal";
 	}
+	
+	@GetMapping("/assessment/listProposal")
+	public ModelAndView proposalList(HttpServletRequest request){
+		ModelAndView modelAndView = new ModelAndView("listProposal");
+		HttpSession session = request.getSession();
+		Assessment assessment = (Assessment) session.getAttribute("assessment");
+		modelAndView.addObject("proposals",proposalService.findByAssessment(assessment));
+		modelAndView.addObject("clients",clientService.listAllClient());
+		modelAndView.addObject("status", statusService.listAllStatus());
+		return modelAndView;
+	}
+	
+	@PostMapping("/assessment/listproposal/search")
+	public String proposalSearch(HttpServletRequest request,@RequestParam("idClient") int idClient,@RequestParam("initialDate") String initialDate,@RequestParam("endDate") String endDate,@RequestParam("idStatus") int idStatus ,Model model) {
+		HttpSession session = request.getSession();
+		LOG.info("CONTROLADOR CONTENIDO DE INITIALdate "  + initialDate+" CONTENIDO DE ENDdete "+endDate);
+		Assessment assessment = (Assessment) session.getAttribute("assessment");
+		model.addAttribute("proposals",proposalService.filterProposal(assessment, idClient, initialDate, endDate, idStatus));
+		return "listProposal :: #listProposalRow";
+	}
+	
 }

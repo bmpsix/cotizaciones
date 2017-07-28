@@ -243,7 +243,7 @@
       			<input id="myFilter" data-type="search" placeholder="Busca las tecnicas/modelos">
     		</form>
     		
-    		<select name="idTechnique">
+    		<select name="idTechnique" data-filter="true" data-input="#myFilter">
 				<option th:each="technique : ${techniques}" th:value="${technique.idTechnique}" th:if="${proposal.Technique.detail == technique.detail}" selected>
 					<p name="technique.detail" th:text="${technique.detail}" th:value="${technique.detail}" ></p>
 				</option>

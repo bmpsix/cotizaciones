@@ -23,4 +23,6 @@ public interface ProposalService {
 	public abstract Proposal findByIdProposal(int idProposal);
 	
 	public abstract List<Proposal> findByAssessment(Assessment assessment);
+	
+	public abstract List<Proposal> filterProposal(Assessment assessment, int idClient, String initialDate, String endDate,int idStatus);
 }

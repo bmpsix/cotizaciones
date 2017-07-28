@@ -8,6 +8,8 @@ var email;
 
 $( document ).ready(function(){
 	
+	$("#hideSearchProposal").hide();
+	
 	$("#addAssessment").click(function(){
 		$("#divShared").hide("slow");
 		$("#divAssign").hide("slow");
@@ -99,6 +101,22 @@ $( document ).ready(function(){
 		$("#idStatus").val(0).change();
 
 	});
+	
+	
+	$("#showSearchProposal").click(function(){
+		$("#divSearch").show("slow");
+		$("#showSearchProposal").hide("slow");
+		$("#hideSearchProposal").show("slow");
+		
+	});
+	
+	$("#hideSearchProposal").click(function(){
+		$("#divSearch").hide("slow");
+		$("#hideSearchProposal").hide("slow");
+		$("#showSearchProposal").show("slow");
+		
+	});
+	
 	
 });
 
@@ -349,7 +367,7 @@ function projectProposal(x)
 {
 	var idAssessment = $(x).parents("tr").find("#idAssessment span").eq(0).html();
 	
-	var url = "/assessment/proposal"; 
+	var url = "/assessment/listproposal"; 
 	    $.ajax({
 	           type: "POST",
 	           cache: false,
@@ -369,6 +387,51 @@ function projectProposal(x)
 	         });
 };
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+//--------------------------------------------------searchProposal------------------------------------------------------------------------------------------------
 
+function searchProposal()
+{
+		var  idClient = $("#idClient").val();
+		var initialDate = $("#initialDate").val();
+		var endDate = $("#endDate").val();
+		var idStatus = $("#idStatus").val();
+		var tbodyListProposal = document.getElementById('tbodyListProposal');
+		
+		if(idClient=="" || idClient==null) idClient=0;
+		if(idStatus==""|| idStatus==null) idStatus=0;
+		if(initialDate==""|| initialDate==null) initialDate="";
+		if(endDate==""|| endDate==null) endDate="";
+		
+		var url = "/assessment/listproposal/search"; 
+		    $.ajax({
+		           type: "POST",
+		           cache: false,
+		           url: url,
+		           data: { 
+			        	 'idClient':idClient,
+			        	 'initialDate':initialDate , 
+			   			 'endDate': endDate,
+			   			 'idStatus': idStatus
+			        	},
+
+		           success: function(data)
+		           {
+		        	   if(data != null){
+		        		   tbodyListProposal.innerHTML = data;
+		        		   	$("#idClient").val("").change();
+		        			$("#initialDate").val("");
+		        			$("#endDate").val("");
+		        			$("#idStatus").val("").change();
+		        	   }else{
+		        		  
+		        		   }
+		           }
+		    	
+		         });
+};
+
+	
+//--------------------------------------------------------------------------------------------------------------------------------------------------
 

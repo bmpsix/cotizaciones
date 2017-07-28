@@ -1,5 +1,7 @@
 <html>
-<head th:replace="fragments/header"></head>
+<head th:replace="fragments/header">
+<meta charset="utf-8" />
+</head>
 <body>
 	<div data-role="page" data-theme="a" data-dom-cache="false" >
 		<div data-role="header" data-position="inline" >
@@ -10,8 +12,8 @@
 		</div>
 		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
 		<img src="/img/homererror.gif" th:src="@{/img/homererror.gif}">
-			<h3>No posee los permisos necesarios</h3>
-			<p>Por favor contactar con el administrador del sistema</p>
+			<h3>Los parámetros presentes en la información general de la propuesta son insuficientes</h3>
+			<p>Por favor contactar con el administrador del sistema para completar los parámetros</p>
 		</div>
 		<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
 		<div data-role="popup" data-position="left" id="adminmenu" th:replace="fragments/footer"></div>

@@ -28,7 +28,5 @@ public interface ProposalJpaRepository extends JpaRepository<Proposal, Serializa
 	
 	public abstract List<Proposal> findByAssessment(Assessment assessment);
 	
-	/*@Query("SELECT p FROM proposal p WHERE p.id_assesment = :id_assessment")
-	public abstract List<Proposal> getAllListByIdAssessment(int id_assessment);*/
 	
 }

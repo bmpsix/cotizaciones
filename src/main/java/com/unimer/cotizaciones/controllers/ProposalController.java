@@ -149,6 +149,27 @@ public class ProposalController {
 	@Qualifier("proposalDetailsServiceImpl")
 	private ProposalDetailsService proposalDetailsService;
 	
+	
+	
+	
+	@GetMapping("/listproposal/newproposal")
+	public String newProposal(HttpServletRequest request)
+	{
+		HttpSession session = request.getSession();
+		session.setAttribute("proposedHeader",null);
+		return "redirect:/admin/proposal";
+	}
+	
+	@PostMapping("/admin/proposal")
+	public String addProposal(HttpServletRequest request,@RequestParam("idProposal") int idProposal)
+	{
+		HttpSession session = request.getSession();
+		Proposal proposal = proposalService.findByIdProposal(idProposal);
+		session.setAttribute("proposedHeader",proposal);
+		LOG.info("METHOD assessmentToProposal in AssessmentController  /assessment/proposal : "+proposal.toString());
+		return "redirect:/admin/proposal";
+	}
+	
 	@GetMapping("/admin/proposal")
 	public ModelAndView proposal(HttpServletRequest request){
 		Proposal proposedHeader=null;
@@ -186,16 +207,7 @@ public class ProposalController {
 	}
 	
 	
-	
-	
-	@GetMapping("/admin/dialogoPartidas")
-	public ModelAndView dialogoPartidas(){
 
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("dialogoPartidas");
-		return modelAndView;
-		
-	}
 	
 
 	@PostMapping("/admin/addproposal")
@@ -362,4 +374,15 @@ public class ProposalController {
 		return "proposal :: #proposalDetailRow";
 	}
 	
+	
+	
+	
+	
+	
 }
+
+
+
+
+
+

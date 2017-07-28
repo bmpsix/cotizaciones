@@ -4,7 +4,7 @@
 <head th:replace="fragments/header">
 <meta charset="UTF-8">
 </head>
-<body>
+<body onload="loadListProposal();">
 	<div data-role="page" data-theme="a" data-dom-cache="false" >
 		<div data-role="header" data-position="inline" >
 			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
@@ -12,64 +12,102 @@
             SIP Cotizaciones - Lista de Propuestas
             </h1>
 		</div>
-		<div data-role="content" data-theme="a" style="width: 80%;margin: 1em auto;">
-		<h3>Busqueda de Propuestas</h3>
+		<div data-role="content" data-theme="a" style="width: 95%;margin: 1em auto;">
+		<h3 style="text-align: center;">Lista de propuestas</h3>
+		<h5>Nombre del proyecto:</h5>
+		<label th:text="${session.assessment.detail}"></label>
+		
 			<div data-role="fieldcontain">
-			<fieldset class="ui-grid-b">
-              <div class="ui-block-a">
-              	<h3>Busqueda por Cliente</h3>
-	              	<form class="ui-filterable">
-	      			  <input id="myFilter" data-type="search" placeholder="Busqueda de Clientes">
+			
+			<div id="divSearch" style="display: none;">
+			<fieldset class="ui-grid-a">
+              <div class="ui-block-a" style="width: 49%; margin-right: 0.5%;">
+              
+              		<h5>Busqueda por fecha inicial</h5>
+              		<input id="initialDate" name="initialDate"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%d/%m/%Y" }' type="text" required />
+       
+    				
+    				<h5>Busqueda por cliente</h5>
+              	
+              		<form class="ui-filterable">
+	      			  <input id="filterClient" data-type="search" placeholder="Busqueda de Clientes">
 	    		    </form>
-    		
-		    		<select name="idClient">
-						<option th:each="saclient : ${saclients}" th:value="${saclient.idSaClient}">
-							<p name="saclient.detail" th:text="${saclient.detail}" th:value="${saclient.detail}" ></p>
+		    		<select name="idClient" id="idClient" data-filter="true" data-input="#filterClient">
+						<option th:each="client : ${clients}" th:value="${client.idClient}">
+							<p name="client.detail" th:text="${client.detail}" th:value="${client.detail}" ></p>
 						</option>
 					</select>
-              </div>
-              <div class="ui-block-b">
-              	<h3>Busqueda por Fecha Inicial</h3>
-              	<input id="initialDate" name="initialDate"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text" required />
-              	<br>
-              	<h3>Busqueda por Fecha Final</h3>
-              	<input id="initialDate" name="initialDate"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }' type="text" required />
+					
               </div>
               
-              <div class="ui-block-c">
-              	<h3>Busqueda por Estado</h3>
-              		<select name="state">
-						<option value="activo">Activo</option>
-						<option value="inactivo">Inactivo</option>
-					</select>
+              <div class="ui-block-b " style="width: 49%; margin-left: 0.5%;">
+              
+              		<h5>Busqueda por fecha final</h5>
+              		<input id="endDate" name="endDate"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%d/%m/%Y" }' type="text" required />
+              	
+              		<h5>Busqueda por estado</h5>
+              			<select name="idStatus" id="idStatus" required>
+								<option th:each="statu : ${status}" th:value="${statu.idStatus}">
+									<p th:text="${statu.detail}"></p>
+								</option>
+							</select>
+					
               </div>
+              
+            
 			</fieldset>
-			<fieldset data-role="controlgroup"  data-type="horizontal">
-         
-           		<table style="text-align:justify;width:100%;">
-           				<thead>
-           				<tr>
-           				<th  style="padding-right: 15px;">ID</th>
-           				<th  style="padding-right: 15px;">Nombre del Proyecto</th>
-           				<th  style="padding-right: 15px;">Pais</th>
-           				<th  style="padding-right: 15px;">Tipo de Proyecto</th>
-           				<th  style="padding-right: 15px;">Fecha de Inicio</th>
-           				<th  style="padding-right: 15px;">Fecha Final</th>
-           				<th  style="padding-right: 15px;">Opcion</th>
-           				</tr>
+			<br>
+					<hr>
+					<input id="searchProposal" type="button" value="Buscar" data-icon="search" onclick="searchProposal();"></input>
+					
+			</div>
+			
+			<br>
+			<fieldset >
+         			
+           			<table data-role="table" dfe="movie-table" class="ui-responsive">
+		    			<thead>
+           				
+           				<th>ID</th>
+           				<th>Nombre</th>
+           				<th>País</th>
+           				<th>Tipo de proyecto</th>
+           				<th>Fecha de inicio</th>
+           				<th>Fecha final</th>
+           				<th>Cliente</th>
+           				<th>Estado</th>
+       	 				<div th:if="${role != 'ADMINISTRATOR' and role != 'ADMIN'}">
+           					<th style="padding-right: 15px;">
+		            			<a href="#" onclick="addProposal();" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;" title="Agregar propuesta">Plus</a>
+		            			<a id="showSearchProposal" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext ui-btn-inline" style="background-color: #708090;" title="Buscar">Search</a>
+		            			<a id="hideSearchProposal" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline" style="background-color: #708090;" title="Buscar">Cancel</a>
+		                	
+		                	</th>
+		                </div>
+           				<td  th:if="${role == 'ADMINISTRATOR'}"></td>
+           				
            				</thead>
-           				<tbody id="tbodyProposal">
-           				<tr id="proposalRow" th:each="proposal : ${proposals}">
-							<td id="idProposal" style="padding-right: 15px;"><span th:text="${proposal.idProposal}"></span></td>
-							<td id="proposalName" style="padding-right: 15px;" ><span th:text="${proposal.proposalName}"></span></td>
-							<td id="idCountry" style="padding-right: 15px;"><span th:text="${proposal.country.idCountry}"></span></td>
-							<td id="projectType" style="padding-right: 15px;"><span th:text="${proposal.projectType}"></span></td>
-							<td id="initialDate" style="padding-right: 15px;"><span th:text="${proposal.initialDate}"></span></td>
-							<td id="endDate" style="padding-right: 15px;"><span th:text="${proposal.endDate}"></span></td>
-		            		<td style="padding-right: 15px;"><a href="#" onclick="editCurrencyType(this);">Ver Propuesta</a></td>
+           				
+           				<tbody id="tbodyListProposal">
+           				<tr id="listProposalRow" th:each="proposal : ${proposals}">
+							<td id="idProposal" ><span th:text="${proposal.idProposal}"></span></td>
+							<td id="proposalName" ><span th:text="${proposal.proposalName}"></span></td>
+							<td id="idCountry" ><span th:text="${proposal.country.detail}"></span></td>
+							<td id="projectType"><span th:text="${proposal.projectType}" ></span></td>
+							<td id="initialDate"><span th:text="${#dates.format(proposal.initialDate, 'dd/MM/yyyy')}"></span></td>
+							<td id="endDate"><span th:text="${#dates.format(proposal.endDate, 'dd/MM/yyyy')}"></span></td>
+							<td id="client"><span th:text="${proposal.ClientContact.Client.detail}"></span></td>
+							<td id="status"><span th:text="${proposal.Status.detail}"></span></td>
+          			    	<!-- <div th:if="${role == 'CONTRIBUTOR'}"></div>-->
+	           				<td>
+	           					<a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #8B4513;" onclick="editProposal(this);" title="Editar"></a>
+	           					<a class="ui-link ui-btn ui-btn-b ui-icon-view ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all"  style="background-color: #4A708B;" title="Ver"></a>
+	           				</td>
+           				</tr>
           			    </tbody>
-           			</table>
+		    		</table>
            	</fieldset>
+           	
 			</div>  	
 		</div>
 		<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
