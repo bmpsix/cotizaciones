@@ -483,6 +483,12 @@ function editCountry(row){
 	var idCountry = $(row).parents("tr").find("#idCountry span").eq(0).html();
 	var detail = $(row).parents("tr").find("#detail span").eq(0).html();
 	var cod = $(row).parents("tr").find("#cod span").eq(0).html();
+	var iva = $(row).parents("tr").find("#iva span").eq(0).html();
+	var tranference_value = $(row).parents("tr").find("#tranference_value span").eq(0).html();
+	var remission = $(row).parents("tr").find("#remission span").eq(0).html();
+	var except_Sale = $(row).parents("tr").find("#except_Sale span").eq(0).html();
+	var apply_for_charge = $(row).parents("tr").find("#apply_for_charge span").eq(0).html();
+	
 	var div = document.getElementById('msg');
 	var msg="";
 	div.innerHTML = msg;
@@ -491,6 +497,19 @@ function editCountry(row){
 	$("#idCountry").val(idCountry);
 	$("#detail").val(detail);
 	$("#cod").val(cod);
+	$("#iva").val(iva);
+	$("#tranference_value").val(tranference_value);
+	$("#remission").val(remission);
+	if(except_Sale == "Si"){
+		$("#except_Sale").val(1).change();
+	}else{
+		$("#except_Sale").val(0).change();
+	}
+	if(apply_for_charge == "Si"){
+		$("#apply_for_charge").val(1).change();
+	}else{
+		$("#apply_for_charge").val(0).change();
+	}
 };
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -503,6 +522,11 @@ function clearCountry(){
 	$("#idCountry").val(0);
 	$("#detail").val("");
 	$("#cod").val("");
+	$("#iva").val("");
+	$("#tranference_value").val("");
+	$("#remission").val("");
+	$("#except_Sale").val(0).change();
+	$("#apply_for_charge").val(0).change();
 	var div = document.getElementById('msg');
 	var msg="";
 	div.innerHTML = msg;
