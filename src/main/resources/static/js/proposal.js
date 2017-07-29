@@ -8,11 +8,6 @@
 //----------------------------------------FUNCIONES POR ID DE ELEMENTO DE HTML--------------------------------------------------------------------
 $( document ).ready(function() {
 	
-$("#addProposalDetail").click(function(){
-	
-	var valor = $("#price").val();
-	$("#price").val(valor.replace('.0',''));
-});
 //------------------------------------------------Manejo del diseño de proposal y proposaldetails------------------------------------------------
 	$("#generalInfo").show();
 	//$("#generalInfo2").show();
@@ -437,17 +432,17 @@ function totalcharge()
 	totalSumBudget = (sub1+sub4)*currencyExchange;
 	
 	
-	$("#sub1").val( convertCurrrency(parseFloat(sub1).toFixed(0))  );
-	$("#totalImprevisto").val(convertCurrrency(parseFloat(totalImprevisto).toFixed(0)));
-	$("#sub2").val(convertCurrrency(parseFloat(sub2).toFixed(0)));
-	$("#sub3").val(convertCurrrency(parseFloat(sub3).toFixed(0)));
-	$("#total1").val(convertCurrrency(parseFloat(total1).toFixed(0)));
-	$("#sub4").val(convertCurrrency(parseFloat(sub4).toFixed(0)));
-	$("#sub5").val(convertCurrrency(parseFloat(sub5).toFixed(0)));
-	$("#total2").val(convertCurrrency(parseFloat(total2).toFixed(0)));
-	$("#nacional1").val(convertCurrrency(parseFloat(nacional1).toFixed(0)));
-	$("#nacional2").val(convertCurrrency(parseFloat(nacional2).toFixed(0)));
-	$("#totalSumBudget").val(convertCurrrency(parseFloat(totalSumBudget).toFixed(0)));
+	$("#sub1").val( parseFloat(sub1).toFixed(2)  );
+	$("#totalImprevisto").val(parseFloat(totalImprevisto).toFixed(2));
+	$("#sub2").val(parseFloat(sub2).toFixed(2));
+	$("#sub3").val(parseFloat(sub3).toFixed(2));
+	$("#total1").val(parseFloat(total1).toFixed(2));
+	$("#sub4").val(parseFloat(sub4).toFixed(2));
+	$("#sub5").val(parseFloat(sub5).toFixed(2));
+	$("#total2").val(parseFloat(total2).toFixed(2));
+	$("#nacional1").val(parseFloat(nacional1).toFixed(2));
+	$("#nacional2").val(parseFloat(nacional2).toFixed(2));
+	$("#totalSumBudget").val(parseFloat(totalSumBudget).toFixed(2));
 
 	
 	
