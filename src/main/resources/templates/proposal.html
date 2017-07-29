@@ -654,10 +654,10 @@
        	 <tr id="proposalDetailRow" th:each="proposaldetail : ${proposaldetailss}" th:if="${proposaldetail.commissionable==1}" style="background-color: #009082; color: white;">
            	 <td id="idProposalDetailsTable" ><span th:text="${proposaldetail.idProposalDetails}"></span></td>
            	 <td id="departureDetailTable" ><span  th:text="${proposaldetail.Departure.detail}"></span></td>
-           	 <td id="priceTable"><span style="cursor: pointer;" ondblclick="changeCurrencyTypeInRowTable(this);" th:text="${proposaldetail.CurrencyType.symbol+' '}"></span><span onblur="calRow(this);" contenteditable="true" th:text="${proposaldetail.price}"></span> </td>
+           	 <td id="priceTable"><span style="cursor: pointer;" ondblclick="changeCurrencyTypeInRowTable(this);" th:text="${proposaldetail.CurrencyType.symbol+' '}"></span><span onblur="calRow(this);" contenteditable="true" th:utext="${#strings.replace(proposaldetail.price,'.0','')}" ></span> </td>
            	 <td id="numberTable"><span onblur="calRow(this);" contenteditable="true"  th:text="${proposaldetail.number}"></span></td>
            	 <td id="daysTimesTable" ><span  onblur="calRow(this);" contenteditable="true" th:text="${proposaldetail.daysTimes}"></span></td>
-           	 <td id="totalBudgetTable" ><span  th:text="${proposaldetail.CurrencyType.symbol+' '}" ></span><span  th:text="${proposaldetail.totalBudget}"></span></td>
+           	 <td id="totalBudgetTable" ><span  th:text="${proposaldetail.CurrencyType.symbol+' '}" ></span><span  th:utext="${#strings.replace(proposaldetail.totalBudget,'.0','')}"></span></td>
            	 <td class="detailTable" id="detailTable" ><textarea style="background-color:#009082; color: white; overflow-y: scroll;-moz-border-radius: 10px;-webkit-border-radius: 10px; border-color:white;"  th:text="${proposaldetail.detail}" readonly></textarea></td>
            	 <td class="columnHide"><span></span></td>
            	 <td class="parametersTable" id="parametersTable" ><textarea style="background-color:#009082; color: white; overflow-y: scroll; -moz-border-radius: 10px;-webkit-border-radius: 10px; border-color:white;"  th:text="${proposaldetail.parameters}" readonly></textarea></td>

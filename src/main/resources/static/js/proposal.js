@@ -7,7 +7,12 @@
 
 //----------------------------------------FUNCIONES POR ID DE ELEMENTO DE HTML--------------------------------------------------------------------
 $( document ).ready(function() {
-
+	
+$("#addProposalDetail").click(function(){
+	
+	var valor = $("#price").val();
+	$("#price").val(valor.replace('.0',''));
+});
 //------------------------------------------------Manejo del diseño de proposal y proposaldetails------------------------------------------------
 	$("#generalInfo").show();
 	//$("#generalInfo2").show();
@@ -222,10 +227,12 @@ $( document ).ready(function() {
 			var parameters = $("#parameters").val();
 			var idDeparture = $("#idDeparture").val();
 			var price = $("#price").val();
+			var price2 = price.replace('.','');
 			var commissionable = $("#commissionable").val();
 			var number = $("#number").val();
 			var daysTimes = $("#daysTimes").val();
 			var totalBudget = $("#totalBudget").val();
+			var totalBudget2 = totalBudget.replace('.','');
 			var idPriceCurrencyType = $("#idPriceCurrencyType").val();
 			var div = document.getElementById('infoDetail');
 			var validateForm = document.getElementById('validateForm');
@@ -247,11 +254,11 @@ $( document ).ready(function() {
 			   			 'detail':detail,
 			   			 'parameters':parameters,
 			   			 'idDeparture': idDeparture,
-			   			 'price': price,
+			   			 'price': price2,
 			   			 'commissionable': commissionable,
 			   			 'number': number,
 			   			 'daysTimes': daysTimes,
-			   			 'totalBudget': totalBudget,
+			   			 'totalBudget': totalBudget2,
 			   			 'idPriceCurrencyType':idPriceCurrencyType
 			          
 			        		 },  // Adjuntar los campos del formulario enviado.
