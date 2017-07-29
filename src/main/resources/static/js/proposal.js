@@ -112,7 +112,7 @@ $( document ).ready(function() {
 	 $(".cal").change(function(){
 		 var total = 0;
 		 total=$("#price").val() * $("#number").val() * $("#daysTimes").val();
-		 $("#totalBudget").val(total);
+		 $("#totalBudget").val(convertCurrrency(parseFloat(total).toFixed(0)));
 		//alert(total);
 	 });
 	

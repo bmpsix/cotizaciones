@@ -558,7 +558,7 @@
 					<label for="number">Número:</label>
             		<input id="number" title="Debe ingresar la cantidad"  maxlength="30" type="number" min="1" name="cal" th:value="${number}"  class="cal" required/>
             		<label for="daysTimes">Días/Veces:</label>
-            		<input id="daysTimes" title="Debe ingresar la cantidad de días o veces"  maxlength="30" type="number"  min="1"  name="cal" class="cal"  th:value="${daysTimes}" required/>
+            		<input id="daysTimes" title="Debe ingresar la cantidad de días o veces"  maxlength="30"  type="number"  min="1"  name="cal" class="cal"  th:value="${daysTimes}" required/>
             		<label>Comisionable:</label>
 					<div class="holder">  <!-- containing-element -->
 					<select id="commissionable"  name="commissionable" data-role="slider"  th:value="${commissionable}">
@@ -582,7 +582,7 @@
             		<label for="parameters">Parametros:</label>
             		<textarea id="parameters" title="Ingrese algún parametro"  maxlength="99" type="text"  th:value="${parameters}" required></textarea>
             		<label for="totalBudget">Total presupuesto:</label>
-            		<input id="totalBudget" style="background-color:#FFFAFA;" title="Total presupuesto" name="totalBudget" th:text="${totalBudget}" th:value="${totalBudget}" readonly	required/>
+            		<input id="totalBudget" type="text" style="background-color:#FFFAFA;" title="Total presupuesto" name="totalBudget" th:text="${totalBudget}" th:value="${totalBudget}" readonly	required/>
             		
             		<br/>
 					<input id="cancelProposalDetail" type="button" class="custom_text" data-icon="delete" value="Cancelar">
