@@ -36,6 +36,8 @@ public class Country implements Serializable {
 
 	@Column(nullable=false, length=100)
 	private String detail;
+	
+	
 
 	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL )
 	@JoinTable(name = "country_by_currency_type", joinColumns =@JoinColumn(name = "id_country", referencedColumnName = "id_country")  , inverseJoinColumns =@JoinColumn(name = "id_currency_type", referencedColumnName = "id_currency_type"))

@@ -111,9 +111,16 @@ $( document ).ready(function() {
 //------------------------------------------------Calcular el total de presupuesto de cada detalle------------------------------------------------
 	 $(".cal").change(function(){
 		 var total = 0;
-		 total=$("#price").val() * $("#number").val() * $("#daysTimes").val();
-		 $("#totalBudget").val(convertCurrrency(parseFloat(total).toFixed(0)));
-		//alert(total);
+		 var price = $("#price").val()
+		 .replace('.', '');
+		 total= price * $("#number").val() * $("#daysTimes").val();
+		 $("#totalBudget").val(total);
+		 
+		 var value = $("#totalBudget").val();
+			total = value.replace(/\D/g, "")
+		    .replace(/([0-9])([0-9]{3})$/, '$1.$2')
+		    .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
+			$("#totalBudget").val(total);
 	 });
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------
@@ -423,17 +430,17 @@ function totalcharge()
 	totalSumBudget = (sub1+sub4)*currencyExchange;
 	
 	
-	$("#sub1").val( convertCurrrency(parseFloat(sub1).toFixed(2))  );
-	$("#totalImprevisto").val(convertCurrrency(parseFloat(totalImprevisto).toFixed(2)));
-	$("#sub2").val(convertCurrrency(parseFloat(sub2).toFixed(2)));
-	$("#sub3").val(convertCurrrency(parseFloat(sub3).toFixed(2)));
-	$("#total1").val(convertCurrrency(parseFloat(total1).toFixed(2)));
-	$("#sub4").val(convertCurrrency(parseFloat(sub4).toFixed(2)));
-	$("#sub5").val(convertCurrrency(parseFloat(sub5).toFixed(2)));
-	$("#total2").val(convertCurrrency(parseFloat(total2).toFixed(2)));
-	$("#nacional1").val(convertCurrrency(parseFloat(nacional1).toFixed(2)));
-	$("#nacional2").val(convertCurrrency(parseFloat(nacional2).toFixed(2)));
-	$("#totalSumBudget").val(convertCurrrency(parseFloat(totalSumBudget).toFixed(2)));
+	$("#sub1").val( convertCurrrency(parseFloat(sub1).toFixed(0))  );
+	$("#totalImprevisto").val(convertCurrrency(parseFloat(totalImprevisto).toFixed(0)));
+	$("#sub2").val(convertCurrrency(parseFloat(sub2).toFixed(0)));
+	$("#sub3").val(convertCurrrency(parseFloat(sub3).toFixed(0)));
+	$("#total1").val(convertCurrrency(parseFloat(total1).toFixed(0)));
+	$("#sub4").val(convertCurrrency(parseFloat(sub4).toFixed(0)));
+	$("#sub5").val(convertCurrrency(parseFloat(sub5).toFixed(0)));
+	$("#total2").val(convertCurrrency(parseFloat(total2).toFixed(0)));
+	$("#nacional1").val(convertCurrrency(parseFloat(nacional1).toFixed(0)));
+	$("#nacional2").val(convertCurrrency(parseFloat(nacional2).toFixed(0)));
+	$("#totalSumBudget").val(convertCurrrency(parseFloat(totalSumBudget).toFixed(0)));
 
 	
 	
@@ -734,3 +741,20 @@ function convertCurrrency(value){
     
 	return total; /* devuelve el valor ya formateado no se cualquiera que ocupes aqui*/
 }
+
+$( document ).ready(function(){
+
+$("#price").on({
+	  "focus": function(event) {
+	    $(event.target).select();
+	  },
+	  "keyup": function(event) {
+	    $(event.target).val(function(index, value) {
+	      return value.replace(/\D/g, "")
+	        .replace(/([0-9])([0-9]{3})$/, '$1.$2')
+	        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
+	    });
+	  }
+});
+
+});

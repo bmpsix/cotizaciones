@@ -582,7 +582,7 @@
             		<label for="parameters">Parametros:</label>
             		<textarea id="parameters" title="Ingrese algún parametro"  maxlength="99" type="text"  th:value="${parameters}" required></textarea>
             		<label for="totalBudget">Total presupuesto:</label>
-            		<input id="totalBudget" type="text" style="background-color:#FFFAFA;" title="Total presupuesto" name="totalBudget" th:text="${totalBudget}" th:value="${totalBudget}" readonly	required/>
+            		<input id="totalBudget" type="number" style="background-color:#FFFAFA;" title="Total presupuesto" name="totalBudget" th:text="${totalBudget}" th:value="${totalBudget}" readonly	required/>
             		
             		<br/>
 					<input id="cancelProposalDetail" type="button" class="custom_text" data-icon="delete" value="Cancelar">
