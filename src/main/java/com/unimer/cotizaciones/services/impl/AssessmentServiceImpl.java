@@ -1,5 +1,6 @@
 package com.unimer.cotizaciones.services.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -8,14 +9,17 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
 import com.unimer.cotizaciones.entities.Assessment;
 import com.unimer.cotizaciones.entities.HeadUserToUser;
 import com.unimer.cotizaciones.entities.LogAssessment;
+import com.unimer.cotizaciones.entities.SaClient;
+import com.unimer.cotizaciones.entities.Status;
 import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.repositories.AssessmentJpaRepository;
 import com.unimer.cotizaciones.repositories.HeadUserToUserJpaRepository;
 import com.unimer.cotizaciones.repositories.LogAssessmentJpaRepository;
+import com.unimer.cotizaciones.repositories.SaClientJpaRepository;
+import com.unimer.cotizaciones.repositories.StatusJpaRepository;
 import com.unimer.cotizaciones.services.AssessmentService;
 
 @Service("assessmentServiceImpl")
@@ -28,6 +32,14 @@ public class AssessmentServiceImpl implements AssessmentService {
 	@Autowired
 	@Qualifier("headUserToUserJpaRepository")
 	private HeadUserToUserJpaRepository headUserToUserJpaRepository;
+	
+	@Autowired
+	@Qualifier("saClientJpaRepository")
+	private SaClientJpaRepository saClientJpaRepository;
+	
+	@Autowired
+	@Qualifier("statusJpaRepository")
+	private StatusJpaRepository statusJpaRepository;
 
 	
 	@Autowired
@@ -115,6 +127,72 @@ public class AssessmentServiceImpl implements AssessmentService {
 			}
 		
 	}
+
+	@Override
+	public List<Assessment> filterAssessment(int idSAClientSearch, String creationDate, int idStatusSearch,User user) {
+		
+		List<Assessment> assessmentList;
+		List<Assessment> assessmentList2;
+		SaClient saClient = saClientJpaRepository.findByIdSaClient(idSAClientSearch);
+		Status status = statusJpaRepository.findByIdStatus(idStatusSearch);
+		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		
+		
+		if(user.getRol().getDetail().toUpperCase().equals("BOSS_CONTRIBUTOR")) 
+		{
+			assessmentList= listAllAssessmentToHeadUser(user);
+			assessmentList2= listAllAssessmentToHeadUser(user);
+		}
+		else 
+		{
+			if(user.getRol().getDetail().toUpperCase().equals("ADMIN") || user.getRol().getDetail().toUpperCase().equals("ADMINISTRATOR")) 
+			{
+					assessmentList= listAllAssessmentByUserCountry(user);
+					assessmentList2= listAllAssessmentByUserCountry(user);
+			}	
+			else 
+			{
+				assessmentList= listAllByUserAssign(user);
+				assessmentList2= listAllByUserAssign(user);
+			}
+		}
+		
+		
+		if(creationDate!=null && creationDate!="" && !assessmentList.isEmpty()) 
+		{
+			for(Assessment assessment : assessmentList)
+			{
+				String date = format.format(assessment.getCreationDate());
+				if(!date.equals(creationDate)) assessmentList2.remove(assessment); 
+			}
+		}
+		
+		
+		if(saClient!=null && !assessmentList.isEmpty()) 
+			{
+				for(Assessment assessment : assessmentList)
+					{
+						if(assessment.getSaClient() != saClient) assessmentList2.remove(assessment); 
+					}
+			}
+		
+		if(status!=null && !assessmentList.isEmpty())
+			{
+			
+				for(Assessment assessment : assessmentList)
+					{
+						if(assessment.getStatus() != status) assessmentList2.remove(assessment); 
+					}
+			}
+
+		
+		
+		return assessmentList2;
+	}
+
+	
+
+
 
 	
 

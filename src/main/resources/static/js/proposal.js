@@ -1,8 +1,3 @@
-/**
- * Justin Zúñiga Torres
- * Marcos Zúñiga Vega
- */
-
 
 
 //----------------------------------------FUNCIONES POR ID DE ELEMENTO DE HTML--------------------------------------------------------------------

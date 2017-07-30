@@ -130,14 +130,14 @@ public class ProposalServiceImpl implements ProposalService {
 						
 					}
 			}
-		if(client!=null && allProposal.isEmpty()==false) 
+		if(client!=null && !allProposal.isEmpty()) 
 			{
 				for(Proposal proposal : allProposal)
 					{
 						if(proposal.getClientContact().getClient() != client) allProposal2.remove(proposal); 
 					}
 			}
-		if(status!=null && allProposal.isEmpty()==false) 
+		if(status!=null && !allProposal.isEmpty()) 
 			{
 				for(Proposal proposal : allProposal)
 					{

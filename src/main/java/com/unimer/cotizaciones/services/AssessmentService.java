@@ -18,4 +18,9 @@ public interface AssessmentService {
 	public abstract List<Assessment> listAllAssessmentToHeadUser(User user);
 	
 	public abstract List<Assessment> listAllAssessmentByUserCountry(User user);
+	
+	public abstract List<Assessment> filterAssessment(int  idSAClientSearch, String creationDate, int idStatusSearch, User user);
+	
+	
+	
 }

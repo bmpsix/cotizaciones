@@ -23,4 +23,6 @@ public interface AssessmentSharedService {
 	public abstract void updateAssignedShared(Assessment assessment, User userAssign);
 	
 	public abstract int countProposalToAssessmentSharedByUserShared(AssessmentShared assessmentShared);
+	
+	public abstract List<AssessmentShared> filterAssessmentSharedByUserShared(int  idSAClientSearch, String creationDate, int idStatusSearch, User user);
 }

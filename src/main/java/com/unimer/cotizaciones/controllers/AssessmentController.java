@@ -259,4 +259,16 @@ public class AssessmentController {
 		return "listProposal :: #listProposalRow";
 	}
 	
+	
+	@PostMapping("/assessment/search")
+	public String assessmentSearch(HttpServletRequest request,@RequestParam("idSAClientSearch") int idSAClientSearch,@RequestParam("creationDateSearch") String creationDateSearch,@RequestParam("idStatusSearch") int idStatusSearch ,Model model) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("userSession");
+		model.addAttribute("role", user.getRol().getDetail().toUpperCase());
+		model.addAttribute("projects",assessmentService.filterAssessment(idSAClientSearch, creationDateSearch, idStatusSearch,user));
+		model.addAttribute("sharedWithMe", assessmentSharedService.filterAssessmentSharedByUserShared(idSAClientSearch, creationDateSearch, idStatusSearch,user));
+		return "projects :: #tbodyAssessment";
+	}
+	
+	
 }

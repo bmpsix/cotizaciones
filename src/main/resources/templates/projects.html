@@ -50,7 +50,7 @@
 							
 							<input name="idCurrencyExchange" id="idCurrencyExchange" type="hidden" th:value="${currencyExchange}" />
 							
-							<label for="saClient">SA Cliente:</label>
+							<label for="saClient">Cliente SA:</label>
 							<select name="idSaClient" id="idSaClient" required>
 								<option th:each="saClient : ${saClients}" th:value="${saClient.idSaClient}">
 									<p th:text="${saClient.detail}"></p>
@@ -208,6 +208,57 @@
 		   </div>
 
 
+
+<!---------------------------------------------- BUSQUEDA DE PROYECTOS-------------------------------------------------------------------------------------------------------------------------------- -->
+
+
+
+	<div id="divSearch" style="display: none;">
+			<br>
+			
+			<h3>Opciones de busqueda</h3>
+			<fieldset class="ui-grid-a">
+              <div class="ui-block-a" style="width: 45%; margin-left: 2%; margin-right: 2%;">
+              
+              		<h5>Busqueda por fecha</h5>
+              		<input id="creationDateSearch" name="creationDateSearch"   data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%d/%m/%Y" }' type="text" required />
+       				
+					<h5>Busqueda por estado</h5>
+              			<select name="idStatusSearch" id="idStatusSearch" required>
+								<option th:each="statu : ${status}" th:value="${statu.idStatus}">
+									<p th:text="${statu.detail}"></p>
+								</option>
+							</select>
+					
+              </div>
+              
+              <div class="ui-block-b " style="width: 46%; margin-left: 2%; ">
+              
+              		<h5>Busqueda por Cliente SA</h5>
+              	
+              		<form class="ui-filterable">
+	      			  <input id="filterClientSA" data-type="search" placeholder="Busqueda de Clientes SA">
+	    		    </form>
+		    		<select name="idSAClientSearch" id="idSAClientSearch" data-filter="true" data-input="#filterClientSA">
+						<option th:each="saClient : ${saClients}" th:value="${saClient.idSaClient}">
+							<p name="saClient.detail" th:text="${saClient.detail}" th:value="${saClient.detail}" ></p>
+						</option>
+					</select>
+					
+					
+              </div>
+              
+					
+			</fieldset>
+			
+				<br>
+				<div style="width: 95%; margin-left: 2%; margin-right: 2%;">
+					<hr>
+					<input  id="searchAssessment" type="button" value="Buscar" data-icon="search" onclick="searchAssessment();"></input>
+				</div>
+			</div>
+
+
 	    
 <!---------------------------------------------- TABLA DE PROYECTOS-------------------------------------------------------------------------------------------------------------------------------- -->
 		    
@@ -230,7 +281,7 @@
            				<th>ID</th>
            				<th>Fecha de creación</th>
            				<th>Nombre</th>
-           				<th>Tipo de Cambio <span th:text="${international}"></span></th>
+           				<!-- <th>Tipo de Cambio <span th:text="${international}"></span></th> -->
            				<th>Cliente SA</th>
            				<th>Estado</th>
            				<th data-priority="7" title="Creado por"><span  class="parametersTable">Creado por</span><span class="columnHide2"></span>
@@ -244,9 +295,14 @@
        	 				<div th:if="${role != 'ADMINISTRATOR' and role != 'ADMIN'}">
            					<th style="padding-right: 15px;">
 		            			<a id="addAssessment" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;" title="Agregar proyecto">Plus</a>
+		            			<a id="showSearchProposal" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext ui-btn-inline" style="background-color: #708090;" title="Buscar">Search</a>
+		            			<a id="hideSearchProposal" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline" style="background-color: #708090;" title="Buscar">Cancel</a>
 		                	</th>
 		                </div>
-           				<td  th:if="${role == 'ADMINISTRATOR' or role == 'ADMIN'}"></td>
+           				<td  th:if="${role == 'ADMINISTRATOR' or role == 'ADMIN'}">
+           					<a id="showSearchProposal" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext ui-btn-inline" style="background-color: #708090;" title="Buscar">Search</a>
+		            		<a id="hideSearchProposal" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline" style="background-color: #708090;" title="Buscar">Cancel</a>
+           				</td>
            				
            				</thead>
 				        <tbody id="tbodyAssessment">
@@ -254,7 +310,7 @@
 							<td id="idAssessment"><span th:text="${project.idAssessment}"></span></td>
 							<td id="creationDate"><span th:text="${#dates.format(project.creationDate, 'dd-MMM-yyyy')}"></span></td>
 							<td id="detail" ><span th:text="${project.detail}"></span></td>
-							<td id="currencyExchange" ><span th:text="|${favorite} ${project.currencyExchange}|"></span></td>
+							<!-- <td id="currencyExchange" ><span th:text="|${favorite} ${project.currencyExchange}|"></span></td> -->
 							<td id="saClient" ><span th:text="${project.saClient.detail}"></span></td>
 							<td id="status" ><Span th:text="${project.status.detail}"></Span></td>
 							<td class="parametersTable" style="padding-right: 15px;" id="name" ><span th:text="${project.user.name+' '+project.user.midname+' '+project.user.lastname}"></span></td>
@@ -281,21 +337,23 @@
 	           				
 	           				</td>
 	           				</div>
-	           				<div th:if="${role =='ADMIN'}">
+	           				<div th:if="${role =='ADMINISTRATOR'}">
 	           				<td>
 	           					<a class="ui-link ui-btn ui-btn-b ui-icon-forward ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #528B8B;" onclick="assignProject(this);" title="Asignar"></a>
 	           					<a class="ui-link ui-btn ui-btn-b ui-icon-bullets ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all"  style="background-color: #708090;" onclick="projectProposal(this);" title="Ver propuestas"></a>
 	           				</td>
 	           				</div>
-	           				<td  th:if="${role != 'CONTRIBUTOR' and role != 'BOSS_CONTRIBUTOR' and role != 'ADMIN'}"></td>
+	           				<td  th:if="${role =='ADMIN'}">
+	           						<a class="ui-link ui-btn ui-btn-b ui-icon-bullets ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all"  style="background-color: #708090;" onclick="projectProposal(this);" title="Ver propuestas"></a>
+	           				</td>
 	           				
 	           				
            				</tr>
-           				<tr  th:each="sharedProject : ${sharedWithMe}">
+           				<tr id="assessmentSharedRow"  th:each="sharedProject : ${sharedWithMe}">
 							<td  id="idAssessment"><span th:text="${sharedProject.Assessment.idAssessment}"></span></td>
-							<td  id="creationDate"><span th:text="${#dates.format(sharedProject.Assessment.creationDate, 'dd-MMM-yyyy')}"></span></td>
+							<td  id="creationDate"><span th:text="${#dates.format(sharedProject.Assessment.creationDate, 'dd/MM/yyyy')} "></span></td>
 							<td  id="detail" ><span th:text="${sharedProject.Assessment.detail}"></span></td>
-							<td  id="currencyExchange" ><span th:text="|${settings.CurrencyTypeFavorite.symbol} ${sharedProject.Assessment.currencyExchange}|"></span></td>
+							<!--  <td  id="currencyExchange" ><span th:text="|${settings.CurrencyTypeFavorite.symbol} ${sharedProject.Assessment.currencyExchange}|"></span></td>-->
 							<td  id="saClient" ><span th:text="${sharedProject.Assessment.saClient.detail}"></span></td>
 							<td  id="status" ><Span th:text="${sharedProject.Assessment.status.detail}"></Span></td>
 							<td class="parametersTable" id="name" ><span th:text="${sharedProject.Assessment.user.name+' '+sharedProject.Assessment.user.midname+' '+sharedProject.Assessment.user.lastname}"></span></td>
@@ -306,9 +364,11 @@
 							
 							 <!-- IdS -->
 						    <td style="display:none;" id="idSaClient" ><span th:text="${sharedProject.Assessment.saClient.idSaClient}"></span></td>
-							<td style="display:none;" id="idCurrencyExchange" ><span th:text="${sharedProject.Assessment.currencyExchange.idCurrencyExchange}"></span></td>
+							<!-- <td style="display:none;" id="idCurrencyExchange" ><span th:text="${sharedProject.Assessment.currencyExchange.idCurrencyExchange}"></span></td> -->
 							<td style="display:none;" id="idStatus" ><Span th:text="${sharedProject.Assessment.status.idStatus}"></Span></td>
-							<td></td>
+							<td>
+	           					<a class="ui-link ui-btn ui-btn-b ui-icon-bullets ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all"  style="background-color: #708090;" onclick="projectProposal(this);" title="Ver propuestas"></a>
+	           				</td>
            				</tr>
           			    </tbody>
 		    		</table>

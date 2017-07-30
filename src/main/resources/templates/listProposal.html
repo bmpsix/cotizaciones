@@ -87,7 +87,12 @@
 		                	
 		                	</th>
 		                </div>
-           				<td  th:if="${role == 'ADMINISTRATOR'}"></td>
+		                <div th:if="${role == 'ADMINISTRATOR' and role == 'ADMIN'}">
+           					<th style="padding-right: 15px;">
+		            			<a id="showSearchProposal" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext ui-btn-inline" style="background-color: #708090;" title="Buscar">Search</a>
+		            			<a id="hideSearchProposal" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline" style="background-color: #708090;" title="Buscar">Cancel</a>
+		                	</th>
+		                </div>
            				
            				</thead>
            				

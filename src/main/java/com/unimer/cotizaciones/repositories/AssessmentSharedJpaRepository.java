@@ -17,5 +17,4 @@ public interface AssessmentSharedJpaRepository extends JpaRepository<AssessmentS
 	public abstract AssessmentShared findByIdAssessmentShared(int idAssessmentShared);
 	public abstract List<AssessmentShared> findByUserShared(User user);
 	public abstract AssessmentShared findByUserAndUserSharedAndAssessment(User user, User userAssign, Assessment assessment);
-	
 }

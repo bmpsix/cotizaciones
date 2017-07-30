@@ -15,7 +15,6 @@ public interface AssessmentJpaRepository extends JpaRepository<Assessment, Seria
 	public abstract Assessment  findByIdAssessment(int idAssessment);
 	
 	public abstract List<Assessment> findByUserAssigned(User userAssigned);
-	
-	
+
 	
 }

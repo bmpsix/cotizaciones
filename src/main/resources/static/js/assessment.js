@@ -1,11 +1,5 @@
-/**
- * Created by Justin Torres
- * 
- */
 
-var email;
-
-
+//----------------------------------------FUNCIONES POR ID DE ELEMENTO DE HTML--------------------------------------------------------------------
 $( document ).ready(function(){
 	
 	$("#hideSearchProposal").hide();
@@ -13,6 +7,9 @@ $( document ).ready(function(){
 	$("#addAssessment").click(function(){
 		$("#divShared").hide("slow");
 		$("#divAssign").hide("slow");
+		$("#divSearch").hide("slow");
+		$("#hideSearchProposal").hide("slow");
+		$("#showSearchProposal").show("slow");
 		$(".form-assessment").toggle("slow");
 		
 		var f = new Date();
@@ -25,7 +22,7 @@ $( document ).ready(function(){
 		
 	});
 	
-	$(".ui-filterable").focusin(function(){
+	$(".ui-filterable").click(function(){
 		$(".form-assessment").hide("slow");
 	});
 	
@@ -107,6 +104,9 @@ $( document ).ready(function(){
 		$("#divSearch").show("slow");
 		$("#showSearchProposal").hide("slow");
 		$("#hideSearchProposal").show("slow");
+		$("#divShared").hide("slow");
+		$("#divAssign").hide("slow");
+		$(".form-assessment").hide("slow");
 		
 	});
 	
@@ -114,19 +114,30 @@ $( document ).ready(function(){
 		$("#divSearch").hide("slow");
 		$("#hideSearchProposal").hide("slow");
 		$("#showSearchProposal").show("slow");
+		$("#divShared").hide("slow");
+		$("#divAssign").hide("slow");
+		$(".form-assessment").hide("slow");
 		
 	});
 	
-	
+//-------------------------------------------------------------------------------------------------------------------------------------------------	
 });
 
+//-------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------
 
 function editAssessment(x)
 {
 	$(".form-assessment").show("slow");
 	$("#divShared").hide("slow");
+	$("#divAssign").hide("slow");
+	$("#divSearch").hide("slow");
+	$("#showSearchProposal").show("slow");
+	$("#hideSearchProposal").hide("slow");
 	var id = $(x).parents("tr").find("#idAssessment span").eq(0).html();
 	var creationDate = $(x).parents("tr").find("#creationDate span").eq(0).html();
 	var detail = $(x).parents("tr").find("#detail span").eq(0).html();
@@ -258,6 +269,9 @@ function sharedProject(x)
 	$("#idAssessmentToShared").val(idAssessment);
 	$("#assessmentDetail").val(detail);
 	$("#divAssign").hide("slow");
+	$("#divSearch").hide("slow");
+	$("#showSearchProposal").show("slow");
+	$("#hideSearchProposal").hide("slow");
 	$("#divShared").show("slow");
 };
 
@@ -317,6 +331,9 @@ function assignProject(x)
 	$("#idAssessmentToAssign").val(idAssessment);
 	$("#assessmentDetailAssign").val(detail);
 	$("#divShared").hide("slow");
+	$("#divSearch").hide("slow");
+	$("#showSearchProposal").show("slow");
+	$("#hideSearchProposal").hide("slow");
 	$("#divAssign").show("slow");
 };
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -355,6 +372,7 @@ function onLoadProjects()
 {
 	chargeUserSharedByCountry(); 
 	chargeUserByCountryAssign();
+	noSelectInLoadAssessment();
 };
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -388,6 +406,59 @@ function projectProposal(x)
 };
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------searchAssessment------------------------------------------------------------------------------------------------
+
+function searchAssessment()
+{
+		var  idSAClientSearch = $("#idSAClientSearch").val();
+		var creationDateSearch = $("#creationDateSearch").val();
+		var idStatusSearch = $("#idStatusSearch").val();
+		var tbodyListProposal = document.getElementById('tbodyAssessment');
+
+		
+		if(idSAClientSearch=="" || idSAClientSearch==null) idSAClientSearch=0;
+		if(idStatusSearch==""|| idStatusSearch==null) idStatusSearch=0;
+		if(creationDate==""|| creationDate==null) initialDate="";
+		
+		var url = "/assessment/search"; 
+		    $.ajax({
+		           type: "POST",
+		           cache: false,
+		           url: url,
+		           data: { 
+			        	 'idSAClientSearch':idSAClientSearch,
+			        	 'creationDateSearch':creationDateSearch, 
+			   			 'idStatusSearch': idStatusSearch
+			        	},
+
+		           success: function(data)
+		           {
+		        	   if(data != null){
+		        		   tbodyListProposal.innerHTML = data;
+		        		   	$("#idSAClientSearch").val("").change();
+		        			$("#creationDateSearch").val("");
+		        			$("#idStatusSearch").val("").change();
+		        			 //Diseño de tabla
+		        		    $(".parametersTable").hide();
+		        			$(".columnHide2").show();
+		        			$("#hideParameters").hide();
+		        			$("#showParameters").show();
+		        			$(".detailTable").hide();
+		        			$(".columnHide").show();
+		        			$("#hideDetails").hide();
+		        			$("#showDetails").show();
+		        	   }else{
+		        		  
+		        		   }
+		           }
+		    	
+		         });
+};
+
+	
+//--------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 //--------------------------------------------------searchProposal------------------------------------------------------------------------------------------------
 
@@ -424,6 +495,7 @@ function searchProposal()
 		        			$("#initialDate").val("");
 		        			$("#endDate").val("");
 		        			$("#idStatus").val("").change();
+		        			
 		        	   }else{
 		        		  
 		        		   }
@@ -435,3 +507,13 @@ function searchProposal()
 	
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+//-------------------------------------------------------noSelectInLoad---------------------------------------------------------------------------
+
+function noSelectInLoadAssessment()
+{
+	 $("#idSAClientSearch").val("").change();
+	 $("#idStatusSearch").val("").change();
+	
+}
