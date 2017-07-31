@@ -46,22 +46,22 @@ public class Assessment implements Serializable {
 	private double currencyExchange;
 
 	//bi-directional many-to-one association to SaClient
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_sa_client", nullable=false)
 	private SaClient saClient;
 
 	//bi-directional many-to-one association to TblUser
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_user", nullable=false)
 	private User user;
 	
 	//bi-directional many-to-one association to TblUser
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_user_assigned", nullable=false)
 	private User userAssigned;
 	
 	//bi-directional many-to-one association to TblUser
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_status", nullable=false)
 	private Status status;
 	

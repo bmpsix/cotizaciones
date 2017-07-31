@@ -11,10 +11,12 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.Assessment;
 import com.unimer.cotizaciones.entities.Client;
 import com.unimer.cotizaciones.entities.Country;
+import com.unimer.cotizaciones.entities.HeadUserToUser;
 import com.unimer.cotizaciones.entities.Proposal;
 import com.unimer.cotizaciones.entities.Status;
 import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.repositories.ClientJpaRepository;
+import com.unimer.cotizaciones.repositories.HeadUserToUserJpaRepository;
 import com.unimer.cotizaciones.repositories.LogProposalJpaRepository;
 import com.unimer.cotizaciones.repositories.ProposalJpaRepository;
 import com.unimer.cotizaciones.repositories.StatusJpaRepository;
@@ -36,6 +38,9 @@ public class ProposalServiceImpl implements ProposalService {
 	@Qualifier("statusJpaRepository")
 	private StatusJpaRepository statusJpaRepository;
 
+	@Autowired
+	@Qualifier("headUserToUserJpaRepository")
+	private HeadUserToUserJpaRepository headUserToUserJpaRepository;
 	
 	@Autowired
 	@Qualifier("logProposalJpaRepository")
@@ -79,14 +84,14 @@ public class ProposalServiceImpl implements ProposalService {
 
 
 	@Override
-	public List<Proposal> findByCountry(Country country) {
-		return proposalJpaRepository.findByCountry(country);
+	public List<Proposal> findByCountry(Assessment assessment,Country country) {
+		return proposalJpaRepository.findByAssessmentAndCountry(assessment,country);
 	}
 
 
 	@Override
-	public List<Proposal> findByContryAndUser(Country country, User user) {
-		return proposalJpaRepository.findByCountryAndUser(country, user);
+	public List<Proposal> findByUser(Assessment assessment, User user) {
+		return proposalJpaRepository.findByAssessmentAndUser(assessment, user);
 	}
 
 	@Override
@@ -147,6 +152,26 @@ public class ProposalServiceImpl implements ProposalService {
 		
 		
 		return allProposal2;
+	}
+
+	@Override
+	public List<Proposal> findByHeadUser(Assessment assessment,User user) {
+		
+		List<Proposal> listProposalToHeadUser = proposalJpaRepository.findByAssessmentAndUser(assessment, user);
+		List<HeadUserToUser> listHeadUserToUser = headUserToUserJpaRepository.findUserByHeadUser(user);
+		
+		if (!listHeadUserToUser.isEmpty()) {
+			for (HeadUserToUser headUserToUser : listHeadUserToUser) 
+			{
+				if (headUserToUser.getHeadUser().getIdUser() == user.getIdUser()) 
+				{
+					List<Proposal> listProposalToUser = proposalJpaRepository.findByAssessmentAndUser(assessment,headUserToUser.getUser());
+					if (!listProposalToUser.isEmpty()) for (Proposal proposalToUser : listProposalToUser) listProposalToHeadUser.add(proposalToUser);
+				}
+			}
+		}
+		
+		return listProposalToHeadUser;
 	}
 	
 	

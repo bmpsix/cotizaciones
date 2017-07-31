@@ -57,7 +57,7 @@ $( document ).ready(function(){
 		}
 		else
 		{
-			var url = "/admin/addassessment"; // El script a dónde se realizará la petición.
+			var url = "/assessment/addassessment"; // El script a dónde se realizará la petición.
 		    $.ajax({
 		           type: "POST",
 		           cache: false,
@@ -397,7 +397,6 @@ function projectProposal(x)
 	           success: function(data)
 	           {
 	        	   if(data != null){
-	        		
 	        		 location="/assessment/listProposal";
 	        	   }
 	           }
@@ -464,6 +463,7 @@ function searchAssessment()
 
 function searchProposal()
 {
+		var  idProject = $("#idProject").val();
 		var  idClient = $("#idClient").val();
 		var initialDate = $("#initialDate").val();
 		var endDate = $("#endDate").val();
@@ -481,7 +481,8 @@ function searchProposal()
 		           cache: false,
 		           url: url,
 		           data: { 
-			        	 'idClient':idClient,
+		        	   	 'idProject':idProject,
+		        	     'idClient':idClient,
 			        	 'initialDate':initialDate , 
 			   			 'endDate': endDate,
 			   			 'idStatus': idStatus

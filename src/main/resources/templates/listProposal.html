@@ -54,15 +54,11 @@
 									<p th:text="${statu.detail}"></p>
 								</option>
 							</select>
-					
               </div>
-              
-            
 			</fieldset>
 			<br>
 					<hr>
 					<input id="searchProposal" type="button" value="Buscar" data-icon="search" onclick="searchProposal();"></input>
-					
 			</div>
 			
 			<br>
@@ -79,6 +75,10 @@
            				<th>Fecha final</th>
            				<th>Cliente</th>
            				<th>Estado</th>
+           				<th data-priority="7" title="Creado por"><span  class="parametersTable">Creado por</span><span class="columnHide2"></span>
+       	 					<a id="showParameters" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
+       	 					<a id="hideParameters" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
+       	 				</th>
        	 				<div th:if="${role != 'ADMINISTRATOR' and role != 'ADMIN'}">
            					<th style="padding-right: 15px;">
 		            			<a href="#" onclick="addProposal();" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;" title="Agregar propuesta">Plus</a>
@@ -87,7 +87,7 @@
 		                	
 		                	</th>
 		                </div>
-		                <div th:if="${role == 'ADMINISTRATOR' and role == 'ADMIN'}">
+		                <div th:if="${role == 'ADMINISTRATOR' or role == 'ADMIN'}">
            					<th style="padding-right: 15px;">
 		            			<a id="showSearchProposal" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-search ui-btn-icon-notext ui-btn-inline" style="background-color: #708090;" title="Buscar">Search</a>
 		            			<a id="hideSearchProposal" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline" style="background-color: #708090;" title="Buscar">Cancel</a>
@@ -106,11 +106,19 @@
 							<td id="endDate"><span th:text="${#dates.format(proposal.endDate, 'dd/MM/yyyy')}"></span></td>
 							<td id="client"><span th:text="${proposal.ClientContact.Client.detail}"></span></td>
 							<td id="status"><span th:text="${proposal.Status.detail}"></span></td>
-          			    	<!-- <div th:if="${role == 'CONTRIBUTOR'}"></div>-->
-	           				<td>
-	           					<a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #8B4513;" onclick="editProposal(this);" title="Editar"></a>
-	           					<a class="ui-link ui-btn ui-btn-b ui-icon-eye ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all"  style="background-color: #4A708B;" title="Ver"></a>
-	           				</td>
+							<td class="parametersTable" id="user"><span th:text="|${proposal.User.name} ${proposal.User.lastname}|"></span></td>
+							<td class="columnHide2"><span></span></td>
+	           				<div th:if="${idUser==proposal.User.idUser}">
+	           					<td>
+	           						<a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #8B4513;" onclick="editProposal(this);" title="Editar"></a>
+	           						<a class="ui-link ui-btn ui-btn-b ui-icon-bullets ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all"  style="background-color: #708090;" title="Ver"></a>
+	           					</td>
+	           				</div>
+	           				<div th:if="${idUser!=proposal.User.idUser}">
+	           					<td>
+	           						<a class="ui-link ui-btn ui-btn-b ui-icon-bullets ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all"  style="background-color: #708090;" title="Ver"></a>
+	           					</td>
+	           				</div>
            				</tr>
           			    </tbody>
 		    		</table>

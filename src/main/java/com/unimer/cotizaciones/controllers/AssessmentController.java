@@ -90,6 +90,8 @@ public class AssessmentController {
 	private static final Log LOG = LogFactory.getLog(AssessmentController.class);
 	
 	
+	
+	// Get de assessment/projects 
 	@GetMapping("/assessment")
 	public ModelAndView assessmentIndex(HttpServletRequest request){
 		HttpSession session = request.getSession();
@@ -126,8 +128,8 @@ public class AssessmentController {
 	
 	
 	
-	
-	@PostMapping("/admin/addassessment")
+	// Post - Agregar un proyecto
+	@PostMapping("/assessment/addassessment")
 	public String addAssessment(HttpServletRequest request,
 			@RequestParam("idAssessment") int idAssessment,
 			@RequestParam("creationDate") Date creationDate,
@@ -160,6 +162,8 @@ public class AssessmentController {
 		
 	}
 	
+	
+	// Post - compartir encabezado de proyecto
 	@PostMapping("/assessment/addassessmentshared")
 	public String addAssessmentShared(	HttpServletRequest request,
 										@RequestParam("idUser") int idUser,
@@ -187,6 +191,7 @@ public class AssessmentController {
 	}
 	
 	
+	// Post - elimiar la compartición de un encabezado de proyecto
 	@PostMapping("/assessment/deleteassessmentshared")
 	public String deleteAssessmentShared(HttpServletRequest request,@RequestParam("idAssessmentShared") int idAssessmentShared,Model model) {
 		
@@ -207,7 +212,7 @@ public class AssessmentController {
 		
 	}
 	
-	
+	// Post - Asignar un proyecto al usuario seleccionado
 	@PostMapping("/assessment/assign")
 	public String assessmentAssign(HttpServletRequest request,@RequestParam("idAssessmentToAssign") int idAssessmentToAssign,@RequestParam("idUserAssign") int idUserAssign,Model model) {
 			HttpSession session = request.getSession();
@@ -230,36 +235,8 @@ public class AssessmentController {
 			
 	}
 	
-	@PostMapping("/assessment/listproposal")
-	public String assessmentToProposal(HttpServletRequest request,@RequestParam("idAssessment") int idAssessment) {
-			HttpSession session = request.getSession();
-			Assessment assessment = assessmentService.findById(idAssessment);
-			session.setAttribute("assessment",assessment);
-			LOG.info("METHOD assessmentToProposal in AssessmentController  /assessment/proposal : "+assessment.toString());
-			return "redirect:/assessment/listProposal";
-	}
 	
-	@GetMapping("/assessment/listProposal")
-	public ModelAndView proposalList(HttpServletRequest request){
-		ModelAndView modelAndView = new ModelAndView("listProposal");
-		HttpSession session = request.getSession();
-		Assessment assessment = (Assessment) session.getAttribute("assessment");
-		modelAndView.addObject("proposals",proposalService.findByAssessment(assessment));
-		modelAndView.addObject("clients",clientService.listAllClient());
-		modelAndView.addObject("status", statusService.listAllStatus());
-		return modelAndView;
-	}
-	
-	@PostMapping("/assessment/listproposal/search")
-	public String proposalSearch(HttpServletRequest request,@RequestParam("idClient") int idClient,@RequestParam("initialDate") String initialDate,@RequestParam("endDate") String endDate,@RequestParam("idStatus") int idStatus ,Model model) {
-		HttpSession session = request.getSession();
-		LOG.info("CONTROLADOR CONTENIDO DE INITIALdate "  + initialDate+" CONTENIDO DE ENDdete "+endDate);
-		Assessment assessment = (Assessment) session.getAttribute("assessment");
-		model.addAttribute("proposals",proposalService.filterProposal(assessment, idClient, initialDate, endDate, idStatus));
-		return "listProposal :: #listProposalRow";
-	}
-	
-	
+	// Post - Recibe los parametros y filtra la lista de proyectos, ademas de los proyectos compartidos
 	@PostMapping("/assessment/search")
 	public String assessmentSearch(HttpServletRequest request,@RequestParam("idSAClientSearch") int idSAClientSearch,@RequestParam("creationDateSearch") String creationDateSearch,@RequestParam("idStatusSearch") int idStatusSearch ,Model model) {
 		HttpSession session = request.getSession();
@@ -269,6 +246,11 @@ public class AssessmentController {
 		model.addAttribute("sharedWithMe", assessmentSharedService.filterAssessmentSharedByUserShared(idSAClientSearch, creationDateSearch, idStatusSearch,user));
 		return "projects :: #tbodyAssessment";
 	}
+	
+	
+	
+	
+			
 	
 	
 }

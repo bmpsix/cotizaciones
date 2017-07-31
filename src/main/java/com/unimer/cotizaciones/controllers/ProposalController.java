@@ -157,20 +157,20 @@ public class ProposalController {
 	{
 		HttpSession session = request.getSession();
 		session.setAttribute("proposedHeader",null);
-		return "redirect:/admin/proposal";
+		return "redirect:/assessment/proposal";
 	}
 	
-	@PostMapping("/admin/proposal")
+	@PostMapping("/assessment/proposal")
 	public String addProposal(HttpServletRequest request,@RequestParam("idProposal") int idProposal)
 	{
 		HttpSession session = request.getSession();
 		Proposal proposal = proposalService.findByIdProposal(idProposal);
 		session.setAttribute("proposedHeader",proposal);
 		LOG.info("METHOD assessmentToProposal in AssessmentController  /assessment/proposal : "+proposal.toString());
-		return "redirect:/admin/proposal";
+		return "redirect:/assessment/proposal";
 	}
 	
-	@GetMapping("/admin/proposal")
+	@GetMapping("/assessment/proposal")
 	public ModelAndView proposal(HttpServletRequest request){
 		Proposal proposedHeader=null;
 		HttpSession session = request.getSession();
@@ -210,7 +210,7 @@ public class ProposalController {
 
 	
 
-	@PostMapping("/admin/addproposal")
+	@PostMapping("/assessment/addproposal")
 	public String addProposal(HttpServletRequest request,
 								@RequestParam("idProposal") int idProposal,
 								@RequestParam("idCurrencyType") int idCurrencyType,
@@ -264,17 +264,17 @@ public class ProposalController {
 		Proposal Proposal =  (Proposal) session.getAttribute("proposedHeader");
 		LOG.info("METHOD: PROPOSAL -- PARAMS: " + proposal.toString());
 		LOG.info("METHOD: PROPOSedHeader -- PARAMS: " + Proposal.toString());
-		return "redirect:/admin/proposal";
+		return "redirect:/assessment/proposal";
 	}
 	
-	@GetMapping("/admin/addproposal")
+	@GetMapping("/assessment/addproposal")
 	public String getProposal() {
-		return "redirect:/admin/proposal";
+		return "redirect:/assessment/proposal";
 	}
 	
 	
 	
-	@PostMapping(value = "/admin/addproposaldetails")
+	@PostMapping(value = "/proposal/addproposaldetails")
 	public String addProposalDetails(HttpServletRequest request,
 									@RequestParam("idProposalDetails") int idProposalDetails,
 									@RequestParam("detail") String detail,
@@ -305,9 +305,9 @@ public class ProposalController {
 		return "proposal :: #proposalDetailRow";
 	}
 	
-	@GetMapping("/admin/addproposaldetails")
+	@GetMapping("/assessment/addproposaldetails")
 	public String getProposalDetails(HttpServletRequest requestUser,HttpServletRequest requestProposedHeader) {
-		return "redirect:/admin/proposal";
+		return "redirect:/assessment/proposal";
 	}
 	
 	@PostMapping("/proposal/customizeparameters")

@@ -234,7 +234,7 @@ $( document ).ready(function() {
 			if(detail!=null && detail!="" && parameters!=null && parameters!="" && price!=null && price!="" && number!=null && number!="" && daysTimes!=null && daysTimes!="" && totalBudget!=null && totalBudget!="")
 				{
 			
-			var url = "/admin/addproposaldetails"; // El script a dónde se realizará la petición.
+			var url = "/proposal/addproposaldetails"; // El script a dónde se realizará la petición.
 			    $.ajax({
 			           type: "POST",
 			           cache: false,
@@ -707,7 +707,7 @@ function editProposal(row)
 { 
 var idProposal = $(row).parents("tr").find("#idProposal span").eq(0).html();
 	
-	var url = "/admin/proposal"; 
+	var url = "/assessment/proposal"; 
 	    $.ajax({
 	           type: "POST",
 	           cache: false,
@@ -720,7 +720,7 @@ var idProposal = $(row).parents("tr").find("#idProposal span").eq(0).html();
 	           {
 	        	   if(data != null){
 	        		
-	        		 location="/admin/proposal";
+	        		 location="/assessment/proposal";
 	        	   }
 	           }
 	    	

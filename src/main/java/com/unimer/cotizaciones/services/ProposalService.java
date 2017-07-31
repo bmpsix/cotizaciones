@@ -14,9 +14,9 @@ public interface ProposalService {
 
 	public abstract Proposal addProposal(Proposal proposal, int idUser);
 	
-	public abstract List<Proposal> findByCountry(Country country);
+	public abstract List<Proposal> findByCountry(Assessment assessment, Country country);
 	
-	public abstract List<Proposal> findByContryAndUser(Country country, User user);
+	public abstract List<Proposal> findByUser(Assessment assessment, User user);
 
 	public abstract String formatNumber(int valie);
 	
@@ -25,4 +25,8 @@ public interface ProposalService {
 	public abstract List<Proposal> findByAssessment(Assessment assessment);
 	
 	public abstract List<Proposal> filterProposal(Assessment assessment, int idClient, String initialDate, String endDate,int idStatus);
+	
+	public abstract List<Proposal> findByHeadUser(Assessment assessment,User user);
+	
+	
 }
