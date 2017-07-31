@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.entities.CurrencyType;
 import com.unimer.cotizaciones.entities.Settings;
 import com.unimer.cotizaciones.entities.User;
@@ -43,10 +45,11 @@ public class SettingsController {
 	public ModelAndView settings(HttpServletRequest request){
 		HttpSession session = request.getSession();
 		User userSession =  (User) session.getAttribute("userSession");
+		Country country = countryService.findById(userSession.getCountry().getIdCountry());
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("settings");
-		modelAndView.addObject("countrySettings", settingsService.findSettingByCountry(userSession.getCountry()));
-		modelAndView.addObject("currencyTypes", userSession.getCountry().getCurrencyType());
+		modelAndView.addObject("countrySettings", settingsService.findSettingByCountry(country));
+		modelAndView.addObject("currencyTypes", country.getCurrencyType());
 		return modelAndView;
 	}
 	

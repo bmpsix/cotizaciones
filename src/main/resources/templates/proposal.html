@@ -559,13 +559,12 @@
             		<input id="number" title="Debe ingresar la cantidad"  maxlength="30" type="number" min="1" name="cal" th:value="${number}"  class="cal" required/>
             		<label for="daysTimes">Días/Veces:</label>
             		<input id="daysTimes" title="Debe ingresar la cantidad de días o veces"  maxlength="30"  type="number"  min="1"  name="cal" class="cal"  th:value="${daysTimes}" required/>
-            		<label>Comisionable:</label>
-					<div class="holder">  <!-- containing-element -->
-					<select id="commissionable"  name="commissionable" data-role="slider"  th:value="${commissionable}">
-							<option   value="0" >No Comisionable </option>
-							<option  value="1" selected>Comisionable</option>
-					</select>
-					</div>
+            		<label for="totalBudget">Total presupuesto:</label>
+            		<input id="totalBudget" type="number" style="background-color:#FFFAFA;" title="Total presupuesto" name="totalBudget" th:text="${totalBudget}" th:value="${totalBudget}" readonly	required/>
+            		
+            		
+            		
+					
             		 
                    </fieldset>
 			</form>
@@ -581,10 +580,14 @@
             		<textarea id="detail" title="Ingrese algún detalle"  maxlength="99" type="text"  th:value="${detail}" required></textarea>
             		<label for="parameters">Parametros:</label>
             		<textarea id="parameters" title="Ingrese algún parametro"  maxlength="99" type="text"  th:value="${parameters}" required></textarea>
-            		<label for="totalBudget">Total presupuesto:</label>
-            		<input id="totalBudget" type="number" style="background-color:#FFFAFA;" title="Total presupuesto" name="totalBudget" th:text="${totalBudget}" th:value="${totalBudget}" readonly	required/>
-            		
-            		<br/>
+            		<label>Comisionable:</label>
+					<div class="holder">  <!-- containing-element -->
+					<select id="commissionable"  name="commissionable" data-role="slider"  th:value="${commissionable}">
+							<option   value="0" >No Comisionable </option>
+							<option  value="1" selected>Comisionable</option>
+					</select>
+            		 </div>        	
+            		    	<br/>
 					<input id="cancelProposalDetail" type="button" class="custom_text" data-icon="delete" value="Cancelar">
   					<input type="button" id="sendProposalDetail" class="custom_text" data-icon="plus" value="Guardar">
                    </fieldset>

@@ -33,13 +33,13 @@
 								</option>
 							</select>
 							<label for="imprevisto">Imprevisto %:</label>
-							<input id="imprevisto" title="Debe ingresar el porcentaje de imprevisto" type="number"  min="0" max="50" step="any" name="imprevisto" th:value="${imprevisto}" required/>
+							<input id="imprevisto" title="Debe ingresar el porcentaje de imprevisto" type="text"  maxlength="15" name="imprevisto" th:value="${imprevisto}" onchange="settingsValuesFormat();" required/>
 							<label for="factor1">Factor 1 (Comisionables):</label>
-							<input id="factor1" title="Debe ingresar el valor del factor 1" type="number" min="0" step="any" name="factor1" th:value="${factor1}"  required/>	
+							<input id="factor1" title="Debe ingresar el valor del factor 1" type=text maxlength="15" name="factor1" th:value="${factor1}" onchange="settingsValuesFormat();" required/>	
 							<label for="aporteFijo">Aporte fijo:</label>
-							<input id="aporteFijo" title="Debe ingresar el aporte fijo" type="number"  min="0"  step="any" name="aporteFijo" th:value="${aporteFijo}" required/>
+							<input id="aporteFijo" title="Debe ingresar el aporte fijo" type="text" maxlength="15" name="aporteFijo" th:value="${aporteFijo}" onchange="settingsValuesFormat();" required/>
 							<label for="factor2">Factor 2 (No comisionables):</label>
-							<input id="factor2" title="Debe ingresar el valor del factor 1" type="number" min="0" step="any" name="factor2" th:value="${factor2}"  required/>	
+							<input id="factor2" title="Debe ingresar el valor del factor 1" type="text" maxlength="15" name="factor2" th:value="${factor2}" onchange="settingsValuesFormat();"  required/>	
 							
 					<div id="msg"></div>
                     <hr>
@@ -72,10 +72,10 @@
 							<td style="padding-right: 15px;"><span  th:text="${countrySetting.Country.detail}"></span></td>
 							<td style="padding-right: 15px;"><span  th:text="${countrySetting.CurrencyTypeFavorite.detail}"></span></td>
 							<td style="padding-right: 15px;"><span  th:text="${countrySetting.CurrencyTypeInternational.detail}"></span></td>
-							<td id="imprevisto" style="padding-right: 15px;"><span th:text="${countrySetting.imprevisto}+'%'"></span></td>
-							<td id="factor1" style="padding-right: 15px;"><span  th:text="${countrySetting.factor1}"></span></td>
-							<td id="aporteFijo" style="padding-right: 15px;"><span  th:text="${countrySetting.aporteFijo}"></span></td>
-							<td id="factor2" style="padding-right: 15px;"><span  th:text="${countrySetting.factor2}"></span></td>
+							<td id="imprevisto" style="padding-right: 15px;"><span th:text="|${#numbers.formatDecimal(countrySetting.imprevisto, 1, 'POINT', 2, 'COMMA')} %|"></span></td>
+							<td id="factor1" style="padding-right: 15px;"><span  th:text="${#numbers.formatDecimal(countrySetting.factor1, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="aporteFijo" style="padding-right: 15px;"><span  th:text="${#numbers.formatDecimal(countrySetting.aporteFijo, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="factor2" style="padding-right: 15px;"><span  th:text="${#numbers.formatDecimal(countrySetting.factor2, 1, 'POINT', 2, 'COMMA')}"></span></td>
 	           				<td style="padding-right: 15px;"><a href="#" onclick="editSettings(this);">Editar</a></td>
 	           				
 	           				

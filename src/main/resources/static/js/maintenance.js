@@ -1,7 +1,12 @@
-/**
- * Justin Zúñiga Torres
- * Marcos Zúñiga Vega
- */
+
+
+$( document ).ready(function(){
+
+	$("#price").focusin(function(){$("#price").val("");});
+	
+});
+
+
 
 
 //----------------------------changePassword--------------------------------------------------------------------------------------------------------------
@@ -711,8 +716,19 @@ function sendFormDeparture()
 {
 		var div = document.getElementById('msg');
 		var tbody = document.getElementById('tbodyDeparture');
+		var price = $("#price").val();
 		var msg="";
-		var form = $("#formDeparture").serialize();
+		var form = $("#formDeparture").serializeArray();
+		
+		price =parseFloat(price.replace(".","").replace(",",".")).toFixed(2);
+		for (index = 0; index < form.length; ++index) {
+		    if (form[index].name == "price") {
+		    	form[index].value = price;
+		        break;
+		    }
+		}
+
+		form = jQuery.param(form);
 		
 		var url = "/admin/adddeparture"; 
 		    $.ajax({
@@ -781,6 +797,27 @@ function clearDeparture(){
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------
 
+//--------------------------------------------------DeparturePrice--------------------------------------------------------------------------------------------------------
+
+
+function priceFormat()
+{
+	var price = $("#price").val();
+	if(price!="" && price!=null)
+	{
+		price=price.replace(",",".");
+			if(!isNaN(parseFloat(price)) && (parseFloat(price))>=0)
+			{
+				price =(parseFloat(price).toLocaleString(undefined, {minimumFractionDigits: 2}));
+				$("#price").val(price);
+			}
+			else $("#price").val("");
+				
+		
+	}
+	
+}
+//----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -1297,7 +1334,14 @@ function sendFormSettings()
 		var div = document.getElementById('msg');
 		var tbody = document.getElementById('tbodySettings');
 		var msg="";
-		var form = $("#formSettings").serialize();
+		var form = $("#formSettings").serializeArray();
+		for (index = 3; index < form.length; index++) {
+		   form[index].value = parseFloat(form[index].value.replace(".","").replace(",",".")).toFixed(2);
+		}
+
+		form = jQuery.param(form);
+		
+		
 		
 		var url = "/admin/addsettings"; 
 		    $.ajax({
@@ -1339,6 +1383,9 @@ function editSettings(row){
 	var div = document.getElementById('msg');
 	var msg="";
 	
+	
+	
+	
 	div.innerHTML = msg;
 	imprevisto = imprevisto.substring(0,imprevisto.length-1);
 	$("#settingsCancel").show();
@@ -1367,12 +1414,68 @@ function clearSettings(){
 	$("#factor2").val("");
 	$("#country").val(1).change();
 	$("#currencyTypeFavorite").val(1).change();
-	$("#currencyTypeInternational").val(1).change();
+	$("#currencyTypeInternational").val(2).change();
 	var div = document.getElementById('msg');
 	var msg="";
 	div.innerHTML = msg;
 };
 //----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------SettingsValuesFormat--------------------------------------------------------------------------------------------------------
+
+
+function settingsValuesFormat()
+{
+	
+	var factor1 = $("#factor1").val();
+	var factor2 = $("#factor2").val();
+	var imprevisto = $("#imprevisto").val();
+	var aporteFijo = $("#aporteFijo").val();
+	
+	if(factor1!="" && factor1!=null)
+	{
+		factor1=factor1.replace(",",".");
+			if(!isNaN(parseFloat(factor1)) && (parseFloat(factor1))>=0)
+			{
+				factor1 =(parseFloat(factor1).toLocaleString(undefined, {minimumFractionDigits: 2}));
+				$("#factor1").val(factor1);
+			}
+			else $("#factor1").val("");	
+	}
+	if(factor2!="" && factor2!=null)
+	{
+		factor2=factor2.replace(",",".");
+			if(!isNaN(parseFloat(factor2)) && (parseFloat(factor2))>=0)
+			{
+				factor2 =(parseFloat(factor2).toLocaleString(undefined, {minimumFractionDigits: 2}));
+				$("#factor2").val(factor2);
+			}
+			else $("#factor2").val("");	
+	}
+	if(imprevisto!="" && imprevisto!=null)
+	{
+		imprevisto=imprevisto.replace(",",".");
+			if(!isNaN(parseFloat(imprevisto)) && (parseFloat(imprevisto))>=0)
+			{
+				imprevisto =(parseFloat(imprevisto).toLocaleString(undefined, {minimumFractionDigits: 2}));
+				$("#imprevisto").val(imprevisto);
+			}
+			else $("#imprevisto").val("");	
+	}
+	if(aporteFijo!="" && aporteFijo!=null)
+	{
+		aporteFijo=aporteFijo.replace(",",".");
+			if(!isNaN(parseFloat(aporteFijo)) && (parseFloat(aporteFijo))>=0)
+			{
+				aporteFijo =(parseFloat(aporteFijo).toLocaleString(undefined, {minimumFractionDigits: 2}));
+				$("#aporteFijo").val(aporteFijo);
+			}
+			else $("#aporteFijo").val("");	
+	}
+}
+//----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 
 
@@ -1813,11 +1916,11 @@ function asignedHead(){
 	}
 	
 };
-
-
-
-
 //----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+//----------------------------------------------------IdHeadUser------Para mostrar y ocultar el select en user------------------------------------------------------------------------------------------------
 function changeidHeadUser(){
 
 	
@@ -1831,5 +1934,6 @@ function changeidHeadUser(){
 	}
 	
 };
+
 //----------------------------------------------------------------------------------------------------------------------------------------------------------
 

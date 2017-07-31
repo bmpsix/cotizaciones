@@ -4,6 +4,10 @@
 $( document ).ready(function() {
 	
 //------------------------------------------------Manejo del diseño de proposal y proposaldetails------------------------------------------------
+	
+	
+	
+	
 	$("#generalInfo").show();
 	//$("#generalInfo2").show();
 	$("#aPaso1").show();
@@ -99,9 +103,14 @@ $( document ).ready(function() {
 		$("#showParameters").toggle("slow");
 	});
 	
-	
 //------------------------------------------------------------------------------------------------------------------------------------------------
-	 
+//---------------------------------------Limpiar valores---------------------------------------------------------------------------------------------------------
+	$("#imprevisto").focusin(function(){$("#imprevisto").val("");});
+	$("#factor1").focusin(function(){$("#factor1").val("");});
+	$("#factor2").focusin(function(){$("#factor2").val("");});
+	$("#aporteFijo").focusin(function(){$("#aporteFijo").val("");}); 
+	
+	//------------------------------------------------------------------------------------------------------------------------------------------------	
 	
 //------------------------------------------------Calcular el total de presupuesto de cada detalle------------------------------------------------
 	 $(".cal").change(function(){
@@ -298,6 +307,8 @@ $( document ).ready(function() {
 			changeDeparture();
 		});
 		
+		
+		
 //------------------------------------------------------------------------------------------------------------------------------------------------		
 		
 
@@ -427,17 +438,18 @@ function totalcharge()
 	totalSumBudget = (sub1+sub4)*currencyExchange;
 	
 	
-	$("#sub1").val( parseFloat(sub1).toFixed(2)  );
-	$("#totalImprevisto").val(parseFloat(totalImprevisto).toFixed(2));
-	$("#sub2").val(parseFloat(sub2).toFixed(2));
-	$("#sub3").val(parseFloat(sub3).toFixed(2));
-	$("#total1").val(parseFloat(total1).toFixed(2));
-	$("#sub4").val(parseFloat(sub4).toFixed(2));
-	$("#sub5").val(parseFloat(sub5).toFixed(2));
-	$("#total2").val(parseFloat(total2).toFixed(2));
-	$("#nacional1").val(parseFloat(nacional1).toFixed(2));
-	$("#nacional2").val(parseFloat(nacional2).toFixed(2));
-	$("#totalSumBudget").val(parseFloat(totalSumBudget).toFixed(2));
+	$("#sub1").val(sub1.toLocaleString(undefined, {minimumFractionDigits: 2}));
+	
+	$("#totalImprevisto").val(totalImprevisto.toLocaleString(undefined, {minimumFractionDigits: 2}));
+	$("#sub2").val(sub2.toLocaleString(undefined, {minimumFractionDigits: 2}));
+	$("#sub3").val(sub3.toLocaleString(undefined, {minimumFractionDigits: 2}));
+	$("#total1").val(total1.toLocaleString(undefined, {minimumFractionDigits: 2}));
+	$("#sub4").val(sub4.toLocaleString(undefined, {minimumFractionDigits: 2}));
+	$("#sub5").val(sub5.toLocaleString(undefined, {minimumFractionDigits: 2}));
+	$("#total2").val(total2.toLocaleString(undefined, {minimumFractionDigits: 2}));
+	$("#nacional1").val(nacional1.toLocaleString(undefined, {minimumFractionDigits: 2}));
+	$("#nacional2").val(nacional2.toLocaleString(undefined, {minimumFractionDigits: 2}));
+	$("#totalSumBudget").val(totalSumBudget.toLocaleString(undefined, {minimumFractionDigits: 2}));
 
 	
 	
@@ -729,14 +741,14 @@ var idProposal = $(row).parents("tr").find("#idProposal span").eq(0).html();
 
 //------------------------------------------------------Convert amount--------------------------------------------------------------------------------------------
 
-/* value means the number od the textbox */
+/* value means the number od the textbox 
 
 function convertCurrrency(value){
 	var total =  value.replace(/\D/g, "")
-    .replace(/([0-9])([0-9]{3})$/, '$1.$2') /* si reemplzas el numero $1$2 por $1.$2 se mantendra con dos digitos al final no se como sera el mejor ahi */
+    .replace(/([0-9])([0-9]{3})$/, '$1.$2') /* si reemplzas el numero $1$2 por $1.$2 se mantendra con dos digitos al final no se como sera el mejor ahi 
     .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
     
-	return total; /* devuelve el valor ya formateado no se cualquiera que ocupes aqui*/
+	return total; /* devuelve el valor ya formateado no se cualquiera que ocupes aqui
 }
 
 $( document ).ready(function(){
@@ -754,4 +766,10 @@ $("#price").on({
 	  }
 });
 
+
+
 });
+
+*/
+
+

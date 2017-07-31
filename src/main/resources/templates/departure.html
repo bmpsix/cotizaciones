@@ -26,13 +26,15 @@
 									<p name="type.detail" th:text="${type.detail}" th:value="${type.detail}" ></p>
 								</option>
 							</select>
-							<label for="sell">Precio sugerido:</label>
-							<input id="price" type="number" name="price" step="any" th:value="${price}" required/>
+							<label for="price">Precio sugerido:</label>
+							<input id="price" type="text" name="price" maxlength="20" th:value="${price}"  onchange="priceFormat();" required/>
 							<label for="status"  title="Estado de la partida o catálogo">Estado</label>
 							<select id="status"  name="status" data-role="slider"  th:value="${status}">
 								<option value="0">Inactivo</option>
 								<option value="1">Activo</option>
 							</select>
+							
+							
 					<div id="msg">
 						
 					</div>
@@ -63,7 +65,7 @@
 							<td id="detail" style="padding-right: 15px;"><span th:text="${departure.detail}"></span></td>
 							<td style="padding-right: 15px;"><span th:text="${departure.Country.detail}"></span></td>
 							<td style="padding-right: 15px;"><span th:text="${departure.CurrencyType.detail}"></span></td>
-							<td id="price" style="padding-right: 15px;"><span th:utext="${#strings.replace(departure.price,'.0','')}"></span></td>
+							<td id="price" style="padding-right: 15px;"><span th:text=" ${#numbers.formatDecimal(departure.price, 1, 'POINT', 2, 'COMMA')}"></span></td>
 							<td id="status" style="padding-right: 15px;" th:if="${departure.status==1}"><span> Activo</span></td>
 							<td id="status" style="padding-right: 15px;" th:if="${departure.status==0}"><span>Inactivo</span></td>
 	           				<td style="padding-right: 15px;"><a href="#" onclick="editDeparture(this);">Editar</a></td>
