@@ -33,13 +33,13 @@
 								</option>
 							</select>
 							<label for="imprevisto">Imprevisto %:</label>
-							<input id="imprevisto" title="Debe ingresar el porcentaje de imprevisto" type="text"  maxlength="15" name="imprevisto" th:value="${imprevisto}" onchange="settingsValuesFormat();" required/>
+							<input id="imprevistoSettings" title="Debe ingresar el porcentaje de imprevisto" type="text"  maxlength="15" name="imprevisto" th:value="${imprevisto}"  required/>
 							<label for="factor1">Factor 1 (Comisionables):</label>
-							<input id="factor1" title="Debe ingresar el valor del factor 1" type=text maxlength="15" name="factor1" th:value="${factor1}" onchange="settingsValuesFormat();" required/>	
+							<input id="factor1Settings" title="Debe ingresar el valor del factor 1" type=text maxlength="15" name="factor1" th:value="${factor1}"  required/>	
 							<label for="aporteFijo">Aporte fijo:</label>
-							<input id="aporteFijo" title="Debe ingresar el aporte fijo" type="text" maxlength="15" name="aporteFijo" th:value="${aporteFijo}" onchange="settingsValuesFormat();" required/>
+							<input id="aporteFijoSettings" title="Debe ingresar el aporte fijo" type="text" maxlength="15" name="aporteFijo" th:value="${aporteFijo}" required/>
 							<label for="factor2">Factor 2 (No comisionables):</label>
-							<input id="factor2" title="Debe ingresar el valor del factor 1" type="text" maxlength="15" name="factor2" th:value="${factor2}" onchange="settingsValuesFormat();"  required/>	
+							<input id="factor2Settings" title="Debe ingresar el valor del factor 1" type="text" maxlength="15" name="factor2" th:value="${factor2}"  required/>	
 							
 					<div id="msg"></div>
                     <hr>

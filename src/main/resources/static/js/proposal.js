@@ -113,8 +113,8 @@ $( document ).ready(function() {
 	$("#aporteFijo").focusin(function(){$("#aporteFijo").val("");});
 	
 	// Si se sale del input y el mismo está en blanco, se coloca el valor por defecto
-	$("#imprevisto").focusout(function(){ if( $("#imprevisto").val()==null ||  $("#imprevisto").val()=="") $("#imprevisto").val(formatNumber($("#defaultImprevisto").val()));});
 	$("#factor1").focusout(function(){ if( $("#factor1").val()==null ||  $("#factor1").val()=="") $("#factor1").val(formatNumber($("#defaultFactor1").val()));});
+	$("#imprevisto").focusout(function(){ if( $("#imprevisto").val()==null ||  $("#imprevisto").val()==""  ) $("#imprevisto").val(formatNumber($("#defaultImprevisto").val()));});
 	$("#factor2").focusout(function(){  if( $("#factor2").val()==null ||  $("#factor2").val()=="") $("#factor2").val(formatNumber($("#defaultFactor2").val()));});
 	$("#aporteFijo").focusout(function(){  if( $("#aporteFijo").val()==null ||  $("#aporteFijo").val()=="") $("#aporteFijo").val(formatNumber($("#defaultAporteFijo").val()));});
 	
@@ -130,6 +130,7 @@ $( document ).ready(function() {
 		
 		 var total = 0;
 		 var price = unFormatNumber($("#price").val());
+		 alert(price);
 		 $("#price").val(formatNumber(price));
 		 var number = $("#number").val();
 		 var daysTimes = $("#daysTimes").val();
@@ -159,7 +160,7 @@ $( document ).ready(function() {
 		else if($("#aporteFijo").val()=="" || $("#aporteFijo").val()== null || unFormatNumber($("#aporteFijo").val())< 0 ) $("#aporteFijo").val(formatNumber($("#defaultAporteFijo").val()));
 		else if( $("#factor1").val()=="" ||  $("#factor1").val()== null || unFormatNumber($("#factor1").val())<1 )  $("#factor1").val(formatNumber($("#defaultFactor1").val()));
 		else if($("#factor2").val()=="" || $("#factor2").val()== null || unFormatNumber($("#factor2").val())<1 ) $("#factor2").val(formatNumber($("#defaultFactor2").val()));
-		else if($("#imprevisto").val()=="" || $("#imprevisto").val()== null || unFormatNumber($("#imprevisto").val())<0) $("#imprevisto").val(formatNumber($("#defaultImprevisto").val()));
+		else if($("#imprevisto").val()=="" || $("#imprevisto").val()== null || unFormatNumber($("#imprevisto").val())<0 || unFormatNumber($("#imprevisto").val())>100) $("#imprevisto").val(formatNumber($("#defaultImprevisto").val()));
 		else
 		{
 			var aporteFijo = unFormatNumber($("#aporteFijo").val());
@@ -611,10 +612,9 @@ function calRow(row)
 	var totalBudgetTable = 0;
 	try
 	{
-		priceTable=priceTable.replace(",",".");
-		priceTable=parseFloat(priceTable).toFixed(2);
-		numberTable=parseInt(numberTable);
-		daysTimesTable=parseInt(daysTimesTable);
+		priceTable=unFormatNumber(priceTable);
+		numberTable=parseInt(unFormatNumber(numberTable));
+		daysTimesTable=parseInt(unFormatNumber(daysTimesTable));
 		if(priceTable=="" || priceTable==null || priceTable<1 || isNaN(priceTable/1)) msg+="<p style='color:#800000'>Debe ingresar un precio válido<p>";
 		else if(numberTable=="" || numberTable==null || numberTable<1 || isNaN(numberTable/1)) msg+="<p style='color:#800000'>Debe ingresar un numero o cantidad y debe ser un valor entero<p>";
 		else if(daysTimesTable=="" || daysTimesTable==null || daysTimesTable<1 || isNaN(daysTimesTable/1)) msg+="<p style='color:#800000'>Debe ingresar la cantidad de días o veces y debe ser un valor entero<p>";

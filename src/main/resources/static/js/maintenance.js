@@ -2,12 +2,91 @@
 
 $( document ).ready(function(){
 
+
+//---------------------------------------Limpiar y validar---------------------------------------------------------------------------------------------------------
+
+	//Elimina el contenido del input al tocarlo
 	$("#priceDeparture").focusin(function(){$("#priceDeparture").val("");});
+	
+	$("#sell").focusin(function(){$("#sell").val("");});
+	$("#buy").focusin(function(){$("#buy").val("");});
+	
+	$("#imprevistoSettings").focusin(function(){$("#imprevistoSettings").val("");});
+	$("#aporteFijoSettings").focusin(function(){$("#aporteFijoSettings").val("");});
+	$("#factor1Settings").focusin(function(){$("#factor1Settings").val("");});
+	$("#factor2Settings").focusin(function(){$("#factor2Settings").val("");});
+	
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	
+//----------------------------------------Si se sale del input y el mismo está en blanco, se coloca el valor por defecto-----------------------------------------------------------------------------------------------------------------------
+		
+	// 
+	$("#priceDeparture").focusout(function(){ if( $("#priceDeparture").val()==null || $("#priceDeparture").val()=="") $("#priceDeparture").val("");});
+	
+	$("#sell").focusout(function(){ if( $("#sell").val()==null ||  $("#sell").val()=="") $("#sell").val("");});
+	$("#buy").focusout(function(){  if( $("#buy").val()==null ||  $("#buy").val()=="") $("#buy").val("");});
+
+	$("#imprevistoSettings").focusout(function(){  if( $("#imprevistoSettings").val()==null ||  $("#imprevistoSettings").val()=="") $("#imprevistoSettings").val("");});
+	$("#aporteFijoSettings").focusout(function(){  if( $("#aporteFijoSettings").val()==null ||  $("#aporteFijoSettings").val()=="") $("#aporteFijoSettings").val("");});
+	$("#factor1Settings").focusout(function(){  if( $("#factor1Settings").val()==null ||  $("#factor1Settings").val()=="") $("#factor1Settings").val("");});
+	$("#factor2Settings").focusout(function(){  if( $("#factor2Settings").val()==null ||  $("#factor2Settings").val()=="") $("#factor2Settings").val("");});
+//------------------------------------------------------------------------------------------------------------------------------------------------	
+
+//----------------------------------------------Dar formato--------------------------------------------------------------------------------------------------	
+	
+	$("#priceDeparture").change(function(){
+		if(!isNaN(unFormatNumber($("#priceDeparture").val())/1))$("#priceDeparture").val(formatNumber(replacePoint($("#priceDeparture").val())));
+		else $("#priceDeparture").val("");
+	});
+	
+	
+	$("#buy").change(function(){
+		if(!isNaN(unFormatNumber($("#buy").val())/1))$("#buy").val(formatNumber(replacePoint($("#buy").val())));
+		else $("#buy").val("");
+	});
+	$("#sell").change(function(){
+		if(!isNaN(unFormatNumber($("#sell").val())/1))$("#sell").val(formatNumber(replacePoint($("#sell").val())));
+		else $("#sell").val("");
+	});
+	
+	
+	$("#imprevistoSettings").change(function(){
+		if(!isNaN(unFormatNumber($("#imprevistoSettings").val())/1)) $("#imprevistoSettings").val(formatNumber(replacePoint($("#imprevistoSettings").val())));
+		else $("#imprevistoSettings").val("");
+	});
+	$("#aporteFijoSettings").change(function(){
+		if(!isNaN(unFormatNumber($("#aporteFijoSettings").val())/1))$("#aporteFijoSettings").val(formatNumber(replacePoint($("#aporteFijoSettings").val())));
+		else $("#aporteFijoSettings").val("");
+	});
+	$("#factor1Settings").change(function(){
+		if(!isNaN(unFormatNumber($("#factor1Settings").val())/1))$("#factor1Settings").val(formatNumber(replacePoint($("#factor1Settings").val())));
+		else $("#factor1Settings").val("");
+	});
+	$("#factor2Settings").change(function(){
+		if(!isNaN(unFormatNumber($("#factor2Settings").val())/1))$("#factor2Settings").val(formatNumber(replacePoint($("#factor2Settings").val())));
+		else $("#factor2Settings").val("");
+	});
+
+//------------------------------------------------------------------------------------------------------------------------------------------------	
+
 	
 });
 
 
-
+var price = $("#priceDeparture").val();
+if(price!="" && price!=null)
+{
+	price=price.replace(",",".");
+		if(!isNaN(parseFloat(price)) && (parseFloat(price))>=0)
+		{
+			price =(parseFloat(price).toLocaleString(undefined, {minimumFractionDigits: 2}));
+			$("#priceDeparture").val(price);
+		}
+		else $("#priceDeparture").val("");
+			
+	
+}
 
 //----------------------------changePassword--------------------------------------------------------------------------------------------------------------
 
@@ -550,7 +629,14 @@ function sendFormCurrencyExchange()
 		var div = document.getElementById('msg');
 		var tbody = document.getElementById('tbodyCurrencyExchange');
 		var msg="";
-		var form = $("#formCurrencyExchange").serialize();
+		var form = $("#formCurrencyExchange").serializeArray();
+		
+		
+		for (index = 1; index < 3; ++index) {
+		    form[index].value = unFormatNumber(form[index].value);
+		}
+		form = jQuery.param(form);
+		
 		
 		var url = "/admin/addcurrencyexchange"; 
 		    $.ajax({
@@ -1336,7 +1422,7 @@ function sendFormSettings()
 		var msg="";
 		var form = $("#formSettings").serializeArray();
 		for (index = 3; index < form.length; index++) {
-		   form[index].value = parseFloat(form[index].value.replace(".","").replace(",",".")).toFixed(2);
+		   form[index].value = unFormatNumber(form[index].value);
 		}
 
 		form = jQuery.param(form);
@@ -1391,10 +1477,10 @@ function editSettings(row){
 	$("#settingsCancel").show();
 	
 	$("#idSettings").val(idSettings);
-	$("#imprevisto").val(imprevisto);
-	$("#factor1").val(factor1);
-	$("#aporteFijo").val(aporteFijo);
-	$("#factor2").val(factor2);
+	$("#imprevistoSettings").val(imprevisto);
+	$("#factor1Settings").val(factor1);
+	$("#aporteFijoSettings").val(aporteFijo);
+	$("#factor2Settings").val(factor2);
 	$("#currencyTypeFavorite").val(idCurrencyTypeFavorite).change();
 	$("#currencyTypeInternational").val(idCurrencyTypeInternational).change();
 	
@@ -1408,10 +1494,10 @@ function clearSettings(){
 	$("#settingsCancel").hide();
 	
 	$("#idSettings").val(0);
-	$("#imprevisto").val("");
-	$("#factor1").val("");
-	$("#aporteFijo").val("");
-	$("#factor2").val("");
+	$("#imprevistoSettings").val("");
+	$("#factor1Settings").val("");
+	$("#aporteFijoSettings").val("");
+	$("#factor2Settings").val("");
 	$("#country").val(1).change();
 	$("#currencyTypeFavorite").val(1).change();
 	$("#currencyTypeInternational").val(2).change();
@@ -1420,66 +1506,6 @@ function clearSettings(){
 	div.innerHTML = msg;
 };
 //----------------------------------------------------------------------------------------------------------------------------------------------------------
-
-//--------------------------------------------------SettingsValuesFormat--------------------------------------------------------------------------------------------------------
-
-
-function settingsValuesFormat()
-{
-	
-	var factor1 = $("#factor1").val();
-	var factor2 = $("#factor2").val();
-	var imprevisto = $("#imprevisto").val();
-	var aporteFijo = $("#aporteFijo").val();
-	
-	if(factor1!="" && factor1!=null)
-	{
-		factor1=factor1.replace(",",".");
-			if(!isNaN(parseFloat(factor1)) && (parseFloat(factor1))>=0)
-			{
-				factor1 =(parseFloat(factor1).toLocaleString(undefined, {minimumFractionDigits: 2}));
-				$("#factor1").val(factor1);
-			}
-			else $("#factor1").val("");	
-	}
-	if(factor2!="" && factor2!=null)
-	{
-		factor2=factor2.replace(",",".");
-			if(!isNaN(parseFloat(factor2)) && (parseFloat(factor2))>=0)
-			{
-				factor2 =(parseFloat(factor2).toLocaleString(undefined, {minimumFractionDigits: 2}));
-				$("#factor2").val(factor2);
-			}
-			else $("#factor2").val("");	
-	}
-	if(imprevisto!="" && imprevisto!=null)
-	{
-		imprevisto=imprevisto.replace(",",".");
-			if(!isNaN(parseFloat(imprevisto)) && (parseFloat(imprevisto))>=0)
-			{
-				imprevisto =(parseFloat(imprevisto).toLocaleString(undefined, {minimumFractionDigits: 2}));
-				$("#imprevisto").val(imprevisto);
-			}
-			else $("#imprevisto").val("");	
-	}
-	if(aporteFijo!="" && aporteFijo!=null)
-	{
-		aporteFijo=aporteFijo.replace(",",".");
-			if(!isNaN(parseFloat(aporteFijo)) && (parseFloat(aporteFijo))>=0)
-			{
-				aporteFijo =(parseFloat(aporteFijo).toLocaleString(undefined, {minimumFractionDigits: 2}));
-				$("#aporteFijo").val(aporteFijo);
-			}
-			else $("#aporteFijo").val("");	
-	}
-}
-//----------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
 
 //--------------------------------------------Status--------------------------------------------------------------------------------------------------------
 
@@ -1936,4 +1962,26 @@ function changeidHeadUser(){
 };
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//------------------------------------------------------Cambia el formato del tipo de moneda--------------------------------------------------------------------
+
+function formatNumber(num)
+{
+	return ((parseFloat(num)).toLocaleString(undefined, {minimumFractionDigits: 2}));
+}
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//-----------------------------------------Restaura el formato de texto a numero-----------------------------------------------------------------------------------------------------------------------
+function unFormatNumber(text)
+{
+	return parseFloat(text.replace(".","").replace(",",".")).toFixed(2);
+}
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function replacePoint(text)
+{
+	return text.replace(",",".");
+}
 
