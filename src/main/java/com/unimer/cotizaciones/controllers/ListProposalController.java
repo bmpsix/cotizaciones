@@ -54,12 +54,12 @@ public class ListProposalController {
 			HttpSession session = request.getSession();
 			Assessment assessment = assessmentService.findById(idAssessment);
 			session.setAttribute("assessment",assessment);
-			return "redirect:/assessment/listProposal";
+			return "redirect:/assessment/listproposal";
 		}
 	
 		
 		//Get- Se carga el modelo y la vista de "listProposal" basado en la variable de sesion del encabezado de proyecto
-		@GetMapping("/assessment/listProposal")
+		@GetMapping("/assessment/listproposal")
 		public ModelAndView proposalList(HttpServletRequest request){
 			ModelAndView modelAndView = new ModelAndView("listProposal");
 			HttpSession session = request.getSession();

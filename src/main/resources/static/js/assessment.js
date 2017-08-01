@@ -397,7 +397,7 @@ function projectProposal(x)
 	           success: function(data)
 	           {
 	        	   if(data != null){
-	        		 location="/assessment/listProposal";
+	        		 location="/assessment/listproposal";
 	        	   }
 	           }
 	    	
@@ -518,3 +518,12 @@ function noSelectInLoadAssessment()
 	 $("#idStatusSearch").val("").change();
 	
 }
+//--------------------------------------------------------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------Redirect a lista de proyectos------------------------------------------------------------------------------------------------
+
+function backToListProjects()
+{
+	location="/assessment";
+}
+//--------------------------------------------------------------------------------------------------------------------------------------------------

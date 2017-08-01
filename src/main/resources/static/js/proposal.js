@@ -121,11 +121,23 @@ $( document ).ready(function() {
 //------------------------------------------------------------------------------------------------------------------------------------------------	
 	
 //------------------------------------------------Calcular el total de presupuesto de cada detalle------------Partida - precio - numero - dias/veces ------------------------------------
-	 $(".cal").change(function(){
+	
+	$("#price").focusin(function(){$("#price").val("");});
+	$("#price").focusout(function(){if($("#price").val()=="" || $("#price").val()==null || isNaN(unFormatNumber($("#price").val())/1))changeDeparture();});
+	
+	
+	$(".cal").change(function(){
+		
 		 var total = 0;
 		 var price = unFormatNumber($("#price").val());
-		 total= price * $("#number").val() * $("#daysTimes").val();
-		 $("#totalBudget").val(formatNumber(total));
+		 $("#price").val(formatNumber(price));
+		 var number = $("#number").val();
+		 var daysTimes = $("#daysTimes").val();
+		 if(number!=null && number!="" && daysTimes!=null && daysTimes!="")
+		 {
+			 total= price * number* daysTimes;
+			 $("#totalBudget").val(formatNumber(total));
+		 }
 	 });
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------
@@ -257,7 +269,7 @@ $( document ).ready(function() {
 			
 			if(idProposalDetails=="" || idProposalDetails==null) idProposalDetails=0;
 
-			if(detail!=null && detail!="" && parameters!=null && parameters!="" && price!=null && price!="" && number!=null && number!="" && daysTimes!=null && daysTimes!="" && totalBudget!=null && totalBudget!="")
+			if(price!=null && price!="" && number!=null && number!="" && daysTimes!=null && daysTimes!="" && totalBudget!=null && totalBudget!="")
 			{
 			
 				
@@ -760,19 +772,26 @@ var idProposal = $(row).parents("tr").find("#idProposal span").eq(0).html();
 	         });
 }
 
-//------------------------------------------------------Convert amount--------------------------------------------------------------------------------------------
+//------------------------------------------------------Cambia el formato del tipo de moneda--------------------------------------------------------------------
 
 function formatNumber(num)
 {
 	return ((parseFloat(num)).toLocaleString(undefined, {minimumFractionDigits: 2}));
 }
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+//-----------------------------------------Restaura el formato de texto a numero-----------------------------------------------------------------------------------------------------------------------
 function unFormatNumber(text)
 {
 	return parseFloat(text.replace(".","").replace(",",".")).toFixed(2);
 }
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+//-----------------------Da formato a los input al cargase la página-----------------------------------------------------------------------------------------------------------------------------------------
 function formatParametersOnLoad()
 {
 	$("#currencyExchange").val(formatNumber($("#currencyExchange").val()));
@@ -782,6 +801,10 @@ function formatParametersOnLoad()
 	$("#imprevisto").val(formatNumber($("#imprevisto").val()));
 }
 
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//-----------------------------Da formato a los inputs después de cada cambio-----------------------------------------------------------------------------------------------------------------------------------
 function formatParameters()
 {
 		
@@ -790,6 +813,18 @@ function formatParameters()
 		$("#factor2").val(formatNumber(unFormatNumber($("#factor2").val())));
 		$("#imprevisto").val(formatNumber(unFormatNumber($("#imprevisto").val())));
 }
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//-----------------------------------------Redireccionamiento a lista de proyectos-----------------------------------------------------------------------------------------------------------------------
+function backToListProposal()
+{
+	location="/assessment/listproposal";
+}
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 /* value means the number od the textbox 
