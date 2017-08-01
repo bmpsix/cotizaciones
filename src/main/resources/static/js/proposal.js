@@ -104,27 +104,28 @@ $( document ).ready(function() {
 	});
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------Limpiar valores---------------------------------------------------------------------------------------------------------
+//-----------------------------Parametros----------Limpiar valores y asignar por defecto---------------------------------------------------------------------------------------------------------
+
+	//Elimina el contenido del input al tocarlo
 	$("#imprevisto").focusin(function(){$("#imprevisto").val("");});
 	$("#factor1").focusin(function(){$("#factor1").val("");});
 	$("#factor2").focusin(function(){$("#factor2").val("");});
-	$("#aporteFijo").focusin(function(){$("#aporteFijo").val("");}); 
+	$("#aporteFijo").focusin(function(){$("#aporteFijo").val("");});
 	
-	//------------------------------------------------------------------------------------------------------------------------------------------------	
+	// Si se sale del input y el mismo está en blanco, se coloca el valor por defecto
+	$("#imprevisto").focusout(function(){ if( $("#imprevisto").val()==null ||  $("#imprevisto").val()=="") $("#imprevisto").val(formatNumber($("#defaultImprevisto").val()));});
+	$("#factor1").focusout(function(){ if( $("#factor1").val()==null ||  $("#factor1").val()=="") $("#factor1").val(formatNumber($("#defaultFactor1").val()));});
+	$("#factor2").focusout(function(){  if( $("#factor2").val()==null ||  $("#factor2").val()=="") $("#factor2").val(formatNumber($("#defaultFactor2").val()));});
+	$("#aporteFijo").focusout(function(){  if( $("#aporteFijo").val()==null ||  $("#aporteFijo").val()=="") $("#aporteFijo").val(formatNumber($("#defaultAporteFijo").val()));});
 	
-//------------------------------------------------Calcular el total de presupuesto de cada detalle------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------	
+	
+//------------------------------------------------Calcular el total de presupuesto de cada detalle------------Partida - precio - numero - dias/veces ------------------------------------
 	 $(".cal").change(function(){
 		 var total = 0;
-		 var price = $("#price").val()
-		 .replace('.', '');
+		 var price = unFormatNumber($("#price").val());
 		 total= price * $("#number").val() * $("#daysTimes").val();
-		 $("#totalBudget").val(total);
-		 
-		 var value = $("#totalBudget").val();
-			total = value.replace(/\D/g, "")
-		    .replace(/([0-9])([0-9]{3})$/, '$1.$2')
-		    .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
-			$("#totalBudget").val(total);
+		 $("#totalBudget").val(formatNumber(total));
 	 });
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------
@@ -135,23 +136,29 @@ $( document ).ready(function() {
 //------------------------------------------------Actualizar y recalcular factor 1, 2, imprevisto y aporte fijo------------------------------------------------
 	 $(".param").change(function(){
 		 
-		 if($("#aporteFijo").val()=="" || $("#aporteFijo").val()== null || $("#aporteFijo").val()< 0 ) $("#aporteFijo").val(0);
-		if( $("#factor1").val()=="" ||  $("#factor1").val()== null || $("#factor1").val()<1 )  $("#factor1").val(1);
-		if($("#factor2").val()=="" || $("#factor2").val()== null || $("#factor2").val()<1 ) $("#factor2").val(1);
-		if($("#imprevisto").val()=="" || $("#imprevisto").val()== null || $("#imprevisto").val()<0) $("#imprevisto").val(0);
-		 
-		 
-		var aporteFijo =$("#aporteFijo").val();
-		var factor1 = $("#factor1").val();
-		var factor2 = $("#factor2").val();
-		var imprevisto = $("#imprevisto").val();
+		
+		if(isNaN(unFormatNumber($("#aporteFijo").val())/1) || isNaN(unFormatNumber($("#factor1").val())/1) || isNaN(unFormatNumber($("#factor2").val())/1) || isNaN(unFormatNumber($("#imprevisto").val())/1))
+		{
+			if(isNaN($("#aporteFijo").val()/1)) $("#aporteFijo").val(formatNumber($("#defaultAporteFijo").val()));
+			if(isNaN($("#factor1").val()/1)) $("#factor1").val(formatNumber($("#defaultFactor1").val()));
+			if(isNaN($("#factor2").val()/1)) $("#factor2").val(formatNumber($("#defaultFactor2").val()));
+			if(isNaN($("#imprevisto").val()/1)) $("#imprevisto").val(formatNumber($("#defaultImprevisto").val()));
+		}
+		else if($("#aporteFijo").val()=="" || $("#aporteFijo").val()== null || unFormatNumber($("#aporteFijo").val())< 0 ) $("#aporteFijo").val(formatNumber($("#defaultAporteFijo").val()));
+		else if( $("#factor1").val()=="" ||  $("#factor1").val()== null || unFormatNumber($("#factor1").val())<1 )  $("#factor1").val(formatNumber($("#defaultFactor1").val()));
+		else if($("#factor2").val()=="" || $("#factor2").val()== null || unFormatNumber($("#factor2").val())<1 ) $("#factor2").val(formatNumber($("#defaultFactor2").val()));
+		else if($("#imprevisto").val()=="" || $("#imprevisto").val()== null || unFormatNumber($("#imprevisto").val())<0) $("#imprevisto").val(formatNumber($("#defaultImprevisto").val()));
+		else
+		{
+			var aporteFijo = unFormatNumber($("#aporteFijo").val());
+			var factor1 = unFormatNumber($("#factor1").val());
+			var factor2 = unFormatNumber($("#factor2").val());
+			var imprevisto = unFormatNumber($("#imprevisto").val());
 		
 		
 		
-		
-		
-		var url = "/proposal/customizeparameters"; // El script a dónde se realizará la petición.
-	    $.ajax({
+			var url = "/proposal/customizeparameters"; // El script a dónde se realizará la petición.
+			$.ajax({
 	           type: "POST",
 	           cache: false,
 	           url: url,
@@ -164,10 +171,22 @@ $( document ).ready(function() {
 
 	           success: function(data)
 	           {
-	        	   totalcharge();
+	        	   //Actualiza valres por defecto
+	        	   	$("#defaultAporteFijo").val(aporteFijo);
+	       			$("#defaultFactor1").val(factor1);
+	       			$("#defaultFactor2").val(factor2);
+	       			$("#defaultImprevisto").val(imprevisto);
+	       			
+	       			//Formateamos los números actuales
+	       			
+	       			formatParameters();
+	       			
+	       			
+	       			//Recalculamos
+	       			totalcharge();
 	           }
 	         });
-		
+		}
 		
 	 });
 	
@@ -226,12 +245,10 @@ $( document ).ready(function() {
 			var parameters = $("#parameters").val();
 			var idDeparture = $("#idDeparture").val();
 			var price = $("#price").val();
-			var price2 = price.replace('.','');
 			var commissionable = $("#commissionable").val();
 			var number = $("#number").val();
 			var daysTimes = $("#daysTimes").val();
 			var totalBudget = $("#totalBudget").val();
-			var totalBudget2 = totalBudget.replace('.','');
 			var idPriceCurrencyType = $("#idPriceCurrencyType").val();
 			var div = document.getElementById('infoDetail');
 			var validateForm = document.getElementById('validateForm');
@@ -241,9 +258,13 @@ $( document ).ready(function() {
 			if(idProposalDetails=="" || idProposalDetails==null) idProposalDetails=0;
 
 			if(detail!=null && detail!="" && parameters!=null && parameters!="" && price!=null && price!="" && number!=null && number!="" && daysTimes!=null && daysTimes!="" && totalBudget!=null && totalBudget!="")
-				{
+			{
 			
-			var url = "/proposal/addproposaldetails"; // El script a dónde se realizará la petición.
+				
+				
+				totalBudget=unFormatNumber(totalBudget);
+				price=unFormatNumber(price);
+				var url = "/proposal/addproposaldetails"; // El script a dónde se realizará la petición.
 			    $.ajax({
 			           type: "POST",
 			           cache: false,
@@ -253,11 +274,11 @@ $( document ).ready(function() {
 			   			 'detail':detail,
 			   			 'parameters':parameters,
 			   			 'idDeparture': idDeparture,
-			   			 'price': price2,
+			   			 'price': price,
 			   			 'commissionable': commissionable,
 			   			 'number': number,
 			   			 'daysTimes': daysTimes,
-			   			 'totalBudget': totalBudget2,
+			   			 'totalBudget': totalBudget,
 			   			 'idPriceCurrencyType':idPriceCurrencyType
 			          
 			        		 },  // Adjuntar los campos del formulario enviado.
@@ -281,7 +302,7 @@ $( document ).ready(function() {
 			        			$("#showDetails").show();
 			        			changeDeparture();
 			        		   totalcharge();
-			        		   //location.reload();
+			        		   
 			        		   $(".form-proposaldetails").hide("slow");
 			        		   div.innerHTML = msg;
 			        		   validateForm.innerHTML = "";
@@ -325,7 +346,6 @@ $( document ).ready(function() {
 //-----------------------------------Obtener valores de la tabla de partidas para saber el precio sugerido y el tipo de moneda------------------
 function changeDeparture()
 {
-	
 	var table = document.getElementById("departureTable");
 	var idDeparture = $("#idDeparture").val();
 	var price=0;
@@ -340,7 +360,8 @@ function changeDeparture()
 	    	break;
 	    }
 	}
-	$("#price").val(price);
+	
+	$("#price").val(formatNumber(unFormatNumber(price)));
 	$("#idPriceCurrencyType").val(parseInt(idPriceCurrencyType)).change();
 	
 };
@@ -385,20 +406,20 @@ function proposalDetailsLoad(){
 function totalcharge()
 {
 	var sub1 =0;
-	var imprevisto = $("#imprevisto").val();
+	var imprevisto = unFormatNumber($("#imprevisto").val());
 	var totalImprevisto=0;
 	var sub2=0;
-	var factor1 = $("#factor1").val();
+	var factor1 = unFormatNumber($("#factor1").val());
 	var sub3=0;
-	var aporteFijo =$("#aporteFijo").val();
+	var aporteFijo =unFormatNumber($("#aporteFijo").val());
 	var total1=0;
 	var sub4=0;
-	var factor2 = $("#factor2").val();
+	var factor2 = unFormatNumber($("#factor2").val());
 	var sub5=0;
 	var total2=0;
 	var nacional1=0;
 	var nacional2=0;
-	var currencyExchange =$("#currencyExchange").val();
+	var currencyExchange =unFormatNumber($("#currencyExchange").val());
 	var montoAporteFijo =0;
 	var table = document.getElementById("proposalDetailsTable");
 	var idCurrencyTypeFavorite =$("#idCurrencyTypeFavorite").val();
@@ -413,7 +434,7 @@ function totalcharge()
 		var crrtype = table.rows[contador].cells[11].innerText;
 		valor = valor.split(" ");
 		valor = valor[valor.length-1];
-		
+		valor=unFormatNumber(valor);
 		
 		if(cms==1)
 		{
@@ -427,29 +448,28 @@ function totalcharge()
 		}
 	}
 	
-	totalImprevisto=sub1*(imprevisto/100);
-	sub2 = sub1+totalImprevisto;
-	sub3 = sub2*factor1;
+	totalImprevisto= parseFloat(sub1*(imprevisto/100)).toFixed(2);
+	sub2 = parseFloat((sub1*1)+(totalImprevisto*1)).toFixed(2);
+	sub3 =  parseFloat(sub2*factor1).toFixed(2);
 	total1 = sub3;
-	sub5=sub4*factor2;
+	sub5= parseFloat(sub4*factor2).toFixed(2);
 	total2=sub5;
-	nacional1= total1 + total2+(aporteFijo/currencyExchange);
-	nacional2 = (nacional1*currencyExchange);
-	totalSumBudget = (sub1+sub4)*currencyExchange;
+	nacional1=  parseFloat((total1*1) + (total2*1)+(aporteFijo/currencyExchange)).toFixed(2);
+	nacional2 = parseFloat (nacional1*currencyExchange).toFixed(2);
+	totalSumBudget =  parseFloat((sub1+sub4)*currencyExchange).toFixed(2);
 	
 	
-	$("#sub1").val(sub1.toLocaleString(undefined, {minimumFractionDigits: 2}));
-	
-	$("#totalImprevisto").val(totalImprevisto.toLocaleString(undefined, {minimumFractionDigits: 2}));
-	$("#sub2").val(sub2.toLocaleString(undefined, {minimumFractionDigits: 2}));
-	$("#sub3").val(sub3.toLocaleString(undefined, {minimumFractionDigits: 2}));
-	$("#total1").val(total1.toLocaleString(undefined, {minimumFractionDigits: 2}));
-	$("#sub4").val(sub4.toLocaleString(undefined, {minimumFractionDigits: 2}));
-	$("#sub5").val(sub5.toLocaleString(undefined, {minimumFractionDigits: 2}));
-	$("#total2").val(total2.toLocaleString(undefined, {minimumFractionDigits: 2}));
-	$("#nacional1").val(nacional1.toLocaleString(undefined, {minimumFractionDigits: 2}));
-	$("#nacional2").val(nacional2.toLocaleString(undefined, {minimumFractionDigits: 2}));
-	$("#totalSumBudget").val(totalSumBudget.toLocaleString(undefined, {minimumFractionDigits: 2}));
+	$("#sub1").val(formatNumber(sub1.toFixed(2)));
+	$("#totalImprevisto").val(formatNumber(totalImprevisto));
+	$("#sub2").val(formatNumber(sub2));
+	$("#sub3").val(formatNumber(sub3));
+	$("#total1").val(formatNumber(total1));
+	$("#sub4").val(formatNumber(sub4));
+	$("#sub5").val(formatNumber(sub5));
+	$("#total2").val(formatNumber(total2));
+	$("#nacional1").val(formatNumber(nacional1));
+	$("#nacional2").val(formatNumber(nacional2));
+	$("#totalSumBudget").val(formatNumber(totalSumBudget));
 
 	
 	
@@ -504,6 +524,7 @@ function methodLoad()
 	else
 	{
 		document.getElementById("secondLink").click();
+		formatParametersOnLoad();
 		totalcharge(); 
 		changeDeparture();
 	}
@@ -740,6 +761,36 @@ var idProposal = $(row).parents("tr").find("#idProposal span").eq(0).html();
 }
 
 //------------------------------------------------------Convert amount--------------------------------------------------------------------------------------------
+
+function formatNumber(num)
+{
+	return ((parseFloat(num)).toLocaleString(undefined, {minimumFractionDigits: 2}));
+}
+
+
+function unFormatNumber(text)
+{
+	return parseFloat(text.replace(".","").replace(",",".")).toFixed(2);
+}
+
+function formatParametersOnLoad()
+{
+	$("#currencyExchange").val(formatNumber($("#currencyExchange").val()));
+	$("#aporteFijo").val( formatNumber($("#aporteFijo").val()));
+	$("#factor1").val(formatNumber($("#factor1").val()));
+	$("#factor2").val(formatNumber($("#factor2").val()));
+	$("#imprevisto").val(formatNumber($("#imprevisto").val()));
+}
+
+function formatParameters()
+{
+		
+		$("#aporteFijo").val(formatNumber(unFormatNumber($("#aporteFijo").val())));
+		$("#factor1").val(formatNumber(unFormatNumber($("#factor1").val())));
+		$("#factor2").val(formatNumber(unFormatNumber($("#factor2").val())));
+		$("#imprevisto").val(formatNumber(unFormatNumber($("#imprevisto").val())));
+}
+
 
 /* value means the number od the textbox 
 

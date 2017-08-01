@@ -2,7 +2,7 @@
 
 $( document ).ready(function(){
 
-	$("#price").focusin(function(){$("#price").val("");});
+	$("#priceDeparture").focusin(function(){$("#priceDeparture").val("");});
 	
 });
 
@@ -716,7 +716,7 @@ function sendFormDeparture()
 {
 		var div = document.getElementById('msg');
 		var tbody = document.getElementById('tbodyDeparture');
-		var price = $("#price").val();
+		var price = $("#priceDeparture").val();
 		var msg="";
 		var form = $("#formDeparture").serializeArray();
 		
@@ -771,7 +771,7 @@ function editDeparture(row){
 	
 	$("#idDeparture").val(idDeparture);
 	$("#detail").val(detail);
-	$("#price").val(price);
+	$("#priceDeparture").val(price);
 	if(status == "Activo")$("#status").val(1).change();
 	else $("#status").val(0).change();
 	
@@ -786,7 +786,7 @@ function clearDeparture(){
 	
 	$("#idDeparture").val(0);
 	$("#detail").val("");
-	$("#price").val("");
+	$("#priceDeparture").val("");
 	$("#status").val(0).change();
 	
 	var div = document.getElementById('msg');
@@ -802,16 +802,16 @@ function clearDeparture(){
 
 function priceFormat()
 {
-	var price = $("#price").val();
+	var price = $("#priceDeparture").val();
 	if(price!="" && price!=null)
 	{
 		price=price.replace(",",".");
 			if(!isNaN(parseFloat(price)) && (parseFloat(price))>=0)
 			{
 				price =(parseFloat(price).toLocaleString(undefined, {minimumFractionDigits: 2}));
-				$("#price").val(price);
+				$("#priceDeparture").val(price);
 			}
-			else $("#price").val("");
+			else $("#priceDeparture").val("");
 				
 		
 	}
