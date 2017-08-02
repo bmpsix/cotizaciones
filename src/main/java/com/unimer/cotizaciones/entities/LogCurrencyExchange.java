@@ -28,7 +28,7 @@ public class LogCurrencyExchange implements Serializable {
 	private int actionUser;
 
 	@Column(nullable=false)
-	private float buy;
+	private double buy;
 
 	@Temporal(TemporalType.DATE)
 	@Column(nullable=false)
@@ -44,7 +44,7 @@ public class LogCurrencyExchange implements Serializable {
 	private int idCurrencyType;
 
 	@Column(nullable=false)
-	private float sell;
+	private double sell;
 	
 	
 
@@ -52,8 +52,8 @@ public class LogCurrencyExchange implements Serializable {
 		super();
 	}
 
-	public LogCurrencyExchange(Date dateRecord, String actionDetail, int actionUser, float buy, Date date,
-			int idCountry, int idCurrencyExchange, int idCurrencyType, float sell) {
+	public LogCurrencyExchange(Date dateRecord, String actionDetail, int actionUser, double buy, Date date,
+			int idCountry, int idCurrencyExchange, int idCurrencyType, double sell) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;
@@ -92,7 +92,7 @@ public class LogCurrencyExchange implements Serializable {
 		this.actionUser = actionUser;
 	}
 
-	public float getBuy() {
+	public double getBuy() {
 		return this.buy;
 	}
 
@@ -132,7 +132,7 @@ public class LogCurrencyExchange implements Serializable {
 		this.idCurrencyType = idCurrencyType;
 	}
 
-	public float getSell() {
+	public double getSell() {
 		return this.sell;
 	}
 

@@ -113,31 +113,41 @@ $( document ).ready(function() {
 	$("#aporteFijo").focusin(function(){$("#aporteFijo").val("");});
 	
 	// Si se sale del input y el mismo está en blanco, se coloca el valor por defecto
-	$("#factor1").focusout(function(){ if( $("#factor1").val()==null ||  $("#factor1").val()=="") $("#factor1").val(formatNumber($("#defaultFactor1").val()));});
-	$("#imprevisto").focusout(function(){ if( $("#imprevisto").val()==null ||  $("#imprevisto").val()==""  ) $("#imprevisto").val(formatNumber($("#defaultImprevisto").val()));});
-	$("#factor2").focusout(function(){  if( $("#factor2").val()==null ||  $("#factor2").val()=="") $("#factor2").val(formatNumber($("#defaultFactor2").val()));});
-	$("#aporteFijo").focusout(function(){  if( $("#aporteFijo").val()==null ||  $("#aporteFijo").val()=="") $("#aporteFijo").val(formatNumber($("#defaultAporteFijo").val()));});
+	$("#factor1").focusout(function(){ if( $("#factor1").val()==null ||  $("#factor1").val()=="") $("#factor1").val(formatNumberProposal($("#defaultFactor1").val()));});
+	$("#imprevisto").focusout(function(){ if( $("#imprevisto").val()==null ||  $("#imprevisto").val()==""  ) $("#imprevisto").val(formatNumberProposal($("#defaultImprevisto").val()));});
+	$("#factor2").focusout(function(){  if( $("#factor2").val()==null ||  $("#factor2").val()=="") $("#factor2").val(formatNumberProposal($("#defaultFactor2").val()));});
+	$("#aporteFijo").focusout(function(){  if( $("#aporteFijo").val()==null ||  $("#aporteFijo").val()=="") $("#aporteFijo").val(formatNumberProposal($("#defaultAporteFijo").val()));});
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------	
 	
 //------------------------------------------------Calcular el total de presupuesto de cada detalle------------Partida - precio - numero - dias/veces ------------------------------------
 	
 	$("#price").focusin(function(){$("#price").val("");});
-	$("#price").focusout(function(){if($("#price").val()=="" || $("#price").val()==null || isNaN(unFormatNumber($("#price").val())/1))changeDeparture();});
-	
+	$("#price").focusout(function()
+	{
+		if($("#price").val()=="" || $("#price").val()==null || isNaN(unFormatNumberProposal($("#price").val())/1))
+		{
+			changeDeparture();
+			$("#price").change();
+		}
+	});
+		
+	$("#price").change(function(){$("#price").val(formatNumberProposal(unFormatNumberProposal($("#price").val())))});
 	
 	$(".cal").change(function(){
 		
 		 var total = 0;
-		 var price = unFormatNumber($("#price").val());
-		 alert(price);
-		 $("#price").val(formatNumber(price));
+		 var price = $("#price").val();
+		 var point = price.split(".").length;
+		 
+		 if(point>=3)price=unFormatNumberProposal(replacePointProposal(price));
+		 else price=unFormatNumberProposal((price));
 		 var number = $("#number").val();
 		 var daysTimes = $("#daysTimes").val();
 		 if(number!=null && number!="" && daysTimes!=null && daysTimes!="")
 		 {
 			 total= price * number* daysTimes;
-			 $("#totalBudget").val(formatNumber(total));
+			 $("#totalBudget").val(formatNumberProposal(total));
 		 }
 	 });
 	
@@ -150,23 +160,23 @@ $( document ).ready(function() {
 	 $(".param").change(function(){
 		 
 		
-		if(isNaN(unFormatNumber($("#aporteFijo").val())/1) || isNaN(unFormatNumber($("#factor1").val())/1) || isNaN(unFormatNumber($("#factor2").val())/1) || isNaN(unFormatNumber($("#imprevisto").val())/1))
+		if(isNaN(unFormatNumberProposal($("#aporteFijo").val())/1) || isNaN(unFormatNumberProposal($("#factor1").val())/1) || isNaN(unFormatNumberProposal($("#factor2").val())/1) || isNaN(unFormatNumberProposal($("#imprevisto").val())/1))
 		{
-			if(isNaN($("#aporteFijo").val()/1)) $("#aporteFijo").val(formatNumber($("#defaultAporteFijo").val()));
-			if(isNaN($("#factor1").val()/1)) $("#factor1").val(formatNumber($("#defaultFactor1").val()));
-			if(isNaN($("#factor2").val()/1)) $("#factor2").val(formatNumber($("#defaultFactor2").val()));
-			if(isNaN($("#imprevisto").val()/1)) $("#imprevisto").val(formatNumber($("#defaultImprevisto").val()));
+			if(isNaN($("#aporteFijo").val()/1)) $("#aporteFijo").val(formatNumberProposal($("#defaultAporteFijo").val()));
+			if(isNaN($("#factor1").val()/1)) $("#factor1").val(formatNumberProposal($("#defaultFactor1").val()));
+			if(isNaN($("#factor2").val()/1)) $("#factor2").val(formatNumberProposal($("#defaultFactor2").val()));
+			if(isNaN($("#imprevisto").val()/1)) $("#imprevisto").val(formatNumberProposal($("#defaultImprevisto").val()));
 		}
-		else if($("#aporteFijo").val()=="" || $("#aporteFijo").val()== null || unFormatNumber($("#aporteFijo").val())< 0 ) $("#aporteFijo").val(formatNumber($("#defaultAporteFijo").val()));
-		else if( $("#factor1").val()=="" ||  $("#factor1").val()== null || unFormatNumber($("#factor1").val())<1 )  $("#factor1").val(formatNumber($("#defaultFactor1").val()));
-		else if($("#factor2").val()=="" || $("#factor2").val()== null || unFormatNumber($("#factor2").val())<1 ) $("#factor2").val(formatNumber($("#defaultFactor2").val()));
-		else if($("#imprevisto").val()=="" || $("#imprevisto").val()== null || unFormatNumber($("#imprevisto").val())<0 || unFormatNumber($("#imprevisto").val())>100) $("#imprevisto").val(formatNumber($("#defaultImprevisto").val()));
+		else if($("#aporteFijo").val()=="" || $("#aporteFijo").val()== null || unFormatNumberProposal($("#aporteFijo").val())< 0 ) $("#aporteFijo").val(formatNumberProposal($("#defaultAporteFijo").val()));
+		else if( $("#factor1").val()=="" ||  $("#factor1").val()== null || unFormatNumberProposal($("#factor1").val())<1 )  $("#factor1").val(formatNumberProposal($("#defaultFactor1").val()));
+		else if($("#factor2").val()=="" || $("#factor2").val()== null || unFormatNumberProposal($("#factor2").val())<1 ) $("#factor2").val(formatNumberProposal($("#defaultFactor2").val()));
+		else if($("#imprevisto").val()=="" || $("#imprevisto").val()== null || unFormatNumberProposal($("#imprevisto").val())<0 || unFormatNumberProposal($("#imprevisto").val())>100) $("#imprevisto").val(formatNumberProposal($("#defaultImprevisto").val()));
 		else
 		{
-			var aporteFijo = unFormatNumber($("#aporteFijo").val());
-			var factor1 = unFormatNumber($("#factor1").val());
-			var factor2 = unFormatNumber($("#factor2").val());
-			var imprevisto = unFormatNumber($("#imprevisto").val());
+			var aporteFijo = unFormatNumberProposal($("#aporteFijo").val());
+			var factor1 = unFormatNumberProposal($("#factor1").val());
+			var factor2 = unFormatNumberProposal($("#factor2").val());
+			var imprevisto = unFormatNumberProposal($("#imprevisto").val());
 		
 		
 		
@@ -274,9 +284,13 @@ $( document ).ready(function() {
 			{
 			
 				
+				 var pointT = totalBudget.split(".").length;
+				 if(pointT>=3)totalBudget=unFormatNumberProposal(replacePointProposal(totalBudget));
+				 else totalBudget=unFormatNumberProposal((totalBudget));
 				
-				totalBudget=unFormatNumber(totalBudget);
-				price=unFormatNumber(price);
+				 var pointP = price.split(".").length;
+				 if(pointP>=3)price=unFormatNumberProposal(replacePointProposal(price));
+				 else price=unFormatNumberProposal((price));
 				var url = "/proposal/addproposaldetails"; // El script a dónde se realizará la petición.
 			    $.ajax({
 			           type: "POST",
@@ -302,7 +316,7 @@ $( document ).ready(function() {
 			        		   tbody.innerHTML = data;
 			        		   if($("#idProposalDetails").val()==0) msg = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
 			        		   else  if($("#idProposalDetails").val()!=0) msg = "<p style='color: hsl(153,80%,40%)'>Se actualizó la información correctamente <p>";
-			        		   ClearForm();
+			        		   
 			        		   
 			        		   //Diseño de tabla
 			        		    $(".parametersTable").hide();
@@ -313,8 +327,9 @@ $( document ).ready(function() {
 			        			$(".columnHide").show();
 			        			$("#hideDetails").hide();
 			        			$("#showDetails").show();
-			        			changeDeparture();
 			        		   totalcharge();
+			        		   ClearForm();
+			        		   changeDeparture();
 			        		   
 			        		   $(".form-proposaldetails").hide("slow");
 			        		   div.innerHTML = msg;
@@ -374,7 +389,7 @@ function changeDeparture()
 	    }
 	}
 	
-	$("#price").val(formatNumber(unFormatNumber(price)));
+	$("#price").val(formatNumberProposal(unFormatNumberProposal(price)));
 	$("#idPriceCurrencyType").val(parseInt(idPriceCurrencyType)).change();
 	
 };
@@ -389,7 +404,7 @@ function ClearForm()
 	var validateForm = document.getElementById('validateForm');
 	$("#idProposalDetails").val(0);
 	$("#price").val("");
-	$("#commissionable").val(1);
+	$("#commissionable").val(1).change();
 	$("#number").val("");
 	$("#daysTimes").val("");
 	$("#totalBudget").val("");
@@ -419,23 +434,22 @@ function proposalDetailsLoad(){
 function totalcharge()
 {
 	var sub1 =0;
-	var imprevisto = unFormatNumber($("#imprevisto").val());
+	var imprevisto = unFormatNumberProposal($("#imprevisto").val());
 	var totalImprevisto=0;
 	var sub2=0;
-	var factor1 = unFormatNumber($("#factor1").val());
+	var factor1 = unFormatNumberProposal($("#factor1").val());
 	var sub3=0;
-	var aporteFijo =unFormatNumber($("#aporteFijo").val());
+	var aporteFijo =$("#aporteFijo").val();
 	var total1=0;
 	var sub4=0;
-	var factor2 = unFormatNumber($("#factor2").val());
+	var factor2 = unFormatNumberProposal($("#factor2").val());
 	var sub5=0;
 	var total2=0;
 	var nacional1=0;
-	var nacional2=0;
-	var currencyExchange =unFormatNumber($("#currencyExchange").val());
+	var currencyExchange =unFormatNumberProposal($("#currencyExchange").val());
 	var montoAporteFijo =0;
 	var table = document.getElementById("proposalDetailsTable");
-	var idCurrencyTypeFavorite =$("#idCurrencyTypeFavorite").val();
+	var idCurrencyTypeInternational =$("#idCurrencyTypeInternational").val();
 	var totalSumBudget =0;
 	
 	// -2 debido a que la ultima fila es la del total de presupuesto
@@ -447,42 +461,46 @@ function totalcharge()
 		var crrtype = table.rows[contador].cells[11].innerText;
 		valor = valor.split(" ");
 		valor = valor[valor.length-1];
-		valor=unFormatNumber(valor);
+		var point = valor.split(".").length;
+		if(point>=3)valor=unFormatNumberProposal(replacePointProposal(valor));
+		else valor=unFormatNumberProposal((valor));
+		var pointV = aporteFijo.split(".").length;
+		if(pointV>=3)aporteFijo=unFormatNumberProposal(replacePointProposal(aporteFijo));
+		else aporteFijo=unFormatNumberProposal((aporteFijo));
 		
 		if(cms==1)
 		{
-			if(idCurrencyTypeFavorite==crrtype) valor=valor/currencyExchange;
+			if(idCurrencyTypeInternational==crrtype) valor=valor*currencyExchange;
 			sub1=sub1+parseFloat(valor);
 		}
 		else 
 		{
-			if(idCurrencyTypeFavorite==crrtype) valor=valor/currencyExchange;	
+			if(idCurrencyTypeInternational==crrtype) valor=valor*currencyExchange;	
 			sub4=sub4+parseFloat(valor);
 		}
 	}
 	
-	totalImprevisto= parseFloat(sub1*(imprevisto/100)).toFixed(2);
-	sub2 = parseFloat((sub1*1)+(totalImprevisto*1)).toFixed(2);
-	sub3 =  parseFloat(sub2*factor1).toFixed(2);
+	totalImprevisto= sub1*(imprevisto/100);
+	sub2 = (sub1*1)+(totalImprevisto*1);
+	sub3 =  sub2*factor1;
 	total1 = sub3;
-	sub5= parseFloat(sub4*factor2).toFixed(2);
+	sub5= sub4*factor2;
 	total2=sub5;
-	nacional1=  parseFloat((total1*1) + (total2*1)+(aporteFijo/currencyExchange)).toFixed(2);
-	nacional2 = parseFloat (nacional1*currencyExchange).toFixed(2);
-	totalSumBudget =  parseFloat((sub1+sub4)*currencyExchange).toFixed(2);
+	nacional2 = (total1*1)+(total2*1)+(aporteFijo*1);
+	totalSumBudget =  (sub1*1)+(sub4*1);
 	
 	
-	$("#sub1").val(formatNumber(sub1.toFixed(2)));
-	$("#totalImprevisto").val(formatNumber(totalImprevisto));
-	$("#sub2").val(formatNumber(sub2));
-	$("#sub3").val(formatNumber(sub3));
-	$("#total1").val(formatNumber(total1));
-	$("#sub4").val(formatNumber(sub4));
-	$("#sub5").val(formatNumber(sub5));
-	$("#total2").val(formatNumber(total2));
-	$("#nacional1").val(formatNumber(nacional1));
-	$("#nacional2").val(formatNumber(nacional2));
-	$("#totalSumBudget").val(formatNumber(totalSumBudget));
+	$("#sub1").val(formatNumberProposal(parseFloat(sub1/currencyExchange).toFixed(2)));
+	$("#totalImprevisto").val(formatNumberProposal(parseFloat(totalImprevisto/currencyExchange).toFixed(2)));
+	$("#sub2").val(formatNumberProposal(parseFloat(sub2/currencyExchange).toFixed(2)));
+	$("#sub3").val(formatNumberProposal(parseFloat(sub3/currencyExchange).toFixed(2)));
+	$("#total1").val(formatNumberProposal(parseFloat(total1/currencyExchange).toFixed(2)));
+	$("#sub4").val(formatNumberProposal(parseFloat(sub4/currencyExchange).toFixed(2)));
+	$("#sub5").val(formatNumberProposal(parseFloat(sub5/currencyExchange).toFixed(2)));
+	$("#total2").val(formatNumberProposal(parseFloat(total2/currencyExchange).toFixed(2)));
+	$("#nacional1").val(formatNumberProposal(parseFloat(nacional2/currencyExchange).toFixed(2)));
+	$("#nacional2").val(formatNumberProposal(parseFloat(nacional2).toFixed(2)));
+	$("#totalSumBudget").val(formatNumberProposal(parseFloat(totalSumBudget).toFixed(2)));
 
 	
 	
@@ -506,12 +524,7 @@ function chargeTheDetailForUpdate(row) {
 	var commissionableTable = $(row).parents("tr").find("#commissionableTable span").eq(0).html();
 	var idCurrencyTypeTable = $(row).parents("tr").find("#idCurrencyTypeTable span").eq(0).html();
 	var idDepartureTable = $(row).parents("tr").find("#idDepartureTable span").eq(0).html();
-	//priceTable = priceTable.split(" ");
-	//priceTable = priceTable[priceTable.length-1];
 	
-	//totalBudgetTable = totalBudgetTable.split(" ");
-	//totalBudgetTable = totalBudgetTable[totalBudgetTable.length-1];
-
 	
 	$("#idDeparture").val(idDepartureTable).change();
 	$("#idProposalDetails").val(idProposalDetailsTable);
@@ -612,9 +625,14 @@ function calRow(row)
 	var totalBudgetTable = 0;
 	try
 	{
-		priceTable=unFormatNumber(priceTable);
-		numberTable=parseInt(unFormatNumber(numberTable));
-		daysTimesTable=parseInt(unFormatNumber(daysTimesTable));
+		
+		
+		
+		var pointP = priceTable.split(".").length;
+		if(pointP>=3)priceTable=unFormatNumberProposal(replacePointProposal(priceTable));
+		else priceTable=unFormatNumberProposal((priceTable));
+		numberTable=parseInt(unFormatNumberProposal(numberTable));
+		daysTimesTable=parseInt(unFormatNumberProposal(daysTimesTable));
 		if(priceTable=="" || priceTable==null || priceTable<1 || isNaN(priceTable/1)) msg+="<p style='color:#800000'>Debe ingresar un precio válido<p>";
 		else if(numberTable=="" || numberTable==null || numberTable<1 || isNaN(numberTable/1)) msg+="<p style='color:#800000'>Debe ingresar un numero o cantidad y debe ser un valor entero<p>";
 		else if(daysTimesTable=="" || daysTimesTable==null || daysTimesTable<1 || isNaN(daysTimesTable/1)) msg+="<p style='color:#800000'>Debe ingresar la cantidad de días o veces y debe ser un valor entero<p>";
@@ -696,7 +714,9 @@ function deleteProposalDetail(row){
 	        			$(".columnHide").show();
 	        			$("#hideDetails").hide();
 	        			$("#showDetails").show();
-		        		totalcharge();
+	        			 totalcharge();
+		        		 ClearForm();
+		        		 changeDeparture();
 	        		   msg = "<p style='color: hsl(153,80%,40%)'>Se eliminó el detalle correctamente. <p>";
 	        		  div.innerHTML = msg;
 	        	   }else{
@@ -774,7 +794,7 @@ var idProposal = $(row).parents("tr").find("#idProposal span").eq(0).html();
 
 //------------------------------------------------------Cambia el formato del tipo de moneda--------------------------------------------------------------------
 
-function formatNumber(num)
+function formatNumberProposal(num)
 {
 	return ((parseFloat(num)).toLocaleString(undefined, {minimumFractionDigits: 2}));
 }
@@ -782,9 +802,9 @@ function formatNumber(num)
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //-----------------------------------------Restaura el formato de texto a numero-----------------------------------------------------------------------------------------------------------------------
-function unFormatNumber(text)
+function unFormatNumberProposal(text)
 {
-	return parseFloat(text.replace(".","").replace(",",".")).toFixed(2);
+	return parseFloat(String(text).replace(".","").replace(",",".")).toFixed(2);
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -794,11 +814,11 @@ function unFormatNumber(text)
 //-----------------------Da formato a los input al cargase la página-----------------------------------------------------------------------------------------------------------------------------------------
 function formatParametersOnLoad()
 {
-	$("#currencyExchange").val(formatNumber($("#currencyExchange").val()));
-	$("#aporteFijo").val( formatNumber($("#aporteFijo").val()));
-	$("#factor1").val(formatNumber($("#factor1").val()));
-	$("#factor2").val(formatNumber($("#factor2").val()));
-	$("#imprevisto").val(formatNumber($("#imprevisto").val()));
+	$("#currencyExchange").val(formatNumberProposal($("#currencyExchange").val()));
+	$("#aporteFijo").val( formatNumberProposal($("#aporteFijo").val()));
+	$("#factor1").val(formatNumberProposal($("#factor1").val()));
+	$("#factor2").val(formatNumberProposal($("#factor2").val()));
+	$("#imprevisto").val(formatNumberProposal($("#imprevisto").val()));
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -808,10 +828,10 @@ function formatParametersOnLoad()
 function formatParameters()
 {
 		
-		$("#aporteFijo").val(formatNumber(unFormatNumber($("#aporteFijo").val())));
-		$("#factor1").val(formatNumber(unFormatNumber($("#factor1").val())));
-		$("#factor2").val(formatNumber(unFormatNumber($("#factor2").val())));
-		$("#imprevisto").val(formatNumber(unFormatNumber($("#imprevisto").val())));
+		$("#aporteFijo").val(formatNumberProposal(unFormatNumberProposal($("#aporteFijo").val())));
+		$("#factor1").val(formatNumberProposal(unFormatNumberProposal($("#factor1").val())));
+		$("#factor2").val(formatNumberProposal(unFormatNumberProposal($("#factor2").val())));
+		$("#imprevisto").val(formatNumberProposal(unFormatNumberProposal($("#imprevisto").val())));
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -825,7 +845,10 @@ function backToListProposal()
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+function replacePointProposal(text)
+{
+	return String(text).replace(".","").replace(",",".");
+}
 
 /* value means the number od the textbox 
 

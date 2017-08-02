@@ -34,14 +34,14 @@ public class CurrencyExchange implements Serializable {
 	private int idCurrencyExchange;
 
 	@Column(nullable=false)
-	private float buy;
+	private double buy;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable=false)
 	private Date date;
 
 	@Column(nullable=false)
-	private float sell;
+	private double sell;
 
 	//bi-directional many-to-one association to Country
 	@ManyToOne(fetch=FetchType.EAGER)
@@ -62,11 +62,11 @@ public class CurrencyExchange implements Serializable {
 		this.idCurrencyExchange = idCurrencyExchange;
 	}
 
-	public float getBuy() {
+	public double getBuy() {
 		return buy;
 	}
 
-	public void setBuy(float buy) {
+	public void setBuy(double buy) {
 		this.buy = buy;
 	}
 
@@ -78,11 +78,11 @@ public class CurrencyExchange implements Serializable {
 		this.date = date;
 	}
 
-	public float getSell() {
+	public double getSell() {
 		return sell;
 	}
 
-	public void setSell(float sell) {
+	public void setSell(double sell) {
 		this.sell = sell;
 	}
 
@@ -108,7 +108,7 @@ public class CurrencyExchange implements Serializable {
 		this.currencyType = new CurrencyType();
 	}
 
-	public CurrencyExchange(int idCurrencyExchange, float buy, Date date, float sell, Country country, CurrencyType currencyType) {
+	public CurrencyExchange(int idCurrencyExchange, double buy, Date date, double sell, Country country, CurrencyType currencyType) {
 		super();
 		this.idCurrencyExchange = idCurrencyExchange;
 		this.buy = buy;

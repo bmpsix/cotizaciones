@@ -44,7 +44,7 @@ public class LogProposal implements Serializable {
 	private Date creationDate;
 
 	@Column(name="currency_exchange", nullable=false)
-	private float currencyExchange;
+	private double currencyExchange;
 	
 	
 	
@@ -213,12 +213,12 @@ public class LogProposal implements Serializable {
 	}
 
 
-	public float getCurrencyExchange() {
+	public double getCurrencyExchange() {
 		return currencyExchange;
 	}
 
 
-	public void setCurrencyExchange(float currencyExchange) {
+	public void setCurrencyExchange(double currencyExchange) {
 		this.currencyExchange = currencyExchange;
 	}
 
@@ -438,7 +438,7 @@ public class LogProposal implements Serializable {
 	
 
 	public LogProposal(Date dateRecord, String actionDetail, int actionUser, String proposalName, String projectType,
-			String tracker, double aporteFijo, Date creationDate, float currencyExchange, int idCurrencyType,
+			String tracker, double aporteFijo, Date creationDate, double currencyExchange, int idCurrencyType,
 			Date endDate, double factor1, double factor2, double imprevisto, Date initialDate, String observations,
 			String targetText, int idssessment, int idClientContact, int idCollectMethod, int idCountry,
 			int idExecutionType, int idIndustrySector, int idOperation, int idProposalType, int idStatus,

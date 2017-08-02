@@ -37,6 +37,7 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
 		
 		if (currencyExchange.getIdCurrencyExchange()==0) {
 				
+			LOG.info("METHOD: addCurrencyExchange in currencyExchangeJpaRepository -- PARAMS: " + currencyExchange.toString());
 				currencyExchangeJpaRepository.save(currencyExchange);
 				LOG.info("METHOD: addCurrencyExchange in currencyExchangeJpaRepository -- PARAMS: " + currencyExchange.toString());
 				

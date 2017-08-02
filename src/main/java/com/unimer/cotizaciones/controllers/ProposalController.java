@@ -255,7 +255,7 @@ public class ProposalController {
 		if(idProposal!=0) 
 		{
 				Proposal proposalToUpdate = proposalService.findByIdProposal(idProposal);
-				proposal = new Proposal(idProposal,assessment.getDetail(),projectType,tracker,proposalToUpdate.getAporteFijo(),date,(float)proposalToUpdate.getCurrencyExchange(),currencyType,endDate,proposalToUpdate.getFactor1(),proposalToUpdate.getFactor2(),proposalToUpdate.getImprevisto(),initialDate,observations,targetText,assessment,clientContact,  collectMethod,  countryProposal,  executionType,industrySector,  operation,proposalType,status,studyCategory,studyType,technique,user);
+				proposal = new Proposal(idProposal,assessment.getDetail(),projectType,tracker,proposalToUpdate.getAporteFijo(),date,(double)proposalToUpdate.getCurrencyExchange(),currencyType,endDate,proposalToUpdate.getFactor1(),proposalToUpdate.getFactor2(),proposalToUpdate.getImprevisto(),initialDate,observations,targetText,assessment,clientContact,  collectMethod,  countryProposal,  executionType,industrySector,  operation,proposalType,status,studyCategory,studyType,technique,user);
 		}
 		else  proposal = new Proposal(assessment.getDetail(),projectType,tracker,settings.getAporteFijo(),date,currencyE.getSell(),currencyType,endDate,settings.getFactor1(),settings.getFactor2(),settings.getImprevisto(),initialDate,observations,targetText,assessment,clientContact,  collectMethod,  countryProposal,  executionType,industrySector,  operation,proposalType,status,studyCategory,studyType,technique,user);
 		proposal = proposalService.addProposal(proposal, userSession.getIdUser());

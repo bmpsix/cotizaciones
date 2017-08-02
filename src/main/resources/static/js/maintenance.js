@@ -19,54 +19,51 @@ $( document ).ready(function(){
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
 	
-//----------------------------------------Si se sale del input y el mismo está en blanco, se coloca el valor por defecto-----------------------------------------------------------------------------------------------------------------------
-		
-	// 
-	$("#priceDeparture").focusout(function(){ if( $("#priceDeparture").val()==null || $("#priceDeparture").val()=="") $("#priceDeparture").val("");});
-	
-	$("#sell").focusout(function(){ if( $("#sell").val()==null ||  $("#sell").val()=="") $("#sell").val("");});
-	$("#buy").focusout(function(){  if( $("#buy").val()==null ||  $("#buy").val()=="") $("#buy").val("");});
 
-	$("#imprevistoSettings").focusout(function(){  if( $("#imprevistoSettings").val()==null ||  $("#imprevistoSettings").val()=="") $("#imprevistoSettings").val("");});
-	$("#aporteFijoSettings").focusout(function(){  if( $("#aporteFijoSettings").val()==null ||  $("#aporteFijoSettings").val()=="") $("#aporteFijoSettings").val("");});
-	$("#factor1Settings").focusout(function(){  if( $("#factor1Settings").val()==null ||  $("#factor1Settings").val()=="") $("#factor1Settings").val("");});
-	$("#factor2Settings").focusout(function(){  if( $("#factor2Settings").val()==null ||  $("#factor2Settings").val()=="") $("#factor2Settings").val("");});
 //------------------------------------------------------------------------------------------------------------------------------------------------	
 
 //----------------------------------------------Dar formato--------------------------------------------------------------------------------------------------	
 	
+
 	$("#priceDeparture").change(function(){
-		if(!isNaN(unFormatNumber($("#priceDeparture").val())/1))$("#priceDeparture").val(formatNumber(replacePoint($("#priceDeparture").val())));
+		if(!isNaN(unFormatNumberMaintenace($("#priceDeparture").val())/1) && $("#priceDeparture").val()!=null &&  $("#priceDeparture").val()!="" && unFormatNumberMaintenace($("#priceDeparture").val())>0) $("#priceDeparture").val(formatNumberMaintenace(replacePointMaintenance($("#priceDeparture").val())));
 		else $("#priceDeparture").val("");
 	});
 	
-	
 	$("#buy").change(function(){
-		if(!isNaN(unFormatNumber($("#buy").val())/1))$("#buy").val(formatNumber(replacePoint($("#buy").val())));
+		if(!isNaN(unFormatNumberMaintenace($("#buy").val())/1) && $("#buy").val()!=null &&  $("#buy").val()!="" && unFormatNumberMaintenace($("#buy").val())>0) $("#buy").val(formatNumberMaintenace(replacePointMaintenance($("#buy").val())));
 		else $("#buy").val("");
 	});
+	
 	$("#sell").change(function(){
-		if(!isNaN(unFormatNumber($("#sell").val())/1))$("#sell").val(formatNumber(replacePoint($("#sell").val())));
+		if(!isNaN(unFormatNumberMaintenace($("#sell").val())/1) && $("#sell").val()!=null &&  $("#sell").val()!="" && unFormatNumberMaintenace($("#sell").val())>0) $("#sell").val(formatNumberMaintenace(replacePointMaintenance($("#sell").val())));
 		else $("#sell").val("");
 	});
 	
-	
 	$("#imprevistoSettings").change(function(){
-		if(!isNaN(unFormatNumber($("#imprevistoSettings").val())/1)) $("#imprevistoSettings").val(formatNumber(replacePoint($("#imprevistoSettings").val())));
+		if(!isNaN(unFormatNumberMaintenace($("#imprevistoSettings").val())/1) && $("#imprevistoSettings").val()!=null &&  $("#imprevistoSettings").val()!="" && (replacePoint($("#imprevistoSettings").val()))>0 && (replacePoint($("#imprevistoSettings").val()))<100) 
+			{
+				$("#imprevistoSettings").val(formatNumberMaintenace(replacePointMaintenance($("#imprevistoSettings").val())));
+			}
 		else $("#imprevistoSettings").val("");
 	});
+	
+	
 	$("#aporteFijoSettings").change(function(){
-		if(!isNaN(unFormatNumber($("#aporteFijoSettings").val())/1))$("#aporteFijoSettings").val(formatNumber(replacePoint($("#aporteFijoSettings").val())));
+		if(!isNaN(unFormatNumberMaintenace($("#aporteFijoSettings").val())/1) && $("#aporteFijoSettings").val()!=null &&  $("#aporteFijoSettings").val()!="" && unFormatNumberMaintenace($("#aporteFijoSettings").val())>=0) $("#aporteFijoSettings").val(formatNumberMaintenace(replacePointMaintenance($("#aporteFijoSettings").val())));
 		else $("#aporteFijoSettings").val("");
 	});
+	
 	$("#factor1Settings").change(function(){
-		if(!isNaN(unFormatNumber($("#factor1Settings").val())/1))$("#factor1Settings").val(formatNumber(replacePoint($("#factor1Settings").val())));
+		if(!isNaN(unFormatNumberMaintenace($("#factor1Settings").val())/1) && $("#factor1Settings").val()!=null &&  $("#factor1Settings").val()!="" && unFormatNumberMaintenace($("#factor1Settings").val())>0) $("#factor1Settings").val(formatNumberMaintenace(replacePointMaintenance($("#factor1Settings").val())));
 		else $("#factor1Settings").val("");
 	});
+	
 	$("#factor2Settings").change(function(){
-		if(!isNaN(unFormatNumber($("#factor2Settings").val())/1))$("#factor2Settings").val(formatNumber(replacePoint($("#factor2Settings").val())));
+		if(!isNaN(unFormatNumberMaintenace($("#factor2Settings").val())/1) && $("#factor2Settings").val()!=null &&  $("#factor2Settings").val()!="" && unFormatNumberMaintenace($("#factor2Settings").val())>0) $("#factor2Settings").val(formatNumberMaintenace(replacePointMaintenance($("#factor2Settings").val())));
 		else $("#factor2Settings").val("");
 	});
+	
 
 //------------------------------------------------------------------------------------------------------------------------------------------------	
 
@@ -633,10 +630,10 @@ function sendFormCurrencyExchange()
 		
 		
 		for (index = 1; index < 3; ++index) {
-		    form[index].value = unFormatNumber(form[index].value);
+		    form[index].value = unFormatNumberMaintenace(form[index].value);
+		    
 		}
 		form = jQuery.param(form);
-		
 		
 		var url = "/admin/addcurrencyexchange"; 
 		    $.ajax({
@@ -806,10 +803,10 @@ function sendFormDeparture()
 		var msg="";
 		var form = $("#formDeparture").serializeArray();
 		
-		price =parseFloat(price.replace(".","").replace(",",".")).toFixed(2);
+		
 		for (index = 0; index < form.length; ++index) {
 		    if (form[index].name == "price") {
-		    	form[index].value = price;
+		    	form[index].value = unFormatNumberMaintenace(replacePoint(form[index].value));
 		        break;
 		    }
 		}
@@ -1422,7 +1419,8 @@ function sendFormSettings()
 		var msg="";
 		var form = $("#formSettings").serializeArray();
 		for (index = 3; index < form.length; index++) {
-		   form[index].value = unFormatNumber(form[index].value);
+		   if(index!=5)form[index].value = unFormatNumberMaintenace(form[index].value);
+		   else form[index].value = unFormatNumberMaintenace(replacePoint(form[index].value));
 		}
 
 		form = jQuery.param(form);
@@ -1965,7 +1963,7 @@ function changeidHeadUser(){
 
 //------------------------------------------------------Cambia el formato del tipo de moneda--------------------------------------------------------------------
 
-function formatNumber(num)
+function formatNumberMaintenace(num)
 {
 	return ((parseFloat(num)).toLocaleString(undefined, {minimumFractionDigits: 2}));
 }
@@ -1973,15 +1971,19 @@ function formatNumber(num)
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //-----------------------------------------Restaura el formato de texto a numero-----------------------------------------------------------------------------------------------------------------------
-function unFormatNumber(text)
+function unFormatNumberMaintenace(text)
 {
-	return parseFloat(text.replace(".","").replace(",",".")).toFixed(2);
+	return parseFloat(String(text).replace(".","").replace(",",".")).toFixed(2);
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-function replacePoint(text)
+function replacePointMaintenance(text)
 {
-	return text.replace(",",".");
+	return String(text).replace(",",".");
 }
 
+function replacePoint(text)
+{
+	return String(text).replace(".","").replace(",",".");
+}
