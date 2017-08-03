@@ -30,10 +30,10 @@ import com.unimer.cotizaciones.entities.Settings;
 import com.unimer.cotizaciones.entities.Status;
 import com.unimer.cotizaciones.entities.StudyCategory;
 import com.unimer.cotizaciones.entities.StudyType;
-import com.unimer.cotizaciones.entities.Technique;
 import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.services.AssessmentService;
 import com.unimer.cotizaciones.services.AssessmentSharedService;
+import com.unimer.cotizaciones.services.ClientContactService;
 import com.unimer.cotizaciones.services.CollectMethodService;
 import com.unimer.cotizaciones.services.CountryService;
 import com.unimer.cotizaciones.services.CurrencyExchangeService;
@@ -50,9 +50,9 @@ import com.unimer.cotizaciones.services.StatusService;
 import com.unimer.cotizaciones.services.StudyCategoryService;
 import com.unimer.cotizaciones.services.StudyTypeService;
 import com.unimer.cotizaciones.services.TargetService;
+import com.unimer.cotizaciones.services.TechniqueByProposalService;
 import com.unimer.cotizaciones.services.TechniqueService;
 import com.unimer.cotizaciones.services.UserService;
-import com.unimer.cotizaciones.services.impl.ClientContactServiceImpl;
 
 
 @Controller
@@ -98,7 +98,7 @@ public class ProposalController {
 	
 	@Autowired
 	@Qualifier("clientContactServiceImpl")
-	private ClientContactServiceImpl clientContactService;
+	private ClientContactService clientContactService;
 	
 	@Autowired
 	@Qualifier("executionTypeServiceImpl")
@@ -149,6 +149,9 @@ public class ProposalController {
 	@Qualifier("proposalDetailsServiceImpl")
 	private ProposalDetailsService proposalDetailsService;
 	
+	@Autowired
+	@Qualifier("techniqueByProposalServiceImpl")
+	private TechniqueByProposalService techniqueByProposalService;
 	
 	
 	
@@ -198,6 +201,7 @@ public class ProposalController {
 		modelAndView.addObject("countryByCurrencyType", userSession.getCountry().getCurrencyType());
 		modelAndView.addObject("currencyType",userSession.getCountry().getCurrencyType());
 		if(proposedHeader!=null)modelAndView.addObject("exchangeRate", (float) proposedHeader.getCurrencyExchange());
+		if(proposedHeader!=null)modelAndView.addObject("techniquesByProposal", techniqueByProposalService.findTechiquesByProposal(proposedHeader));
 		modelAndView.addObject("departures",departureService.findDepartureByCountryAndStatus(userSession.getCountry(),(byte) 1));
 		modelAndView.addObject("proposal",proposedHeader);
 		if(proposedHeader!=null)modelAndView.addObject("proposaldetailss",proposalDetailsService.findByProposal(proposedHeader));
@@ -225,9 +229,10 @@ public class ProposalController {
 								@RequestParam("idIndustrySector") int idIndustrySector,
 								@RequestParam("idOperation") int idOperation,
 								@RequestParam("idProposalType") int idProposalType,
-								@RequestParam("idStatus") int idStatus,@RequestParam("idStudyCategory") int idStudyCategory,
+								@RequestParam("idStatus") int idStatus,
+								@RequestParam("idStudyCategory") int idStudyCategory,
 								@RequestParam("idStudyType") int idStudyType,
-								@RequestParam("idTechnique") int idTechnique,
+								@RequestParam("techniques[]") int[] techniques,
 								@RequestParam("tracker") String tracker,
 								@RequestParam("projectType") String projectType,
 								Model model) 
@@ -248,22 +253,34 @@ public class ProposalController {
 		ProposalType proposalType = proposalTypeService.findById(idProposalType);
 		Status status = statusService.findById(idStatus);
 		StudyCategory studyCategory = studyCategoryService.findById(idStudyCategory);
-		StudyType studyType= studyTypeService.findById(idStudyType);
-		Technique technique = techniqueService.findById(idTechnique);		
+		StudyType studyType= studyTypeService.findById(idStudyType);	
 		User user = userService.findById(userSession.getIdUser());
 		java.util.Date date = new Date();
+		
+		
+		
 		if(idProposal!=0) 
 		{
 				Proposal proposalToUpdate = proposalService.findByIdProposal(idProposal);
-				proposal = new Proposal(idProposal,assessment.getDetail(),projectType,tracker,proposalToUpdate.getAporteFijo(),date,(double)proposalToUpdate.getCurrencyExchange(),currencyType,endDate,proposalToUpdate.getFactor1(),proposalToUpdate.getFactor2(),proposalToUpdate.getImprevisto(),initialDate,observations,targetText,assessment,clientContact,  collectMethod,  countryProposal,  executionType,industrySector,  operation,proposalType,status,studyCategory,studyType,technique,user);
+				proposal = new Proposal(idProposal,assessment.getDetail(),projectType,tracker,proposalToUpdate.getAporteFijo(),date,(double)proposalToUpdate.getCurrencyExchange(),currencyType,endDate,proposalToUpdate.getFactor1(),proposalToUpdate.getFactor2(),proposalToUpdate.getImprevisto(),initialDate,observations,targetText,assessment,clientContact,  collectMethod,  countryProposal,  executionType,industrySector,  operation,proposalType,status,studyCategory,studyType,user);	
 		}
-		else  proposal = new Proposal(assessment.getDetail(),projectType,tracker,settings.getAporteFijo(),date,currencyE.getSell(),currencyType,endDate,settings.getFactor1(),settings.getFactor2(),settings.getImprevisto(),initialDate,observations,targetText,assessment,clientContact,  collectMethod,  countryProposal,  executionType,industrySector,  operation,proposalType,status,studyCategory,studyType,technique,user);
+		else  proposal = new Proposal(assessment.getDetail(),projectType,tracker,settings.getAporteFijo(),date,currencyE.getSell(),currencyType,endDate,settings.getFactor1(),settings.getFactor2(),settings.getImprevisto(),initialDate,observations,targetText,assessment,clientContact,  collectMethod,  countryProposal,  executionType,industrySector,  operation,proposalType,status,studyCategory,studyType,user);
+		
 		proposal = proposalService.addProposal(proposal, userSession.getIdUser());
+		
+		LOG.info("METHOD: PROPOSAL -- PARAMS: " + proposal.toString());
+		
+		for (int idTechnique : techniques) 
+		{
+			techniqueByProposalService.addTechniqueByProposal(idTechnique, proposal.getIdProposal(), userSession.getIdUser());
+		}
+		
 		LOG.info("METHOD: PROPOSAL -- PARAMS: " + proposal.toString());
 		session.setAttribute("proposedHeader",proposal);
 		Proposal Proposal =  (Proposal) session.getAttribute("proposedHeader");
 		LOG.info("METHOD: PROPOSAL -- PARAMS: " + proposal.toString());
 		LOG.info("METHOD: PROPOSedHeader -- PARAMS: " + Proposal.toString());
+		
 		return "redirect:/assessment/proposal";
 	}
 	

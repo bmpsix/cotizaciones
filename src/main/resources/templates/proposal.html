@@ -22,8 +22,7 @@
       			<input id="defaultAporteFijo" type="hidden"  th:value="${proposal.aporteFijo}"/>
       			<input id="defaultFactor2" type="hidden"   th:value="${proposal.factor2}"/>
       		</div>	
-	<form action="#" method="POST" id="proposalForm" th:action="@{/assessment/addproposal}"> <!-- PRIMER FORMULARIO -->
-	
+	<form action="#" > <!-- PRIMER FORMULARIO -->
 	
     <div class="ui-grid-b" id="cotiHeader1">
     
@@ -93,7 +92,7 @@
        		<input  id="endDate" name="endDate"  th:value="${#dates.format(proposal.endDate, 'MM/dd/yyyy')}"  data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }'  type="text" required/>   
 		
         	<label for="cotizacion"><h5>Tipo de Proyecto:</h5></label>
-        	<select name="projectType" th:value="${projectType}">
+        	<select name="projectType" id="projectType" th:value="${projectType}">
   				<option value="Cuantitativo" th:if="${proposal.projectType =='Cuantitavito'}" selected >Cuantitativo</option>
   				<option value="Cualitativo" th:if="${proposal.projectType =='Cualitativo'}" selected>Cualitativo</option>
   				<option value="Cuantitativo" th:if="${proposal.projectType !='Cuantitavito'}"  >Cuantitavito</option>
@@ -101,7 +100,7 @@
 			</select>
 			
 			<label for="status"><h5>Estado</h5></label>
-        	<select name="idStatus">
+        	<select name="idStatus" id="idStatus">
 				<option th:each="status : ${statuss}" th:value="${status.idStatus}"  th:if="${proposal.Status.detail == status.detail}" selected readonly>
 					<p name="status.detail" th:text="${status.detail}" th:value="${status}" ></p>
 				</option>
@@ -111,7 +110,7 @@
 			</select>
       
 			<label for="country"><h5>País donde se realizará el estudio:</h5></label>
-        	<select name="idCountry">
+        	<select name="idCountry" id="idCountry">
 				<option th:each="country : ${countries}" th:value="${country.idCountry}" th:if="${proposal.Country.detail == country.detail}" selected>
 					<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
 				</option>
@@ -132,7 +131,7 @@
         	<textarea name="observations" id="observations" style="border-bottom:1px solid green;" th:text="${proposal.observations}" required></textarea>
         	
 			</div>
-		</div>
+		</div> <!-- proposal!=null -->
 			
 		<div th:if="${proposal==null}">
 			<div class="paso1">
@@ -144,20 +143,20 @@
         	<input id="endDate" name="endDate"  th:value="${endDate}"  data-role="datebox" data-options='{ "mode": "calbox", "overrideDateFormat": "%m/%d/%Y" }'  type="text" required/>   
 			
         	<label for="cotizacion"><h5>Tipo de Proyecto:</h5></label>
-        	<select name="projectType" th:value="${projectType}">
+        	<select name="projectType" id="projectType" th:value="${projectType}">
   				<option value="Cuantitativo">Cuantitativo</option>
   				<option value="Cualitativo">Cualitativo</option>
 			</select>
 			
 			<label for="status"><h5>Estado</h5></label>
-        	<select name="idStatus">
+        	<select name="idStatus" id="idStatus">
 				<option th:each="status : ${statuss}" th:value="${status.idStatus}">
 					<p name="status.detail" th:text="${status.detail}" th:value="${status}" ></p>
 				</option>
 			</select>
       
 			<label for="country"><h5>Pais donde se realizara el estudio:</h5></label>
-        	<select name="idCountry">
+        	<select name="idCountry" id="idCountry">
 				<option th:each="country : ${countries}" th:value="${country.idCountry}">
 					<p name="country.detail" th:text="${country.detail}" th:value="${country.detail}" ></p>
 				</option>
@@ -176,12 +175,12 @@
         	
 			
 			</div>
-		</div>
+		</div> <!-- proposal==null -->
 			
         </fieldset>
         
         
-      </div>
+      </div> <!-- block -a -->
       <div class="ui-block-b">
        <fieldset style="margin: 30px;">
        
@@ -189,7 +188,7 @@
        		<div class="paso1">
        		<legend><h1><br/></h1></legend>
        		<label for="metodo"><h5>Metodo de recoleccion de datos:</h5></label>
-        	<select name="idCollectMethod">
+        	<select name="idCollectMethod" id="idCollectMethod">
 				<option th:each="collectMethod : ${collectmethods}"  th:value="${collectMethod.idCollectMethod}" th:if="${proposal.CollectMethod.detail == collectMethod.detail}" selected>
 					<p name="collectMethod.detail" th:text="${collectMethod.detail}" th:value="${collectMethod.detail}" ></p>
 				</option>
@@ -198,7 +197,7 @@
 				</option>
 			</select>
        		<label for="industry"><h5>Sector o industria:</h5></label>
-        	<select name="idIndustrySector">
+        	<select name="idIndustrySector" id="idIndustrySector">
 				<option th:each="industrySector : ${industrysectors}" th:value="${industrySector.idIndustrySector}" th:if="${proposal.IndustrySector.detail == industrySector.detail}" selected>
 					<p name="industrySector.detail" th:text="${industrySector.detail}" th:value="${industrySector.detail}" ></p>
 				</option>
@@ -208,7 +207,7 @@
 			</select>
 			
 			<label for="categoria"><h5>Categoria:</h5></label>
-        	<select name="idStudyCategory">
+        	<select name="idStudyCategory" id="idStudyCategory">
 				<option th:each="studyCategory : ${studyCategories}" th:value="${studyCategory.idStudyCategory}" th:if="${proposal.StudyCategory.detail == studyCategory.detail}" selected>
 					<p name="studyCategory.detail" th:text="${studyCategory.detail}" th:value="${studyCategory.detail}" ></p>
 				</option>
@@ -218,7 +217,7 @@
 			</select>
 			
 			<label for="tipoEstudio"><h5>Tipo de estudio:</h5></label>
-        	<select name="idStudyType">
+        	<select name="idStudyType" id="idStudyType">
 				<option th:each="studyType : ${studytypes}" th:value="${studyType.idStudyType}" th:if="${proposal.StudyType.detail == studyType.detail}" selected>
 					<p name="studyType.detail" th:text="${studyType.detail}" th:value="${studyType.detail}" ></p>
 				</option>
@@ -228,7 +227,7 @@
 			</select>
 			
 			<label for="tipoEstudio"><h5>Continuo/Tracker:</h5></label>
-        	<select  name="tracker" th:value="${tracker}">
+        	<select  name="tracker" id="tracker" th:value="${tracker}">
   				<option value="Aplica"    th:if="${proposal.tracker =='Aplica'}" selected>Aplica</option>
   				<option value="No aplica" th:if="${proposal.tracker =='No Aplica'}" selected>No Aplica</option>
   				<option value="Aplica"    th:if="${proposal.tracker !='Aplica'}">Aplica</option>
@@ -249,51 +248,50 @@
     		<form class="ui-filterable">
       			<input id="myFilter" data-type="search" placeholder="Busca las tecnicas/modelos">
     		</form>
-    		
-    		<select name="idTechnique" data-filter="true" data-input="#myFilter">
-				<option th:each="technique : ${techniques}" th:value="${technique.idTechnique}" th:if="${proposal.Technique.detail == technique.detail}" selected>
-					<p name="technique.detail" th:text="${technique.detail}" th:value="${technique.detail}" ></p>
-				</option>
-				<option th:each="technique : ${techniques}" th:value="${technique.idTechnique}" th:if="${proposal.Technique.detail != technique.detail}">
-					<p name="technique.detail" th:text="${technique.detail}" th:value="${technique.detail}" ></p>
-				</option>
-			</select>
+    		<fieldset id="listTechniques" data-role="controlgroup" data-filter="true" data-input="#myFilter">		
+        			<label th:each="technique : ${techniques}">
+        				<div th:each="pTechnique : ${techniquesByProposal}">
+        					<input type="checkbox" th:value="${technique.idTechnique}" th:if="${pTechnique.Technique==technique}" checked/>
+        					<span th:if="${pTechnique.Technique==technique}" th:text="${technique.detail}"></span>
+        				</div>
+        			</label>
+    		</fieldset>
     		
        		</div>
-       </div>
+       </div> <!-- proposal!=null -->
        
        <div th:if="${proposal==null}">
        		<div class="paso1">
        		<legend><h1><br/></h1></legend>
        		<label for="metodo"><h5>Metodo de recoleccion de datos:</h5></label>
-        	<select name="idCollectMethod">
+        	<select name="idCollectMethod" id="idCollectMethod">
 				<option name="collectMethod.idCollectMethod" th:each="collectMethod : ${collectmethods}" th:value="${collectMethod.idCollectMethod}">
 					<p name="collectMethod.detail" th:text="${collectMethod.detail}" th:value="${collectMethod.detail}" ></p>
 				</option>
 			</select>
        		<label for="industry"><h5>Sector o industria:</h5></label>
-        	<select name="idIndustrySector">
+        	<select name="idIndustrySector" id="idIndustrySector">
 				<option th:each="industrySector : ${industrysectors}" th:value="${industrySector.idIndustrySector}">
 					<p name="industrySector.detail" th:text="${industrySector.detail}" th:value="${industrySector.detail}" ></p>
 				</option>
 			</select>
 			
 			<label for="categoria"><h5>Categoria:</h5></label>
-        	<select name="idStudyCategory">
+        	<select name="idStudyCategory" id="idStudyCategory">
 				<option th:each="studyCategory : ${studyCategories}" th:value="${studyCategory.idStudyCategory}">
 					<p name="studyCategory.detail" th:text="${studyCategory.detail}" th:value="${studyCategory.detail}" ></p>
 				</option>
 			</select>
 			
 			<label for="tipoEstudio"><h5>Tipo de estudio:</h5></label>
-        	<select name="idStudyType">
+        	<select name="idStudyType" id="idStudyType">
 				<option th:each="studyType : ${studytypes}" th:value="${studyType.idStudyType}">
 					<p name="studyType.detail" th:text="${studyType.detail}" th:value="${studyType.detail}" ></p>
 				</option>
 			</select>
 			
 			<label for="tipoEstudio"><h5>Continuo/Tracker:</h5></label>
-        	<select  name="tracker" th:value="${tracker}">
+        	<select  name="tracker" id="tracker" th:value="${tracker}">
   				<option value="Aplica">Aplica</option>
   				<option value="No aplica">No Aplica</option>
 			</select>
@@ -310,19 +308,19 @@
     		<form class="ui-filterable">
       			<input id="myFilter" data-type="search" placeholder="Busca las tecnicas/modelos">
     		</form>
-    		
-    		<select name="idTechnique" data-filter="true" data-input="#myFilter">
-				<option th:each="technique : ${techniques}" th:value="${technique.idTechnique}">
-					<p name="technique.detail" th:text="${technique.detail}" th:value="${technique.detail}" ></p>
-				</option>
-			</select>
-    	
+    		<fieldset  id="listTechniques" data-role="controlgroup" data-filter="true" data-input="#myFilter">		
+        			<label th:each="technique : ${techniques}">
+        				<input type="checkbox" th:value="${technique.idTechnique}" />
+        				<span th:text="${technique.detail}"></span>
+        			</label>
+    		</fieldset>
+			
        		</div>
        
-       </div>
+       </div><!-- proposal==null -->
        
         </fieldset>
-      </div>
+      </div> <!-- block -b -->
       <div class="ui-block-c">
        <fieldset style="margin: 30px;">
        	<div th:if="${proposal!=null}">
@@ -330,7 +328,7 @@
        		<legend><h1><br/></h1></legend>
 			
 			<label for="clientContact"><h5>Contacto de cliente:</h5></label>
-        	<select name="idClientContact">
+        	<select name="idClientContact" id="idClientContact">
 				<option th:each="clientContact : ${clientContacts}" th:value="${clientContact.idClientContact}"  th:if="${proposal.ClientContact.name == clientContact.name}" selected>
 					<p name="clientContact.name" th:text="${clientContact.name+' - '+clientContact.Client.detail}" th:value="${clientContact.name}" ></p>
 				</option>
@@ -340,7 +338,7 @@
 			</select>
 			
 			<label for="executionType"><h5>Tipo de ejecución:</h5></label>
-        	<select name="idExecutionType">
+        	<select name="idExecutionType" id="idExecutionType">
 				<option th:each="executionType : ${executionTypes}" th:value="${executionType.idExecutionType}" th:if="${proposal.ExecutionType.detail == executionType.detail}" selected>
 					<p name="executionType.detail" th:text="${executionType.detail}" th:value="${executionType.detail}" ></p>
 				</option>
@@ -351,7 +349,7 @@
 			
 			
 			<label for="operation"><h5>Operaciones:</h5></label>
-        	<select name="idOperation">
+        	<select name="idOperation" id="idOperation">
 				<option th:each="operation : ${operations}" th:value="${operation.idOperation}" th:if="${proposal.Operation.detail == operation.detail}" selected>
 					<p name="operation.detail" th:text="${operation.detail  + ' - ' + operation.OperationType.detail}" th:value="${operation.detail}" ></p>
 				</option>
@@ -362,7 +360,7 @@
 			
 				
 			<label for="proposalType"><h5>Tipos de propuesta:</h5></label>
-        	<select name="idProposalType">
+        	<select name="idProposalType" id="idProposalType">
 				<option th:each="proposalType : ${proposalTypes}" th:value="${proposalType.idProposalType}" th:if="${proposal.ProposalType.detail == proposalType.detail}" selected>
 					<p name="proposalType.detail" th:text="${proposalType.detail}" th:value="${proposalType.detail}" ></p>
 				</option>
@@ -371,21 +369,21 @@
 				</option>
 			</select>
        		</div>
-       </div>
+       </div> <!-- proposal!=null -->
        
        <div th:if="${proposal==null}">
        		 <div class="paso1">
-       <legend><h1><br/></h1></legend>
+       		<legend><h1><br/></h1></legend>
        	
 			<label for="clientContact"><h5>Contacto de cliente:</h5></label>
-        	<select name="idClientContact">
+        	<select name="idClientContact" id="idClientContact">
 				<option th:each="clientContact : ${clientContacts}" th:value="${clientContact.idClientContact}">
 					<p name="clientContact.name" th:text="${clientContact.name+' - '+clientContact.Client.detail}" th:value="${clientContact.name}" ></p>
 				</option>
 			</select>
 			
 			<label for="executionType"><h5>Tipo de ejecución:</h5></label>
-        	<select name="idExecutionType">
+        	<select name="idExecutionType" id="idExecutionType">
 				<option th:each="executionType : ${executionTypes}" th:value="${executionType.idExecutionType}">
 					<p name="executionType.detail" th:text="${executionType.detail}" th:value="${executionType.detail}" ></p>
 				</option>
@@ -393,7 +391,7 @@
 			
 			
 			<label for="operation"><h5>Operaciones:</h5></label>
-        	<select name="idOperation">
+        	<select name="idOperation" id="idOperation">
 				<option th:each="operation : ${operations}" th:value="${operation.idOperation}">
 					<p name="operation.detail" th:text="${operation.detail  + ' - ' + operation.OperationType.detail}" th:value="${operation.detail}" ></p>
 				</option>
@@ -401,27 +399,27 @@
 			
 				
 			<label for="proposalType"><h5>Tipos de propuesta:</h5></label>
-        	<select name="idProposalType">
+        	<select name="idProposalType" id="idProposalType">
 				<option th:each="proposalType : ${proposalTypes}" th:value="${proposalType.idProposalType}">
 					<p name="proposalType.detail" th:text="${proposalType.detail}" th:value="${proposalType.detail}" ></p>
 				</option>
 			</select>
        
-       </div>
+       		</div>
        
-       </div>
+       </div> <!-- proposal==null -->
        
       		 <div class="paso2">
-       		<legend><h1>Paso 4</h1></legend>
-       		<label for="executionType"><h5>Guardar información general</h5></label>
-       		<input id="proposalSubmit" type="button" value="Guardar" data-icon="check" ></input>
-       		<div id="msg"></div>
+       			<legend><h1>Paso 4</h1></legend>
+       			<label for="executionType"><h5>Guardar información general</h5></label>
+       			<input id="proposalSubmit" type="button" value="Guardar" data-icon="check" />
+       			<div id="msgAddProposal"></div>
       		 </div>
        
     		
         </fieldset>
-      </div> 
-       </div>
+      </div> <!-- block-c -->
+       </div> <!-- grid-b -->
        		
        	<div class="paso1">
        			<a id="aPaso2" class=" ui-btn ui-icon-arrow-r ui-btn-icon-right ">Siguiente paso</a>

@@ -37,8 +37,6 @@ public class CountryServiceImpl implements CountryService {
 
 	private static final Log LOG = LogFactory.getLog(CountryServiceImpl.class);
 	
-	String ipCliente="";
-	
 	
 	@Override
 	public void addCountry(Country country, int idUser) {

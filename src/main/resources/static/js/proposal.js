@@ -173,12 +173,16 @@ $( document ).ready(function() {
 		else if($("#imprevisto").val()=="" || $("#imprevisto").val()== null || unFormatNumberProposal($("#imprevisto").val())<0 || unFormatNumberProposal($("#imprevisto").val())>100) $("#imprevisto").val(formatNumberProposal($("#defaultImprevisto").val()));
 		else
 		{
-			var aporteFijo = unFormatNumberProposal($("#aporteFijo").val());
+			var aporteFijo =$("#aporteFijo").val();
 			var factor1 = unFormatNumberProposal($("#factor1").val());
 			var factor2 = unFormatNumberProposal($("#factor2").val());
 			var imprevisto = unFormatNumberProposal($("#imprevisto").val());
-		
-		
+			
+			var pointV = aporteFijo.split(".").length;
+			if(pointV>=3)aporteFijo=unFormatNumberProposal(replacePointProposal(aporteFijo));
+			else aporteFijo=unFormatNumberProposal(aporteFijo);
+	
+	
 		
 			var url = "/proposal/customizeparameters"; // El script a dónde se realizará la petición.
 			$.ajax({
@@ -218,19 +222,79 @@ $( document ).ready(function() {
 
 //----------------------------------------Validar los datos de proposal: informacion general antes del submit----------------------------------------------------------------------
 	 $("#proposalSubmit").click(function(){
-		var div = document.getElementById('msg');
+		var div = document.getElementById('msgAddProposal');
 		var msg="";
 		var initialDate = $("#initialDate").val()
 		var endDate = $("#endDate").val()
 		var targetText =$("#targetText").val();
 		var observations =$("#observations").val();
+		var idProposal =$("#idProposal").val();
+		var idCurrencyType =$("#idCurrencyType").val();
+		var idClientContact =$("#idClientContact").val();
+		var idCollectMethod =$("#idCollectMethod").val();
+		var idCountry =$("#idCountry").val();
+		var idExecutionType =$("#idExecutionType").val();
+		var idIndustrySector =$("#idIndustrySector").val();
+		var idOperation =$("#idOperation").val();
+		var idProposalType =$("#idProposalType").val();
+		var idStatus =$("#idStatus").val();
+		var idStudyCategory =$("#idStudyCategory").val();
+		var idStudyType =$("#idStudyType").val();
+		var techniques = [];
+		var tracker =$("#tracker").val();
+		var projectType =$("#projectType").val();
 		
 		
-		if(initialDate!=null && endDate!=null && (new Date(initialDate).getTime() <= new Date(endDate).getTime()) && targetText!=null && observations!=null && initialDate!="" && endDate!="" && targetText!="" && observations!="")
+		var div = document.getElementById("listTechniques");
+		$(div).find('input:checkbox').each(function(){
+			if($(this).prop('checked')) techniques.push($(this).val());
+		});
+	 
+		if(techniques.length>0 && initialDate!=null && endDate!=null && (new Date(initialDate).getTime() <= new Date(endDate).getTime()) && targetText!=null && observations!=null && initialDate!="" && endDate!="" && targetText!="" && observations!="")
 		{
 			
-			msg = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
-			document.getElementById("proposalForm").submit();
+			var url = "/assessment/addproposal"; 
+		    $.ajax({
+		           type: "POST",
+		           cache: false,
+		           url: url,
+		           data: { 
+		        	   
+		        	   'idProposal' : idProposal,
+						'idCurrencyType' : idCurrencyType,
+						'endDate' : endDate,
+						'initialDate' : initialDate,
+						'observations' : observations,
+						'targetText' : targetText,
+						'idClientContact' : idClientContact,
+						'idCollectMethod' : idCollectMethod,
+						'idCountry' : idCountry,
+						'idExecutionType' : idExecutionType,
+						'idIndustrySector' : idIndustrySector,
+						'idOperation' : idOperation,
+						'idProposalType' : idProposalType,
+						'idStatus' : idStatus,
+						'idStudyCategory' : idStudyCategory,
+						'idStudyType' : idStudyType,
+						'techniques[]' : techniques,
+						'tracker' : tracker,
+						'projectType' : projectType
+		        	},
+
+		           success: function(data)
+		           {
+		        	   if(data != null){
+		        		   
+		        		   if($("#idProposal").val()==0) msg = "<p style='color: hsl(153,80%,40%)'>Se guardó la información correctamente <p>";
+		        		   else  if($("#idProposal").val()!=0) msg = "<p style='color: hsl(153,80%,40%)'>Se actualizó la información correctamente <p>";
+		        		   
+		        		   div.innerHTML = msg;
+		        		   location="/assessment/proposal";
+		        	   }else{
+		        		   alert("false");
+		        		   }
+		        	   }
+		         });
 		}
 		else 
 		{
@@ -239,6 +303,7 @@ $( document ).ready(function() {
 			if(endDate=="") msg+="<p style='color:#800000'>Debe ingresar la fecha final en el Paso 1 <p>";
 			if(targetText=="") msg+="<p style='color:#800000'>Debe ingresar el objetivo o muestra en el Paso 2 <p>";
 			if(observations=="") msg+="<p style='color:#800000'>Debe Ingresar las observaciones en el Paso 2 <p>";
+			if(techniques.length<=0) msg+="<p style='color:#800000'>Debe seleccionar las técnicas y modelos en el Paso 3 <p>";
 		}
 		div.innerHTML = msg;
 	 });
@@ -445,7 +510,7 @@ function totalcharge()
 	var factor2 = unFormatNumberProposal($("#factor2").val());
 	var sub5=0;
 	var total2=0;
-	var nacional1=0;
+	var nacional2=0;
 	var currencyExchange =unFormatNumberProposal($("#currencyExchange").val());
 	var montoAporteFijo =0;
 	var table = document.getElementById("proposalDetailsTable");
@@ -466,7 +531,7 @@ function totalcharge()
 		else valor=unFormatNumberProposal((valor));
 		var pointV = aporteFijo.split(".").length;
 		if(pointV>=3)aporteFijo=unFormatNumberProposal(replacePointProposal(aporteFijo));
-		else aporteFijo=unFormatNumberProposal((aporteFijo));
+		else aporteFijo=unFormatNumberProposal(aporteFijo);
 		
 		if(cms==1)
 		{
@@ -480,13 +545,15 @@ function totalcharge()
 		}
 	}
 	
+	
 	totalImprevisto= sub1*(imprevisto/100);
 	sub2 = (sub1*1)+(totalImprevisto*1);
 	sub3 =  sub2*factor1;
 	total1 = sub3;
 	sub5= sub4*factor2;
 	total2=sub5;
-	nacional2 = (total1*1)+(total2*1)+(aporteFijo*1);
+	if(isNaN(aporteFijo*1))nacional2 = 0;
+	else nacional2 = (total1*1)+(total2*1)+(aporteFijo*1);
 	totalSumBudget =  (sub1*1)+(sub4*1);
 	
 	
@@ -665,7 +732,7 @@ function calRow(row)
 	        			$("#hideDetails").hide();
 	        			$("#showDetails").show();
 		        		totalcharge();
-		        		/*msg = "<p style='color: hsl(153,80%,40%)'>Se actualizó la información correctamente <p>";*/
+		        		
 		        	   }else{
 		        		   alert("false");
 		        		   }
@@ -673,7 +740,7 @@ function calRow(row)
 		         });
 		}
 		div.innerHTML = msg;
-		//alert(priceTable+" "+totalBudgetTable);
+		
 	}
 	catch(err)
 	{
@@ -827,8 +894,10 @@ function formatParametersOnLoad()
 //-----------------------------Da formato a los inputs después de cada cambio-----------------------------------------------------------------------------------------------------------------------------------
 function formatParameters()
 {
-		
-		$("#aporteFijo").val(formatNumberProposal(unFormatNumberProposal($("#aporteFijo").val())));
+		var aporteFijo=$("#aporteFijo").val();
+		var pointV = aporteFijo.split(".").length;
+		if(pointV>=3)$("#aporteFijo").val(formatNumberProposal(unFormatNumberProposal(replacePointProposal(aporteFijo))));
+		else $("#aporteFijo").val(formatNumberProposal(unFormatNumberProposal(aporteFijo)));
 		$("#factor1").val(formatNumberProposal(unFormatNumberProposal($("#factor1").val())));
 		$("#factor2").val(formatNumberProposal(unFormatNumberProposal($("#factor2").val())));
 		$("#imprevisto").val(formatNumberProposal(unFormatNumberProposal($("#imprevisto").val())));

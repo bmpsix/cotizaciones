@@ -1,7 +1,6 @@
 package com.unimer.cotizaciones.entities;
 
 import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,6 +26,7 @@ public class Technique implements Serializable {
 	@Column(length=100)
 	private String detail;
 
+	
 	public int getIdTechnique() {
 		return idTechnique;
 	}

@@ -1,6 +1,7 @@
 package com.unimer.cotizaciones.services.impl;
 
 
+import java.util.Date;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.entities.CurrencyType;
+import com.unimer.cotizaciones.entities.LogCountryByCurrencyType;
 import com.unimer.cotizaciones.repositories.CountryJpaRepository;
 import com.unimer.cotizaciones.repositories.CurrencyTypeJpaRepository;
 import com.unimer.cotizaciones.repositories.LogCountryByCurrencyTypeJpaRepository;
@@ -51,6 +53,10 @@ public class CountryByCurrencyTypeServiceImpl implements CountryByCurrencyTypeSe
 		CurrencyType currencyType= currencyTypeJpaRepository.findByIdCurrencyType(idCurrencyType);
 		country.setCurrencyType(currencyType);
 		countryJpaRepository.save(country);
+		
+		LogCountryByCurrencyType logCountryByCurrencyType = new LogCountryByCurrencyType( new Date(), "Add CountryByCurrencyType",  idUser,  idCountry, idCurrencyType);
+		logCountryByCurrencyTypeJpaRepository.save(logCountryByCurrencyType);
+		
 		
 	}
 

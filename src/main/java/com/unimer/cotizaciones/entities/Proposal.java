@@ -25,8 +25,6 @@ public class Proposal implements Serializable {
 
 
 
-
-
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -148,17 +146,11 @@ public class Proposal implements Serializable {
 	@JoinColumn(name="id_study_type", nullable=false)
 	private StudyType studyType;
 
-
-	//bi-directional many-to-one association to TblUser
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_technique", nullable=false)
-	private Technique technique;
-
 	//bi-directional many-to-one association to TblUser
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="id_user", nullable=false)
 	private User user;
-	
+
 	
 	public String getTracker() {
 		return tracker;
@@ -168,14 +160,6 @@ public class Proposal implements Serializable {
 		this.tracker = tracker;
 	}
 
-	public Technique getTechnique() {
-		return technique;
-	}
-
-	public void setTechnique(Technique technique) {
-		this.technique = technique;
-	}
-	
 	public User getUser() {
 		return user;
 	}
@@ -390,6 +374,8 @@ public class Proposal implements Serializable {
 	}
 	
 
+	
+
 	public Proposal() {
 		super();
 		this.assessment = new Assessment();
@@ -403,7 +389,6 @@ public class Proposal implements Serializable {
 		this.status = new Status();
 		this.studyCategory = new StudyCategory();
 		this.studyType = new StudyType();
-		this.technique = new Technique();
 		this.user = new User();
 		this.currencyType = new CurrencyType();
 	}
@@ -413,7 +398,7 @@ public class Proposal implements Serializable {
 			double factor2, double imprevisto, Date initialDate, String observations, String targetText,
 			Assessment assessment, ClientContact clientContact, CollectMethod collectMethod, Country country,
 			ExecutionType executionType, IndustrySector industrySector, Operation operation, ProposalType proposalType,
-			Status status, StudyCategory studyCategory, StudyType studyType, Technique technique, User user) {
+			Status status, StudyCategory studyCategory, StudyType studyType, User user) {
 		super();
 		this.proposalName = proposalName;
 		this.projectType = projectType;
@@ -440,7 +425,6 @@ public class Proposal implements Serializable {
 		this.status = status;
 		this.studyCategory = studyCategory;
 		this.studyType = studyType;
-		this.technique = technique;
 		this.user = user;
 	}
 
@@ -451,7 +435,7 @@ public class Proposal implements Serializable {
 			double factor2, double imprevisto, Date initialDate, String observations, String targetText,
 			Assessment assessment, ClientContact clientContact, CollectMethod collectMethod, Country country,
 			ExecutionType executionType, IndustrySector industrySector, Operation operation, ProposalType proposalType,
-			Status status, StudyCategory studyCategory, StudyType studyType, Technique technique, User user) {
+			Status status, StudyCategory studyCategory, StudyType studyType, User user) {
 		super();
 		this.idProposal = idProposal;
 		this.proposalName = proposalName;
@@ -479,9 +463,9 @@ public class Proposal implements Serializable {
 		this.status = status;
 		this.studyCategory = studyCategory;
 		this.studyType = studyType;
-		this.technique = technique;
 		this.user = user;
 	}
+
 
 	@Override
 	public String toString() {
@@ -493,8 +477,7 @@ public class Proposal implements Serializable {
 				+ assessment + ", clientContact=" + clientContact + ", collectMethod=" + collectMethod + ", country="
 				+ country + ", executionType=" + executionType + ", industrySector=" + industrySector + ", operation="
 				+ operation + ", proposalType=" + proposalType + ", status=" + status + ", studyCategory="
-				+ studyCategory + ", studyType=" + studyType + ", technique=" + technique + ", user=" + user + "]";
+				+ studyCategory + ", studyType=" + studyType + ", user=" + user +"]";
 	}
-	
-	
+
 }
