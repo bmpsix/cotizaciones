@@ -48,19 +48,53 @@ public class TechniqueByProposalServiceImpl implements TechniqueByProposalServic
 		LOG.info("METHOD: addTechniqueByProposal in TechniqueByProposalServiceImpl -- PARAMS: idTechnique: "+idTechnique+" idProposal: "+idProposal);
 		Technique technique = techniqueJpaRepository.findByIdTechnique(idTechnique);
 		Proposal proposal = proposalJpaRepository.findByIdProposal(idProposal);
-		
-		TechniquesByProposal techniqueByProposal = new TechniquesByProposal(proposal,technique);
-		techniqueByProposalJpaRepository.save(techniqueByProposal);
-		LOG.info("METHOD: addTechniqueByProposal in TechniqueByProposalServiceImpl  techniqueByProposal"+ techniqueByProposal);
-		LogTechniqueByProposal logTechniqueByProposal = new LogTechniqueByProposal(new Date(),"add TechniqueByProposal",idUser,  idProposal,  idTechnique);
-		logTechniqueByProposalJpaRepository.save(logTechniqueByProposal);
+		if(techniqueByProposalJpaRepository.findByProposalAndTechnique(proposal,technique)==null)
+		{
+			TechniquesByProposal techniqueByProposal = new TechniquesByProposal(proposal,technique);
+			techniqueByProposalJpaRepository.save(techniqueByProposal);
+			
+			LOG.info("METHOD: addTechniqueByProposal in TechniqueByProposalServiceImpl  techniqueByProposal"+ techniqueByProposal);
+			LogTechniqueByProposal logTechniqueByProposal = new LogTechniqueByProposal(new Date(),"add TechniqueByProposal",idUser,  idProposal,  idTechnique);
+			logTechniqueByProposalJpaRepository.save(logTechniqueByProposal);
 
+		}
+		
 	}
 
 	@Override
 	public List<TechniquesByProposal>  findTechiquesByProposal(Proposal proposal) {
 		return techniqueByProposalJpaRepository.findByProposal(proposal);
 		
+	}
+
+	@Override
+	public void deleteTechiquesByProposal(Proposal proposal) {
+		
+		List<TechniquesByProposal> listTechniquesByProposal = techniqueByProposalJpaRepository.findByProposal(proposal);
+		
+		for(TechniquesByProposal techniquesByProposal : listTechniquesByProposal)
+		{
+			techniqueByProposalJpaRepository.delete(techniquesByProposal);
+		}
+
+		
+	}
+
+	@Override
+	public List<Technique> othersTechniques(Proposal proposal) {
+			
+		List<Technique> listTechniques = techniqueJpaRepository.findAll();
+		List<TechniquesByProposal> listTechniquesByProposal = techniqueByProposalJpaRepository.findByProposal(proposal);
+		
+		for(TechniquesByProposal techniquesByProposal : listTechniquesByProposal)
+		{
+			if(listTechniques.contains(techniquesByProposal.getTechnique()))
+			{
+				listTechniques.remove(techniquesByProposal.getTechnique());
+			}
+		}
+		
+		return listTechniques;
 	}
 	
 	

@@ -17,4 +17,6 @@ public interface ClientContactJpaRepository extends JpaRepository<ClientContact,
 	public abstract ClientContact findByIdClientContact(int idClientContact);
 	
 	public abstract List<ClientContact> findByCountry(Country country);
+	
+	public abstract List<ClientContact> findByCountryAndStatus(Country country, byte status);
 }

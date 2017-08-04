@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.unimer.cotizaciones.entities.ClientContact;
 import com.unimer.cotizaciones.entities.Country;
 import com.unimer.cotizaciones.entities.LogClientContact;
+import com.unimer.cotizaciones.entities.SaClient;
 import com.unimer.cotizaciones.repositories.ClientContactJpaRepository;
 import com.unimer.cotizaciones.repositories.ClientJpaRepository;
 import com.unimer.cotizaciones.repositories.CountryJpaRepository;
@@ -89,6 +90,25 @@ public class ClientContactServiceImpl implements ClientContactService {
 	@Override
 	public List<ClientContact> findByCountry(Country country) {
 		return clientContactJpaRepository.findByCountry(country);
+	}
+
+	@Override
+	public List<ClientContact> findByCountryAndSaClient(Country country, SaClient saClient) {
+		
+		List<ClientContact> listClientContacts = clientContactJpaRepository.findByCountryAndStatus(country,(byte)1);
+		List<ClientContact> listClientContacts2 = clientContactJpaRepository.findByCountryAndStatus(country,(byte)1);
+		
+		for(ClientContact clientContact : listClientContacts)
+		{
+			if(clientContact.getClient().getSaClient().getIdSaClient()!=saClient.getIdSaClient())
+			{
+				listClientContacts2.remove(clientContact);
+			}
+		}
+		
+		return listClientContacts2;
+		
+		
 	}
 
 	

@@ -31,7 +31,7 @@
       <div class="ui-block-a">
       	<div th:if="${proposal!=null}">
          	<label for="cotizacion"> <h5>Número de Propuesta:</h5> <span th:text="${formatIdProposal}" ></span></label>
-         	<input name="idProposal" type="hidden" th:value="${proposal.idProposal}" ></input>
+         	<input name="idProposal"  id="idProposal" type="hidden" th:value="${proposal.idProposal}" ></input>
          	<br>
          </div>
          <div th:if="${proposal==null}">
@@ -249,11 +249,14 @@
       			<input id="myFilter" data-type="search" placeholder="Busca las tecnicas/modelos">
     		</form>
     		<fieldset id="listTechniques" data-role="controlgroup" data-filter="true" data-input="#myFilter">		
-        			<label th:each="technique : ${techniques}">
-        				<div th:each="pTechnique : ${techniquesByProposal}">
-        					<input type="checkbox" th:value="${technique.idTechnique}" th:if="${pTechnique.Technique==technique}" checked/>
-        					<span th:if="${pTechnique.Technique==technique}" th:text="${technique.detail}"></span>
-        				</div>
+        			<label>Seleccionados:</label>
+        			<label th:each="pTechnique : ${techniquesByProposal}">
+        					<input type="checkbox" th:value="${pTechnique.Technique.idTechnique}" checked/>
+        					<span  th:text="${pTechnique.Technique.detail}"></span>
+        			</label>
+        			<label th:each="otherTechnique : ${othersTechniques}">
+        					<input type="checkbox" th:value="${otherTechnique.idTechnique}"/>
+        					<span th:text="${otherTechnique.detail}"></span>
         			</label>
     		</fieldset>
     		

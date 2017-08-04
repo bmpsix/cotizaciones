@@ -189,10 +189,10 @@ public class ProposalController {
 		modelAndView.addObject("industrysectors", industrySectorService.listAllIndustrySectors());
 		if(proposedHeader!=null)modelAndView.addObject("formatIdProposal", proposalService.formatNumber(proposedHeader.getIdProposal()));
 		else modelAndView.addObject("autoIncrement", proposalService.autoIncrement());
-		modelAndView.addObject("techniques", techniqueService.orderlistAllTechniques());
+		if(proposedHeader==null)modelAndView.addObject("techniques", techniqueService.orderlistAllTechniques());
 		modelAndView.addObject("proposalName", assessment.getDetail());
 		modelAndView.addObject("targets", targetService.listAllTargets());
-		modelAndView.addObject("clientContacts", clientContactService.findByCountry(userSession.getCountry()));
+		modelAndView.addObject("clientContacts", clientContactService.findByCountryAndSaClient(userSession.getCountry(), assessment.getSaClient()));
 		modelAndView.addObject("executionTypes", executionTypeService.listAllExecutionType());
 		modelAndView.addObject("operations", operationService.listAllOperation());
 		modelAndView.addObject("statuss", statusService.listAllStatus());
@@ -202,6 +202,7 @@ public class ProposalController {
 		modelAndView.addObject("currencyType",userSession.getCountry().getCurrencyType());
 		if(proposedHeader!=null)modelAndView.addObject("exchangeRate", (float) proposedHeader.getCurrencyExchange());
 		if(proposedHeader!=null)modelAndView.addObject("techniquesByProposal", techniqueByProposalService.findTechiquesByProposal(proposedHeader));
+		if(proposedHeader!=null)modelAndView.addObject("othersTechniques", techniqueByProposalService.othersTechniques(proposedHeader));
 		modelAndView.addObject("departures",departureService.findDepartureByCountryAndStatus(userSession.getCountry(),(byte) 1));
 		modelAndView.addObject("proposal",proposedHeader);
 		if(proposedHeader!=null)modelAndView.addObject("proposaldetailss",proposalDetailsService.findByProposal(proposedHeader));
@@ -269,7 +270,7 @@ public class ProposalController {
 		proposal = proposalService.addProposal(proposal, userSession.getIdUser());
 		
 		LOG.info("METHOD: PROPOSAL -- PARAMS: " + proposal.toString());
-		
+		techniqueByProposalService.deleteTechiquesByProposal(proposal);
 		for (int idTechnique : techniques) 
 		{
 			techniqueByProposalService.addTechniqueByProposal(idTechnique, proposal.getIdProposal(), userSession.getIdUser());

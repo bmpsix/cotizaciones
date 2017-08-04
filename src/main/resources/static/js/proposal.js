@@ -243,10 +243,9 @@ $( document ).ready(function() {
 		var techniques = [];
 		var tracker =$("#tracker").val();
 		var projectType =$("#projectType").val();
+		var listTechniques = document.getElementById("listTechniques");
 		
-		
-		var div = document.getElementById("listTechniques");
-		$(div).find('input:checkbox').each(function(){
+		$(listTechniques).find('input:checkbox').each(function(){
 			if($(this).prop('checked')) techniques.push($(this).val());
 		});
 	 

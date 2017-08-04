@@ -108,7 +108,7 @@ public class AssessmentController {
 		if(userSession.getRol().getDetail().toUpperCase().equals("BOSS_CONTRIBUTOR")) modelAndView.addObject("projects", assessmentService.listAllAssessmentToHeadUser(userSession));
 		else if(userSession.getRol().getDetail().toUpperCase().equals("ADMIN") || userSession.getRol().getDetail().toUpperCase().equals("ADMINISTRATOR"))  modelAndView.addObject("projects", assessmentService.listAllAssessmentByUserCountry(userSession));
 		else modelAndView.addObject("projects", assessmentService.listAllByUserAssign(userSession));
-		modelAndView.addObject("saClients", saClientService.listAllSaClient());
+		modelAndView.addObject("saClients", saClientService.findByActiveStatus());
 		modelAndView.addObject("status", statusService.listAllStatus());
 		modelAndView.addObject("currencyExchange",currencyExchange.getSell());
 		modelAndView.addObject("international",sttings.getCurrencyTypeInternational().getSymbol());

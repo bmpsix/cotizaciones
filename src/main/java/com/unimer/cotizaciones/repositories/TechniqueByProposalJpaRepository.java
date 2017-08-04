@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.unimer.cotizaciones.entities.Proposal;
+import com.unimer.cotizaciones.entities.Technique;
 import com.unimer.cotizaciones.entities.TechniquesByProposal;
 
 @Repository("techniqueByProposalJpaRepository")
@@ -15,4 +16,5 @@ public interface TechniqueByProposalJpaRepository extends JpaRepository<Techniqu
 	
 	public abstract List<TechniquesByProposal> findByProposal(Proposal proposal);
 	
+	public abstract TechniquesByProposal findByProposalAndTechnique(Proposal proposal,Technique technique);
 }

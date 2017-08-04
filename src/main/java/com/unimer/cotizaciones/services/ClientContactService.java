@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.unimer.cotizaciones.entities.ClientContact;
 import com.unimer.cotizaciones.entities.Country;
+import com.unimer.cotizaciones.entities.SaClient;
 
 public interface ClientContactService {
 
@@ -17,4 +18,6 @@ public interface ClientContactService {
 	public abstract ClientContact findById(int idClientContact);
 
 	public abstract List<ClientContact> findByCountry(Country country);
+	
+	public abstract List<ClientContact> findByCountryAndSaClient(Country country, SaClient saClient);
 }
