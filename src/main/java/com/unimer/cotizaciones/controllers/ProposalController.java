@@ -394,26 +394,36 @@ public class ProposalController {
 	
 	
 	@GetMapping("/proposal/proposalview")
-	public ModelAndView proposalview(HttpServletRequest request,@RequestParam("idProposal") int idProposal,Model model) {
+	public ModelAndView proposalview(HttpServletRequest request,Model model) {
 		
-		Proposal proposal = proposalService.findByIdProposal(idProposal);
 		HttpSession session = request.getSession();
 		User userSession =  (User) session.getAttribute("userSession");
 		Assessment assessment = (Assessment) session.getAttribute("assessment");
+		Proposal proposedHeader = (Proposal) session.getAttribute("proposedHeader");
+		proposedHeader = proposalService.findByIdProposal(proposedHeader.getIdProposal());
 		Settings sttings = settingsService.findSettingByCountry(userSession.getCountry());
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("formatIdProposal", proposalService.formatNumber(proposal.getIdProposal()));
+		modelAndView.addObject("formatIdProposal", proposalService.formatNumber(proposedHeader.getIdProposal()));
 		modelAndView.addObject("proposalName", assessment.getDetail());
 		modelAndView.addObject("settings",sttings);
 		modelAndView.addObject("countryByCurrencyType", userSession.getCountry().getCurrencyType());
-		modelAndView.addObject("exchangeRate", (float) proposal.getCurrencyExchange());
-		modelAndView.addObject("techniquesByProposal", techniqueByProposalService.findTechiquesByProposal(proposal));
-		modelAndView.addObject("othersTechniques", techniqueByProposalService.othersTechniques(proposal));
-		modelAndView.addObject("proposal",proposal);
-		modelAndView.addObject("proposaldetailss",proposalDetailsService.findByProposal(proposal));
+		modelAndView.addObject("exchangeRate", (float) proposedHeader.getCurrencyExchange());
+		modelAndView.addObject("techniquesByProposal", techniqueByProposalService.findTechiquesByProposal(proposedHeader));
+		modelAndView.addObject("othersTechniques", techniqueByProposalService.othersTechniques(proposedHeader));
+		modelAndView.addObject("proposal",proposedHeader);
+		modelAndView.addObject("proposaldetailss",proposalDetailsService.findByProposal(proposedHeader));
 		modelAndView.setViewName("proposalview");
 		return modelAndView;
 	}
+	
+	@PostMapping("/proposal/proposalview")
+	public String proposalviewPost(HttpServletRequest request,@RequestParam("idProposal") int idProposal,Model model) {
+		HttpSession session = request.getSession();
+		Proposal proposal = proposalService.findByIdProposal(idProposal);
+		session.setAttribute("proposedHeader",proposal);
+		return "redirect:/proposal/proposalview";
+	}
+	
 	
 	
 	

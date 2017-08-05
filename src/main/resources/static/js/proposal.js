@@ -958,7 +958,7 @@ function proposalView(row){
 	           success: function(data)
 	           {
 	        	   if(data != null){
-	        		  
+	        		  location="/proposal/proposalview";
 	        	   }else{
 	        		  
 	        		   }

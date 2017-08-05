@@ -115,12 +115,12 @@
 	           				<div th:if="${idUser==proposal.User.idUser}">
 	           					<td>
 	           						<a class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #8B4513;" onclick="editProposal(this);" title="Editar"></a>
-	           						<a class="ui-link ui-btn ui-btn-b ui-icon-eye ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all"  style="background-color: #2F4F4F;" href="#" th:href="@{/proposal/proposalview?idProposal=__${proposal.idProposal}__}"  title="Ver"></a>
+	           						<a class="ui-link ui-btn ui-btn-b ui-icon-eye ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all"  style="background-color: #2F4F4F;" onclick="proposalView(this);" title="Ver"></a>
 	           					</td>
 	           				</div>
 	           				<div th:if="${idUser!=proposal.User.idUser}">
 	           					<td>
-	           						<a class="ui-link ui-btn ui-btn-b ui-icon-bullets ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all"  style="background-color: #708090;" title="Ver"></a>
+	           						<a class="ui-link ui-btn ui-btn-b ui-icon-eye ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all"  style="background-color: #2F4F4F;" onclick="proposalView(this);" title="Ver"></a>
 	           					</td>
 	           				</div>
            				</tr>
