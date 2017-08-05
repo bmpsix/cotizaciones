@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="fragments/header">
+<meta charset="UTF-8"/>
+</head>
+<body  th:object="${proposal}" onload="methodLoadProposalView();">
+	<div data-role="page" data-theme="a" data-dom-cache="false" >
+	
+		<div data-role="header" data-position="inline" >
+			<img src="img/unimer_logo.png" class="logotitle" th:src="@{/img/unimer_logo.png}">
+            <h1>
+            Cotizaciones
+            </h1>
+		</div>
+
+		<div data-role="content" data-theme="a" style="width: 95%;margin: 1em auto;">
+		
+			<div th:if="${proposal!=null}">
+				<input id="defaultFactor1" type="hidden" th:value="${proposal.factor1}" />
+      			<input id="defaultImprevisto"  type="hidden" th:value="${proposal.imprevisto}" />
+      			<input id="defaultAporteFijo" type="hidden"  th:value="${proposal.aporteFijo}"/>
+      			<input id="defaultFactor2" type="hidden"   th:value="${proposal.factor2}"/>
+      		</div>	
+			
+
+	
+    <div class="ui-grid-b" id="cotiHeader1">
+    
+    
+    
+      <div class="ui-block-a">
+      	<div th:if="${proposal!=null}">
+         	<label for="cotizacion"> <h5>Número de Propuesta:</h5> <span th:text="${formatIdProposal}" ></span></label>
+         	<input name="idProposal"  id="idProposal" type="hidden" th:value="${proposal.idProposal}" readonly></input>
+         	<br>
+         </div>
+       
+      </div>
+      
+      <div class="ui-block-b" data-inline=true>
+         <label style=" width: 99%;" for="cotizacion"><h5>Nombre de Cotización:</h5> <label placeholder="Nombre para la propuesta"  title="Debe ingresar un nombre para la propuesta" type="text" id="proposalName" name="proposalName" th:text="${proposalName}"></label></label>
+    
+      </div>
+      <div class="ui-block-c" style="text-align:right;">
+      	
+      	<a onclick="backToListProposal();" class="ui-link ui-btn ui-btn-b ui-icon-back ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;" title="Volver a la lista de propuestas"></a>
+           	 	
+      </div> 
+       
+	</div>
+	
+	<div class="ui-grid-b" id="cotiHeader2">
+    
+      <div class="ui-block-a">
+     
+      </div>
+      <div class="ui-block-b" >
+    
+      </div>
+      
+      <div class="ui-block-c">
+       
+      </div> 
+           
+	</div>
+	
+	<div data-role="navbar">
+			<ul>
+				<li title="Puede modificar la información general de la propuesta desde este apartado." class="first"><a id="firstLink" href="#">Informacion General</a></li>
+				<li class="second"><a id="secondLink"  href="#">Detalle de la Cotizacion</a></li>
+				<li title="Proceso de facturación y finalización de la propuesta." ><a href="#" >Escenarios de Facturacion</a></li>
+			</ul>
+	</div>
+	
+	<div class="ui-grid-b" id="generalInfo2" style="display: none;">
+    
+      <div class="ui-block-a" >
+        <fieldset style="margin: 30px;">
+        	
+        	
+        <div th:if="${proposal!=null}">
+        	<div class="paso1">
+        	
+        	<legend><h1>Paso 1</h1></legend> 
+         	<label  for="initialDate"><h5>Fecha inicio operaciones:</h5></label>
+        	<input id="initialDate" name="initialDate" th:value="${#dates.format(proposal.initialDate, 'MM/dd/yyyy')}" type="text" readonly/>  
+        	<label for="endDate"><h5>Fecha de entrega final:</h5></label>
+       		<input  id="endDate" name="endDate"  th:value="${#dates.format(proposal.endDate, 'MM/dd/yyyy')}"  type="text" readonly/>   
+		
+        	<label for="cotizacion"><h5>Tipo de Proyecto:</h5></label>
+        	<input th:value="${proposal.projectType}" readonly/>
+        		
+			<label for="status"><h5>Estado</h5></label>
+			<input th:value="${proposal.status.detail}" readonly/>
+			
+			
+      
+			<label for="country"><h5>País donde se realizará el estudio:</h5></label>
+			<input th:value="${proposal.Country.detail}" readonly/>
+        	
+			</div>
+			
+			<div class="paso2">
+			
+        	<legend><h1>Paso 2</h1></legend>
+        		
+        	<label for="target"><h5>Muestreo:</h5></label>
+        	<textarea name="targetText" id="targetText" style="border-bottom:1px solid green;" th:text="${proposal.targetText}" readonly></textarea>
+       
+        	<label for="observacion"><h5>Observacion:</h5></label>
+        	<textarea name="observations" id="observations" style="border-bottom:1px solid green;" th:text="${proposal.observations}" readonly></textarea>
+        	
+			</div>
+		</div> <!-- proposal!=null -->
+
+			
+        </fieldset>
+        
+        
+      </div> <!-- block -a -->
+      <div class="ui-block-b">
+       <fieldset style="margin: 30px;">
+       
+       <div th:if="${proposal!=null}">
+       		<div class="paso1">
+       		<legend><h1><br/></h1></legend>
+       		<label for="metodo"><h5>Metodo de recoleccion de datos:</h5></label>
+        	<input th:value="${proposal.CollectMethod.detail}" readonly/>
+
+       		<label for="industry"><h5>Sector o industria:</h5></label>
+       		<input th:value="${proposal.IndustrySector.detail}" readonly/>
+
+			<label for="categoria"><h5>Categoria:</h5></label>
+			<input th:value="${proposal.StudyCategory.detail}" readonly/>
+		
+			
+			<label for="tipoEstudio"><h5>Tipo de estudio:</h5></label>
+        	<input th:value="${proposal.StudyType.detail}" readonly/>
+			
+			<label for="tipoEstudio"><h5>Continuo/Tracker:</h5></label>
+			<input th:value="${proposal.tracker}" readonly/>
+			
+       		</div>
+       		
+       		
+       		<div class="paso2">
+			
+        	<legend><h1>Paso 3</h1></legend>
+        	<h5>Tecnicas/Modelo:</h5>
+        	  	
+    		
+    		<fieldset id="listTechniques" data-role="controlgroup">		
+        			<div th:each="pTechnique : ${techniquesByProposal}">
+        					<label  th:text="${pTechnique.Technique.detail}"></label>
+        			</div>
+        			<div th:each="otherTechnique : ${othersTechniques}">
+        					<label th:text="${otherTechnique.detail}"></label>
+        			</div>
+    		</fieldset>
+    		
+       		</div>
+       </div> <!-- proposal!=null -->
+       
+        </fieldset>
+      </div> <!-- block -b -->
+      <div class="ui-block-c">
+       <fieldset style="margin: 30px;">
+       	<div th:if="${proposal!=null}">
+       		<div class="paso1">
+       		<legend><h1><br/></h1></legend>
+			
+			<label for="clientContact"><h5>Contacto de cliente:</h5></label>
+        	<input th:value="${proposal.clientContact.name+' - '+proposal.clientContact.Client.detail}" readonly/>
+        	
+			<label for="executionType"><h5>Tipo de ejecución:</h5></label>
+			<input th:value="${proposal.ExecutionType.detail}" readonly/>
+			
+			<label for="operation"><h5>Operaciones:</h5></label>
+			<input th:value="${proposal.Operation.detail}" readonly/>
+				
+			<label for="proposalType"><h5>Tipos de propuesta:</h5></label>
+			<input th:value="${proposal.proposalType.detail}" readonly/>
+			
+       		</div>
+       </div> <!-- proposal!=null -->
+   		
+        </fieldset>
+      </div> <!-- block-c -->
+       </div> <!-- grid-b -->
+       		
+       	<div class="paso1">
+       			<a id="aPaso2" class=" ui-btn ui-icon-arrow-r ui-btn-icon-right ">Siguiente paso</a>
+       	</div>
+       		
+       	<div class="paso2">
+       			<a id="aPaso1" class=" ui-btn ui-icon-arrow-l ui-btn-icon-left ">Regresar al paso anterior</a>
+       	</div>
+
+	
+	<!-- DETALLE DE COTIZACION -->
+	
+	<div th:if="${proposal!=null}" class="ui-grid-a" id="detalleCoti" style="display: none;" th:object="${settings}">
+     <div class="ui-block-a" >
+        <fieldset style="margin: 30px ; " >
+        		<h3>Comisionable</h3>
+      		<table style="width:99%";>
+      			<tr>
+      				<th ><p th:text="'Sub Total 1 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td><input id="sub1" style="background-color:#FFFAFA;" type="text" readonly/></td>
+      				<th>Factor 1:</th>
+      				<td><input class="param" id="factor1" type="text" maxlength="5" th:value="${proposal.factor1}" readonly/></td>
+      			</tr>
+      			<tr>
+      				<th>Imprevisto %:</th>
+      				<td><input class="param" id="imprevisto"  type="text" maxlength="5" th:value="${proposal.imprevisto}" readonly/></td>
+      				<th><p th:text="'Sub Total 3 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td ><input  id="sub3" style="background-color:#FFFAFA;" type="text"  readonly/></td>
+      			</tr>
+      			<tr>
+      				<th><p th:text="'Total Imprevisto '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td><input id="totalImprevisto" style="background-color:#FFFAFA;"  type="text" readonly/></td>
+      				<th><p th:text="'Aporte Fijo '+${settings.CurrencyTypeFavorite.symbol}+' :'"></p></th>
+      				<td><input class="param" id="aporteFijo" type="text" maxlength="20" th:value="${proposal.aporteFijo}" readonly/></td>
+      			</tr>
+      			<tr>
+      				<th><p th:text="'Sub Total 2 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td><input id="sub2" style="background-color:#FFFAFA;" type="text" readonly/></td>
+      				<th><p th:text="'Tipo de cambio '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td th:object="${exchangeRate}"><input id="currencyExchange" style="background-color:#FFFAFA;" type="text"  th:value="${exchangeRate}" readonly/></td>
+      			</tr>
+      			<tr>
+      				<th><p th:text="'Total 1 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td colspan="3"><input id="total1" style="background-color:#FFFAFA;" type="text" readonly/></td>
+      				
+      			</tr>
+      		</table>
+        
+      		<h3>Precios nacionales</h3>
+      		
+      		<input id="idCurrencyTypeFavorite" type="hidden" th:value="${settings.CurrencyTypeFavorite.idCurrencyType}" readonly/>
+      		<input id="idCurrencyTypeInternational" type="hidden" th:value="${settings.CurrencyTypeInternational.idCurrencyType}" readonly/>
+      		
+      		<table style="width:99%">
+      			<tr>
+      				<th><p th:text="'Precio nacional '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td><input id="nacional1" style="background-color:#FFFAFA;" type="text" readonly/></td>
+      				
+      			</tr>
+      			<tr>
+      				<th><p th:text="'Precio nacional '+${proposal.CurrencyType.symbol}+' :'"></p></th>
+      				<td><input  id="nacional2" style="background-color:#FFFAFA;" type="text" readonly/></td>
+      			</tr>
+
+      		</table>
+        </fieldset>       
+      </div>
+       
+      <div class="ui-block-b">
+       <fieldset style="margin: 30px;">
+         <h3>No Comisionable</h3>
+      		<table style="width:99%">
+      			<tr>
+      				<th><p th:text="'Sub Total 4 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td><input id="sub4" style="background-color:#FFFAFA;" type="text" readonly/></td>
+      			</tr>
+      			<tr>
+      				<th>Factor 2:</th>
+      				<td><input class="param" id="factor2" type="text"  maxlength="5" th:value="${proposal.factor2}" readonly/></td>
+      			</tr>
+      			<tr>
+      				<th><p th:text="'Sub Total 5 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td><input id="sub5" style="background-color:#FFFAFA;" type="text" readonly/></td>
+      			</tr>
+      			<tr>
+      				<th><p th:text="'Total 2 '+${settings.CurrencyTypeInternational.symbol}+' :'"></p></th>
+      				<td><input id="total2" style="background-color:#FFFAFA;" type="text" readonly /></td>
+      			</tr>
+      		</table>
+      		
+      		
+       </fieldset>
+      </div>
+     
+
+
+ 	<div>
+       <fieldset style="margin: 30px; width: 95%">
+       <br/>
+       
+    
+       <hr class="form-proposaldetails" style="margin: 30px; display:none;">
+       <h3>Detalles de propuesta</h3>
+         	<div class="ui-grid-a">
+         	
+         	 <div class="ui-block-a">
+         	 	 <div id="infoDetail" style="text-align:left;"></div>
+         	 </div>
+         	  <div class="ui-block-b">
+         	   	<div style="text-align:right;">
+         	   		<div class="ui-grid-a">
+         	   			 <div class="ui-block-a">
+         	   				<p><canvas width="20" height="20" style="background-color: #009082;"></canvas> Comisionables</p>
+         	   			 </div>
+         	   			 <div class="ui-block-b">
+         	   				<p><canvas width="20" height="20" style="background-color: #ECF0F1;"></canvas> No comisionables</p>
+         	   			 </div>
+         	   		</div>
+         	   	</div>
+         	  </div>
+         	</div>
+       
+       
+      
+		<form class="ui-filterable">
+			<input id="myFilter2" data-type="search" placeholder="Buscar detalle de propuesta">
+			<div class="ui-block-b">
+		</div>
+		</form> 
+
+		<div id="msgEditRow"></div>
+		<table  data-role="table" id="proposalDetailsTable" data-filter="true" data-input="#myFilter2" class="ui-responsive table" >
+		<thead>
+    	<tr>
+       	 <th data-priority="persist">ID</th>
+       	 <th data-priority="3">Partida</th>
+       	 <th data-priority="4" >Precio</th>
+       	 <th data-priority="8">Numero</th>
+       	 <th data-priority="5">Dias/Veces</th>
+       	 <th data-priority="6">Total Presupuesto</th>
+       	 <th data-priority="7"><span class="detailTable">Detalle</span><span class="columnHide"></span>
+       	 	<a id="showDetails" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
+       	 	<a id="hideDetails" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
+       	 </th>
+       	 <th data-priority="7"><span class="parametersTable">Parametros</span><span class="columnHide2"></span>
+       	 	<a id="showParameters" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
+       	 	<a id="hideParameters" href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-inline" style="background-color: #009082;"></a>
+       	 
+       	 </th>
+       	 <th>
+		   
+		 </th>
+   	 	</tr>
+		</thead>
+	
+	
+    	<tbody id="tableBodyProposalDetail">
+       
+       	 <tr id="proposalDetailRow" th:each="proposaldetail : ${proposaldetailss}" th:if="${proposaldetail.commissionable==1}" style="background-color: #009082; color: white;">
+           	 <td id="idProposalDetailsTable" ><span th:text="${proposaldetail.idProposalDetails}"></span></td>
+           	 <td id="departureDetailTable" ><span  th:text="${proposaldetail.Departure.detail}"></span></td>
+           	 <td id="priceTable"><span style="cursor: pointer;"  th:text="${proposaldetail.CurrencyType.symbol+' '}"></span><span contenteditable="true" th:utext="${#numbers.formatDecimal(proposaldetail.price, 1, 'POINT', 2, 'COMMA')}" ></span> </td>
+           	 <td id="numberTable"><span contenteditable="true"  th:text="${proposaldetail.number}"></span></td>
+           	 <td id="daysTimesTable" ><span  contenteditable="true" th:text="${proposaldetail.daysTimes}"></span></td>
+           	 <td id="totalBudgetTable" ><span  th:text="${proposaldetail.CurrencyType.symbol+' '}" ></span><span  th:utext="${#numbers.formatDecimal(proposaldetail.totalBudget, 1, 'POINT', 2, 'COMMA')}"></span></td>
+           	 <td class="detailTable" id="detailTable" ><textarea style="background-color:#009082; color: white; overflow-y: scroll;-moz-border-radius: 10px;-webkit-border-radius: 10px; border-color:white;"  th:text="${proposaldetail.detail}" readonly></textarea></td>
+           	 <td class="columnHide"><span></span></td>
+           	 <td class="parametersTable" id="parametersTable" ><textarea style="background-color:#009082; color: white; overflow-y: scroll; -moz-border-radius: 10px;-webkit-border-radius: 10px; border-color:white;"  th:text="${proposaldetail.parameters}" readonly></textarea></td>
+           	 <td class="columnHide2"><span></span></td>
+           	 <td id="commissionableTable" style="display:none;"><span  th:text="${proposaldetail.commissionable}" ></span></td>
+           	 <td id="idCurrencyTypeTable"  style="display:none;"><span  th:text="${proposaldetail.CurrencyType.idCurrencyType}"></span></td>
+           	 <td id="idDepartureTable" style="display:none;" ><span  th:text="${proposaldetail.Departure.idDeparture}" ></span></td>
+           	 <td style="padding-right: 15px;"></td>
+       	 </tr>
+       	 
+       	 <tr id="proposalDetailRow" th:each="proposaldetail : ${proposaldetailss}" th:if="${proposaldetail.commissionable==0}"  style="background-color: #ECF0F1;" >  	
+           	 <td id="idProposalDetailsTable" ><span  th:text="${proposaldetail.idProposalDetails}"></span></td>
+           	 <td id="departureDetailTable" ><span  th:text="${proposaldetail.Departure.detail}"></span></td>
+           	 <td id="priceTable"><span style="cursor: pointer;" th:text="${proposaldetail.CurrencyType.symbol+' '}"></span><span  contenteditable="true" th:text="${#numbers.formatDecimal(proposaldetail.price, 1, 'POINT', 2, 'COMMA')}"></span> </td>
+           	 <td id="numberTable"><span  contenteditable="true"  th:text="${proposaldetail.number}"></span></td>
+           	 <td id="daysTimesTable" ><span  contenteditable="true" th:text="${proposaldetail.daysTimes}"></span></td>
+           	 <td id="totalBudgetTable" ><span  th:text="${proposaldetail.CurrencyType.symbol+' '}" ></span><span  th:text="${#numbers.formatDecimal(proposaldetail.totalBudget, 1, 'POINT', 2, 'COMMA')}"></span></td>
+           	 <td class="detailTable" id="detailTable" style="text-align:justify;"><textarea style="background-color:#ECF0F1;overflow-y: scroll; -moz-border-radius: 10px;-webkit-border-radius: 10px; border-color:white;"  th:text="${proposaldetail.detail}" readonly></textarea></td>
+           	 <td class="columnHide"><span></span></td>
+           	 <td class="parametersTable" id="parametersTable" style="text-align:justify;" ><textarea style="background-color:#ECF0F1;overflow-y: scroll;-moz-border-radius: 10px;-webkit-border-radius: 10px; border-color:white;" th:text="${proposaldetail.parameters}" readonly></textarea></td>
+      		 <td class="columnHide2"><span></span></td>
+      		 <td id="commissionableTable" style="display:none;"><span  th:text="${proposaldetail.commissionable}" ></span></td>
+      		 <td id="idCurrencyTypeTable"  style="display:none;" ><span  th:text="${proposaldetail.CurrencyType.idCurrencyType}"></span></td>
+      		 <td id="idDepartureTable" style="display:none;"><span  th:text="${proposaldetail.Departure.idDeparture}" ></span></td>
+      		 <td style="padding-right: 15px;"></td>
+       	 </tr>
+        
+        
+    	</tbody>     
+    	 
+    	 <tr style="background-color: #FFFFFF;">
+       	 	<td colspan="5" style="text-align: right; font-weight: bold;"><p th:text="'Total de presupuesto '+${settings.CurrencyTypeFavorite.symbol}+' :'"></p> </td>
+       	 	<td > <input id="totalSumBudget" style="background-color:  #FFFFFF;" type="text" readonly/></td>
+       	 	<td colspan="3"></td>
+       	 </tr>
+       	
+    	
+	</table>
+       
+      
+       
+       
+    </fieldset>
+  </div>
+
+
+
+    </div>
+    
+	<div class="ui-grid-b" id="facturaEscena" style="display: none;">
+	
+    <div id="divCustomizeParameters"></div>
+    
+    <!-- DETALLE DE COTIZACION -->
+    
+    
+      <div class="ui-block-a">
+        <p>Esta Tercera Parte es el ultimo entregable</div>
+      </div>
+       
+	</div>
+
+	
+		<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
+			<div data-role="popup" data-position="left" id="adminmenu" th:replace="fragments/footer"></div>
+		<!-- /panel -->	
+		</div>
+	</div>
+</body>
+
+
+</html>
+

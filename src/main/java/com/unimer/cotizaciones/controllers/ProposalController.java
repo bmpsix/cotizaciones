@@ -393,7 +393,27 @@ public class ProposalController {
 	}
 	
 	
-	
+	@GetMapping("/proposal/proposalview")
+	public ModelAndView proposalview(HttpServletRequest request,@RequestParam("idProposal") int idProposal,Model model) {
+		
+		Proposal proposal = proposalService.findByIdProposal(idProposal);
+		HttpSession session = request.getSession();
+		User userSession =  (User) session.getAttribute("userSession");
+		Assessment assessment = (Assessment) session.getAttribute("assessment");
+		Settings sttings = settingsService.findSettingByCountry(userSession.getCountry());
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("formatIdProposal", proposalService.formatNumber(proposal.getIdProposal()));
+		modelAndView.addObject("proposalName", assessment.getDetail());
+		modelAndView.addObject("settings",sttings);
+		modelAndView.addObject("countryByCurrencyType", userSession.getCountry().getCurrencyType());
+		modelAndView.addObject("exchangeRate", (float) proposal.getCurrencyExchange());
+		modelAndView.addObject("techniquesByProposal", techniqueByProposalService.findTechiquesByProposal(proposal));
+		modelAndView.addObject("othersTechniques", techniqueByProposalService.othersTechniques(proposal));
+		modelAndView.addObject("proposal",proposal);
+		modelAndView.addObject("proposaldetailss",proposalDetailsService.findByProposal(proposal));
+		modelAndView.setViewName("proposalview");
+		return modelAndView;
+	}
 	
 	
 	
