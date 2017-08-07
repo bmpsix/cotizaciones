@@ -1008,4 +1008,37 @@ $("#price").on({
 
 */
 
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+																ESCENARIOS DE FACTURACIÓN
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+//-----------------------------Calculo de los escenarios-------------------------------------------------------------------------------------------------------------------
+
+function calBS()
+{
+	var table = document.getElementById("billingScenarioTable");
+	var idCurrencyTypeInternational =$("#idCurrencyTypeInternational").val();
+	var totalSumBudget =0;
+	
+	/*// -2 debido a que la ultima fila es la del total de presupuesto
+	for(contador=1;contador<=table.rows.length-2;contador++)
+	{
+		
+		var valor = table.rows[contador].cells[5].innerText;
+		var cms = table.rows[contador].cells[10].innerText;
+		var crrtype = table.rows[contador].cells[11].innerText;
+		valor = valor.split(" ");
+		valor = valor[valor.length-1];
+		var point = valor.split(".").length;
+		if(point>=3)valor=unFormatNumberProposal(replacePointProposal(valor));
+		else valor=unFormatNumberProposal((valor));
+		var pointV = aporteFijo.split(".").length;
+		if(pointV>=3)aporteFijo=unFormatNumberProposal(replacePointProposal(aporteFijo));
+		else aporteFijo=unFormatNumberProposal(aporteFijo);*/
+};
+
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 

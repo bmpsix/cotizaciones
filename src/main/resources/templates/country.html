@@ -23,18 +23,18 @@
 							<label for="cod">Código del país:</label>
 							<input id="cod" title="Debe ingresar el código del país" type="text" name="cod" th:value="${cod}" maxlength="3" required/>
 							<label for="iva">I.V.A:</label>
-							<input id="iva" title="Debe ingresar el impuesto de venta del país" type="number" name="iva" th:value="${iva}" maxlength="2" required/>
-							<label for="tranference_value">Valor de transferencia:</label>
-							<input id="tranference_value" title="Debe ingresar el valor de tranferencia del país" type="number" name="tranference_value" th:value="${tranference_value}" maxlength="2" required/>						
+							<input id="iva" title="Debe ingresar el impuesto de venta del país" type="number" name="iva" th:value="${iva}"  required/>
+							<label for="tranferenceValue">Valor de transferencia:</label>
+							<input id="tranferenceValue" title="Debe ingresar el valor de tranferencia del país" type="number" name="tranferenceValue" th:value="tranferenceValue"  required/>						
 							<label for="remission">Remesa:</label>
-							<input id="remission" title="Debe ingresar la remesa del país" type="number" name="remission" th:value="${remission}" maxlength="2" required/>
-							<label for="except_Sale" title="Indica si esta fuera de impuestos si o no " id="status-label">Impuesto excento a ventas:</label>
-							<select id="except_Sale" name="except_Sale" data-role="slider" tabindex="-1" class="ui-slider-switch">
+							<input id="remittance" title="Debe ingresar la remesa del país" type="number" name="remittance" th:value="${remittance}" required/>
+							<label for="exemptTax" title="Indica si esta fuera de impuestos si o no " id="status-label">Exento de impuesto al exterior</label>
+							<select id="exemptTax" name="exemptTax" data-role="slider" tabindex="-1" class="ui-slider-switch">
 								<option value="0" selected="">Inactivo</option>
 								<option value="1">Activo</option>
 						    </select>
-							<label for="apply_for_charge" title="Indica si este aplica pagos si o no " id="status-label">Aplica Cargos:</label>
-							<select id="apply_for_charge" name="apply_for_charge" data-role="slider" tabindex="-1" class="ui-slider-switch">
+							<label for="applyForCharge" title="Indica si este aplica pagos si o no " id="status-label">Aplica para cargos</label>
+							<select id="applyForCharge" name="applyForCharge" data-role="slider" tabindex="-1" class="ui-slider-switch">
 								<option value="0" selected="">Inactivo</option>
 								<option value="1">Activo</option>
 						    </select>
@@ -59,7 +59,7 @@
            				<th  style="padding-right: 15px;">I.V.A</th>
            				<th  style="padding-right: 15px;">Valor de Tranferencia</th>
            				<th  style="padding-right: 15px;">Remesa</th>
-           				<th  style="padding-right: 15px;">Excepto a ventas</th>
+           				<th  style="padding-right: 15px;">Exento de impuesto al exterior</th>
            				<th  style="padding-right: 15px;">Aplica para cargos</th>
            				<th  style="padding-right: 15px;">Opción</th>
            				</tr>
@@ -70,10 +70,10 @@
 							<td id="detail" style="padding-right: 15px;" ><span th:text="${country.detail}"></span></td>
 							<td id="cod" style="padding-right: 15px;"><span th:text="${country.cod}"></span></td>
 							<td id="iva" style="padding-right: 15px;"><span th:text="${country.iva}"></span></td>
-							<td id="tranference_value" style="padding-right: 15px;"><span th:text="${country.tranference_value}"></span></td>
-							<td id="remission" style="padding-right: 15px;"><span th:text="${country.remission}"></span></td>
-							<td id="except_Sale" style="padding-right: 15px;"><span th:text="${country.except_Sale == true} ? 'Si' : 'No'"></span></td>
-							<td id="apply_for_charge" style="padding-right: 15px;"><span th:text="${country.apply_for_charge == true} ? 'Si' : 'No'"></span></td>
+							<td id="tranferenceValue" style="padding-right: 15px;"><span th:text="${country.tranferenceValue}"></span></td>
+							<td id="remittance" style="padding-right: 15px;"><span th:text="${country.remittance}"></span></td>
+							<td id="exemptTax" style="padding-right: 15px;"><span th:text="${country.exemptTax == 1} ? 'Si' : 'No'"></span></td>
+							<td id="applyForCharge" style="padding-right: 15px;"><span th:text="${country.applyForCharge == 1} ? 'Si' : 'No'"></span></td>
 	           				<td style="padding-right: 15px;"><a href="#" onclick="editCountry(this);">Editar</a></td>
            				</tr>
            				

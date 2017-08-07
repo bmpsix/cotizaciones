@@ -72,7 +72,7 @@
 			<ul>
 				<li title="Puede modificar la información general de la propuesta desde este apartado." class="first"><a id="firstLink" href="#">Informacion General</a></li>
 				<li class="second"><a id="secondLink"  href="#">Detalle de la Cotizacion</a></li>
-				<li title="Proceso de facturación y finalización de la propuesta." ><a href="#" >Escenarios de Facturacion</a></li>
+				<li title="Proceso de facturación y finalización de la propuesta." class="third" ><a id="thirdLink" href="#" >Escenarios de Facturacion</a></li>
 			</ul>
 	</div>
 	
@@ -677,7 +677,7 @@
            	 <td id="idCurrencyTypeTable"  style="display:none;"><span  th:text="${proposaldetail.CurrencyType.idCurrencyType}"></span></td>
            	 <td id="idDepartureTable" style="display:none;" ><span  th:text="${proposaldetail.Departure.idDeparture}" ></span></td>
            	 <td style="padding-right: 15px;">
-           	 	<a href="#" onclick="chargeTheDetailForUpdate(this);" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;"></a>
+           	 	<a href="#" onclick="chargeTheDetailForUpdate(this);" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;"  title="Editar"></a>
            	 	<a class="ui-link ui-btn ui-btn-b ui-icon-minus ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: 	#2F4F4F;" onclick="deleteProposalDetail(this);" title="Eliminar"></a>
        	 	 </td>
        	 </tr>
@@ -697,7 +697,7 @@
       		 <td id="idCurrencyTypeTable"  style="display:none;" ><span  th:text="${proposaldetail.CurrencyType.idCurrencyType}"></span></td>
       		 <td id="idDepartureTable" style="display:none;"><span  th:text="${proposaldetail.Departure.idDeparture}" ></span></td>
       		 <td style="padding-right: 15px;">
-           	 	<a href="#" onclick="chargeTheDetailForUpdate(this);" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;"></a>
+           	 	<a href="#" onclick="chargeTheDetailForUpdate(this);" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;" title="Editar"></a>
            	 	<a class="ui-link ui-btn ui-btn-b ui-icon-minus ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: 	#2F4F4F;" onclick="deleteProposalDetail(this);" title="Eliminar"></a>
        	 	 </td>
        	 </tr>
@@ -775,22 +775,105 @@
 	</div>
 
     </div>
-    <div th:if="${proposal==null}" class="ui-grid-a" id="detalleCoti" style="display: none;" th:object="${settings}">
+    <div th:if="${proposal==null}" class="ui-grid-a" id="detalleCoti" style="display: none;">
     	<p style="color: hsl(153,80%,40%); text-align: center; margin-top: 25%; margin-bottom: 25%;    " >Por favor complete la información general antes de ingresar a este módulo</p>
     </div>
     
-	<div class="ui-grid-b" id="facturaEscena" style="display: none;">
 	
-    <div id="divCustomizeParameters"></div>
+	
+    <!-- <div id="divCustomizeParameters"></div> -->
     
     <!-- DETALLE DE COTIZACION -->
     
     
-      <div class="ui-block-a">
-        <p>Esta Tercera Parte es el ultimo entregable</div>
-      </div>
+    
+    
+     <!-- ESCENARIOS DE FACTURACIÓN -->
+
+    <div id="facturaEscena" th:if="${proposal==null}" class="ui-grid-b"  style="display: none;">
+    	<p style="color: hsl(153,80%,40%); text-align: center; margin-top: 25%; margin-bottom: 25%;" >Por favor complete la información general antes de ingresar a este módulo</p>
+    </div>
+  
        
-	</div>
+    <div id="facturaEscena" th:if="${proposal!=null}" class="ui-grid-b"  style="display: none;">
+    	
+    	
+         	   		<div class="ui-grid-b"  >
+         	   			 <div class="ui-block-a" style="margin-top:100px">
+         	   					<label  for="initialDate"><h5 th:text="${'Fecha inicio operaciones: '+#dates.format(proposal.initialDate, 'MM/dd/yyyy')}"></h5></label>
+         	   			 </div>
+         	   			 <div class="ui-block-b" style="text-align: center;margin-top:50px">
+         	   					<h3>Escenarios de facturación</h3>
+         	   			 </div>
+         	   			 <div class="ui-block-c" style="text-align: right;margin-top:100px;">
+         	   			 		
+         	   					<label for="endDate"><h5 th:text="${'Fecha de entrega final: '+#dates.format(proposal.endDate, 'MM/dd/yyyy')}"></h5></label>
+       						
+         	   			 </div>
+         	   		</div>
+         
+    	<fieldset >
+         			
+           			<table id="billingScenarioTable" data-role="table" dfe="movie-table" class="ui-responsive">
+		    			<thead>
+		    				
+           					<th>ID</th>
+           					<th>País de facturación</th>
+           					<th>Nombre Cliente (Razón Social)</th>
+           					<th>Contacto</th>
+           					<th>Valor de transferencia</th>
+           					<th>Incluye remesa</th>
+           					<th>Impuesto de ventas</th>
+           					<th>Monto a facturar</th>
+           					<th>Moneda</th>
+           					<th></th>
+           				</thead>
+           				
+           				<tbody id="tbodyBillingScenario">
+           				<tr id="listBillingScenario" th:each="country : ${countries}" th:if="${country.applyForCharge==1}">
+							
+							<td id="idCountryBS" ><span th:text="${country.idCountry}"></span></td>
+							<td id="detailCountryBS" ><span th:text="${country.detail}"></span></td>
+							<td id="detailSaClientBS" ><span th:text="${saClientProject.detail}"></span></td>
+							<td id="nameContact"><span th:text="${proposal.ClientContact.name}" ></span></td>
+							<td id="tranferenceValueAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span>0</span></td>
+							<td id="remittanceAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span>0</span></td>
+							<td id="ivaAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span>0</span></td>
+							<td id="totalAmount"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span>0</span></td>
+							<td id="currencyTypeBS"><span th:text="${settings.currencyTypeInternational.detail}"></span></td>
+	           				<td id="methodStatusBS" style="text-align: center;"> 
+	           					<a href="#" onclick="" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #8B4513; text-align: center;" title="Editar escenario de facturación"></a>
+	           					<a  class="ui-link ui-btn ui-btn-b ui-icon-check ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" title="Seleccionar escenario de facturación" style="background-color: #009082;"></a>
+	           				</td>
+	           				
+	           				
+	           				<!-- ocultas -->
+	           				<td id="exemptTaxBS" style="display:none;"><span  th:text="${country.exemptTax}" ></span></td>
+	           				<td id="tranferenceValueBS"  style="display:none;"><span th:text="${country.tranferenceValue}"></span></td>
+							<td id="remittanceBS"  style="display:none;"><span th:text="${country.remittance}"></span></td>
+							<td id="ivaBS"  style="display:none;"><span th:text="${country.iva}"></span></td>
+           				</tr>
+          			    </tbody>
+		    		</table>
+           	</fieldset>
+    	
+    	
+    	  	<div class="ui-block-a">
+     
+      		</div>
+      		<div class="ui-block-b" >
+    
+      		</div>
+      
+      		<div class="ui-block-c">
+       
+      		</div> 
+    	
+    </div>
+       
+     <!-- ESCENARIOS DE FACTURACIÓN -->   
+       
+	
 
 	
 		<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">

@@ -24,6 +24,10 @@ import javax.persistence.Table;
 @Table(name="country")
 public class Country implements Serializable {
 	
+
+
+	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -37,20 +41,20 @@ public class Country implements Serializable {
 	@Column(nullable=false, length=100)
 	private String detail;
 	
-	@Column(nullable=false)
+	@Column(name="iva",nullable=false)
 	private double iva;
 	
-	@Column(nullable=false)
-	private double tranference_value;
+	@Column(name="tranference_value",nullable=false)
+	private double tranferenceValue;
 	
-	@Column(nullable=false)
-	private double remission;
+	@Column(name="remittance",nullable=false)
+	private double remittance;
 	
-	@Column(nullable=false)
-	private boolean except_Sale;
+	@Column(name="exempt_tax",nullable=false)
+	private byte exemptTax;
 	
-	@Column(nullable=false)
-	private boolean apply_for_charge;
+	@Column(name="apply_for_charge",nullable=false)
+	private byte applyForCharge;
 
 	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL )
 	@JoinTable(name = "country_by_currency_type", joinColumns =@JoinColumn(name = "id_country", referencedColumnName = "id_country")  , inverseJoinColumns =@JoinColumn(name = "id_currency_type", referencedColumnName = "id_currency_type"))
@@ -107,38 +111,15 @@ public class Country implements Serializable {
 		this.iva = iva;
 	}
 
-	public double getTranference_value() {
-		return tranference_value;
+	public double getTranferenceValue() {
+		return tranferenceValue;
 	}
 
-	public void setTranference_value(double tranference_value) {
-		this.tranference_value = tranference_value;
+	public void setTranferenceValue(double tranferenceValue) {
+		this.tranferenceValue = tranferenceValue;
 	}
 
-	public double getRemission() {
-		return remission;
-	}
-
-	public void setRemission(double remission) {
-		this.remission = remission;
-	}
-
-	public boolean isExcept_Sale() {
-		return except_Sale;
-	}
-
-	public void setExcept_Sale(boolean except_Sale) {
-		this.except_Sale = except_Sale;
-	}
-
-	public boolean isApply_for_charge() {
-		return apply_for_charge;
-	}
-
-	public void setApply_for_charge(boolean apply_for_charge) {
-		this.apply_for_charge = apply_for_charge;
-	}
-
+	
 	public Set<CurrencyType> getCurrencyTypes() {
 		return currencyTypes;
 	}
@@ -146,30 +127,58 @@ public class Country implements Serializable {
 	public void setCurrencyTypes(Set<CurrencyType> currencyTypes) {
 		this.currencyTypes = currencyTypes;
 	}
+	
+	public double getRemittance() {
+		return remittance;
+	}
 
-	public Country(int idCountry, String cod, String detail, double iva, double tranference_value, double remission,
-			boolean except_Sale, boolean apply_for_charge, Set<CurrencyType> currencyTypes) {
+	public void setRemittance(double remittance) {
+		this.remittance = remittance;
+	}
+
+	public byte getExemptTax() {
+		return exemptTax;
+	}
+
+	public void setExemptTax(byte exemptTax) {
+		this.exemptTax = exemptTax;
+	}
+
+	public byte getApplyForCharge() {
+		return applyForCharge;
+	}
+
+	public void setApplyForCharge(byte applyForCharge) {
+		this.applyForCharge = applyForCharge;
+	}
+
+
+
+	public Country(int idCountry, String cod, String detail, double iva, double tranferenceValue, double remittance,
+			byte exemptTax, byte applyForCharge, Set<CurrencyType> currencyTypes) {
 		super();
 		this.idCountry = idCountry;
 		this.cod = cod;
 		this.detail = detail;
 		this.iva = iva;
-		this.tranference_value = tranference_value;
-		this.remission = remission;
-		this.except_Sale = except_Sale;
-		this.apply_for_charge = apply_for_charge;
+		this.tranferenceValue = tranferenceValue;
+		this.remittance = remittance;
+		this.exemptTax = exemptTax;
+		this.applyForCharge = applyForCharge;
 		this.currencyTypes = currencyTypes;
 	}
 
 
+	
+	
 	@Override
 	public String toString() {
 		return "Country [idCountry=" + idCountry + ", cod=" + cod + ", detail=" + detail + ", iva=" + iva
-				+ ", tranference_value=" + tranference_value + ", remission=" + remission + ", except_Sale="
-				+ except_Sale + ", apply_for_charge=" + apply_for_charge + ", currencyTypes=" + currencyTypes + "]";
+				+ ", tranferenceValue=" + tranferenceValue + ", remittance=" + remittance + ", exemptTax=" + exemptTax
+				+ ", applyForCharge=" + applyForCharge + ", currencyTypes=" + currencyTypes + "]";
 	}
-	
-	
+
+
 
 
 	

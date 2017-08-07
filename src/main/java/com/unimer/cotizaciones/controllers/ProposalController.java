@@ -33,6 +33,7 @@ import com.unimer.cotizaciones.entities.StudyType;
 import com.unimer.cotizaciones.entities.User;
 import com.unimer.cotizaciones.services.AssessmentService;
 import com.unimer.cotizaciones.services.AssessmentSharedService;
+import com.unimer.cotizaciones.services.BillingScenarioService;
 import com.unimer.cotizaciones.services.ClientContactService;
 import com.unimer.cotizaciones.services.CollectMethodService;
 import com.unimer.cotizaciones.services.CountryService;
@@ -153,6 +154,10 @@ public class ProposalController {
 	@Qualifier("techniqueByProposalServiceImpl")
 	private TechniqueByProposalService techniqueByProposalService;
 	
+	@Autowired
+	@Qualifier("billingScenarioServiceImpl")
+	private BillingScenarioService billingScenarioService;
+	
 	
 	
 	@GetMapping("/listproposal/newproposal")
@@ -191,6 +196,7 @@ public class ProposalController {
 		else modelAndView.addObject("autoIncrement", proposalService.autoIncrement());
 		if(proposedHeader==null)modelAndView.addObject("techniques", techniqueService.orderlistAllTechniques());
 		modelAndView.addObject("proposalName", assessment.getDetail());
+		modelAndView.addObject("saClientProject", assessment.getSaClient());
 		modelAndView.addObject("targets", targetService.listAllTargets());
 		modelAndView.addObject("clientContacts", clientContactService.findByCountryAndSaClient(userSession.getCountry(), assessment.getSaClient()));
 		modelAndView.addObject("executionTypes", executionTypeService.listAllExecutionType());
@@ -423,6 +429,9 @@ public class ProposalController {
 		session.setAttribute("proposedHeader",proposal);
 		return "redirect:/proposal/proposalview";
 	}
+	
+	
+	
 	
 	
 	

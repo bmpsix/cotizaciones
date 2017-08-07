@@ -565,10 +565,10 @@ function editCountry(row){
 	var detail = $(row).parents("tr").find("#detail span").eq(0).html();
 	var cod = $(row).parents("tr").find("#cod span").eq(0).html();
 	var iva = $(row).parents("tr").find("#iva span").eq(0).html();
-	var tranference_value = $(row).parents("tr").find("#tranference_value span").eq(0).html();
-	var remission = $(row).parents("tr").find("#remission span").eq(0).html();
-	var except_Sale = $(row).parents("tr").find("#except_Sale span").eq(0).html();
-	var apply_for_charge = $(row).parents("tr").find("#apply_for_charge span").eq(0).html();
+	var tranferenceValue = $(row).parents("tr").find("#tranferenceValue span").eq(0).html();
+	var remittance = $(row).parents("tr").find("#remittance span").eq(0).html();
+	var exemptTax = $(row).parents("tr").find("#exemptTax span").eq(0).html();
+	var applyForCharge = $(row).parents("tr").find("#applyForCharge span").eq(0).html();
 	
 	var div = document.getElementById('msg');
 	var msg="";
@@ -579,17 +579,17 @@ function editCountry(row){
 	$("#detail").val(detail);
 	$("#cod").val(cod);
 	$("#iva").val(iva);
-	$("#tranference_value").val(tranference_value);
-	$("#remission").val(remission);
-	if(except_Sale == "Si"){
-		$("#except_Sale").val(1).change();
+	$("#tranferenceValue").val(tranferenceValue);
+	$("#remittance").val(remittance);
+	if(exemptTax == "Si"){
+		$("#exemptTax").val(1).change();
 	}else{
-		$("#except_Sale").val(0).change();
+		$("#exemptTax").val(0).change();
 	}
-	if(apply_for_charge == "Si"){
-		$("#apply_for_charge").val(1).change();
+	if(applyForCharge == "Si"){
+		$("#applyForCharge").val(1).change();
 	}else{
-		$("#apply_for_charge").val(0).change();
+		$("#applyForCharge").val(0).change();
 	}
 };
 
@@ -604,10 +604,10 @@ function clearCountry(){
 	$("#detail").val("");
 	$("#cod").val("");
 	$("#iva").val("");
-	$("#tranference_value").val("");
-	$("#remission").val("");
-	$("#except_Sale").val(0).change();
-	$("#apply_for_charge").val(0).change();
+	$("#tranferenceValue").val("");
+	$("#remittance").val("");
+	$("#exemptTax").val(0).change();
+	$("#applyForCharge").val(0).change();
 	var div = document.getElementById('msg');
 	var msg="";
 	div.innerHTML = msg;
