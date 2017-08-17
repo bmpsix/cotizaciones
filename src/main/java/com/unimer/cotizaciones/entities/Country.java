@@ -61,6 +61,10 @@ public class Country implements Serializable {
 	private Set<CurrencyType> currencyTypes;
 	
 	
+	
+	
+	
+	
 	public int getIdCountry() {
 		return idCountry;
 	}

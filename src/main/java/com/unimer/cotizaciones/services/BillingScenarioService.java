@@ -7,7 +7,7 @@ import com.unimer.cotizaciones.entities.Proposal;
 
 public interface BillingScenarioService {
 
-	public abstract List<BillingScenario> findByProposal(Proposal proposal);
+	public abstract List<BillingScenario> findByProposal(Proposal proposal,double total);
 	
 	public abstract void addBillingScenario(BillingScenario BillingScenario);
 	

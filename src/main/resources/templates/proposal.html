@@ -72,7 +72,7 @@
 			<ul>
 				<li title="Puede modificar la información general de la propuesta desde este apartado." class="first"><a id="firstLink" href="#">Informacion General</a></li>
 				<li class="second"><a id="secondLink"  href="#">Detalle de la Cotizacion</a></li>
-				<li title="Proceso de facturación y finalización de la propuesta." class="third" ><a id="thirdLink" href="#" >Escenarios de Facturacion</a></li>
+				<li title="Proceso de facturación y finalización de la propuesta." class="third" ><a id="thirdLink" onclick="thirdLinkBS();" href="#" >Escenarios de Facturacion</a></li>
 			</ul>
 	</div>
 	
@@ -796,7 +796,8 @@
   
        
     <div id="facturaEscena" th:if="${proposal!=null}" class="ui-grid-b"  style="display: none;">
-    	
+    				
+    				
     	
          	   		<div class="ui-grid-b"  >
          	   			 <div class="ui-block-a" style="margin-top:100px">
@@ -811,13 +812,44 @@
        						
          	   			 </div>
          	   		</div>
+         	   		
+         	   		
+         	   		<form id="formEditBS" ><!-- style="display: none;" -->
+         	   		
+         	   		<div class="ui-grid-b"  >
+         	   		
+         	   			<h3>Editar escenario de facturación</h3>
+         	   			
+         	   			 <div class="ui-block-a" >
+         	   				<label><h5>País:</h5></label>
+         	   				<span th:text="${proposal.User.Country.detail}"></span>
+         	   				
+         	   				
+         	   			 </div>
+         	   			 <div class="ui-block-b" >
+         	   					<label><h5>Monto propuesta:</h5></label>
+         	   				<input id="editTotalAmount"  readonly="readonly"/>
+         	   			 </div>
+         	   			 <div class="ui-block-c">
+         	   			 		
+         	   					<div id="msgAssign"></div>
+                   	 			<hr>
+                    			<a id="editBSCancel" type="button" data-icon="delete" onclick="clearEditBS();"><input data-icon="delete" type="button" value="Cerrar"/></a>
+  								<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
+       						
+         	   			 </div>
+         	   		</div>
+         	   		
+         	   		</form>
+         	   		
+         	   		
          
     	<fieldset >
          			
            			<table id="billingScenarioTable" data-role="table" dfe="movie-table" class="ui-responsive">
 		    			<thead>
 		    				
-           					<th>ID</th>
+           				<!--<th>ID</th> -->
            					<th>País de facturación</th>
            					<th>Nombre Cliente (Razón Social)</th>
            					<th>Contacto</th>
@@ -830,16 +862,16 @@
            				</thead>
            				
            				<tbody id="tbodyBillingScenario">
-           				<tr id="listBillingScenario" th:each="country : ${countries}" th:if="${country.applyForCharge==1}">
+           				<tr id="listBillingScenario" th:each="billingScenario : ${billingScenarios}" th:if="${billingScenario.lastModificationDate!=null}" style="background-color: #009082; color: white;">
 							
-							<td id="idCountryBS" ><span th:text="${country.idCountry}"></span></td>
-							<td id="detailCountryBS" ><span th:text="${country.detail}"></span></td>
-							<td id="detailSaClientBS" ><span th:text="${saClientProject.detail}"></span></td>
-							<td id="nameContact"><span th:text="${proposal.ClientContact.name}" ></span></td>
-							<td id="tranferenceValueAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span>0</span></td>
-							<td id="remittanceAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span>0</span></td>
-							<td id="ivaAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span>0</span></td>
-							<td id="totalAmount"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span>0</span></td>
+							<!--<td id="idBillingScenario" ><span th:text="${billingScenario.idBillingScenario}"></span></td>-->
+							<td id="detailCountryBS" ><span th:text="${billingScenario.Country.detail}"></span></td>
+							<td id="detailSaClientBS" ><span th:text="${billingScenario.SaClient.detail}"></span></td>
+							<td id="nameContact"><span th:text="${billingScenario.ClientContact.name}" ></span></td>
+							<td id="tranferenceValueAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.tranferenceValue, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="remittanceAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.remittance, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="ivaAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.iva, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="totalAmount"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span  th:text="${#numbers.formatDecimal(billingScenario.totalAmount, 1, 'POINT', 2, 'COMMA')}" ></span></td>
 							<td id="currencyTypeBS"><span th:text="${settings.currencyTypeInternational.detail}"></span></td>
 	           				<td id="methodStatusBS" style="text-align: center;"> 
 	           					<a href="#" onclick="" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #8B4513; text-align: center;" title="Editar escenario de facturación"></a>
@@ -848,10 +880,38 @@
 	           				
 	           				
 	           				<!-- ocultas -->
-	           				<td id="exemptTaxBS" style="display:none;"><span  th:text="${country.exemptTax}" ></span></td>
-	           				<td id="tranferenceValueBS"  style="display:none;"><span th:text="${country.tranferenceValue}"></span></td>
-							<td id="remittanceBS"  style="display:none;"><span th:text="${country.remittance}"></span></td>
-							<td id="ivaBS"  style="display:none;"><span th:text="${country.iva}"></span></td>
+	           				<div  th:each="country : ${countries}" th:if="${country==billingScenario.Country}">
+	           					<td id="exemptTaxBS" style="display:none;"><span  th:text="${country.exemptTax}" ></span></td>
+	           					<td id="tranferenceValueBS"  style="display:none;"><span th:text="${country.tranferenceValue}"></span></td>
+								<td id="remittanceBS"  style="display:none;"><span th:text="${country.remittance}"></span></td>
+								<td id="ivaBS"  style="display:none;"><span th:text="${country.iva}"></span></td>
+							</div>
+           				</tr>
+           				
+           				<tr id="listBillingScenario" th:each="billingScenario : ${billingScenarios}" th:if="${billingScenario.lastModificationDate==null}">
+							
+							<!--<td id="idBillingScenario" ><span th:text="${billingScenario.idBillingScenario}"></span></td>-->
+							<td id="detailCountryBS" ><span th:text="${billingScenario.Country.detail}"></span></td>
+							<td id="detailSaClientBS" ><span th:text="${billingScenario.SaClient.detail}"></span></td>
+							<td id="nameContact"><span th:text="${billingScenario.ClientContact.name}" ></span></td>
+							<td id="tranferenceValueAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.tranferenceValue, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="remittanceAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.remittance, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="ivaAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.iva, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="totalAmount"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span  th:text="${#numbers.formatDecimal(billingScenario.totalAmount, 1, 'POINT', 2, 'COMMA')}" ></span></td>
+							<td id="currencyTypeBS"><span th:text="${settings.currencyTypeInternational.detail}"></span></td>
+	           				<td id="methodStatusBS" style="text-align: center;"> 
+	           					<a href="#" onclick="" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #8B4513; text-align: center;" title="Editar escenario de facturación"></a>
+	           					<a  class="ui-link ui-btn ui-btn-b ui-icon-check ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" title="Seleccionar escenario de facturación" style="background-color: #009082;"></a>
+	           				</td>
+	           				
+	           				
+	           				<!-- ocultas -->
+	           				<div  th:each="country : ${countries}" th:if="${country==billingScenario.Country}">
+	           					<td id="exemptTaxBS" style="display:none;"><span  th:text="${country.exemptTax}" ></span></td>
+	           					<td id="tranferenceValueBS"  style="display:none;"><span th:text="${country.tranferenceValue}"></span></td>
+								<td id="remittanceBS"  style="display:none;"><span th:text="${country.remittance}"></span></td>
+								<td id="ivaBS"  style="display:none;"><span th:text="${country.iva}"></span></td>
+							</div>
            				</tr>
           			    </tbody>
 		    		</table>

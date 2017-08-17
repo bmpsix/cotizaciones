@@ -1015,6 +1015,35 @@ $("#price").on({
 
 //-----------------------------Calculo de los escenarios-------------------------------------------------------------------------------------------------------------------
 
+function thirdLinkBS()
+{
+	var tbodyBillingScenario = document.getElementById('tbodyBillingScenario');
+	var total = unFormatNumberProposal($("#nacional1").val());
+	  $("#editTotalAmount").val(formatNumberProposal(total));
+	var url = "/proposal/billingscenario"; 
+	    $.ajax({
+	           type: "POST",
+	           cache: false,
+	           url: url,
+	           data: {'total': total},
+
+	           success: function(data)
+	           {
+	        	   if(data != null){
+	        		  tbodyBillingScenario.innerHTML = data;
+	        		
+	        	   }else{
+	        		  
+	        		   }
+	           }
+	    	
+	         });
+};
+
+
+
+
+
 function calBS()
 {
 	var table = document.getElementById("billingScenarioTable");

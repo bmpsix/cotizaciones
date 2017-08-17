@@ -1,6 +1,7 @@
 package com.unimer.cotizaciones.repositories;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;import org.springframework.stereotype.Repository;
 
@@ -16,4 +17,6 @@ public interface CountryJpaRepository extends JpaRepository<Country, Serializabl
 	public abstract Country findByIdCountry(int idCountry);
 
 	public abstract Object findByCod(String cod);
+	
+	public abstract List<Country> findByApplyForCharge(byte applyForCharge);
 }

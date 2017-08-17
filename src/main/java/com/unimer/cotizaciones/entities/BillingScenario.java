@@ -63,20 +63,20 @@ public class BillingScenario implements Serializable{
 	private double totalAmount;
 
 	
-	@Column(name="tranference_value_modified",nullable=false)
+	@Column(name="tranference_value_modified",nullable=true)
 	private double tranferenceValueModified;
 	
-	@Column(name="remittance_modified",nullable=false)
+	@Column(name="remittance_modified",nullable=true)
 	private double remittanceModified;
 	
-	@Column(name="iva_modified",nullable=false)
+	@Column(name="iva_modified",nullable=true)
 	private double ivaModified;
 	
-	@Column(name="total_amount_modified",nullable=false)
+	@Column(name="total_amount_modified",nullable=true)
 	private double totalAmountModified;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="last_modification_date", nullable=false)
+	@Column(name="last_modification_date", nullable=true)
 	private Date lastModificationDate;
 	
 	@Column(name="method_state",nullable=false)

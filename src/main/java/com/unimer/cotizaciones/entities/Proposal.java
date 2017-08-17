@@ -63,10 +63,10 @@ public class Proposal implements Serializable {
 	@Column(name="end_date", nullable=false)
 	private Date endDate;
 
-	@Column(nullable=false)
+	@Column(name="factor1",nullable=false)
 	private double factor1;
 	
-	@Column(nullable=false)
+	@Column(name="factor2", nullable=false)
 	private double factor2;
 	
 	
@@ -85,7 +85,7 @@ public class Proposal implements Serializable {
 	@Column(name="initial_date", nullable=false)
 	private Date initialDate;
 
-	@Column(nullable=false, length=100)
+	@Column(name="observations",nullable=false, length=100)
 	private String observations;
 
 	@Column(name="target", nullable=false, length=100)

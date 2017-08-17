@@ -194,9 +194,7 @@ public class ProposalController {
 		modelAndView.addObject("industrysectors", industrySectorService.listAllIndustrySectors());
 		if(proposedHeader!=null)modelAndView.addObject("formatIdProposal", proposalService.formatNumber(proposedHeader.getIdProposal()));
 		else modelAndView.addObject("autoIncrement", proposalService.autoIncrement());
-		if(proposedHeader==null)modelAndView.addObject("techniques", techniqueService.orderlistAllTechniques());
 		modelAndView.addObject("proposalName", assessment.getDetail());
-		modelAndView.addObject("saClientProject", assessment.getSaClient());
 		modelAndView.addObject("targets", targetService.listAllTargets());
 		modelAndView.addObject("clientContacts", clientContactService.findByCountryAndSaClient(userSession.getCountry(), assessment.getSaClient()));
 		modelAndView.addObject("executionTypes", executionTypeService.listAllExecutionType());
@@ -207,11 +205,16 @@ public class ProposalController {
 		modelAndView.addObject("countryByCurrencyType", userSession.getCountry().getCurrencyType());
 		modelAndView.addObject("currencyType",userSession.getCountry().getCurrencyType());
 		if(proposedHeader!=null)modelAndView.addObject("exchangeRate", (float) proposedHeader.getCurrencyExchange());
-		if(proposedHeader!=null)modelAndView.addObject("techniquesByProposal", techniqueByProposalService.findTechiquesByProposal(proposedHeader));
-		if(proposedHeader!=null)modelAndView.addObject("othersTechniques", techniqueByProposalService.othersTechniques(proposedHeader));
 		modelAndView.addObject("departures",departureService.findDepartureByCountryAndStatus(userSession.getCountry(),(byte) 1));
 		modelAndView.addObject("proposal",proposedHeader);
-		if(proposedHeader!=null)modelAndView.addObject("proposaldetailss",proposalDetailsService.findByProposal(proposedHeader));
+		if(proposedHeader!=null){
+			modelAndView.addObject("proposaldetailss",proposalDetailsService.findByProposal(proposedHeader));
+			modelAndView.addObject("techniquesByProposal", techniqueByProposalService.findTechiquesByProposal(proposedHeader));
+			modelAndView.addObject("othersTechniques", techniqueByProposalService.othersTechniques(proposedHeader));
+			modelAndView.addObject("techniques", techniqueService.orderlistAllTechniques());
+			modelAndView.addObject("billingScenarios",null);
+		}
+		
 		modelAndView.setViewName("proposal");
 		return modelAndView;
 		
@@ -431,7 +434,18 @@ public class ProposalController {
 	}
 	
 	
-	
+	@PostMapping("/proposal/billingscenario")
+	public String billingScenario(HttpServletRequest request,@RequestParam("total") double total,Model model) {
+		LOG.info("METHOD: billingScenario total  " + total);
+		HttpSession session = request.getSession();
+		User userSession =  (User) session.getAttribute("userSession");
+		Settings settings = settingsService.findSettingByCountry(userSession.getCountry());
+		Proposal proposal = (Proposal) session.getAttribute("proposedHeader");
+		model.addAttribute("settings",settings);
+		model.addAttribute("billingScenarios",billingScenarioService.findByProposal(proposal, total));
+		model.addAttribute("countries",countryService.listAllCountries());
+		return "proposal :: #listBillingScenario";
+	}
 	
 	
 	
