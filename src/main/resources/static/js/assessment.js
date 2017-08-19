@@ -22,6 +22,7 @@ $( document ).ready(function(){
 		
 	});
 	
+	
 	$(".ui-filterable").click(function(){
 		$(".form-assessment").hide("slow");
 	});

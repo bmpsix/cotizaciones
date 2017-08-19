@@ -212,9 +212,9 @@ public class ProposalController {
 			modelAndView.addObject("proposaldetailss",proposalDetailsService.findByProposal(proposedHeader));
 			modelAndView.addObject("techniquesByProposal", techniqueByProposalService.findTechiquesByProposal(proposedHeader));
 			modelAndView.addObject("othersTechniques", techniqueByProposalService.othersTechniques(proposedHeader));
-			modelAndView.addObject("techniques", techniqueService.orderlistAllTechniques());
 			modelAndView.addObject("billingScenarios",null);
 		}
+		else modelAndView.addObject("techniques", techniqueService.orderlistAllTechniques());
 		
 		modelAndView.setViewName("proposal");
 		return modelAndView;

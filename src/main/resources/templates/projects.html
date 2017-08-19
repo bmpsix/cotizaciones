@@ -308,7 +308,7 @@
 				        <tbody id="tbodyAssessment">
 	           			<tr id="assessmentRow" th:each="project : ${projects}">
 							<td id="idAssessment"><span th:text="${project.idAssessment}"></span></td>
-							<td id="creationDate"><span th:text="${#dates.format(project.creationDate, 'dd-MMM-yyyy')}"></span></td>
+							<td id="creationDate"><span th:text="${#dates.format(project.creationDate, 'dd/MM/yyyy')}"></span></td>
 							<td id="detail" ><span th:text="${project.detail}"></span></td>
 							<!-- <td id="currencyExchange" ><span th:text="|${favorite} ${project.currencyExchange}|"></span></td> -->
 							<td id="saClient" ><span th:text="${project.saClient.detail}"></span></td>

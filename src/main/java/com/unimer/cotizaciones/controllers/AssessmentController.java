@@ -103,7 +103,7 @@ public class AssessmentController {
 		List<User> listUsers = userService.listAllUser();
 		HeadUserToUser headUserToUser = headUserToUserService.findByUser(userSession);
 		if(headUserToUser!=null)listUsers.remove(headUserToUser.getHeadUser());
-		listUsers.remove(userSession);
+		listUsers.remove(userService.findById(userSession.getIdUser()));
 		modelAndView.setViewName("projects");
 		if(userSession.getRol().getDetail().toUpperCase().equals("BOSS_CONTRIBUTOR")) modelAndView.addObject("projects", assessmentService.listAllAssessmentToHeadUser(userSession));
 		else if(userSession.getRol().getDetail().toUpperCase().equals("ADMIN") || userSession.getRol().getDetail().toUpperCase().equals("ADMINISTRATOR"))  modelAndView.addObject("projects", assessmentService.listAllAssessmentByUserCountry(userSession));
