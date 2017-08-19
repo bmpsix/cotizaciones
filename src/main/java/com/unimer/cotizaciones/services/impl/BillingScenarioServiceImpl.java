@@ -51,18 +51,24 @@ public class BillingScenarioServiceImpl implements BillingScenarioService {
 				billingScenario.setClientContact(proposal.getClientContact());
 				billingScenario.setCountry(country);
 				billingScenario.setInitialDate(proposal.getInitialDate());
-				billingScenario.setIva((country.getIva()/100)*total);
+			
+				// calculos
+				billingScenario.setTranferenceValue(((country.getTranferenceValue()/100)*total)+total);
+				billingScenario.setRemittance(((country.getRemittance()/100)*billingScenario.getTranferenceValue())+billingScenario.getTranferenceValue());
+				
+				if((country.getExemptTax()==((byte)1)) && (proposal.getUser().getCountry().getIdCountry()!=country.getIdCountry())) billingScenario.setIva(billingScenario.getRemittance());
+				else billingScenario.setIva(((country.getIva()/100)*billingScenario.getRemittance())+billingScenario.getRemittance());
+				
+				billingScenario.setTotalAmount(billingScenario.getIva());
 				billingScenario.setProposal(proposal);
 				billingScenario.setRegistrationDate(new Date());
 				billingScenario.setMethodState((byte)0);
-				if(country.getExemptTax()==1 && proposal.getUser().getCountry()!=country)billingScenario.setRemittance(0);
-				else billingScenario.setRemittance((country.getRemittance()/100)*total);
 				billingScenario.setSaClient(proposal.getClientContact().getClient().getSaClient());
-				billingScenario.setTranferenceValue(country.getTranferenceValue()/proposal.getCurrencyExchange());
-				billingScenario.setTotalAmount(total+billingScenario.getRemittance()+billingScenario.getIva()+billingScenario.getTranferenceValue());
+				
+				LOG.info("METHOD: Escenarios vacio  country exemptax" + country.getExemptTax());
 				listBillingScenario.add(billingScenario);
 			}
-			LOG.info("METHOD: Escenarios vacio " + listBillingScenario.toString());
+			
 			return listBillingScenario;
 		}
 		else 										// Sino esta vacía 

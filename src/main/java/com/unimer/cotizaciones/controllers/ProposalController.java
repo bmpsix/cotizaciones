@@ -195,6 +195,7 @@ public class ProposalController {
 		if(proposedHeader!=null)modelAndView.addObject("formatIdProposal", proposalService.formatNumber(proposedHeader.getIdProposal()));
 		else modelAndView.addObject("autoIncrement", proposalService.autoIncrement());
 		modelAndView.addObject("proposalName", assessment.getDetail());
+		modelAndView.addObject("saClient", assessment.getSaClient());
 		modelAndView.addObject("targets", targetService.listAllTargets());
 		modelAndView.addObject("clientContacts", clientContactService.findByCountryAndSaClient(userSession.getCountry(), assessment.getSaClient()));
 		modelAndView.addObject("executionTypes", executionTypeService.listAllExecutionType());

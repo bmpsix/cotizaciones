@@ -421,6 +421,43 @@ $( document ).ready(function() {
 		});
 		
 		
+
+//------------------------------------------------Calcular totales al editar un escenario de facturación ------------------------------------
+		
+		$("#price").focusin(function(){$("#price").val("");});
+		$("#price").focusout(function()
+		{
+			if($("#price").val()=="" || $("#price").val()==null || isNaN(unFormatNumberProposal($("#price").val())/1))
+			{
+				changeDeparture();
+				$("#price").change();
+			}
+		});
+			
+		$("#price").change(function(){$("#price").val(formatNumberProposal(unFormatNumberProposal($("#price").val())))});
+		
+		$(".cal").change(function(){
+			
+			 var total = 0;
+			 var price = $("#price").val();
+			 var point = price.split(".").length;
+			 
+			 if(point>=3)price=unFormatNumberProposal(replacePointProposal(price));
+			 else price=unFormatNumberProposal((price));
+			 var number = $("#number").val();
+			 var daysTimes = $("#daysTimes").val();
+			 if(number!=null && number!="" && daysTimes!=null && daysTimes!="")
+			 {
+				 total= price * number* daysTimes;
+				 $("#totalBudget").val(formatNumberProposal(total));
+			 }
+		 });
+		
+//------------------------------------------------------------------------------------------------------------------------------------------------
+		 
+		
+		
+		
 		
 //------------------------------------------------------------------------------------------------------------------------------------------------		
 		
@@ -877,23 +914,6 @@ var idProposal = $(row).parents("tr").find("#idProposal span").eq(0).html();
 	         });
 }
 
-//------------------------------------------------------Cambia el formato del tipo de moneda--------------------------------------------------------------------
-
-function formatNumberProposal(num)
-{
-	return ((parseFloat(num)).toLocaleString(undefined, {minimumFractionDigits: 2}));
-}
-
-//----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-//-----------------------------------------Restaura el formato de texto a numero-----------------------------------------------------------------------------------------------------------------------
-function unFormatNumberProposal(text)
-{
-	return parseFloat(String(text).replace(".","").replace(",",".")).toFixed(2);
-}
-
-//----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 
 //-----------------------Da formato a los input al cargase la página-----------------------------------------------------------------------------------------------------------------------------------------
@@ -971,55 +991,19 @@ function proposalView(row){
 
 
 
-
-
-
-
-
-
-/* value means the number od the textbox 
-
-function convertCurrrency(value){
-	var total =  value.replace(/\D/g, "")
-    .replace(/([0-9])([0-9]{3})$/, '$1.$2') /* si reemplzas el numero $1$2 por $1.$2 se mantendra con dos digitos al final no se como sera el mejor ahi 
-    .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
-    
-	return total; /* devuelve el valor ya formateado no se cualquiera que ocupes aqui
-}
-
-$( document ).ready(function(){
-
-$("#price").on({
-	  "focus": function(event) {
-	    $(event.target).select();
-	  },
-	  "keyup": function(event) {
-	    $(event.target).val(function(index, value) {
-	      return value.replace(/\D/g, "")
-	        .replace(/([0-9])([0-9]{3})$/, '$1.$2')
-	        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
-	    });
-	  }
-});
-
-
-
-});
-
-*/
-
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 																ESCENARIOS DE FACTURACIÓN
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 
-//-----------------------------Calculo de los escenarios-------------------------------------------------------------------------------------------------------------------
+//-----------------------------Creación de los escenarios-------------------------------------------------------------------------------------------------------------------
 
 function thirdLinkBS()
 {
 	var tbodyBillingScenario = document.getElementById('tbodyBillingScenario');
 	var total = unFormatNumberProposal($("#nacional1").val());
 	  $("#editTotalAmount").val(formatNumberProposal(total));
+	  $("#editTotalAmount2").val(formatNumberProposal(total));
 	var url = "/proposal/billingscenario"; 
 	    $.ajax({
 	           type: "POST",
@@ -1039,11 +1023,11 @@ function thirdLinkBS()
 	    	
 	         });
 };
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
-
-
+//-----------------------------Calculo de los escenarios-------------------------------------------------------------------------------------------------------------------
 function calBS()
 {
 	var table = document.getElementById("billingScenarioTable");
@@ -1068,6 +1052,95 @@ function calBS()
 };
 
 
+//--------------------------editBS--------------------------Boton de la tabla----------------------------------------------------------------------------------------------
+
+function editBS(row)
+{
+	$("#formEditBS").hide("slow");
+	var detailCountryBS = $(row).parents("tr").find("#detailCountryBS span").eq(0).html();
+	var tranferenceValueAmountBS = $(row).parents("tr").find("#tranferenceValueAmountBS span").eq(1).html();
+	var remittanceAmountBS = $(row).parents("tr").find("#remittanceAmountBS span").eq(1).html();
+	var ivaAmountBS = $(row).parents("tr").find("#ivaAmountBS span").eq(1).html();
+	var totalAmount = $(row).parents("tr").find("#totalAmount span").eq(1).html();
+	var idCountryBS = $(row).parents("tr").find("#idCountryBS span").eq(0).html();
+	var exemptTaxBS = $(row).parents("tr").find("#exemptTaxBS span").eq(0).html();
+	var tranferenceValueBS = $(row).parents("tr").find("#tranferenceValueBS span").eq(0).html();
+	var remittanceBS = $(row).parents("tr").find("#remittanceBS span").eq(0).html();
+	var ivaBS = $(row).parents("tr").find("#ivaBS span").eq(0).html();
+	var idBS = $(row).parents("tr").find("#idBS span").eq(0).html();
+	var idCountryUser = $("#idCountryUser").val();
+	
+	var tranferenceValueAmountBSModified = $(row).parents("tr").find("#tranferenceValueAmountBSModified span").eq(1).html();
+	var remittanceAmountBSModified = $(row).parents("tr").find("#remittanceAmountBSModified span").eq(1).html();
+	var ivaAmountBSModified = $(row).parents("tr").find("#ivaAmountBSModified span").eq(1).html();
+	var totalAmountModified = $(row).parents("tr").find("#totalAmountModified span").eq(1).html();
+	var lastModificationDate = $(row).parents("tr").find("#lastModificationDate span").eq(0).html();
+	
+	
+	$("#countryToPay").val(detailCountryBS);
+	$("#idCountryToPay").val(idCountryBS);
+	$("#showTranferenceValue").text(formatNumberProposal(tranferenceValueBS));
+	$("#showTranferenceValueSystemAmount").text(tranferenceValueAmountBS);
+	$("#showRemittanceBS").text(formatNumberProposal(remittanceBS));
+	$("#showRemittanceSystemAmount").text(remittanceAmountBS);
+	
+	
+	if(exemptTaxBS==1 && idCountryUser!=idCountryBS) $("#showIvaBS").text(formatNumberProposal(0));
+	else $("#showIvaBS").text(formatNumberProposal(ivaBS));
+	$("#showIvaSystemAmount").text(ivaAmountBS);
+	
+	
+	if(lastModificationDate!=null && lastModificationDate!="")
+	{
+		$("#customTransferenceValueAmount").text(tranferenceValueAmountBSModified);
+		$("#customRemittance").text(remittanceAmountBSModified);
+		$("#customIva").text(ivaAmountBSModified);
+		
+		
+		
+	}
+
+	
+	$("#formEditBS").toggle("slow");
+	
+};
+
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+//---------------------------cancelEditBS----------------------------------------------------------------------------------------------------------------------------------------------
+function cancelEditBS(row)
+{
+	$("#formEditBS").hide("slow");
+	
+};
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+//------------------------------------------------------Cambia el formato del tipo de moneda--------------------------------------------------------------------
+
+function formatNumberProposal(num)
+{
+	return ((parseFloat(num)).toLocaleString(undefined, {minimumFractionDigits: 2}));
+}
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//-----------------------------------------Restaura el formato de texto a numero-----------------------------------------------------------------------------------------------------------------------
+function unFormatNumberProposal(text)
+{
+	return parseFloat(String(text).replace(".","").replace(",",".")).toFixed(2);
+}
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------
 

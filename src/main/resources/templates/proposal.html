@@ -702,50 +702,6 @@
        	 	 </td>
        	 </tr>
         
-        <!--
-         <tr id="proposalDetailRow" th:each="proposaldetail : ${proposaldetailss}" th:if="${proposaldetail.commissionable==1}" style="background-color: #009082; color: white;">
-           	 <td id="idProposalDetailsTable" ><span th:text="${proposaldetail.idProposalDetails}"></span></td>
-           	 <td id="departureDetailTable" ><span  th:text="${proposaldetail.Departure.detail}"></span></td>
-           	 <td id="priceTable"><span style="cursor: pointer;" ondblclick="changeCurrencyTypeInRowTable(this);" th:text="${proposaldetail.CurrencyType.symbol+' '}"></span><span  contenteditable="true" th:text="${proposaldetail.price}"></span> </td>
-           	 <td id="numberTable"><span  contenteditable="true"  th:text="${proposaldetail.number}"></span></td>
-           	 <td id="daysTimesTable" ><span contenteditable="true" th:text="${proposaldetail.daysTimes}"></span></td>
-           	 <td id="totalBudgetTable" ><span  th:text="${proposaldetail.CurrencyType.symbol+' '}" ></span><span  th:text="${proposaldetail.totalBudget}"></span></td>
-           	 <td class="detailTable" id="detailTable" ><textarea style="background-color:#009082; color: white; overflow-y: scroll;-moz-border-radius: 10px;-webkit-border-radius: 10px; border-color:white;"  th:text="${proposaldetail.detail}" readonly></textarea></td>
-           	 <td class="columnHide"><span></span></td>
-           	 <td class="parametersTable" id="parametersTable" ><textarea style="background-color:#009082; color: white; overflow-y: scroll; -moz-border-radius: 10px;-webkit-border-radius: 10px; border-color:white;"  th:text="${proposaldetail.parameters}" readonly></textarea></td>
-           	 <td class="columnHide2"><span></span></td>
-           	 <td id="commissionableTable" style="display:none;"><span  th:text="${proposaldetail.commissionable}" ></span></td>
-           	 <td id="idCurrencyTypeTable"  style="display:none;"><span  th:text="${proposaldetail.CurrencyType.idCurrencyType}"></span></td>
-           	 <td id="idDepartureTable" style="display:none;" ><span  th:text="${proposaldetail.Departure.idDeparture}" ></span></td>
-           	 <td style="padding-right: 15px;">
-           	 	<a class="ui-link ui-btn ui-btn-b ui-icon-recycle ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;" onclick="calRow(this);" title="Editar valores"></a>
-           	 	<a href="#" onclick="chargeTheDetailForUpdate(this);" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082; " title="Editar"></a>
-           	 	<a class="ui-link ui-btn ui-btn-b ui-icon-minus ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;" onclick="deleteProposalDetail(this);" title="Eliminar"></a>
-       	 	 </td>
-       	 </tr>
-       	 
-       	 <tr id="proposalDetailRow" th:each="proposaldetail : ${proposaldetailss}" th:if="${proposaldetail.commissionable==0}"  style="background-color: #ECF0F1;" >  	
-           	 <td id="idProposalDetailsTable" ><span  th:text="${proposaldetail.idProposalDetails}"></span></td>
-           	 <td id="departureDetailTable" ><span  th:text="${proposaldetail.Departure.detail}"></span></td>
-           	 <td id="priceTable"><span ondblclick="changeCurrencyTypeInRowTable(this);" style="cursor: pointer;" th:text="${proposaldetail.CurrencyType.symbol+' '}"></span><span  contenteditable="true" th:text="${proposaldetail.price}"></span> </td>
-           	 <td id="numberTable"><span  contenteditable="true"  th:text="${proposaldetail.number}"></span></td>
-           	 <td id="daysTimesTable" ><span   contenteditable="true" th:text="${proposaldetail.daysTimes}"></span></td>
-           	 <td id="totalBudgetTable" ><span  th:text="${proposaldetail.CurrencyType.symbol+' '}" ></span><span  th:text="${proposaldetail.totalBudget}"></span></td>
-           	 <td class="detailTable" id="detailTable" style="text-align:justify;"><textarea style="background-color:#ECF0F1;overflow-y: scroll; -moz-border-radius: 10px;-webkit-border-radius: 10px; border-color:white;"  th:text="${proposaldetail.detail}" readonly></textarea></td>
-           	 <td class="columnHide"><span></span></td>
-           	 <td class="parametersTable" id="parametersTable" style="text-align:justify;" ><textarea style="background-color:#ECF0F1;overflow-y: scroll;-moz-border-radius: 10px;-webkit-border-radius: 10px; border-color:white;" th:text="${proposaldetail.parameters}" readonly></textarea></td>
-      		 <td class="columnHide2"><span></span></td>
-      		 <td id="commissionableTable" style="display:none;"><span  th:text="${proposaldetail.commissionable}" ></span></td>
-      		 <td id="idCurrencyTypeTable"  style="display:none;" ><span  th:text="${proposaldetail.CurrencyType.idCurrencyType}"></span></td>
-      		 <td id="idDepartureTable" style="display:none;"><span  th:text="${proposaldetail.Departure.idDeparture}" ></span></td>
-      		 <td style="padding-right: 15px;">
-           	 	<a class="ui-link ui-btn ui-btn-b ui-icon-recycle ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;" onclick="calRow(this);" title="Editar valores"></a>
-           	 	<a href="#" onclick="chargeTheDetailForUpdate(this);" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;" title="Editar"></a>
-           	 	<a class="ui-link ui-btn ui-btn-b ui-icon-minus ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #009082;" onclick="deleteProposalDetail(this);" title="Eliminar"></a>
-       	 	 </td>
-       	 </tr>
-        -->
-        
     	</tbody>     
     	 
     	 <tr style="background-color: #FFFFFF;">
@@ -779,9 +735,7 @@
     	<p style="color: hsl(153,80%,40%); text-align: center; margin-top: 25%; margin-bottom: 25%;    " >Por favor complete la información general antes de ingresar a este módulo</p>
     </div>
     
-	
-	
-    <!-- <div id="divCustomizeParameters"></div> -->
+
     
     <!-- DETALLE DE COTIZACION -->
     
@@ -797,48 +751,102 @@
        
     <div id="facturaEscena" th:if="${proposal!=null}" class="ui-grid-b"  style="display: none;">
     				
-    				
-    	
-         	   		<div class="ui-grid-b"  >
-         	   			 <div class="ui-block-a" style="margin-top:100px">
-         	   					<label  for="initialDate"><h5 th:text="${'Fecha inicio operaciones: '+#dates.format(proposal.initialDate, 'MM/dd/yyyy')}"></h5></label>
-         	   			 </div>
-         	   			 <div class="ui-block-b" style="text-align: center;margin-top:50px">
-         	   					<h3>Escenarios de facturación</h3>
-         	   			 </div>
-         	   			 <div class="ui-block-c" style="text-align: right;margin-top:100px;">
-         	   			 		
-         	   					<label for="endDate"><h5 th:text="${'Fecha de entrega final: '+#dates.format(proposal.endDate, 'MM/dd/yyyy')}"></h5></label>
-       						
-         	   			 </div>
-         	   		</div>
+         	   	
          	   		
+         	   		<form id="formEditBS" style="display: none;">
          	   		
-         	   		<form id="formEditBS" ><!-- style="display: none;" -->
-         	   		
-         	   		<div class="ui-grid-b"  >
+         	   		<div class="ui-grid-a"  style="margin: 30px ; " >
          	   		
          	   			<h3>Editar escenario de facturación</h3>
          	   			
+         	   			
+         	   			
+         	   			
          	   			 <div class="ui-block-a" >
-         	   				<label><h5>País:</h5></label>
-         	   				<span th:text="${proposal.User.Country.detail}"></span>
+         	   			 		<label><h5>Información de facturación</h5></label>
+         	   			 		<table style="width:90%">
+         	   						<thead>
+         	   							
+         	   						</thead>
+         	   						<tr>
+         	   							<td style="display:none;" ><input id="idBillingScenario" /></td>
+         	   						</tr>
+         	   						
+         	   						<tr>
+         	   							<th>País de facturación:</th>
+         	   							<td><input th:value="${proposal.User.Country.detail}" readonly="readonly"/></td>
+         	   							<td><input id="idCountryUser" th:value="${proposal.User.Country.idCountry}" type="hidden"/></td>
+         	   						</tr>
+         	   						<tr>
+         	   							<th>Razón social a facturar:</th>
+         	   							<td><input th:value="${saClient.detail}" readonly="readonly"/></td>
+         	   						</tr>
+         	   						<tr>
+         	   							<th>Contacto de cliente:</th>
+         	   							<td ><input th:value="${proposal.ClientContact.name}" readonly="readonly"/></td>
+         	   						</tr>
+         	   							<tr>
+         	   							<th>País de pago</th>
+         	   							<td ><input id="countryToPay" readonly="readonly"/><input id="idCountryToPay" type="hidden" readonly="readonly"/></td>
+         	   						</tr>
+         	   						<tr>
+         	   							<th><p th:text="'Monto de propuesta '+${settings.CurrencyTypeInternational.symbol}+':'"></p></th>
+         	   							<td><input  id="editTotalAmount"  readonly="readonly"/></td>
+         	   						</tr>
+         	   						<tr>
+         	   							<th><p th:text="'Total a facturar '+${settings.CurrencyTypeInternational.symbol}+':'"></p></th>
+         	   							<td><input  id="totalToInvoice"  readonly="readonly"/></td>
+         	   						</tr>
+         	   					</table>
          	   				
          	   				
          	   			 </div>
-         	   			 <div class="ui-block-b" >
-         	   					<label><h5>Monto propuesta:</h5></label>
-         	   				<input id="editTotalAmount"  readonly="readonly"/>
+         	   			<div class="ui-block-b" >
+         	   					
+         	   					<label><h5>Detalle de facturación</h5></label>
+         	   					<table id="tableTransfer" data-role="table" class="ui-responsive">
+         	   						<thead>
+         	   							<th>Parámetros</th>
+         	   							<th>Porsentaje %</th>
+         	   							<th>Sugerido</th>
+         	   							<th>Personalizado <span th:text="${settings.currencyTypeInternational.symbol+' '}"></span></th>
+         	   						</thead>
+         	   						<tr>
+         	   							<th>Valor por transferencia</th>
+         	   							<td><span id="showTranferenceValue"></span><span> %</span></td>
+         	   							<td><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span id="showTranferenceValueSystemAmount"></span></td>
+         	   							<td><input  id="customTransferenceValueAmount"/></td>
+         	   						</tr>
+         	   						
+         	   						<tr>
+         	   							<th>Remesa</th>
+         	   							<td><span id="showRemittanceBS"></span><span> %</span></td>
+         	   							<td><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span id="showRemittanceSystemAmount"></span></td>
+         	   							<td><input  id="customRemittance"/></td>
+         	   						</tr>
+         	   						<tr>
+         	   							<th>Impuesto de ventas</th>
+         	   							<td><span id="showIvaBS"></span><span> %</span></td>
+         	   							<td><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span id="showIvaSystemAmount"></span></td>
+         	   							<td><input  id="customIva"/></td>
+         	   						</tr>
+         	   						<tr>
+         	   							<th><p th:text="'Total a facturar '+${settings.CurrencyTypeInternational.symbol}+':'"></p></th>
+         	   							<td colspan="3" style="text-align: center;"><input  id="totalToInvoice2"  readonly="readonly"/></td>
+         	   						</tr>
+         	   					</table>
+         	   					
+         	   					
          	   			 </div>
-         	   			 <div class="ui-block-c">
-         	   			 		
-         	   					<div id="msgAssign"></div>
-                   	 			<hr>
-                    			<a id="editBSCancel" type="button" data-icon="delete" onclick="clearEditBS();"><input data-icon="delete" type="button" value="Cerrar"/></a>
-  								<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
-       						
-         	   			 </div>
+         	   			 
          	   		</div>
+         	   		
+         	   				<div style="margin: 25px;">
+         	   					<div id="msgAssign"></div>
+                   	 			
+                    			<a id="editBSCancel" type="button" data-icon="delete" onclick="cancelEditBS();"><input data-icon="delete" type="button" value="Cancelar"/></a>
+  								<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
+  							</div>
          	   		
          	   		</form>
          	   		
@@ -846,16 +854,16 @@
          
     	<fieldset >
          			
-           			<table id="billingScenarioTable" data-role="table" dfe="movie-table" class="ui-responsive">
+           			<table id="billingScenarioTable" data-role="table" dfe="movie-table" class="ui-responsive" style="margin-top: 50px;">
 		    			<thead>
 		    				
            				<!--<th>ID</th> -->
-           					<th>País de facturación</th>
+           					<th>País de pago</th>
            					<th>Nombre Cliente (Razón Social)</th>
            					<th>Contacto</th>
-           					<th>Valor de transferencia</th>
+           					<th>Incluye valor de transferencia</th>
            					<th>Incluye remesa</th>
-           					<th>Impuesto de ventas</th>
+           					<th>Incluye impuesto de ventas</th>
            					<th>Monto a facturar</th>
            					<th>Moneda</th>
            					<th></th>
@@ -868,10 +876,10 @@
 							<td id="detailCountryBS" ><span th:text="${billingScenario.Country.detail}"></span></td>
 							<td id="detailSaClientBS" ><span th:text="${billingScenario.SaClient.detail}"></span></td>
 							<td id="nameContact"><span th:text="${billingScenario.ClientContact.name}" ></span></td>
-							<td id="tranferenceValueAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.tranferenceValue, 1, 'POINT', 2, 'COMMA')}"></span></td>
-							<td id="remittanceAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.remittance, 1, 'POINT', 2, 'COMMA')}"></span></td>
-							<td id="ivaAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.iva, 1, 'POINT', 2, 'COMMA')}"></span></td>
-							<td id="totalAmount"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span  th:text="${#numbers.formatDecimal(billingScenario.totalAmount, 1, 'POINT', 2, 'COMMA')}" ></span></td>
+							<td id="tranferenceValueAmountBSModified"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.tranferenceValueModified, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="remittanceAmountBSModified"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.remittanceModified, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="ivaAmountBSModified"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.ivaModified, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="totalAmountModified"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span  th:text="${#numbers.formatDecimal(billingScenario.totalAmountModified, 1, 'POINT', 2, 'COMMA')}" ></span></td>
 							<td id="currencyTypeBS"><span th:text="${settings.currencyTypeInternational.detail}"></span></td>
 	           				<td id="methodStatusBS" style="text-align: center;"> 
 	           					<a href="#" onclick="" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #8B4513; text-align: center;" title="Editar escenario de facturación"></a>
@@ -881,53 +889,71 @@
 	           				
 	           				<!-- ocultas -->
 	           				<div  th:each="country : ${countries}" th:if="${country==billingScenario.Country}">
+	           					<td id="idCountryBS" style="display:none;"><span  th:text="${country.idCountry}" ></span></td>
 	           					<td id="exemptTaxBS" style="display:none;"><span  th:text="${country.exemptTax}" ></span></td>
 	           					<td id="tranferenceValueBS"  style="display:none;"><span th:text="${country.tranferenceValue}"></span></td>
 								<td id="remittanceBS"  style="display:none;"><span th:text="${country.remittance}"></span></td>
 								<td id="ivaBS"  style="display:none;"><span th:text="${country.iva}"></span></td>
 							</div>
+						
+							<td id="idBS" style="display:none;" ><span th:text="${billingScenario.idBillingScenario}"></span></td>
+							<td id="tranferenceValueAmountBS" style="display:none;"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${billingScenario.tranferenceValue}"></span></td>
+							<td id="remittanceAmountBS" style="display:none;"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${billingScenario.remittance}"></span></td>
+							<td id="ivaAmountBS" style="display:none;"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${billingScenario.iva}"></span></td>
+							<td id="totalAmount" style="display:none;"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span  th:text="${billingScenario.totalAmount}" ></span></td>
+							<td id="lastModificationDate" style="display:none;" ><span th:text="${billingScenario.lastModificationDate}"></span></td>
            				</tr>
            				
            				<tr id="listBillingScenario" th:each="billingScenario : ${billingScenarios}" th:if="${billingScenario.lastModificationDate==null}">
 							
 							<!--<td id="idBillingScenario" ><span th:text="${billingScenario.idBillingScenario}"></span></td>-->
 							<td id="detailCountryBS" ><span th:text="${billingScenario.Country.detail}"></span></td>
-							<td id="detailSaClientBS" ><span th:text="${billingScenario.SaClient.detail}"></span></td>
-							<td id="nameContact"><span th:text="${billingScenario.ClientContact.name}" ></span></td>
+							<td ><span th:text="${billingScenario.SaClient.detail}"></span></td>
+							<td ><span th:text="${billingScenario.ClientContact.name}" ></span></td>
 							<td id="tranferenceValueAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.tranferenceValue, 1, 'POINT', 2, 'COMMA')}"></span></td>
 							<td id="remittanceAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.remittance, 1, 'POINT', 2, 'COMMA')}"></span></td>
 							<td id="ivaAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.iva, 1, 'POINT', 2, 'COMMA')}"></span></td>
 							<td id="totalAmount"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span  th:text="${#numbers.formatDecimal(billingScenario.totalAmount, 1, 'POINT', 2, 'COMMA')}" ></span></td>
 							<td id="currencyTypeBS"><span th:text="${settings.currencyTypeInternational.detail}"></span></td>
 	           				<td id="methodStatusBS" style="text-align: center;"> 
-	           					<a href="#" onclick="" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #8B4513; text-align: center;" title="Editar escenario de facturación"></a>
+	           					<a href="#" onclick="editBS(this);" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #8B4513; text-align: center;" title="Editar escenario de facturación"></a>
 	           					<a  class="ui-link ui-btn ui-btn-b ui-icon-check ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" title="Seleccionar escenario de facturación" style="background-color: #009082;"></a>
 	           				</td>
 	           				
 	           				
 	           				<!-- ocultas -->
 	           				<div  th:each="country : ${countries}" th:if="${country==billingScenario.Country}">
+	           					<td id="idCountryBS" style="display:none;"><span  th:text="${country.idCountry}" ></span></td>
 	           					<td id="exemptTaxBS" style="display:none;"><span  th:text="${country.exemptTax}" ></span></td>
 	           					<td id="tranferenceValueBS"  style="display:none;"><span th:text="${country.tranferenceValue}"></span></td>
 								<td id="remittanceBS"  style="display:none;"><span th:text="${country.remittance}"></span></td>
 								<td id="ivaBS"  style="display:none;"><span th:text="${country.iva}"></span></td>
 							</div>
+							
+							<td id="idBS" style="display:none;" ><span th:text="${billingScenario.idBillingScenario}"></span></td>
+							<td id="tranferenceValueAmountBSModified" style="display:none;"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${billingScenario.tranferenceValueModified}"></span></td>
+							<td id="remittanceAmountBSModified" style="display:none;"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${billingScenario.remittanceModified}"></span></td>
+							<td id="ivaAmountBSModified" style="display:none;"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${billingScenario.ivaModified}"></span></td>
+							<td id="totalAmountModified" style="display:none;"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span  th:text="${billingScenario.totalAmountModified}" ></span></td>
+							<td id="lastModificationDate" style="display:none;" ><span th:text="${billingScenario.lastModificationDate}"></span></td>
+							
            				</tr>
           			    </tbody>
 		    		</table>
            	</fieldset>
     	
     	
-    	  	<div class="ui-block-a">
-     
-      		</div>
-      		<div class="ui-block-b" >
-    
-      		</div>
-      
-      		<div class="ui-block-c">
-       
-      		</div> 
+    			<div class="ui-grid-b"  id="headBS">
+         	   			 <div class="ui-block-a">
+         	   					<label  for="initialDate"><h5 th:text="${'Fecha inicio operaciones: '+#dates.format(proposal.initialDate, 'MM/dd/yyyy')}"></h5></label>
+         	   			 </div>
+         	   			 <div class="ui-block-b"></div>
+         	   			 <div class="ui-block-c" style="text-align: right;">
+         	   			 		
+         	   					<label for="endDate"><h5 th:text="${'Fecha entrega final: '+#dates.format(proposal.endDate, 'MM/dd/yyyy')}"></h5></label>
+       						
+         	   			 </div>
+         	   	</div>
     	
     </div>
        
