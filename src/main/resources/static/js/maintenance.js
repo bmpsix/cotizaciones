@@ -1796,8 +1796,8 @@ function sendFormUser()
 		var tbody = document.getElementById('tbodyUser');
 		var msg="";
 		var form = $("#formUser").serialize();
-		
-	if($("#head").val()!=$("#idUser").val() && $("#head").val()!="" && $("#head").val()!=null)
+	
+	if(($("#head").val()!=$("#idUser").val() && $("#head").val()!="" && $("#head").val()!=null) || ($("#head").val()!="" && $("#head").val()==null && $("#headRol").val()==$("#rol").val()))
 	{
 		var url = "/admin/adduser"; 
 		    $.ajax({
@@ -1927,9 +1927,10 @@ function asignedHead(){
 	
 	if($("#headRol").val()!=$("#rol").val())
 	{
+		
 		if( $("#asignedHead").css('display') == 'none') 
 			{
-				$("#asignedHead").toggle();
+				$("#asignedHead").show();
 				$("#idHeadUser").val($("#head").val());
 			}
 	}
@@ -1947,7 +1948,7 @@ function asignedHead(){
 //----------------------------------------------------IdHeadUser------Para mostrar y ocultar el select en user------------------------------------------------------------------------------------------------
 function changeidHeadUser(){
 
-	
+
 	if( $("#asignedHead").css('display') == 'none')
 	{
 		 $("#idHeadUser").val(0);

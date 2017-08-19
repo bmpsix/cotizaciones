@@ -63,7 +63,7 @@
 								</select>
 								<div style="display: none;">
 									<select id="headRol" name="rol.idRol">
-									<option th:each="rol : ${roles}" th:value="${rol.idRol}"  th:if="${rol.detail=='Boss_contributor'}">
+									<option th:each="rol : ${roles}" th:value="${rol.idRol}"  th:if="${rol.detail=='BOSS_CONTRIBUTOR'}">
 										<p th:text="${rol.detail}" th:value="${rol.detail}" ></p>
 									</option>
 								</select>
@@ -74,7 +74,7 @@
 								<div id="asignedHead">
 									<label  for="head">Asignar un jefe de cotización:</label>
 									<select  id="head"  onchange="changeidHeadUser();">
-										<option  th:each="head : ${users}" th:value="${head.idUser}" th:if="${head.Rol.detail=='Boss_contributor'}">
+										<option  th:each="head : ${users}" th:value="${head.idUser}" th:if="${head.Rol.detail=='BOSS_CONTRIBUTOR'}">
 											<p  th:text="${head.name+' '+head.midname+' '+head.lastname}" ></p>
 										</option>
 									</select>

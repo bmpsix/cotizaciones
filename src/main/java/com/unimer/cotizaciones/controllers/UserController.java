@@ -56,10 +56,31 @@ public class UserController {
 		HttpSession session = request.getSession();
 		User userSession =  (User) session.getAttribute("userSession");
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("user");
-		modelAndView.addObject("roles", rolService.findByActiveStatus());
-		modelAndView.addObject("users", userService.findByCountry(userSession.getCountry()));
+		List<User> listUser =  userService.findByCountry(userSession.getCountry());
+		List<Rol> listRol = rolService.findByActiveStatus();
+		int count=0;
+		for(User user : listUser){
+			Rol rol = user.getRol();
+			rol.setDetail(rol.getDetail().toUpperCase());
+			user.setRol(rol);
+			listUser.set(count, user);
+			count++;
+		}
+		modelAndView.addObject("users",listUser);
+		
+		count=0;
+		for(Rol rol : listRol)
+		{
+			rol.setDetail(rol.getDetail().toUpperCase());
+			listRol.set(count, rol);
+			count++;
+		}
+		
+		
+		modelAndView.addObject("roles", listRol);
+		
 		modelAndView.addObject("headUserToUsers", headUserToUserService.findHeadUserToUser());
+		modelAndView.setViewName("user");
 		return modelAndView;
 	}
 
@@ -71,6 +92,7 @@ public class UserController {
 		Rol rol = rolService.findById(user.getRol().getIdRol());
 		if (user.getIdUser() != 0) {
 			List<HeadUserToUser> headUserToUser = headUserToUserService.findUserByHeadUser(user);
+			 
 			if (headUserToUser.isEmpty()) {
 				
 				user.setRol(rol);
@@ -82,7 +104,13 @@ public class UserController {
 				return "user :: #userRow";
 
 			}
-			else return "user";
+			else
+			{
+				User userToUpdate = userService.findById(user.getIdUser());
+				user.setRol(userToUpdate.getRol());
+				userService.addUser(user, userSession.getIdUser());
+				return "user";
+			}
 		}
 		else 
 		{
