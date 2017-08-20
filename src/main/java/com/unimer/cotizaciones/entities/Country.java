@@ -94,10 +94,6 @@ public class Country implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Set<CurrencyType> getCurrencyType() {
-		return currencyTypes;
-	}
-
 	public void setCurrencyType(CurrencyType currencyType) {
 		this.currencyTypes.add(currencyType);
 	}
@@ -123,8 +119,8 @@ public class Country implements Serializable {
 		this.tranferenceValue = tranferenceValue;
 	}
 
-	
-	public Set<CurrencyType> getCurrencyTypes() {
+
+	public Set<CurrencyType> getCurrencyType() {
 		return currencyTypes;
 	}
 

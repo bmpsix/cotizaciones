@@ -118,9 +118,15 @@ $( document ).ready(function() {
 	$("#factor2").focusout(function(){  if( $("#factor2").val()==null ||  $("#factor2").val()=="") $("#factor2").val(formatNumberProposal($("#defaultFactor2").val()));});
 	$("#aporteFijo").focusout(function(){  if( $("#aporteFijo").val()==null ||  $("#aporteFijo").val()=="") $("#aporteFijo").val(formatNumberProposal($("#defaultAporteFijo").val()));});
 	
+	
+	
+	
 //------------------------------------------------------------------------------------------------------------------------------------------------	
 	
 //------------------------------------------------Calcular el total de presupuesto de cada detalle------------Partida - precio - numero - dias/veces ------------------------------------
+	
+	
+	//Proceso de calculo para los detalles de propuesta
 	
 	$("#price").focusin(function(){$("#price").val("");});
 	$("#price").focusout(function()
@@ -132,7 +138,7 @@ $( document ).ready(function() {
 		}
 	});
 		
-	$("#price").change(function(){$("#price").val(formatNumberProposal(unFormatNumberProposal($("#price").val())))});
+	
 	
 	$(".cal").change(function(){
 		
@@ -168,8 +174,8 @@ $( document ).ready(function() {
 			if(isNaN($("#imprevisto").val()/1)) $("#imprevisto").val(formatNumberProposal($("#defaultImprevisto").val()));
 		}
 		else if($("#aporteFijo").val()=="" || $("#aporteFijo").val()== null || unFormatNumberProposal($("#aporteFijo").val())< 0 ) $("#aporteFijo").val(formatNumberProposal($("#defaultAporteFijo").val()));
-		else if( $("#factor1").val()=="" ||  $("#factor1").val()== null || unFormatNumberProposal($("#factor1").val())<1 )  $("#factor1").val(formatNumberProposal($("#defaultFactor1").val()));
-		else if($("#factor2").val()=="" || $("#factor2").val()== null || unFormatNumberProposal($("#factor2").val())<1 ) $("#factor2").val(formatNumberProposal($("#defaultFactor2").val()));
+		else if( $("#factor1").val()=="" ||  $("#factor1").val()== null || unFormatNumberProposal($("#factor1").val())<1  || unFormatNumberProposal($("#factor1").val())>100 )  $("#factor1").val(formatNumberProposal($("#defaultFactor1").val()));
+		else if($("#factor2").val()=="" || $("#factor2").val()== null || unFormatNumberProposal($("#factor2").val())<1 || unFormatNumberProposal($("#factor2").val())>100) $("#factor2").val(formatNumberProposal($("#defaultFactor2").val()));
 		else if($("#imprevisto").val()=="" || $("#imprevisto").val()== null || unFormatNumberProposal($("#imprevisto").val())<0 || unFormatNumberProposal($("#imprevisto").val())>100) $("#imprevisto").val(formatNumberProposal($("#defaultImprevisto").val()));
 		else
 		{

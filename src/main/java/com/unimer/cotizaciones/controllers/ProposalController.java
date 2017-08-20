@@ -1,6 +1,8 @@
 package com.unimer.cotizaciones.controllers;
 
 import java.util.Date;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
@@ -183,6 +185,8 @@ public class ProposalController {
 		Proposal proposedHeader=null;
 		HttpSession session = request.getSession();
 		User userSession =  (User) session.getAttribute("userSession");
+		//User user = userService.findById(userSession.getIdUser());
+		//List<CurrencyType> listCurrencyType = (List<CurrencyType>) user.getCountry().getCurrencyTypes();
 		Assessment assessment = (Assessment) session.getAttribute("assessment");
 		if(session.getAttribute("proposedHeader")!=null){proposedHeader = (Proposal) session.getAttribute("proposedHeader");}
 		Settings sttings = settingsService.findSettingByCountry(userSession.getCountry());
