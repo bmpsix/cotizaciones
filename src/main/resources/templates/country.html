@@ -16,18 +16,18 @@
 		<h3>Control de países</h3>
 			<div data-role="fieldcontain">
 			
-					<form id="formCountry" method="POST" action="javascript:sendFormCountry();">
+					<form id="formCountry" method="POST" action="javascript:sendFormCountry();" autocomplete="off">
 							<input id="idCountry" type="hidden" name="idCountry" th:value="0"  readonly />
 							<label for="detail">Detalle:</label>
 							<input id="detail" title="Debe ingresar el nombre del país" type="text" name="detail" th:value="${detail}" required/>
 							<label for="cod">Código del país:</label>
 							<input id="cod" title="Debe ingresar el código del país" type="text" name="cod" th:value="${cod}" maxlength="3" required/>
-							<label for="iva">I.V.A:</label>
-							<input id="iva" title="Debe ingresar el impuesto de venta del país" type="number" name="iva" th:value="${iva}"  required/>
-							<label for="tranferenceValue">Valor de transferencia:</label>
-							<input id="tranferenceValue" title="Debe ingresar el valor de tranferencia del país" type="number" name="tranferenceValue" th:value="tranferenceValue"  required/>						
-							<label for="remission">Remesa:</label>
-							<input id="remittance" title="Debe ingresar la remesa del país" type="number" name="remittance" th:value="${remittance}" required/>
+							<label for="iva">I.V.A %:</label>
+							<input id="iva" title="Debe ingresar el impuesto de venta del país" maxlength="5" type="text" name="iva" th:value="${iva}"  required/>
+							<label for="tranferenceValue">Valor de transferencia %:</label>
+							<input id="tranferenceValue" title="Debe ingresar el valor de tranferencia del país" maxlength="5" type="text" name="tranferenceValue" th:value="${tranferenceValue}"  required/>						
+							<label for="remittance">Remesa %:</label>
+							<input id="remittance" title="Debe ingresar la remesa del país" type="text" maxlength="5" name="remittance" th:value="${remittance}" required/>
 							<label for="exemptTax" title="Indica si esta fuera de impuestos si o no " id="status-label">Exento de impuesto al exterior</label>
 							<select id="exemptTax" name="exemptTax" data-role="slider" tabindex="-1" class="ui-slider-switch">
 								<option value="0" selected="">Inactivo</option>
@@ -69,9 +69,9 @@
 							<td id="idCountry" style="padding-right: 15px;"><span th:text="${country.idCountry}"></span></td>
 							<td id="detail" style="padding-right: 15px;" ><span th:text="${country.detail}"></span></td>
 							<td id="cod" style="padding-right: 15px;"><span th:text="${country.cod}"></span></td>
-							<td id="iva" style="padding-right: 15px;"><span th:text="${country.iva}"></span></td>
-							<td id="tranferenceValue" style="padding-right: 15px;"><span th:text="${country.tranferenceValue}"></span></td>
-							<td id="remittance" style="padding-right: 15px;"><span th:text="${country.remittance}"></span></td>
+							<td id="iva" style="padding-right: 15px;"><span  th:text="${#numbers.formatDecimal(country.iva, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="tranferenceValue" style="padding-right: 15px;"><span  th:text="${#numbers.formatDecimal(country.tranferenceValue, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="remittance" style="padding-right: 15px;"><span  th:text="${#numbers.formatDecimal(country.remittance, 1, 'POINT', 2, 'COMMA')}"></span></td>
 							<td id="exemptTax" style="padding-right: 15px;"><span th:text="${country.exemptTax == 1} ? 'Si' : 'No'"></span></td>
 							<td id="applyForCharge" style="padding-right: 15px;"><span th:text="${country.applyForCharge == 1} ? 'Si' : 'No'"></span></td>
 	           				<td style="padding-right: 15px;"><a href="#" onclick="editCountry(this);">Editar</a></td>

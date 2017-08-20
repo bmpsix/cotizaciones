@@ -6,15 +6,27 @@ $( document ).ready(function(){
 //---------------------------------------Limpiar y validar---------------------------------------------------------------------------------------------------------
 
 	//Elimina el contenido del input al tocarlo
+	
+	//Departure
 	$("#priceDeparture").focusin(function(){$("#priceDeparture").val("");});
 	
+	//currencyExchange
 	$("#sell").focusin(function(){$("#sell").val("");});
 	$("#buy").focusin(function(){$("#buy").val("");});
 	
+	
+	//settings
 	$("#imprevistoSettings").focusin(function(){$("#imprevistoSettings").val("");});
 	$("#aporteFijoSettings").focusin(function(){$("#aporteFijoSettings").val("");});
 	$("#factor1Settings").focusin(function(){$("#factor1Settings").val("");});
 	$("#factor2Settings").focusin(function(){$("#factor2Settings").val("");});
+	
+	
+	//country
+	$("#iva").focusin(function(){$("#iva").val("");});
+	$("#tranferenceValue").focusin(function(){$("#tranferenceValue").val("");});
+	$("#remittance").focusin(function(){$("#remittance").val("");});
+
 	
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
@@ -25,11 +37,13 @@ $( document ).ready(function(){
 //----------------------------------------------Dar formato--------------------------------------------------------------------------------------------------	
 	
 
+	//departure
 	$("#priceDeparture").change(function(){
 		if(!isNaN(unFormatNumberMaintenace($("#priceDeparture").val())/1) && $("#priceDeparture").val()!=null &&  $("#priceDeparture").val()!="" && unFormatNumberMaintenace($("#priceDeparture").val())>0) $("#priceDeparture").val(formatNumberMaintenace(replacePointMaintenance($("#priceDeparture").val())));
 		else $("#priceDeparture").val("");
 	});
 	
+	//currencyExchange
 	$("#buy").change(function(){
 		if(!isNaN(unFormatNumberMaintenace($("#buy").val())/1) && $("#buy").val()!=null &&  $("#buy").val()!="" && unFormatNumberMaintenace($("#buy").val())>0) $("#buy").val(formatNumberMaintenace(replacePointMaintenance($("#buy").val())));
 		else $("#buy").val("");
@@ -40,6 +54,8 @@ $( document ).ready(function(){
 		else $("#sell").val("");
 	});
 	
+	
+	//settings
 	$("#imprevistoSettings").change(function(){
 		if(!isNaN(unFormatNumberMaintenace($("#imprevistoSettings").val())/1) && $("#imprevistoSettings").val()!=null &&  $("#imprevistoSettings").val()!="" && (replacePoint($("#imprevistoSettings").val()))>0 && (replacePoint($("#imprevistoSettings").val()))<100) 
 			{
@@ -55,26 +71,45 @@ $( document ).ready(function(){
 	});
 	
 	$("#factor1Settings").change(function(){
-		if(!isNaN(unFormatNumberMaintenace($("#factor1Settings").val())/1) && $("#factor1Settings").val()!=null &&  $("#factor1Settings").val()!="" && unFormatNumberMaintenace($("#factor1Settings").val())>0) $("#factor1Settings").val(formatNumberMaintenace(replacePointMaintenance($("#factor1Settings").val())));
+		if(!isNaN(unFormatNumberMaintenace($("#factor1Settings").val())/1) && $("#factor1Settings").val()!=null &&  $("#factor1Settings").val()!="" && unFormatNumberMaintenace($("#factor1Settings").val())>0 && (replacePoint($("#factor1Settings").val()))<100) $("#factor1Settings").val(formatNumberMaintenace(replacePointMaintenance($("#factor1Settings").val())));
 		else $("#factor1Settings").val("");
 	});
 	
 	$("#factor2Settings").change(function(){
-		if(!isNaN(unFormatNumberMaintenace($("#factor2Settings").val())/1) && $("#factor2Settings").val()!=null &&  $("#factor2Settings").val()!="" && unFormatNumberMaintenace($("#factor2Settings").val())>0) $("#factor2Settings").val(formatNumberMaintenace(replacePointMaintenance($("#factor2Settings").val())));
+		if(!isNaN(unFormatNumberMaintenace($("#factor2Settings").val())/1) && $("#factor2Settings").val()!=null &&  $("#factor2Settings").val()!="" && unFormatNumberMaintenace($("#factor2Settings").val())>0 && (replacePoint($("#factor2Settings").val()))<100) $("#factor2Settings").val(formatNumberMaintenace(replacePointMaintenance($("#factor2Settings").val())));
 		else $("#factor2Settings").val("");
 	});
 	
-
-//------------------------------------------------------------------------------------------------------------------------------------------------	
-
+	//Country
 	
-});
+	$("#iva").change(function(){
+		if(!isNaN(unFormatNumberMaintenace($("#iva").val())/1) && $("#iva").val()!=null &&  $("#iva").val()!="" && (replacePoint($("#iva").val()))>0 && (replacePoint($("#iva").val()))<100) 
+			{
+				$("#iva").val(formatNumberMaintenace(replacePointMaintenance($("#iva").val())));
+			}
+		else $("#iva").val("");
+	});
+	$("#tranferenceValue").change(function(){
+		if(!isNaN(unFormatNumberMaintenace($("#tranferenceValue").val())/1) && $("#tranferenceValue").val()!=null &&  $("#tranferenceValue").val()!="" && (replacePoint($("#tranferenceValue").val()))>0 && (replacePoint($("#tranferenceValue").val()))<100) 
+			{
+				$("#tranferenceValue").val(formatNumberMaintenace(replacePointMaintenance($("#tranferenceValue").val())));
+			}
+		else $("#tranferenceValue").val("");
+	});
+	$("#remittance").change(function(){
+		if(!isNaN(unFormatNumberMaintenace($("#remittance").val())/1) && $("#remittance").val()!=null &&  $("#remittance").val()!="" && (replacePoint($("#remittance").val()))>0 && (replacePoint($("#remittance").val()))<100) 
+			{
+				$("#remittance").val(formatNumberMaintenace(replacePointMaintenance($("#remittance").val())));
+			}
+		else $("#remittance").val("");
+	});
+	
 
 
-var price = $("#priceDeparture").val();
-if(price!="" && price!=null)
-{
-	price=price.replace(",",".");
+/*	var price = $("#priceDeparture").val();
+	if(price!="" && price!=null)
+	{
+		price=price.replace(",",".");
 		if(!isNaN(parseFloat(price)) && (parseFloat(price))>=0)
 		{
 			price =(parseFloat(price).toLocaleString(undefined, {minimumFractionDigits: 2}));
@@ -83,7 +118,16 @@ if(price!="" && price!=null)
 		else $("#priceDeparture").val("");
 			
 	
-}
+	}*/
+
+
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------	
+	
+});
+
+//------------------------------------------------------------------------------------------------------------------------------------------------	
 
 //----------------------------changePassword--------------------------------------------------------------------------------------------------------------
 
@@ -528,7 +572,14 @@ function sendFormCountry()
 		var div = document.getElementById('msg');
 		var tbody = document.getElementById('tbodyCountry');
 		var msg="";
-		var form = $("#formCountry").serialize();
+		var form = $("#formCountry").serializeArray();
+		
+		
+		for (index = 3; index <= 5; ++index) {
+		    form[index].value=unFormatNumberProposal((form[index].value));
+		}
+		form = jQuery.param(form);
+		
 		
 		var url = "/admin/addcountry"; 
 		    $.ajax({
@@ -806,7 +857,9 @@ function sendFormDeparture()
 		
 		for (index = 0; index < form.length; ++index) {
 		    if (form[index].name == "price") {
-		    	form[index].value = unFormatNumberMaintenace(replacePoint(form[index].value));
+		    	 var point = (form[index].value).split(".").length;
+				 if(point>=3)form[index].value=unFormatNumberProposal(replacePointProposal(form[index].value));
+				 else form[index].value=unFormatNumberProposal((form[index].value));
 		        break;
 		    }
 		}
@@ -1420,7 +1473,12 @@ function sendFormSettings()
 		var form = $("#formSettings").serializeArray();
 		for (index = 3; index < form.length; index++) {
 		   if(index!=5)form[index].value = unFormatNumberMaintenace(form[index].value);
-		   else form[index].value = unFormatNumberMaintenace(replacePoint(form[index].value));
+		   else 
+		   {
+			 var point = (form[index].value).split(".").length;
+			 if(point>=3)form[index].value=unFormatNumberProposal(replacePointProposal(form[index].value));
+			 else form[index].value=unFormatNumberProposal((form[index].value));
+		   }
 		}
 
 		form = jQuery.param(form);
