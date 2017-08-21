@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import com.unimer.cotizaciones.entities.Assessment;
+import com.unimer.cotizaciones.entities.BillingScenario;
 import com.unimer.cotizaciones.entities.ClientContact;
 import com.unimer.cotizaciones.entities.CollectMethod;
 import com.unimer.cotizaciones.entities.Country;
@@ -26,6 +27,7 @@ import com.unimer.cotizaciones.entities.Operation;
 import com.unimer.cotizaciones.entities.Proposal;
 import com.unimer.cotizaciones.entities.ProposalDetails;
 import com.unimer.cotizaciones.entities.ProposalType;
+import com.unimer.cotizaciones.entities.SaClient;
 import com.unimer.cotizaciones.entities.Settings;
 import com.unimer.cotizaciones.entities.Status;
 import com.unimer.cotizaciones.entities.StudyCategory;
@@ -46,6 +48,7 @@ import com.unimer.cotizaciones.services.OperationService;
 import com.unimer.cotizaciones.services.ProposalDetailsService;
 import com.unimer.cotizaciones.services.ProposalService;
 import com.unimer.cotizaciones.services.ProposalTypeService;
+import com.unimer.cotizaciones.services.SaClientService;
 import com.unimer.cotizaciones.services.SettingsService;
 import com.unimer.cotizaciones.services.StatusService;
 import com.unimer.cotizaciones.services.StudyCategoryService;
@@ -157,6 +160,11 @@ public class ProposalController {
 	@Autowired
 	@Qualifier("billingScenarioServiceImpl")
 	private BillingScenarioService billingScenarioService;
+	
+	
+	@Autowired
+	@Qualifier("saClientServiceImpl")
+	private SaClientService saClientService;
 	
 	
 	
@@ -448,7 +456,60 @@ public class ProposalController {
 		return "proposal :: #listBillingScenario";
 	}
 	
+	@PostMapping("/proposal/editbillingscenario")
+	public String editBillingScenario(HttpServletRequest request,
+									@RequestParam("idBillingScenario") int idBillingScenario,
+									@RequestParam("idSaClient") int idSaClient,
+									@RequestParam("idClientContact") int idClientContact,
+									@RequestParam("idCountry") int idCountry,
+									@RequestParam("tranferenceValue") double tranferenceValue,
+									@RequestParam("tranferenceValueModified") double tranferenceValueModified,
+									@RequestParam("remittance") double remittance,
+									@RequestParam("remittanceModified") double remittanceModified,
+									@RequestParam("iva") double iva,
+									@RequestParam("ivaModified") double ivaModified,
+									@RequestParam("totalAmountModified") double totalAmountModified,
+									@RequestParam("methodState") int methodState,
+									Model model) {
+		
 	
+		HttpSession session = request.getSession();
+		User userSession =  (User) session.getAttribute("userSession");
+		Settings settings = settingsService.findSettingByCountry(userSession.getCountry());
+		Proposal proposal = (Proposal) session.getAttribute("proposedHeader");
+		SaClient saClient = saClientService.findById(idSaClient);
+		ClientContact clientContact = clientContactService.findById(idClientContact);
+		Country country = countryService.findById(idCountry);
+		BillingScenario billingScenario = new BillingScenario();
+		if(idBillingScenario!=0)billingScenario.setIdBillingScenario(idBillingScenario);
+		billingScenario.setClientContact(clientContact);
+		billingScenario.setCountry(country);
+		billingScenario.setInitialDate(proposal.getInitialDate());
+		billingScenario.setIva(iva);
+		billingScenario.setIvaModified(ivaModified);
+		billingScenario.setLastModificationDate(new Date());
+		billingScenario.setMethodState((byte)methodState);
+		billingScenario.setProposal(proposal);
+		if(idBillingScenario==0)billingScenario.setRegistrationDate(new Date());
+		else billingScenario.setRegistrationDate(billingScenarioService.findById(idBillingScenario).getRegistrationDate());
+		billingScenario.setRemittance(remittance);
+		billingScenario.setRemittanceModified(remittanceModified);
+		billingScenario.setSaClient(saClient);
+		billingScenario.setTotalAmount(iva);
+		billingScenario.setTotalAmountModified(totalAmountModified);
+		billingScenario.setTranferenceValue(tranferenceValue);
+		billingScenario.setTranferenceValueModified(tranferenceValueModified);
+		billingScenario.setUser(userSession);
+		
+		
+		
+		billingScenarioService.editBillingScenario(billingScenario);
+		LOG.info("METHOD: billingScenario edit  "+billingScenario);
+		model.addAttribute("settings",settings);
+		model.addAttribute("billingScenarios",billingScenarioService.findByProposal(proposal, iva));
+		model.addAttribute("countries",countryService.listAllCountries());
+		return "proposal :: #listBillingScenario";
+	}
 	
 	
 }

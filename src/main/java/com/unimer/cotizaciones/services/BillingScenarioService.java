@@ -9,6 +9,9 @@ public interface BillingScenarioService {
 
 	public abstract List<BillingScenario> findByProposal(Proposal proposal,double total);
 	
-	public abstract void addBillingScenario(BillingScenario BillingScenario);
+	public abstract BillingScenario findById(int idBillingScenario);
 	
+	public abstract void addBillingScenario(BillingScenario billingScenario);
+	
+	public abstract void editBillingScenario(BillingScenario billingScenario);
 }

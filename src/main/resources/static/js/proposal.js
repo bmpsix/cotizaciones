@@ -1137,6 +1137,7 @@ function thirdLinkBS()
 	var total = unFormatNumberProposal($("#nacional1").val());
 	  $("#editTotalAmount").val(formatNumberProposal(total));
 	  $("#editTotalAmount2").val(formatNumberProposal(total));
+	  $("#formEditBS").hide();
 	var url = "/proposal/billingscenario"; 
 	    $.ajax({
 	           type: "POST",
@@ -1177,7 +1178,7 @@ function editBS(row)
 	var ivaBS = $(row).parents("tr").find("#ivaBS span").eq(0).html();
 	var idBS = $(row).parents("tr").find("#idBS span").eq(0).html();
 	var idCountryUser = $("#idCountryUser").val();
-	
+	var methodStateBS = $(row).parents("tr").find("#methodStateBS span").eq(0).html();
 	var tranferenceValueAmountBSModified = $(row).parents("tr").find("#tranferenceValueAmountBSModified span").eq(1).html();
 	var remittanceAmountBSModified = $(row).parents("tr").find("#remittanceAmountBSModified span").eq(1).html();
 	var ivaAmountBSModified = $(row).parents("tr").find("#ivaAmountBSModified span").eq(1).html();
@@ -1198,11 +1199,15 @@ function editBS(row)
 	$("#idBillingScenario").val(idBS);
 	$("#countryToPay").val(detailCountryBS);
 	$("#idCountryToPay").val(idCountryBS);
+	$("#methodStateEditBS").val(methodStateBS);
+	
 	
 	$("#showTranferenceValue").text(formatNumberProposal(tranferenceValueBS));
 	$("#showTranferenceValueSystemAmount").text(formatNumberProposal(parseFloat(tranferenceValueAmountBS).toFixed(2)));
 	$("#showRemittanceBS").text(formatNumberProposal(remittanceBS));
 	$("#showRemittanceSystemAmount").text(formatNumberProposal(parseFloat(remittanceAmountBS).toFixed(2)));
+	
+	
 	
 	
 	if(exemptTaxBS==1 && idCountryUser!=idCountryBS) 
@@ -1218,10 +1223,19 @@ function editBS(row)
 	
 	if(lastModificationDate!=null && lastModificationDate!="")
 	{
-		$("#customTransferenceValueAmount").text(tranferenceValueAmountBSModified);
-		$("#customRemittance").text(remittanceAmountBSModified);
-		$("#customIva").text(ivaAmountBSModified);
 		
+		
+		if(tranferenceValueAmountBSModified==0) $("#customTransferenceValueAmount").val("");
+		else $("#customTransferenceValueAmount").val(tranferenceValueAmountBSModified);
+		if(remittanceAmountBSModified==0) $("#customRemittance").val("");
+		else $("#customRemittance").val(remittanceAmountBSModified);
+		if(ivaAmountBSModified==0) $("#customIva").val("");
+		else $("#customIva").val(ivaAmountBSModified);
+		if(totalAmountModified!=0)
+		{
+			$("#totalToInvoice").val(totalAmountModified);
+			$("#totalToInvoice2").val(totalAmountModified);
+		}
 	}
 
 	
@@ -1235,19 +1249,22 @@ function editBS(row)
 
 function sendFormEditBS()
 {
-	
+
+	var tbodyBillingScenario = document.getElementById('tbodyBillingScenario');
+	var div = document.getElementById('msgBS');
 	var idBillingScenario = $("#idBillingScenario").val();
 	var idSaClientEditBS = $("#idSaClientEditBS").val();
 	var idClientContactBS = $("#idClientContactBS").val();
 	var idCountryToPay = $("#idCountryToPay").val();
-	var showTranferenceValueSystemAmount =$("#showTranferenceValueSystemAmount").val();
+	var showTranferenceValueSystemAmount =$("#showTranferenceValueSystemAmount").text();
 	var customTransferenceValueAmount =$("#customTransferenceValueAmount").val();
-	var showRemittanceSystemAmount =$("#showRemittanceSystemAmount").val();
+	var showRemittanceSystemAmount =$("#showRemittanceSystemAmount").text();
 	var customRemittance =$("#customRemittance").val();
-	var showIvaSystemAmount =$("#showIvaSystemAmount").val();
+	var showIvaSystemAmount =$("#showIvaSystemAmount").text();
 	var customIva =$("#customIva").val();
 	var totalToInvoice2 = $("#totalToInvoice2").val();
-	
+	var methodState = $("#methodStateEditBS").val();
+	var msg="";
 	var point=0;
 	point = showTranferenceValueSystemAmount.split(".").length;
 	if(point>=3)showTranferenceValueSystemAmount=unFormatNumberProposal(replacePointProposal(showTranferenceValueSystemAmount));
@@ -1271,18 +1288,45 @@ function sendFormEditBS()
 	if(point>=3)totalToInvoice2=unFormatNumberProposal(replacePointProposal(totalToInvoice2));
 	else totalToInvoice2=unFormatNumberProposal((totalToInvoice2));
 	
+
 	
-	if(idBillingScenario==0 && (customTransferenceValueAmount=="" || customTransferenceValueAmount==null ) && (customRemittance=="" || customRemittance==null) && (customIva=="" || customIva==null))
+	if(idBillingScenario!=0 || (idBillingScenario==0 && ((customTransferenceValueAmount!="" && customTransferenceValueAmount!=null && !isNaN(customTransferenceValueAmount/1) ) || (customRemittance!="" && customRemittance!=null && !isNaN(customRemittance/1)) || (customIva!="" && customIva!=null && !isNaN(customIva/1)))))
 	{
 		
-	}
-	else if(idBillingScenario!=0)
-	{
 		
-	}
-	else
-	{
-		
+		if(isNaN(customTransferenceValueAmount/1)) customTransferenceValueAmount=showTranferenceValueSystemAmount;
+		if(isNaN(customRemittance/1)) customRemittance=showRemittanceSystemAmount;
+		if(isNaN(customIva/1)) customIva=showIvaSystemAmount;
+		var url = "/proposal/editbillingscenario"; 
+	    $.ajax({
+	           type: "POST",
+	           cache: false,
+	           url: url,
+	           data: { 
+	        	   
+	        	   'idBillingScenario' : idBillingScenario,
+					'idSaClient' : idSaClientEditBS,
+					'idClientContact' : idClientContactBS,
+					'idCountry' : idCountryToPay,
+					'tranferenceValue' : showTranferenceValueSystemAmount,
+					'tranferenceValueModified' : customTransferenceValueAmount,
+					'remittance' : showRemittanceSystemAmount,
+					'remittanceModified' : customRemittance,
+					'iva' : showIvaSystemAmount,
+					'ivaModified' : customIva,
+					'totalAmountModified' : totalToInvoice2,
+					'methodState' : methodState
+	        	},
+
+	           success: function(data)
+	           {
+	        	   if(data != null){
+	        		  tbodyBillingScenario.innerHTML=data;
+	        		  msg = "<p style='color: hsl(153,80%,40%)'>Se editó la información correctamente <p>";
+	        		  div.innerHTML = msg;
+	        	   }
+	         }
+	     });
 	}
 	
 	$("#formEditBS").hide("slow");
@@ -1318,6 +1362,8 @@ function clearEditBS()
 	$("#customIva").val("");
 	$("#totalToInvoice").val("");
 	$("#totalToInvoice2").val("");
+	$("#methodStateEditBS").val(0);
+	$("#idBillingScenario").val(0);
 	
 };
 

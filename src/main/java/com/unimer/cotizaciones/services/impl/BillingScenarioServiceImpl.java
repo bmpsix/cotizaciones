@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 
 import com.unimer.cotizaciones.entities.BillingScenario;
 import com.unimer.cotizaciones.entities.Country;
+import com.unimer.cotizaciones.entities.LogBillingScenario;
 import com.unimer.cotizaciones.entities.Proposal;
 import com.unimer.cotizaciones.repositories.BillingScenarioJpaRepository;
 import com.unimer.cotizaciones.repositories.CountryJpaRepository;
+import com.unimer.cotizaciones.repositories.LogBillingScenarioJpaRepository;
 import com.unimer.cotizaciones.repositories.SettingsJpaRepository;
 import com.unimer.cotizaciones.services.BillingScenarioService;
 
@@ -24,6 +26,10 @@ public class BillingScenarioServiceImpl implements BillingScenarioService {
 	@Autowired
 	@Qualifier("billingScenarioJpaRepository")
 	private BillingScenarioJpaRepository billingScenarioJpaRepository;
+	
+	@Autowired
+	@Qualifier("logBillingScenarioJpaRepository")
+	private LogBillingScenarioJpaRepository logBillingScenarioJpaRepository;
 	
 	@Autowired
 	@Qualifier("countryJpaRepository")
@@ -122,9 +128,51 @@ public class BillingScenarioServiceImpl implements BillingScenarioService {
 	}
 
 	@Override
-	public void addBillingScenario(BillingScenario BillingScenario) {
-		// TODO Auto-generated method stub
+	public void editBillingScenario(BillingScenario billingScenario) {
+		
+		
+		
+		
+		if(billingScenario.getIdBillingScenario()==0)
+		{
+			
+			billingScenarioJpaRepository.save(billingScenario);
+			java.util.Date date = new Date();
+			LogBillingScenario logBillingScenario = new LogBillingScenario(date, "BillingScenario Created",  billingScenario.getUser().getIdUser(),  billingScenario.getIdBillingScenario() ,  billingScenario.getProposal().getIdProposal(),
+					billingScenario.getInitialDate(),  billingScenario.getRegistrationDate(),  billingScenario.getUser().getIdUser(),  billingScenario.getCountry().getIdCountry(),  billingScenario.getTranferenceValue(),  billingScenario.getRemittance(),
+					billingScenario.getIva(),  billingScenario.getTotalAmount(),  billingScenario.getTranferenceValueModified(),  billingScenario.getRemittanceModified(),
+					billingScenario.getIvaModified(),  billingScenario.getTotalAmountModified(), billingScenario.getLastModificationDate(), billingScenario.getMethodState(),  billingScenario.getSaClient().getIdSaClient(),
+					billingScenario.getClientContact().getIdClientContact());
+			
+			logBillingScenarioJpaRepository.save(logBillingScenario);
+		}
+		else
+		{
+			java.util.Date date = new Date();
+			BillingScenario billingScenarioToUpdate = billingScenarioJpaRepository.findByIdBillingScenario(billingScenario.getIdBillingScenario());
+			
+			LogBillingScenario logBillingScenario = new LogBillingScenario(date, "BillingScenario Modified",  billingScenarioToUpdate.getUser().getIdUser(),  billingScenarioToUpdate.getIdBillingScenario() ,  billingScenarioToUpdate.getProposal().getIdProposal(),
+					billingScenarioToUpdate.getInitialDate(),  billingScenarioToUpdate.getRegistrationDate(),  billingScenarioToUpdate.getUser().getIdUser(),  billingScenarioToUpdate.getCountry().getIdCountry(),  billingScenarioToUpdate.getTranferenceValue(),  billingScenarioToUpdate.getRemittance(),
+					billingScenarioToUpdate.getIva(),  billingScenarioToUpdate.getTotalAmount(),  billingScenarioToUpdate.getTranferenceValueModified(),  billingScenarioToUpdate.getRemittanceModified(),
+					billingScenarioToUpdate.getIvaModified(),  billingScenarioToUpdate.getTotalAmountModified(), billingScenarioToUpdate.getLastModificationDate(), billingScenarioToUpdate.getMethodState(),  billingScenarioToUpdate.getSaClient().getIdSaClient(),
+					billingScenarioToUpdate.getClientContact().getIdClientContact());
+			logBillingScenarioJpaRepository.save(logBillingScenario);
+			billingScenarioJpaRepository.save(billingScenario);
+			
+		}
+		
 
+	}
+
+	@Override
+	public BillingScenario findById(int idBillingScenario) {
+		return billingScenarioJpaRepository.findByIdBillingScenario(idBillingScenario);
+	}
+
+	@Override
+	public void addBillingScenario(BillingScenario billingScenario) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

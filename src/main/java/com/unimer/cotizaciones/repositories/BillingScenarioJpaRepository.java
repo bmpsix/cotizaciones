@@ -13,4 +13,6 @@ public interface BillingScenarioJpaRepository extends JpaRepository<BillingScena
 	
 	public abstract List<BillingScenario> findByProposal(Proposal proposal);
 
+	public abstract BillingScenario findByIdBillingScenario(int idBillingScenario);
+	
 }

@@ -769,7 +769,10 @@
          	   							
          	   						</thead>
          	   						<tr>
-         	   							<td style="display:none;" ><input id="idBillingScenario" value="0" type="hidden" /></td>
+         	   							<td style="display:none;" >
+         	   								<input id="idBillingScenario" value="0" type="hidden" />
+         	   								<input id="methodStateEditBS" value="0" type="hidden" />
+         	   							</td>
          	   						</tr>
          	   						
          	   						<tr>
@@ -850,7 +853,7 @@
          	   		</div>
          	   		
          	   				<div style="margin: 25px;">
-         	   					<div id="msgAssign"></div>
+         	   				
                    	 			
                     			<a id="editBSCancel" type="button" data-icon="delete" onclick="cancelEditBS();"><input data-icon="delete" type="button" value="Cancelar"/></a>
   								<input type="submit" name="submit" class="custom_text" data-icon="plus" value="Guardar">
@@ -861,7 +864,7 @@
          	   		
          
     	<fieldset >
-         			
+         			<div id="msgBS"></div>
            			<table id="billingScenarioTable" data-role="table" dfe="movie-table" class="ui-responsive" style="margin-top: 50px;">
 		    			<thead>
 		    				
@@ -890,7 +893,7 @@
 							<td id="totalAmountModified"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span  th:text="${#numbers.formatDecimal(billingScenario.totalAmountModified, 1, 'POINT', 2, 'COMMA')}" ></span></td>
 							<td id="currencyTypeBS"><span th:text="${settings.currencyTypeInternational.detail}"></span></td>
 	           				<td id="methodStatusBS" style="text-align: center;"> 
-	           					<a href="#" onclick="" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #8B4513; text-align: center;" title="Editar escenario de facturación"></a>
+	           					<a href="#" onclick="editBS(this);" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #8B4513; text-align: center;" title="Editar escenario de facturación"></a>
 	           					<a  class="ui-link ui-btn ui-btn-b ui-icon-check ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" title="Seleccionar escenario de facturación" style="background-color: #009082;"></a>
 	           				</td>
 	           				
@@ -910,6 +913,7 @@
 							<td id="ivaAmountBS" style="display:none;"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${billingScenario.iva}"></span></td>
 							<td id="totalAmount" style="display:none;"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span  th:text="${billingScenario.totalAmount}" ></span></td>
 							<td id="lastModificationDate" style="display:none;" ><span th:text="${billingScenario.lastModificationDate}"></span></td>
+							<td id="methodStateBS"  style="display:none;"><span th:text="${billingScenario.methodState}"></span></td>
            				</tr>
            				
            				<tr id="listBillingScenario" th:each="billingScenario : ${billingScenarios}" th:if="${billingScenario.lastModificationDate==null}">
@@ -923,7 +927,7 @@
 							<td id="ivaAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.iva, 1, 'POINT', 2, 'COMMA')}"></span></td>
 							<td id="totalAmount"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span  th:text="${#numbers.formatDecimal(billingScenario.totalAmount, 1, 'POINT', 2, 'COMMA')}" ></span></td>
 							<td id="currencyTypeBS"><span th:text="${settings.currencyTypeInternational.detail}"></span></td>
-	           				<td id="methodStatusBS" style="text-align: center;"> 
+	           				<td  style="text-align: center;"> 
 	           					<a href="#" onclick="editBS(this);" class="ui-link ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" style="background-color: #8B4513; text-align: center;" title="Editar escenario de facturación"></a>
 	           					<a  class="ui-link ui-btn ui-btn-b ui-icon-check ui-btn-icon-notext ui-btn-inline ui-shadow ui-corner-all" title="Seleccionar escenario de facturación" style="background-color: #009082;"></a>
 	           				</td>
@@ -944,7 +948,7 @@
 							<td id="ivaAmountBSModified" style="display:none;"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${billingScenario.ivaModified}"></span></td>
 							<td id="totalAmountModified" style="display:none;"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span  th:text="${billingScenario.totalAmountModified}" ></span></td>
 							<td id="lastModificationDate" style="display:none;" ><span th:text="${billingScenario.lastModificationDate}"></span></td>
-							
+							<td id="methodStateBS"  style="display:none;"><span th:text="${billingScenario.methodState}"></span></td>
            				</tr>
           			    </tbody>
 		    		</table>
