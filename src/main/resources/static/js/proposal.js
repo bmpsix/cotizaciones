@@ -175,7 +175,7 @@ $( document ).ready(function() {
 	 
 
 	
-//Escenarios de facturación
+//Escenarios de facturación - editar escenario, validaciones y formato de numero
 	
 	
 	$("#customTransferenceValueAmount").change(function(){
@@ -262,99 +262,24 @@ $( document ).ready(function() {
 		else $("#customIva").val("");
 	});
 	
-	
-	
-	
-	
 	$(".calEditBS").change(function(){
 		
 		
-		var showTranferenceValue = $("#showTranferenceValue").text();
-		var showRemittanceBS =$("#showRemittanceBS").text();
-		var showIvaBS =$("#showIvaBS").text();
-		var tranferenceValueAmountBS = $("#showTranferenceValueSystemAmount").text();
-		var remittanceAmountBS =$("#showRemittanceSystemAmount").text();
+		
 		var ivaAmountBS =$("#showIvaSystemAmount").text();
-		var editTotalAmount = $("#editTotalAmount").val();
 		var customTransferenceValueAmount =$("#customTransferenceValueAmount").val();
 		var customRemittance =$("#customRemittance").val();
 		var customIva = $("#customIva").val();
-		var point=0;
 		
-		 point = showTranferenceValue.split(".").length;
-		 if(point>=3)showTranferenceValue=unFormatNumberProposal(replacePointProposal(showTranferenceValue));
-		 else showTranferenceValue=unFormatNumberProposal((showTranferenceValue));
-		 point = showRemittanceBS.split(".").length;
-		 if(point>=3)showRemittanceBS=unFormatNumberProposal(replacePointProposal(showRemittanceBS));
-		 else showRemittanceBS=unFormatNumberProposal((showRemittanceBS));
-		 point = showIvaBS.split(".").length;
-		 if(point>=3)showIvaBS=unFormatNumberProposal(replacePointProposal(showIvaBS));
-		 else showIvaBS=unFormatNumberProposal((showIvaBS));
-		 point = tranferenceValueAmountBS.split(".").length;
-		 if(point>=3)tranferenceValueAmountBS=unFormatNumberProposal(replacePointProposal(tranferenceValueAmountBS));
-		 else tranferenceValueAmountBS=unFormatNumberProposal((tranferenceValueAmountBS));
-		 point = remittanceAmountBS.split(".").length;
-		 if(point>=3)remittanceAmountBS=unFormatNumberProposal(replacePointProposal(remittanceAmountBS));
-		 else remittanceAmountBS=unFormatNumberProposal((remittanceAmountBS));
-		 point = ivaAmountBS.split(".").length;
-		 if(point>=3)ivaAmountBS=unFormatNumberProposal(replacePointProposal(ivaAmountBS));
-		 else ivaAmountBS=unFormatNumberProposal((ivaAmountBS));
-		 point = editTotalAmount.split(".").length;
-		 if(point>=3)editTotalAmount=unFormatNumberProposal(replacePointProposal(editTotalAmount));
-		 else editTotalAmount=unFormatNumberProposal((editTotalAmount));
-		 point = customTransferenceValueAmount.split(".").length;
-		 if(point>=3)customTransferenceValueAmount=unFormatNumberProposal(replacePointProposal(customTransferenceValueAmount));
-		 else customTransferenceValueAmount=unFormatNumberProposal((customTransferenceValueAmount));
-		 point = customRemittance.split(".").length;
-		 if(point>=3)customRemittance=unFormatNumberProposal(replacePointProposal(customRemittance));
-		 else customRemittance=unFormatNumberProposal((customRemittance));
-		 point = customIva.split(".").length;
-		 if(point>=3)customIva=unFormatNumberProposal(replacePointProposal(customIva));
-		 else customIva=unFormatNumberProposal((customIva));
-
-		 
-		if(customTransferenceValueAmount!=null || customTransferenceValueAmount!="" || !isNaN((customTransferenceValueAmount)/1) || customRemittance!=null || customRemittance!="" || !isNaN((customRemittance)/1) || customIva!=null || customIva!="" || !isNaN((customIva)/1) )
+		if((customTransferenceValueAmount==null || customTransferenceValueAmount=="") 
+		&& (customRemittance==null || customRemittance=="") 
+		&& (customIva==null || customIva==""))
 		{
+			$("#totalToInvoice").val(ivaAmountBS);
+			$("#totalToInvoice2").val(ivaAmountBS);
 			
-			
-			var rem=0;
-			var iva=0;
-			if((customTransferenceValueAmount!=null && customTransferenceValueAmount!="" && !isNaN((customTransferenceValueAmount)/1)) && (customRemittance==null || customRemittance=="" || isNaN((customRemittance)/1)) && (customIva==null || customIva=="" || isNaN((customIva)/1)) )
-			{
-				
-				
-				rem = (customTransferenceValueAmount*1)+(customTransferenceValueAmount*(showRemittanceBS/100));
-				iva= (rem*1)+(rem*(showIvaBS/100));
-				
-				$("#customTransferenceValueAmount").val(formatNumberProposal(parseFloat(customTransferenceValueAmount).toFixed(2)));
-				$("#customRemittance").val(formatNumberProposal(parseFloat(rem).toFixed(2)));
-				$("#customIva").val(formatNumberProposal(parseFloat(iva).toFixed(2)));
-				$("#totalToInvoice").val(formatNumberProposal(parseFloat(iva).toFixed(2)));
-				$("#totalToInvoice2").val(formatNumberProposal(parseFloat(iva).toFixed(2)));
-			}
-			else if((customTransferenceValueAmount==null || customTransferenceValueAmount=="" || isNaN((customTransferenceValueAmount)/1)) && (customRemittance!=null && customRemittance!="" && !isNaN((customRemittance)/1)) && (customIva==null || customIva=="" || isNaN((customIva)/1)) )
-			{
-				iva= (customRemittance*1)+(customRemittance*(showIvaBS/100));
-				$("#customIva").val(formatNumberProposal(parseFloat(iva).toFixed(2)));
-				$("#totalToInvoice").val(formatNumberProposal(parseFloat(iva).toFixed(2)));
-				$("#totalToInvoice2").val(formatNumberProposal(parseFloat(iva).toFixed(2)));
-			}
-			else if((customTransferenceValueAmount==null || customTransferenceValueAmount=="" || isNaN((customTransferenceValueAmount)/1)) && (customRemittance==null || customRemittance=="" || isNaN((customRemittance)/1)) && (customIva!=null && customIva!="" && !isNaN((customIva)/1)) )
-			{
-				
-				$("#customIva").val(formatNumberProposal(parseFloat(customIva).toFixed(2)));
-				$("#totalToInvoice").val(formatNumberProposal(parseFloat(customIva).toFixed(2)));
-				$("#totalToInvoice2").val(formatNumberProposal(parseFloat(customIva).toFixed(2)));
-			}
-			 
 		}
 		 
-		 
-		 
-			
-		 
-		 
-		
 		
 	 });
 	
@@ -1235,31 +1160,6 @@ function thirdLinkBS()
 
 
 
-//-----------------------------Calculo de los escenarios-------------------------------------------------------------------------------------------------------------------
-function calBS()
-{
-	var table = document.getElementById("billingScenarioTable");
-	var idCurrencyTypeInternational =$("#idCurrencyTypeInternational").val();
-	var totalSumBudget =0;
-	
-	/*// -2 debido a que la ultima fila es la del total de presupuesto
-	for(contador=1;contador<=table.rows.length-2;contador++)
-	{
-		
-		var valor = table.rows[contador].cells[5].innerText;
-		var cms = table.rows[contador].cells[10].innerText;
-		var crrtype = table.rows[contador].cells[11].innerText;
-		valor = valor.split(" ");
-		valor = valor[valor.length-1];
-		var point = valor.split(".").length;
-		if(point>=3)valor=unFormatNumberProposal(replacePointProposal(valor));
-		else valor=unFormatNumberProposal((valor));
-		var pointV = aporteFijo.split(".").length;
-		if(pointV>=3)aporteFijo=unFormatNumberProposal(replacePointProposal(aporteFijo));
-		else aporteFijo=unFormatNumberProposal(aporteFijo);*/
-};
-
-
 //--------------------------editBS--------------------------Boton de la tabla----------------------------------------------------------------------------------------------
 
 function editBS(row)
@@ -1286,15 +1186,16 @@ function editBS(row)
 	var editTotalAmount = $("#editTotalAmount").val();
 	
 	
-	 var point = editTotalAmount.split(".").length;
-	 if(point>=3)editTotalAmount=unFormatNumberProposal(replacePointProposal(editTotalAmount));
-	 else editTotalAmount=unFormatNumberProposal((editTotalAmount));
+	var point = editTotalAmount.split(".").length;
+	if(point>=3)editTotalAmount=unFormatNumberProposal(replacePointProposal(editTotalAmount));
+	else editTotalAmount=unFormatNumberProposal((editTotalAmount));
 	
 	
-	 tranferenceValueAmountBS =(editTotalAmount*1)+(editTotalAmount*(tranferenceValueBS/100));
-	 remittanceAmountBS =(tranferenceValueAmountBS*1)+(tranferenceValueAmountBS*(remittanceBS/100));
+	tranferenceValueAmountBS =(editTotalAmount*1)+(editTotalAmount*(tranferenceValueBS/100));
+	remittanceAmountBS =(tranferenceValueAmountBS*1)+(tranferenceValueAmountBS*(remittanceBS/100));
 	
 	 
+	$("#idBillingScenario").val(idBS);
 	$("#countryToPay").val(detailCountryBS);
 	$("#idCountryToPay").val(idCountryBS);
 	
@@ -1334,50 +1235,60 @@ function editBS(row)
 
 function sendFormEditBS()
 {
-	$("#formEditBS").hide("slow");
-	var detailCountryBS = $(row).parents("tr").find("#detailCountryBS span").eq(0).html();
-	var tranferenceValueAmountBS = $(row).parents("tr").find("#tranferenceValueAmountBS span").eq(1).html();
-	var remittanceAmountBS = $(row).parents("tr").find("#remittanceAmountBS span").eq(1).html();
-	var ivaAmountBS = $(row).parents("tr").find("#ivaAmountBS span").eq(1).html();
-	var totalAmount = $(row).parents("tr").find("#totalAmount span").eq(1).html();
-	var idCountryBS = $(row).parents("tr").find("#idCountryBS span").eq(0).html();
-	var exemptTaxBS = $(row).parents("tr").find("#exemptTaxBS span").eq(0).html();
-	var tranferenceValueBS = $(row).parents("tr").find("#tranferenceValueBS span").eq(0).html();
-	var remittanceBS = $(row).parents("tr").find("#remittanceBS span").eq(0).html();
-	var ivaBS = $(row).parents("tr").find("#ivaBS span").eq(0).html();
-	var idBS = $(row).parents("tr").find("#idBS span").eq(0).html();
-	var idCountryUser = $("#idCountryUser").val();
 	
-	var tranferenceValueAmountBSModified = $(row).parents("tr").find("#tranferenceValueAmountBSModified span").eq(1).html();
-	var remittanceAmountBSModified = $(row).parents("tr").find("#remittanceAmountBSModified span").eq(1).html();
-	var ivaAmountBSModified = $(row).parents("tr").find("#ivaAmountBSModified span").eq(1).html();
-	var totalAmountModified = $(row).parents("tr").find("#totalAmountModified span").eq(1).html();
-	var lastModificationDate = $(row).parents("tr").find("#lastModificationDate span").eq(0).html();
+	var idBillingScenario = $("#idBillingScenario").val();
+	var idSaClientEditBS = $("#idSaClientEditBS").val();
+	var idClientContactBS = $("#idClientContactBS").val();
+	var idCountryToPay = $("#idCountryToPay").val();
+	var showTranferenceValueSystemAmount =$("#showTranferenceValueSystemAmount").val();
+	var customTransferenceValueAmount =$("#customTransferenceValueAmount").val();
+	var showRemittanceSystemAmount =$("#showRemittanceSystemAmount").val();
+	var customRemittance =$("#customRemittance").val();
+	var showIvaSystemAmount =$("#showIvaSystemAmount").val();
+	var customIva =$("#customIva").val();
+	var totalToInvoice2 = $("#totalToInvoice2").val();
+	
+	var point=0;
+	point = showTranferenceValueSystemAmount.split(".").length;
+	if(point>=3)showTranferenceValueSystemAmount=unFormatNumberProposal(replacePointProposal(showTranferenceValueSystemAmount));
+	else showTranferenceValueSystemAmount=unFormatNumberProposal((showTranferenceValueSystemAmount));
+	point = customTransferenceValueAmount.split(".").length;
+	if(point>=3)customTransferenceValueAmount=unFormatNumberProposal(replacePointProposal(customTransferenceValueAmount));
+	else customTransferenceValueAmount=unFormatNumberProposal((customTransferenceValueAmount));
+	point = showRemittanceSystemAmount.split(".").length;
+	if(point>=3)showRemittanceSystemAmount=unFormatNumberProposal(replacePointProposal(showRemittanceSystemAmount));
+	else showRemittanceSystemAmount=unFormatNumberProposal((showRemittanceSystemAmount));
+	point = customRemittance.split(".").length;
+	if(point>=3)customRemittance=unFormatNumberProposal(replacePointProposal(customRemittance));
+	else customRemittance=unFormatNumberProposal((customRemittance));
+	point = showIvaSystemAmount.split(".").length;
+	if(point>=3)showIvaSystemAmount=unFormatNumberProposal(replacePointProposal(showIvaSystemAmount));
+	else showIvaSystemAmount=unFormatNumberProposal((showIvaSystemAmount));
+	point = customIva.split(".").length;
+	if(point>=3)customIva=unFormatNumberProposal(replacePointProposal(customIva));
+	else customIva=unFormatNumberProposal((customIva));
+	point = totalToInvoice2.split(".").length;
+	if(point>=3)totalToInvoice2=unFormatNumberProposal(replacePointProposal(totalToInvoice2));
+	else totalToInvoice2=unFormatNumberProposal((totalToInvoice2));
 	
 	
-	$("#countryToPay").val(detailCountryBS);
-	$("#idCountryToPay").val(idCountryBS);
-	$("#showTranferenceValue").text(formatNumberProposal(tranferenceValueBS));
-	$("#showTranferenceValueSystemAmount").text(tranferenceValueAmountBS);
-	$("#showRemittanceBS").text(formatNumberProposal(remittanceBS));
-	$("#showRemittanceSystemAmount").text(remittanceAmountBS);
-	
-	
-	if(exemptTaxBS==1 && idCountryUser!=idCountryBS) $("#showIvaBS").text(formatNumberProposal(0));
-	else $("#showIvaBS").text(formatNumberProposal(ivaBS));
-	$("#showIvaSystemAmount").text(ivaAmountBS);
-	
-	
-	if(lastModificationDate!=null && lastModificationDate!="")
+	if(idBillingScenario==0 && (customTransferenceValueAmount=="" || customTransferenceValueAmount==null ) && (customRemittance=="" || customRemittance==null) && (customIva=="" || customIva==null))
 	{
-		$("#customTransferenceValueAmount").text(tranferenceValueAmountBSModified);
-		$("#customRemittance").text(remittanceAmountBSModified);
-		$("#customIva").text(ivaAmountBSModified);
 		
 	}
-
+	else if(idBillingScenario!=0)
+	{
+		
+	}
+	else
+	{
+		
+	}
 	
-	$("#formEditBS").toggle("slow");
+	$("#formEditBS").hide("slow");
+	
+	
+
 	
 };
 

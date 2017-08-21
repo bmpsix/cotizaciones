@@ -769,21 +769,29 @@
          	   							
          	   						</thead>
          	   						<tr>
-         	   							<td style="display:none;" ><input id="idBillingScenario" /></td>
+         	   							<td style="display:none;" ><input id="idBillingScenario" value="0" type="hidden" /></td>
          	   						</tr>
          	   						
          	   						<tr>
          	   							<th>País de facturación:</th>
-         	   							<td><input th:value="${proposal.User.Country.detail}" style="background-color:#FFFAFA;" type="text" readonly/>
-         	   							<input id="idCountryUser" th:value="${proposal.User.Country.idCountry}" type="hidden"/></td>
+         	   							<td>
+         	   								<input th:value="${proposal.User.Country.detail}" style="background-color:#FFFAFA;" type="text" readonly/>
+         	   								<input id="idCountryUser" th:value="${proposal.User.Country.idCountry}" type="hidden"/>
+         	   							</td>
          	   						</tr>
          	   						<tr>
          	   							<th>Razón social a facturar:</th>
-         	   							<td><input th:value="${saClient.detail}" style="background-color:#FFFAFA;" type="text" readonly/></td>
+         	   							<td>
+         	   								<input th:value="${saClient.detail}" style="background-color:#FFFAFA;" type="text" readonly/>
+         	   								<input id="idSaClientEditBS" th:value="${saClient.idSaClient}" type="hidden"/>
+         	   							</td>
          	   						</tr>
          	   						<tr>
          	   							<th>Contacto de cliente:</th>
-         	   							<td ><input th:value="${proposal.ClientContact.name}" style="background-color:#FFFAFA;" type="text" readonly/></td>
+         	   							<td >
+         	   								<input th:value="${proposal.ClientContact.name}" style="background-color:#FFFAFA;" type="text" readonly/>
+         	   								<input th:value="${proposal.ClientContact.idClientContact}"  id="idClientContactBS" type="hidden"/>
+         	   							</td>
          	   						</tr>
          	   							<tr>
          	   							<th>País de pago</th>
@@ -815,20 +823,20 @@
          	   							<th>Valor por transferencia</th>
          	   							<td><span id="showTranferenceValue"></span><span> %</span></td>
          	   							<td><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span id="showTranferenceValueSystemAmount"></span></td>
-         	   							<td><input  id="customTransferenceValueAmount" type="text" title="Establecer valor por transferencia" /></td>
+         	   							<td><input  id="customTransferenceValueAmount" type="text" title="Establecer valor por transferencia" class="calEditBS"/></td>
          	   						</tr>
          	   						
          	   						<tr>
          	   							<th>Remesa</th>
          	   							<td><span id="showRemittanceBS"></span><span> %</span></td>
          	   							<td><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span id="showRemittanceSystemAmount"></span></td>
-         	   							<td><input  id="customRemittance" type="text" title="Establecer remesa"  /></td>
+         	   							<td><input  id="customRemittance" type="text" title="Establecer remesa"  class="calEditBS" /></td>
          	   						</tr>
          	   						<tr>
          	   							<th>Impuesto de ventas</th>
          	   							<td><span id="showIvaBS"></span><span> %</span></td>
          	   							<td><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span id="showIvaSystemAmount"></span></td>
-         	   							<td><input  id="customIva" type="text" title="Establecer impuesto de venta" /></td>
+         	   							<td><input  id="customIva" type="text" title="Establecer impuesto de venta" class="calEditBS" /></td>
          	   						</tr>
          	   						<tr>
          	   							<th><p th:text="'Total a facturar '+${settings.CurrencyTypeInternational.symbol}+':'"></p></th>
