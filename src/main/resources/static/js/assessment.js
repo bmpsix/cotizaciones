@@ -497,7 +497,8 @@ function searchProposal()
 		        			$("#initialDate").val("");
 		        			$("#endDate").val("");
 		        			$("#idStatus").val("").change();
-		        			
+		        			$(".parametersTable").hide();
+		        			$(".columnHide2").show();
 		        	   }else{
 		        		  
 		        		   }

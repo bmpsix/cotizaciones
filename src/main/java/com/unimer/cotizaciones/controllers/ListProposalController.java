@@ -80,8 +80,11 @@ public class ListProposalController {
 		@PostMapping("/assessment/listproposal/search")
 		public String proposalSearch(HttpServletRequest request,@RequestParam("idClient") int idClient,@RequestParam("initialDate") String initialDate,@RequestParam("endDate") String endDate,@RequestParam("idStatus") int idStatus ,Model model) {
 			HttpSession session = request.getSession();
-			LOG.info("CONTROLADOR CONTENIDO DE INITIALdate "  + initialDate+" CONTENIDO DE ENDdete "+endDate);
+			User userSession =  (User) session.getAttribute("userSession");
+			LOG.info("/assessment/listproposal/search INITIALdate "  + initialDate+" CONTENIDO DE ENDdete "+endDate);
 			Assessment assessment = (Assessment) session.getAttribute("assessment");
+			model.addAttribute("role", userSession.getRol().getDetail().toUpperCase());
+			model.addAttribute("idUser",userSession.getIdUser());
 			model.addAttribute("proposals",proposalService.filterProposal(assessment, idClient, initialDate, endDate, idStatus));
 			return "listProposal :: #listProposalRow";
 		}
