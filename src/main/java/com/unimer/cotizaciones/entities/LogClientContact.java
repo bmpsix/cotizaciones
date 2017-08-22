@@ -25,7 +25,7 @@ public class LogClientContact implements Serializable {
 	@Column(name="action_user", nullable=false)
 	private int actionUser;
 
-	@Column(nullable=false, length=20)
+	@Column(nullable=false, length=150)
 	private String email;
 
 	@Column(nullable=false, length=50)

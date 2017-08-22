@@ -28,7 +28,7 @@ public class LogClient implements Serializable {
 	@Column(length=100)
 	private String detail;
 
-	@Column(length=20)
+	@Column(length=150)
 	private String email;
 
 	@Column(length=20)
