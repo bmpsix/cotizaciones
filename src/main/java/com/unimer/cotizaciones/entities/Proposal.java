@@ -97,7 +97,7 @@ public class Proposal implements Serializable {
 	private Assessment assessment;
 
 	//bi-directional many-to-one association to ClientContact
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_client_contact", nullable=false)
 	private ClientContact clientContact;
 

@@ -805,7 +805,6 @@ function methodLoadProposalView()
 	document.getElementById("firstLink").click();
 	formatParametersOnLoad();
 	totalcharge(); 
-	changeDeparture();
 	
 	
 };
@@ -1135,9 +1134,14 @@ function thirdLinkBS()
 {
 	var tbodyBillingScenario = document.getElementById('tbodyBillingScenario');
 	var total = unFormatNumberProposal($("#nacional1").val());
+	var div = document.getElementById('msgBS');
 	  $("#editTotalAmount").val(formatNumberProposal(total));
 	  $("#editTotalAmount2").val(formatNumberProposal(total));
+	  $("#totalAmountProposal").val(formatNumberProposal(total));
+	  
 	  $("#formEditBS").hide();
+	  div.innerHTML="";
+	  
 	var url = "/proposal/billingscenario"; 
 	    $.ajax({
 	           type: "POST",
@@ -1157,6 +1161,41 @@ function thirdLinkBS()
 	    	
 	         });
 };
+
+
+
+function thirdLinkBSView()
+{
+	var tbodyBillingScenario = document.getElementById('tbodyBillingScenario');
+	var total = unFormatNumberProposal($("#nacional1").val());
+	var div = document.getElementById('msgBS');
+	  $("#editTotalAmount").val(formatNumberProposal(total));
+	  $("#editTotalAmount2").val(formatNumberProposal(total));
+	  $("#totalAmountProposal").val(formatNumberProposal(total));
+	  
+	  $("#formEditBS").hide();
+	  div.innerHTML="";
+	  
+	var url = "/proposal/billingscenarioview"; 
+	    $.ajax({
+	           type: "POST",
+	           cache: false,
+	           url: url,
+	           data: {'total': total},
+
+	           success: function(data)
+	           {
+	        	   if(data != null){
+	        		  tbodyBillingScenario.innerHTML = data;
+	        		
+	        	   }else{
+	        		  
+	        		   }
+	           }
+	    	
+	         });
+};
+
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -1264,6 +1303,7 @@ function sendFormEditBS()
 	var customIva =$("#customIva").val();
 	var totalToInvoice2 = $("#totalToInvoice2").val();
 	var methodState = $("#methodStateEditBS").val();
+	var totalAmountProposal = $("#totalAmountProposal").val();
 	var msg="";
 	var point=0;
 	point = showTranferenceValueSystemAmount.split(".").length;
@@ -1287,7 +1327,9 @@ function sendFormEditBS()
 	point = totalToInvoice2.split(".").length;
 	if(point>=3)totalToInvoice2=unFormatNumberProposal(replacePointProposal(totalToInvoice2));
 	else totalToInvoice2=unFormatNumberProposal((totalToInvoice2));
-	
+	point = totalAmountProposal.split(".").length;
+	if(point>=3)totalAmountProposal=unFormatNumberProposal(replacePointProposal(totalAmountProposal));
+	else totalAmountProposal=unFormatNumberProposal((totalAmountProposal));
 
 	
 	if(idBillingScenario!=0 || (idBillingScenario==0 && ((customTransferenceValueAmount!="" && customTransferenceValueAmount!=null && !isNaN(customTransferenceValueAmount/1) ) || (customRemittance!="" && customRemittance!=null && !isNaN(customRemittance/1)) || (customIva!="" && customIva!=null && !isNaN(customIva/1)))))
@@ -1315,7 +1357,8 @@ function sendFormEditBS()
 					'iva' : showIvaSystemAmount,
 					'ivaModified' : customIva,
 					'totalAmountModified' : totalToInvoice2,
-					'methodState' : methodState
+					'methodState' : methodState,
+					'totalAmountProposal' : totalAmountProposal
 	        	},
 
 	           success: function(data)
@@ -1333,6 +1376,99 @@ function sendFormEditBS()
 	
 	
 
+	
+};
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+//--------------------------selectMethodBS--------------------------Boton de la tabla----------------------------------------------------------------------------------------------
+
+function selectMethodBS(row)
+{
+	$("#formEditBS").hide();
+	clearEditBS();
+	
+	var tbodyBillingScenario = document.getElementById('tbodyBillingScenario');
+	var div = document.getElementById('msgBS');
+	var idCountryBS = $(row).parents("tr").find("#idCountryBS span").eq(0).html();
+	var idBS = $(row).parents("tr").find("#idBS span").eq(0).html();
+	var methodStateBS = $(row).parents("tr").find("#methodStateBS span").eq(0).html();
+	
+	var tranferenceValueAmountBSModified = $(row).parents("tr").find("#tranferenceValueAmountBSModified span").eq(1).html();
+	var remittanceAmountBSModified = $(row).parents("tr").find("#remittanceAmountBSModified span").eq(1).html();
+	var ivaAmountBSModified = $(row).parents("tr").find("#ivaAmountBSModified span").eq(1).html();
+	var totalAmountModified = $(row).parents("tr").find("#totalAmountModified span").eq(1).html();
+	var tranferenceValueAmountBS = $(row).parents("tr").find("#tranferenceValueAmountBS span").eq(1).html();
+	var remittanceAmountBS = $(row).parents("tr").find("#remittanceAmountBS span").eq(1).html();
+	var ivaAmountBS = $(row).parents("tr").find("#ivaAmountBS span").eq(1).html();
+	var totalAmount = $(row).parents("tr").find("#totalAmount span").eq(1).html();
+	var totalAmountProposal = $("#totalAmountProposal").val();
+	
+	
+	var msg="";
+	var point=0;
+	
+	point = tranferenceValueAmountBSModified.split(".").length;
+	if(point>=3)tranferenceValueAmountBSModified=unFormatNumberProposal(replacePointProposal(tranferenceValueAmountBSModified));
+	else tranferenceValueAmountBSModified=unFormatNumberProposal((tranferenceValueAmountBSModified));
+	point = remittanceAmountBSModified.split(".").length;
+	if(point>=3)remittanceAmountBSModified=unFormatNumberProposal(replacePointProposal(remittanceAmountBSModified));
+	else remittanceAmountBSModified=unFormatNumberProposal((remittanceAmountBSModified));
+	point = ivaAmountBSModified.split(".").length;
+	if(point>=3)ivaAmountBSModified=unFormatNumberProposal(replacePointProposal(ivaAmountBSModified));
+	else ivaAmountBSModified=unFormatNumberProposal((ivaAmountBSModified));
+	point = totalAmountModified.split(".").length;
+	if(point>=3)totalAmountModified=unFormatNumberProposal(replacePointProposal(totalAmountModified));
+	else totalAmountModified=unFormatNumberProposal((totalAmountModified));
+	point = tranferenceValueAmountBS.split(".").length;
+	if(point>=3)tranferenceValueAmountBS=unFormatNumberProposal(replacePointProposal(tranferenceValueAmountBS));
+	else tranferenceValueAmountBS=unFormatNumberProposal((tranferenceValueAmountBS));
+	point = remittanceAmountBS.split(".").length;
+	if(point>=3)remittanceAmountBS=unFormatNumberProposal(replacePointProposal(remittanceAmountBS));
+	else remittanceAmountBS=unFormatNumberProposal((remittanceAmountBS));
+	point = ivaAmountBS.split(".").length;
+	if(point>=3)ivaAmountBS=unFormatNumberProposal(replacePointProposal(ivaAmountBS));
+	else ivaAmountBS=unFormatNumberProposal((ivaAmountBS));
+	point = totalAmount.split(".").length;
+	if(point>=3)totalAmount=unFormatNumberProposal(replacePointProposal(totalAmount));
+	else totalAmount=unFormatNumberProposal((totalAmount));
+	point = totalAmountProposal.split(".").length;
+	if(point>=3)totalAmountProposal=unFormatNumberProposal(replacePointProposal(totalAmountProposal));
+	else totalAmountProposal=unFormatNumberProposal((totalAmountProposal));
+	
+	if(methodStateBS==0)
+	{
+		var url = "/proposal/selectbillingscenario"; 
+	    $.ajax({
+	           type: "POST",
+	           cache: false,
+	           url: url,
+	           data: { 
+	        	   'idBillingScenario' : idBS,
+					'idCountry' : idCountryBS,
+					'tranferenceValue' : tranferenceValueAmountBS,
+					'tranferenceValueModified' : tranferenceValueAmountBSModified,
+					'remittance' : remittanceAmountBS,
+					'remittanceModified' : remittanceAmountBSModified,
+					'iva' : ivaAmountBS,
+					'ivaModified' : ivaAmountBSModified,
+					'totalAmountModified' : totalAmountModified,
+					'totalAmountProposal' : totalAmountProposal
+	        	},
+
+	           success: function(data)
+	           {
+	        	   if(data != null){
+	        		  tbodyBillingScenario.innerHTML=data;
+	        		  msg = "<p style='color: hsl(153,80%,40%)'>Se seleccionó el escenario de facturación correctamente <p>";
+	        		  div.innerHTML = msg;
+	        	   }
+	         }
+	     });
+	}
 	
 };
 

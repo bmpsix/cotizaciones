@@ -14,4 +14,7 @@ public interface BillingScenarioService {
 	public abstract void addBillingScenario(BillingScenario billingScenario);
 	
 	public abstract void editBillingScenario(BillingScenario billingScenario);
+	
+	public abstract void deleteByChangeInTheTotalAmount(Proposal proposal);
+	
 }

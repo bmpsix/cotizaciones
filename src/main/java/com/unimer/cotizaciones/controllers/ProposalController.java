@@ -336,6 +336,7 @@ public class ProposalController {
 
 				LOG.info("METHOD: addProposalDetails in ProposalController -- PARAMS: " + proposalDetails.toString());
 		proposalDetailsService.addProposalDetails(proposalDetails, userSession.getIdUser());
+		billingScenarioService.deleteByChangeInTheTotalAmount(proposedHeader);
 		model.addAttribute("currencyType",userSession.getCountry().getCurrencyType());
 		model.addAttribute("proposaldetailss",proposalDetailsService.findByProposal(proposedHeader));
 		return "proposal :: #proposalDetailRow";
@@ -357,6 +358,7 @@ public class ProposalController {
 		proposal.setFactor2(factor2);
 		proposal.setImprevisto(imprevisto);
 		proposalService.addProposal(proposal, userSession.getIdUser());
+		billingScenarioService.deleteByChangeInTheTotalAmount(proposal);
 		LOG.info("METHOD: ESTO ES EL PROPOSEDHEADER: " + proposal.toString());
 		return "proposal :: #divCustomizeParameters";
 	}
@@ -374,6 +376,7 @@ public class ProposalController {
 		proposalDetails.setDaysTimes(daysTimes);
 		proposalDetails.setTotalBudget(Math.rint(totalBudget*100)/100);
 		proposalDetailsService.addProposalDetails(proposalDetails, userSession.getIdUser());
+		billingScenarioService.deleteByChangeInTheTotalAmount(proposedHeader);
 		model.addAttribute("currencyType",userSession.getCountry().getCurrencyType());
 		model.addAttribute("proposaldetailss",proposalDetailsService.findByProposal(proposedHeader));
 		LOG.info("METHOD: ESTO ES EL PROPOSALDETAIL DESDE LA TABLA: " + proposalDetails.toString());
@@ -390,6 +393,7 @@ public class ProposalController {
 		ProposalDetails proposalDetails = proposalDetailsService.findById(idProposalDetails);
 		proposalDetails.setCurrencyType(currencyTypeService.getCurrencyType(idCurrencyType));
 		proposalDetailsService.addProposalDetails(proposalDetails, userSession.getIdUser());
+		billingScenarioService.deleteByChangeInTheTotalAmount(proposedHeader);
 		model.addAttribute("currencyType",userSession.getCountry().getCurrencyType());
 		model.addAttribute("proposaldetailss",proposalDetailsService.findByProposal(proposedHeader));
 		LOG.info("METHOD: ESTO ES EL currencyType DESDE LA TABLA: " + proposalDetails.toString());
@@ -404,6 +408,7 @@ public class ProposalController {
 		Proposal proposedHeader = (Proposal) session.getAttribute("proposedHeader");
 		ProposalDetails proposalDetails = proposalDetailsService.findById(idProposalDetails);
 		proposalDetailsService.deleteByIdProposalDetails(idProposalDetails);
+		billingScenarioService.deleteByChangeInTheTotalAmount(proposedHeader);
 		model.addAttribute("currencyType",userSession.getCountry().getCurrencyType());
 		model.addAttribute("proposaldetailss",proposalDetailsService.findByProposal(proposedHeader));
 		LOG.info("METHOD: ESTO ES EL currencyType DESDE LA TABLA: " + proposalDetails.toString());
@@ -450,10 +455,26 @@ public class ProposalController {
 		User userSession =  (User) session.getAttribute("userSession");
 		Settings settings = settingsService.findSettingByCountry(userSession.getCountry());
 		Proposal proposal = (Proposal) session.getAttribute("proposedHeader");
+		proposal = proposalService.findByIdProposal(proposal.getIdProposal());
 		model.addAttribute("settings",settings);
 		model.addAttribute("billingScenarios",billingScenarioService.findByProposal(proposal, total));
 		model.addAttribute("countries",countryService.listAllCountries());
 		return "proposal :: #listBillingScenario";
+	}
+	
+	
+	@PostMapping("/proposal/billingscenarioview")
+	public String billingScenarioView(HttpServletRequest request,@RequestParam("total") double total,Model model) {
+		LOG.info("METHOD: billingScenario total  " + total);
+		HttpSession session = request.getSession();
+		User userSession =  (User) session.getAttribute("userSession");
+		Settings settings = settingsService.findSettingByCountry(userSession.getCountry());
+		Proposal proposal = (Proposal) session.getAttribute("proposedHeader");
+		proposal = proposalService.findByIdProposal(proposal.getIdProposal());
+		model.addAttribute("settings",settings);
+		model.addAttribute("billingScenarios",billingScenarioService.findByProposal(proposal, total));
+		model.addAttribute("countries",countryService.listAllCountries());
+		return "proposalview :: #listBillingScenario";
 	}
 	
 	@PostMapping("/proposal/editbillingscenario")
@@ -470,6 +491,7 @@ public class ProposalController {
 									@RequestParam("ivaModified") double ivaModified,
 									@RequestParam("totalAmountModified") double totalAmountModified,
 									@RequestParam("methodState") int methodState,
+									@RequestParam("totalAmountProposal") double totalAmountProposal,
 									Model model) {
 		
 	
@@ -506,11 +528,63 @@ public class ProposalController {
 		billingScenarioService.editBillingScenario(billingScenario);
 		LOG.info("METHOD: billingScenario edit  "+billingScenario);
 		model.addAttribute("settings",settings);
-		model.addAttribute("billingScenarios",billingScenarioService.findByProposal(proposal, iva));
+		model.addAttribute("billingScenarios",billingScenarioService.findByProposal(proposal, totalAmountProposal));
 		model.addAttribute("countries",countryService.listAllCountries());
 		return "proposal :: #listBillingScenario";
 	}
 	
+	@PostMapping("/proposal/selectbillingscenario")
+	public String selectMethodBillingScenario(HttpServletRequest request,
+									@RequestParam("idBillingScenario") int idBillingScenario,
+									@RequestParam("idCountry") int idCountry,
+									@RequestParam("tranferenceValue") double tranferenceValue,
+									@RequestParam("tranferenceValueModified") double tranferenceValueModified,
+									@RequestParam("remittance") double remittance,
+									@RequestParam("remittanceModified") double remittanceModified,
+									@RequestParam("iva") double iva,
+									@RequestParam("ivaModified") double ivaModified,
+									@RequestParam("totalAmountModified") double totalAmountModified,
+									@RequestParam("totalAmountProposal") double totalAmountProposal,
+									Model model) {
+		
+		
+	
+		HttpSession session = request.getSession();
+		User userSession =  (User) session.getAttribute("userSession");
+		Settings settings = settingsService.findSettingByCountry(userSession.getCountry());
+		Proposal proposal = (Proposal) session.getAttribute("proposedHeader");
+		SaClient saClient = saClientService.findById(proposal.getClientContact().getClient().getSaClient().getIdSaClient());
+		ClientContact clientContact = clientContactService.findById(proposal.getClientContact().getIdClientContact());
+		Country country = countryService.findById(idCountry);
+		BillingScenario billingScenario = new BillingScenario();
+		if(idBillingScenario!=0)billingScenario.setIdBillingScenario(idBillingScenario);
+		billingScenario.setClientContact(clientContact);
+		billingScenario.setCountry(country);
+		billingScenario.setInitialDate(proposal.getInitialDate());
+		billingScenario.setIva(iva);
+		billingScenario.setIvaModified(ivaModified);
+		billingScenario.setLastModificationDate(new Date());
+		billingScenario.setMethodState((byte)1);
+		billingScenario.setProposal(proposal);
+		if(idBillingScenario==0)billingScenario.setRegistrationDate(new Date());
+		else billingScenario.setRegistrationDate(billingScenarioService.findById(idBillingScenario).getRegistrationDate());
+		billingScenario.setRemittance(remittance);
+		billingScenario.setRemittanceModified(remittanceModified);
+		billingScenario.setSaClient(saClient);
+		billingScenario.setTotalAmount(iva);
+		billingScenario.setTotalAmountModified(totalAmountModified);
+		billingScenario.setTranferenceValue(tranferenceValue);
+		billingScenario.setTranferenceValueModified(tranferenceValueModified);
+		billingScenario.setUser(userSession);
+		
+		
+		billingScenarioService.addBillingScenario(billingScenario);
+		LOG.info("METHOD: billingScenario selectMethodBillingScenario  "+billingScenario);
+		model.addAttribute("settings",settings);
+		model.addAttribute("billingScenarios",billingScenarioService.findByProposal(proposal, totalAmountProposal));
+		model.addAttribute("countries",countryService.listAllCountries());
+		return "proposal :: #listBillingScenario";
+	}
 	
 }
 

@@ -66,9 +66,9 @@
 	
 	<div data-role="navbar">
 			<ul>
-				<li title="Puede modificar la información general de la propuesta desde este apartado." class="first"><a id="firstLink" href="#">Informacion General</a></li>
-				<li class="second"><a id="secondLink"  href="#">Detalle de la Cotizacion</a></li>
-				<li title="Proceso de facturación y finalización de la propuesta." ><a href="#" >Escenarios de Facturacion</a></li>
+				<li title="Puede modificar la información general de la propuesta desde este apartado." class="first"><a id="firstLink" href="#">Información General</a></li>
+				<li class="second"><a id="secondLink"  href="#">Detalle de la Cotización</a></li>
+				<li title="Proceso de facturación y finalización de la propuesta." class="third" ><a id="thirdLink" onclick="thirdLinkBSView();" href="#" >Escenarios de Facturación</a></li>
 			</ul>
 	</div>
 	
@@ -407,12 +407,122 @@
     
     <!-- DETALLE DE COTIZACION -->
     
-    
-      <div class="ui-block-a">
-        <p>Esta Tercera Parte es el ultimo entregable</div>
-      </div>
+     <!-- ESCENARIOS DE FACTURACION -->
+     <div id="facturaEscena" class="ui-grid-b">
+    			
+    	<fieldset>
+    	
+         
+         	   	<div style="text-align:right; margin-top:50px;">
+         	   		<label><span style="margin-right:30px;"><canvas width="20" height="20" style="background-color: #8B4513; margin-right:5px;"></canvas> Escenario seleccionado</span>
+         	   		<span style="margin-right:30px;"><canvas width="20" height="20" style="background-color: #009082;  margin-right:5px;"></canvas>Escenario editado</span>
+         	   		<span style="margin-right:5px;"><canvas width="20" height="20" style="background-color: #ECF0F1;  margin-right:5px;"></canvas>Escenario sin modificar</span></label>
+         	   	</div>
+         	   	
+         			<div id="msgBS"></div>
+         			
+         			<input id="totalAmountProposal"  type="hidden" value="0" />
+         			
+           			<table id="billingScenarioTable" data-role="table" dfe="movie-table" class="ui-responsive">
+		    			<thead>
+		    				
+           				<!--<th>ID</th> -->
+           					<th>País de pago</th>
+           					<th>Nombre Cliente (Razón Social)</th>
+           					<th>Contacto</th>
+           					<th>Incluye valor de transferencia</th>
+           					<th>Incluye remesa</th>
+           					<th>Incluye impuesto de ventas</th>
+           					<th>Monto a facturar</th>
+           					<th>Moneda</th>
+           				</thead>
+           				
+           				<tbody id="tbodyBillingScenario">
+           				<tr id="listBillingScenario" th:each="billingScenario : ${billingScenarios}" th:if="${billingScenario.lastModificationDate!=null and billingScenario.methodState==1 and billingScenario.totalAmountModified!=0}" style="background-color: 	#8B4513; color: white;">
+							
+							<!--<td id="idBillingScenario" ><span th:text="${billingScenario.idBillingScenario}"></span></td>-->
+							<td id="detailCountryBS" ><span th:text="${billingScenario.Country.detail}"></span></td>
+							<td id="detailSaClientBS" ><span th:text="${billingScenario.SaClient.detail}"></span></td>
+							<td id="nameContact"><span th:text="${billingScenario.ClientContact.name}" ></span></td>
+							<td id="tranferenceValueAmountBSModified"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.tranferenceValueModified, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="remittanceAmountBSModified"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.remittanceModified, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="ivaAmountBSModified"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.ivaModified, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="totalAmountModified"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span  th:text="${#numbers.formatDecimal(billingScenario.totalAmountModified, 1, 'POINT', 2, 'COMMA')}" ></span></td>
+							<td id="currencyTypeBS"><span th:text="${settings.currencyTypeInternational.detail}"></span></td>
+	           				
+	           				
+	           			</tr>
+           				
+           				<tr id="listBillingScenario" th:each="billingScenario : ${billingScenarios}" th:if="${billingScenario.lastModificationDate!=null and billingScenario.methodState==1 and  billingScenario.totalAmountModified==0 }" style="background-color: #8B4513; color: white;">
+							
+							<!--<td id="idBillingScenario" ><span th:text="${billingScenario.idBillingScenario}"></span></td>-->
+							<td id="detailCountryBS" ><span th:text="${billingScenario.Country.detail}"></span></td>
+							<td ><span th:text="${billingScenario.SaClient.detail}"></span></td>
+							<td ><span th:text="${billingScenario.ClientContact.name}" ></span></td>
+							<td id="tranferenceValueAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.tranferenceValue, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="remittanceAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.remittance, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="ivaAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.iva, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="totalAmount"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span  th:text="${#numbers.formatDecimal(billingScenario.totalAmount, 1, 'POINT', 2, 'COMMA')}" ></span></td>
+							<td id="currencyTypeBS"><span th:text="${settings.currencyTypeInternational.detail}"></span></td>
+	           				
+	           				
+	           				</tr>
+           				
+           				<tr id="listBillingScenario" th:each="billingScenario : ${billingScenarios}" th:if="${billingScenario.lastModificationDate!=null and billingScenario.methodState==0 }" style="background-color: #009082; color: white;">
+							
+							<!--<td id="idBillingScenario" ><span th:text="${billingScenario.idBillingScenario}"></span></td>-->
+							<td id="detailCountryBS" ><span th:text="${billingScenario.Country.detail}"></span></td>
+							<td id="detailSaClientBS" ><span th:text="${billingScenario.SaClient.detail}"></span></td>
+							<td id="nameContact"><span th:text="${billingScenario.ClientContact.name}" ></span></td>
+							<td id="tranferenceValueAmountBSModified"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.tranferenceValueModified, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="remittanceAmountBSModified"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.remittanceModified, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="ivaAmountBSModified"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.ivaModified, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="totalAmountModified"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span  th:text="${#numbers.formatDecimal(billingScenario.totalAmountModified, 1, 'POINT', 2, 'COMMA')}" ></span></td>
+							<td id="currencyTypeBS"><span th:text="${settings.currencyTypeInternational.detail}"></span></td>
+	           			
+	           				
+           				</tr>
+           				
+           				
+           				
+           				
+           				<tr id="listBillingScenario" th:each="billingScenario : ${billingScenarios}" th:if="${billingScenario.lastModificationDate==null}">
+							
+							<!--<td id="idBillingScenario" ><span th:text="${billingScenario.idBillingScenario}"></span></td>-->
+							<td id="detailCountryBS" ><span th:text="${billingScenario.Country.detail}"></span></td>
+							<td ><span th:text="${billingScenario.SaClient.detail}"></span></td>
+							<td ><span th:text="${billingScenario.ClientContact.name}" ></span></td>
+							<td id="tranferenceValueAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.tranferenceValue, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="remittanceAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.remittance, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="ivaAmountBS"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span th:text="${#numbers.formatDecimal(billingScenario.iva, 1, 'POINT', 2, 'COMMA')}"></span></td>
+							<td id="totalAmount"><span th:text="${settings.currencyTypeInternational.symbol+' '}"></span><span  th:text="${#numbers.formatDecimal(billingScenario.totalAmount, 1, 'POINT', 2, 'COMMA')}" ></span></td>
+							<td id="currencyTypeBS"><span th:text="${settings.currencyTypeInternational.detail}"></span></td>
+	           				
+	           				
+	           				
+	           			</tr>
+          			    </tbody>
+		    		</table>
+           	</fieldset>
+    	
+    	
+    			<div class="ui-grid-b"  id="headBS">
+         	   			 <div class="ui-block-a">
+         	   					<label  for="initialDate"><h5 th:text="${'Fecha inicio operaciones: '+#dates.format(proposal.initialDate, 'MM/dd/yyyy')}"></h5></label>
+         	   			 </div>
+         	   			 <div class="ui-block-b"></div>
+         	   			 <div class="ui-block-c" style="text-align: right;">
+         	   			 		
+         	   					<label for="endDate"><h5 th:text="${'Fecha entrega final: '+#dates.format(proposal.endDate, 'MM/dd/yyyy')}"></h5></label>
+       						
+         	   			 </div>
+         	   	</div>
+    	
+    </div>
        
-	</div>
+     <!-- ESCENARIOS DE FACTURACIÓN -->   
+       
+
 
 	
 		<div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">

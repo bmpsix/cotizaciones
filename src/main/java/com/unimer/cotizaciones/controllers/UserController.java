@@ -9,6 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -50,7 +51,7 @@ public class UserController {
 
 	
 	
-	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/admin/user")
 	public ModelAndView user(HttpServletRequest request){
 		HttpSession session = request.getSession();
@@ -84,6 +85,7 @@ public class UserController {
 		return modelAndView;
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/admin/adduser")
 	public String addUser(HttpServletRequest request,@ModelAttribute(name = "user") User user, @RequestParam("idHeadUser") int idHeadUser, Model model) {
 		
@@ -127,10 +129,12 @@ public class UserController {
 			
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/admin/adduser")
 	public String getUser(){
 		return "redirect:/admin/user";
 	}
+	
 	
 	@GetMapping("/admin/changepassword")
 	public String changePassword(){

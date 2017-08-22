@@ -23,7 +23,7 @@ public class BillingScenario implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_silling_scenario", unique=true, nullable=false)
+	@Column(name="id_billing_scenario", unique=true, nullable=false)
 	private int idBillingScenario;
 	
 	//bi-directional many-to-one association to Country

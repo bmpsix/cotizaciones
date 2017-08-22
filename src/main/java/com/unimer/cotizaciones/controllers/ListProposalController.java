@@ -20,6 +20,8 @@ import com.unimer.cotizaciones.services.ProposalService;
 import com.unimer.cotizaciones.services.StatusService;
 import com.unimer.cotizaciones.services.UserService;
 
+
+
 @Controller
 public class ListProposalController {
 

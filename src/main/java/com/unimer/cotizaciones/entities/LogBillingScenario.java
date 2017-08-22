@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -19,8 +21,13 @@ public class LogBillingScenario implements Serializable{
 	
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id_log_billing_scenario", unique=true, nullable=false)
+	private int idLogBillingScenario;
+	
+	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="date_record", unique=true, nullable=false)
+	@Column(name="date_record", nullable=false)
 	private Date dateRecord;
 
 	@Column(name="action_detail", nullable=false, length=100)
@@ -259,11 +266,21 @@ public class LogBillingScenario implements Serializable{
 
 	
 
-	public LogBillingScenario(Date dateRecord, String actionDetail, int actionUser, int idBillingScenario, int proposal,
-			Date initialDate, Date registrationDate, int user, int country, double tranferenceValue, double remittance,
-			double iva, double totalAmount, double tranferenceValueModified, double remittanceModified,
-			double ivaModified, double totalAmountModified, Date lastModificationDate, byte methodState, int saClient,
-			int clientContact) {
+	public int getIdLogBillingScenario() {
+		return idLogBillingScenario;
+	}
+
+	public void setIdLogBillingScenario(int idLogBillingScenario) {
+		this.idLogBillingScenario = idLogBillingScenario;
+	}
+
+	
+
+	public LogBillingScenario(Date dateRecord, String actionDetail, int actionUser,
+			int idBillingScenario, int proposal, Date initialDate, Date registrationDate, int user, int country,
+			double tranferenceValue, double remittance, double iva, double totalAmount, double tranferenceValueModified,
+			double remittanceModified, double ivaModified, double totalAmountModified, Date lastModificationDate,
+			byte methodState, int saClient, int clientContact) {
 		super();
 		this.dateRecord = dateRecord;
 		this.actionDetail = actionDetail;
@@ -291,19 +308,21 @@ public class LogBillingScenario implements Serializable{
 	public LogBillingScenario() {
 		super();
 	}
-	
-	
+
 	@Override
 	public String toString() {
-		return "LogBillingScenario [dateRecord=" + dateRecord + ", actionDetail=" + actionDetail + ", actionUser="
-				+ actionUser + ", idBillingScenario=" + idBillingScenario + ", proposal=" + proposal + ", initialDate="
-				+ initialDate + ", registrationDate=" + registrationDate + ", user=" + user + ", country=" + country
-				+ ", tranferenceValue=" + tranferenceValue + ", remittance=" + remittance + ", iva=" + iva
-				+ ", totalAmount=" + totalAmount + ", tranferenceValueModified=" + tranferenceValueModified
-				+ ", remittanceModified=" + remittanceModified + ", ivaModified=" + ivaModified
-				+ ", totalAmountModified=" + totalAmountModified + ", lastModificationDate=" + lastModificationDate
-				+ ", methodState=" + methodState + ", saClient=" + saClient + ", clientContact=" + clientContact + "]";
+		return "LogBillingScenario [idLogBillingScenario=" + idLogBillingScenario + ", dateRecord=" + dateRecord
+				+ ", actionDetail=" + actionDetail + ", actionUser=" + actionUser + ", idBillingScenario="
+				+ idBillingScenario + ", proposal=" + proposal + ", initialDate=" + initialDate + ", registrationDate="
+				+ registrationDate + ", user=" + user + ", country=" + country + ", tranferenceValue="
+				+ tranferenceValue + ", remittance=" + remittance + ", iva=" + iva + ", totalAmount=" + totalAmount
+				+ ", tranferenceValueModified=" + tranferenceValueModified + ", remittanceModified="
+				+ remittanceModified + ", ivaModified=" + ivaModified + ", totalAmountModified=" + totalAmountModified
+				+ ", lastModificationDate=" + lastModificationDate + ", methodState=" + methodState + ", saClient="
+				+ saClient + ", clientContact=" + clientContact + "]";
 	}
+	
+	
 	
 	
 	
